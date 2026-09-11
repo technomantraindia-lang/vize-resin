@@ -13,11 +13,15 @@ export default function CompleteSystemSection() {
 
   return (
     <section className="complete-system-section" id="system" aria-label="The Complete System">
-      {/* Full-width background 3D Visual */}
+      {/* Full-width background 3D Visual / Video */}
       <div className="system-bg-frame">
-        <img
-          src="/rasin-explored.png"
-          alt="The Complete System - Multi-layer Resin Floor"
+        <video
+          src="/make_the_video_on_this_this_is.mp4"
+          poster="/rasin-explored.png"
+          autoPlay
+          loop
+          muted
+          playsInline
           className="system-full-bg"
         />
         <div className="system-dark-gradient" />

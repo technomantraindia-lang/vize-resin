@@ -96,10 +96,120 @@ button {
   color: #1a2c26;
   transition: color 0.15s ease;
   letter-spacing: -0.01em;
+  text-decoration: none;
 }
 
-.nav-item:hover {
-  color: var(--color-terracotta);
+.nav-item:hover,
+.nav-item.active {
+  color: var(--color-terracotta, #8C4830);
+  border-bottom: 2px solid var(--color-terracotta, #8C4830);
+  padding-bottom: 4px;
+}
+
+.nav-item-dropdown {
+  position: relative;
+}
+
+.nav-mega-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  width: 480px;
+  background-color: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 12px;
+  padding: 1.15rem;
+  box-shadow: 0 16px 40px rgba(13, 44, 51, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+}
+
+.nav-item-dropdown:hover .nav-mega-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #E8E4DA;
+}
+
+.nav-dropdown-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #8C4830;
+  letter-spacing: 0.08em;
+  display: block;
+}
+
+.nav-dropdown-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0;
+}
+
+.nav-dropdown-view-all {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #8C4830;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.nav-dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.nav-dropdown-color-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.nav-dropdown-color-item:hover {
+  transform: translateY(-2px);
+}
+
+.nav-dropdown-img-box {
+  height: 52px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(13, 44, 51, 0.1);
+  background-color: #E8E4DA;
+}
+
+.nav-dropdown-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.nav-dropdown-color-item:hover .nav-dropdown-img-box img {
+  transform: scale(1.08);
+}
+
+.nav-dropdown-color-name {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #0D2C33;
+}
+
+.nav-dropdown-color-item:hover .nav-dropdown-color-name {
+  color: #8C4830;
 }
 
 .header-actions {
@@ -1097,7 +1207,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: right 0% 12%;
+  object-position: right 15% center;
   display: block;
 }
 
@@ -3927,5 +4037,6835 @@ button {
   .faq-container {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+}
+
+/* ==========================================================================
+   PRODUCT DETAIL PAGE (PDP) - EXACT REFERENCE DESIGN IMPLEMENTATION
+   Colors:
+     Deep Petrol Teal: #0D2C33
+     Warm Ivory: #F3F1EA / #FAF9F5
+     Copper Accent: #8C4830 / #c58e70
+     Neutral Base Card: #E8E4DA / #EDE9E1
+     Borders: #D6D0C3 / #D8D2C4
+   ========================================================================== */
+
+.vize-exact-pdp-root {
+  background-color: #F3F1EA;
+  color: #0D2C33;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+.vize-pdp-main-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* --- Cart Toast --- */
+.vize-cart-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #0D2C33;
+  color: #F3F1EA;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(13, 44, 51, 0.25);
+  font-size: 0.88rem;
+  font-weight: 500;
+  animation: vizeToastFade 0.3s ease forwards;
+}
+
+@keyframes vizeToastFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toast-check-icon {
+  color: #c58e70;
+  flex-shrink: 0;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(243, 241, 234, 0.6);
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  line-height: 1;
+}
+
+.toast-close:hover {
+  color: #ffffff;
+}
+
+/* --- Breadcrumb --- */
+.vize-pdp-breadcrumb {
+  padding: 1rem 0 1.5rem;
+  font-size: 0.82rem;
+  color: #637278;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.vize-pdp-breadcrumb a {
+  color: #637278;
+  transition: color 0.15s ease;
+}
+
+.vize-pdp-breadcrumb a:hover {
+  color: #8C4830;
+}
+
+.breadcrumb-arrow {
+  color: #9ba8ad;
+  font-size: 0.85rem;
+}
+
+.breadcrumb-active {
+  color: #0D2C33;
+  font-weight: 600;
+}
+
+/* --- 1. Hero Grid (Gallery & Purchase Details) --- */
+.vize-pdp-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 3.5rem;
+  align-items: start;
+  margin-bottom: 3.5rem;
+}
+
+.vize-pdp-gallery-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.vize-pdp-main-image-card {
+  background-color: #E8E4DA;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 500px;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid rgba(13, 44, 51, 0.06);
+}
+
+.vize-pdp-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.vize-pdp-main-img.is-contain {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  margin: auto;
+}
+
+.vize-pdp-main-image-card:hover .vize-pdp-main-img {
+  transform: scale(1.03);
+}
+
+.vize-pdp-main-image-card.is-finish-active {
+  border-color: rgba(140, 72, 48, 0.35);
+  box-shadow: 0 12px 36px rgba(140, 72, 48, 0.12);
+}
+
+.vize-pdp-main-img.finish-preview {
+  object-fit: cover;
+  animation: finishFadeIn 0.25s ease forwards;
+}
+
+@keyframes finishFadeIn {
+  from {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.vize-pdp-live-badge {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  background-color: rgba(13, 44, 51, 0.88);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  animation: vizeToastFade 0.2s ease forwards;
+  z-index: 5;
+  border: 1px solid rgba(243, 241, 234, 0.2);
+}
+
+.vize-pdp-live-badge strong {
+  color: #c58e70;
+  font-weight: 700;
+}
+
+.vize-pdp-zoom-hint {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  background-color: rgba(243, 241, 234, 0.9);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  color: #0D2C33;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.vize-pdp-main-image-card:hover .vize-pdp-zoom-hint {
+  opacity: 1;
+}
+
+.vize-pdp-thumbnails-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.vize-pdp-thumb-card {
+  width: 78px;
+  height: 78px;
+  border-radius: 8px;
+  background-color: #E8E4DA;
+  border: 1.5px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.vize-pdp-thumb-card.active {
+  border-color: #8C4830;
+  box-shadow: 0 0 0 1px #8C4830;
+}
+
+.vize-pdp-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vize-pdp-thumb-img.is-contain {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+/* --- Purchase Details Column --- */
+.vize-pdp-details-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.vize-pdp-category-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #8C4830;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.vize-pdp-title {
+  font-size: 2.35rem;
+  font-weight: 700;
+  color: #0D2C33;
+  line-height: 1.15;
+  margin-bottom: 0.65rem;
+  letter-spacing: -0.015em;
+}
+
+.vize-pdp-title-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: #8C4830;
+  margin-left: 0.2rem;
+}
+
+.vize-pdp-tagline {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #4a595f;
+  margin-bottom: 1.35rem;
+}
+
+.vize-pdp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #0D2C33;
+}
+
+.vize-pdp-currency {
+  font-size: 1.4rem;
+}
+
+.vize-pdp-amount {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* --- Big Color / Shade Selector Dropdown on Hover --- */
+.vize-pdp-color-dropdown-wrapper {
+  position: relative;
+  margin-bottom: 1.35rem;
+}
+
+.vize-pdp-color-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.45rem;
+}
+
+.vize-pdp-color-hover-hint {
+  font-size: 0.75rem;
+  color: #8C4830;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.vize-hint-chevron {
+  transition: transform 0.2s ease;
+}
+
+.vize-hint-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+.vize-pdp-color-trigger-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FAF9F5;
+  border: 1.5px solid #D6D0C3;
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.vize-pdp-color-trigger-bar:hover,
+.vize-pdp-color-trigger-bar.active {
+  border-color: #8C4830;
+  background-color: #ffffff;
+  box-shadow: 0 4px 16px rgba(140, 72, 48, 0.12);
+}
+
+.vize-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.vize-trigger-thumb-box {
+  width: 58px;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid rgba(13, 44, 51, 0.12);
+  flex-shrink: 0;
+  background-color: #E8E4DA;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.vize-trigger-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vize-trigger-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.vize-trigger-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-trigger-cat {
+  font-size: 0.74rem;
+  color: #8C4830;
+  font-weight: 600;
+}
+
+.vize-trigger-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.vize-change-tag {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #8C4830;
+  background-color: rgba(140, 72, 48, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(140, 72, 48, 0.15);
+}
+
+.vize-trigger-chevron {
+  color: #637278;
+  transition: transform 0.2s ease;
+}
+
+.vize-trigger-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* Big Mega Dropdown Menu */
+.vize-pdp-mega-color-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  min-width: 440px;
+  background-color: #FAF9F5;
+  border: 1.5px solid #D6D0C3;
+  border-radius: 12px;
+  box-shadow: 0 20px 48px rgba(13, 44, 51, 0.22);
+  padding: 1.1rem;
+  z-index: 250;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.vize-pdp-color-dropdown-wrapper:hover .vize-pdp-mega-color-dropdown,
+.vize-pdp-color-dropdown-wrapper.open .vize-pdp-mega-color-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.vize-dropdown-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid #E8E4DA;
+}
+
+.vize-dropdown-top-tabs {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.vize-dropdown-tab-pill {
+  background-color: #E8E4DA;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vize-dropdown-tab-pill:hover {
+  background-color: #D8D2C4;
+}
+
+.vize-dropdown-tab-pill.active {
+  background-color: #0D2C33;
+  color: #F3F1EA;
+}
+
+.vize-dropdown-modal-highlight-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #8C4830 0%, #a25237 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  padding: 0.38rem 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(140, 72, 48, 0.3);
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.vize-dropdown-modal-highlight-btn:hover {
+  background: linear-gradient(135deg, #753924 0%, #8C4830 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(140, 72, 48, 0.45);
+}
+
+.vize-dropdown-modal-highlight-btn:active {
+  transform: translateY(0);
+}
+
+.vize-dropdown-samples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+  margin-bottom: 0.85rem;
+}
+
+.vize-dropdown-sample-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.vize-dropdown-sample-card:hover {
+  transform: translateY(-2px);
+}
+
+.vize-dropdown-sample-img-box {
+  height: 56px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid rgba(13, 44, 51, 0.1);
+  background-color: #E8E4DA;
+  position: relative;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vize-dropdown-sample-card:hover .vize-dropdown-sample-img-box {
+  border-color: #8C4830;
+  box-shadow: 0 4px 12px rgba(140, 72, 48, 0.18);
+}
+
+.vize-dropdown-sample-card.active .vize-dropdown-sample-img-box {
+  border-color: #8C4830;
+  box-shadow: 0 0 0 2px #FAF9F5, 0 0 0 3.5px #8C4830;
+}
+
+.vize-dropdown-sample-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.vize-dropdown-sample-card:hover .vize-dropdown-sample-img {
+  transform: scale(1.06);
+}
+
+.vize-dropdown-check-pill {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background-color: rgba(140, 72, 48, 0.92);
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 0.08rem 0.35rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  letter-spacing: 0.02em;
+}
+
+.vize-dropdown-sample-info {
+  display: flex;
+  align-items: center;
+}
+
+.vize-dropdown-sample-name {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #0D2C33;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vize-dropdown-sample-card.active .vize-dropdown-sample-name {
+  color: #8C4830;
+  font-weight: 700;
+}
+
+.vize-dropdown-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.65rem;
+  border-top: 1px solid #E8E4DA;
+  font-size: 0.74rem;
+  color: #637278;
+}
+
+.vize-dropdown-confirm-btn {
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.35rem 0.85rem;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.vize-dropdown-confirm-btn:hover {
+  background-color: #783b26;
+}
+
+.vize-pdp-select-block {
+  margin-bottom: 1.25rem;
+}
+
+.vize-pdp-select-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0D2C33;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.vize-pdp-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.vize-pdp-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 6px;
+  padding: 0.75rem 2.25rem 0.75rem 0.9rem;
+  font-size: 0.88rem;
+  color: #0D2C33;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.vize-pdp-select:focus {
+  outline: none;
+  border-color: #8C4830;
+}
+
+.vize-pdp-select-chevron {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #637278;
+}
+
+.vize-pdp-actions-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  align-items: center;
+}
+
+.vize-pdp-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #D6D0C3;
+  border-radius: 6px;
+  background-color: #FAF9F5;
+  width: 110px;
+  height: 44px;
+  padding: 0 0.4rem;
+  flex-shrink: 0;
+}
+
+.vize-stepper-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #0D2C33;
+  cursor: pointer;
+  width: 26px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-stepper-value {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0D2C33;
+}
+
+.vize-pdp-add-cart-btn {
+  flex: 1;
+  height: 44px;
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.vize-pdp-add-cart-btn:hover {
+  background-color: #783b26;
+}
+
+.vize-pdp-expert-btn {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #D6D0C3;
+  background-color: transparent;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  margin-bottom: 1.25rem;
+}
+
+.vize-pdp-expert-btn:hover {
+  background-color: #ECE7DC;
+  border-color: #8C4830;
+}
+
+.vize-pdp-docs-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.82rem;
+  color: #0D2C33;
+}
+
+.vize-pdp-doc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #0D2C33;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.vize-pdp-doc-link:hover {
+  color: #8C4830;
+}
+
+.vize-doc-sep {
+  color: #9ba8ad;
+  font-size: 0.85rem;
+}
+
+/* --- 2. Tabs Section (Product Details | Reviews) --- */
+.vize-pdp-tabs-section {
+  margin-bottom: 4rem;
+}
+
+.vize-pdp-tab-headers {
+  display: flex;
+  gap: 2rem;
+  border-bottom: 1px solid #D6D0C3;
+  margin-bottom: 2rem;
+}
+
+.vize-tab-btn {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #758288;
+  background: none;
+  border: none;
+  padding-bottom: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.vize-tab-btn.active {
+  color: #0D2C33;
+  font-weight: 700;
+}
+
+.vize-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #8C4830;
+}
+
+.vize-tab-panel {
+  animation: vizeTabFade 0.25s ease forwards;
+}
+
+@keyframes vizeTabFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vize-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.vize-section-subheading {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.01em;
+}
+
+.vize-section-subheading em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: #8C4830;
+  margin-left: 0.2rem;
+}
+
+.vize-about-text {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #4a595f;
+}
+
+/* --- Safety & Handling Precautions Card --- */
+.vize-safety-precautions-card {
+  margin-top: 1.4rem;
+  background-color: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-left: 3.5px solid #8C4830;
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+  box-shadow: 0 4px 12px rgba(13, 44, 51, 0.04);
+}
+
+.vize-safety-header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.75rem;
+}
+
+.vize-safety-icon {
+  color: #8C4830;
+  flex-shrink: 0;
+}
+
+.vize-safety-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.vize-safety-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.vize-safety-list li {
+  font-size: 0.82rem;
+  color: #4a595f;
+  line-height: 1.45;
+  position: relative;
+  padding-left: 0.95rem;
+}
+
+.vize-safety-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  color: #8C4830;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.vize-safety-list strong {
+  color: #0D2C33;
+  font-weight: 600;
+}
+
+.vize-samples-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.85rem;
+}
+
+.vize-enquire-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0D2C33;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.vize-enquire-link:hover {
+  color: #8C4830;
+}
+
+.vize-samples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.vize-sample-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  position: relative;
+}
+
+.vize-sample-item:hover {
+  transform: translateY(-2px);
+}
+
+.vize-sample-img-box {
+  height: 72px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid rgba(13, 44, 51, 0.08);
+  background-color: #E8E4DA;
+  position: relative;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.vize-sample-item:hover .vize-sample-img-box {
+  border-color: #8C4830;
+}
+
+.vize-sample-item.active-sample .vize-sample-img-box {
+  border-color: #8C4830;
+  box-shadow: 0 0 0 2px #FAF9F5, 0 0 0 4px #8C4830;
+}
+
+.vize-sample-check-pill {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgba(140, 72, 48, 0.9);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.vize-sample-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.vize-sample-item:hover .vize-sample-img {
+  transform: scale(1.05);
+}
+
+.vize-sample-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0D2C33;
+}
+
+.vize-sample-item.active-sample .vize-sample-name {
+  color: #8C4830;
+  font-weight: 700;
+}
+
+.vize-samples-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.vize-illustrative-caption {
+  font-size: 0.72rem;
+  color: #758288;
+}
+
+.vize-view-all-colors-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8C4830;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  transition: opacity 0.15s ease;
+}
+
+.vize-view-all-colors-inline-link:hover {
+  opacity: 0.8;
+}
+
+/* --- Reviews Tab Panel --- */
+.vize-reviews-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vize-reviews-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.vize-reviews-count-text {
+  font-size: 0.88rem;
+  color: #637278;
+}
+
+.vize-write-review-btn {
+  background-color: #0D2C33;
+  color: #F3F1EA;
+  border: none;
+  padding: 0.6rem 1.15rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.vize-write-review-btn:hover {
+  background-color: #071c21;
+}
+
+.vize-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vize-review-item-card {
+  background-color: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.vize-review-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.vize-review-author {
+  color: #0D2C33;
+}
+
+.vize-review-role {
+  color: #637278;
+  font-size: 0.78rem;
+}
+
+.vize-review-date {
+  color: #9ba8ad;
+  font-size: 0.78rem;
+}
+
+.vize-review-stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.vize-review-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin-bottom: 0.35rem;
+}
+
+.vize-review-comment {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #4a595f;
+}
+
+/* --- 3. Use Directions & Application Video (Deep Teal) --- */
+.vize-directions-section {
+  background-color: #0D2C33;
+  color: #F3F1EA;
+  padding: 3.5rem 0 4rem;
+}
+
+.vize-directions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.vize-teal-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #F3F1EA;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.vize-teal-heading em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: #c58e70;
+  margin-left: 0.25rem;
+}
+
+.vize-steps-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(243, 241, 234, 0.15);
+  margin-bottom: 1.5rem;
+}
+
+.vize-step-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(243, 241, 234, 0.15);
+  font-size: 0.92rem;
+}
+
+.vize-step-number {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(243, 241, 234, 0.7);
+}
+
+.vize-step-desc {
+  font-weight: 500;
+  color: #F3F1EA;
+}
+
+.vize-tds-footnote {
+  font-size: 0.78rem;
+  color: rgba(243, 241, 234, 0.6);
+}
+
+.vize-video-preview-card {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(243, 241, 234, 0.1);
+}
+
+.vize-video-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vize-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 44, 51, 0.25);
+  transition: background 0.2s ease;
+}
+
+.vize-video-preview-card:hover .vize-video-overlay {
+  background: rgba(13, 44, 51, 0.1);
+}
+
+.vize-play-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #F3F1EA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.vize-play-icon {
+  margin-left: 2px;
+}
+
+.vize-video-preview-card:hover .vize-play-circle {
+  transform: translate(-50%, -50%) scale(1.08);
+  background-color: #ffffff;
+}
+
+/* --- 4. More Products Section --- */
+.vize-more-products-section {
+  background-color: #F3F1EA;
+  padding: 3.5rem 0 4.5rem;
+}
+
+.vize-more-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+}
+
+.vize-more-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0D2C33;
+  letter-spacing: -0.01em;
+}
+
+.vize-more-title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: #8C4830;
+  margin-left: 0.25rem;
+}
+
+.vize-view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0D2C33;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.vize-view-all-link:hover {
+  color: #8C4830;
+}
+
+.vize-more-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.vize-compact-product-card {
+  background-color: #FAF9F5;
+  border: 1px solid #D8D2C4;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.vize-compact-product-card:hover {
+  transform: translateY(-2px);
+  border-color: #8C4830;
+  box-shadow: 0 8px 24px rgba(13, 44, 51, 0.06);
+}
+
+.vize-compact-img-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: 6px;
+  background-color: #E8E4DA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0.25rem;
+}
+
+.vize-compact-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.vize-compact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.vize-compact-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-compact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0D2C33;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.vize-compact-link:hover {
+  color: #8C4830;
+}
+
+/* --- Modals & Lightboxes --- */
+.vize-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(13, 44, 51, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.vize-lightbox-content {
+  position: relative;
+  max-width: 680px;
+  width: 100%;
+  background-color: #E8E4DA;
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-lightbox-img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+}
+
+.vize-video-modal-content {
+  background-color: #0D2C33;
+  width: 100%;
+  max-width: 760px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.vize-video-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  color: #F3F1EA;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(243, 241, 234, 0.1);
+}
+
+.vize-video-player-frame {
+  position: relative;
+  width: 100%;
+  background-color: #000000;
+}
+
+.vize-modal-video-tag {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.vize-form-modal-card {
+  background-color: #F3F1EA;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 24px 60px rgba(13, 44, 51, 0.3);
+}
+
+.vize-form-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.vize-form-modal-header h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-modal-close {
+  background: none;
+  border: none;
+  color: #637278;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-modal-close:hover {
+  color: #0D2C33;
+}
+
+.vize-form-intro {
+  font-size: 0.85rem;
+  color: #4a595f;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.vize-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vize-input-field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0D2C33;
+  margin-bottom: 0.35rem;
+}
+
+.vize-input-field input,
+.vize-input-field textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #D6D0C3;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background-color: #FAF9F5;
+  color: #0D2C33;
+}
+
+.vize-input-field input:focus,
+.vize-input-field textarea:focus {
+  outline: none;
+  border-color: #8C4830;
+}
+
+.vize-star-picker {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.vize-submit-btn {
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  margin-top: 0.5rem;
+}
+
+.vize-submit-btn:hover {
+  background-color: #783b26;
+}
+
+.vize-review-success {
+  text-align: center;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.95rem;
+  color: #0D2C33;
+  font-weight: 600;
+}
+
+/* --- Master Color & Metallic Finish Catalog Modal --- */
+.vize-catalog-modal-card {
+  max-width: 980px;
+  width: 95%;
+  max-height: 88vh;
+  background-color: #F7F5F0;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(13, 44, 51, 0.35);
+  border: 1px solid rgba(13, 44, 51, 0.1);
+  animation: vizeModalFade 0.2s ease forwards;
+}
+
+@keyframes vizeModalFade {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.vize-catalog-modal-header {
+  padding: 1.4rem 1.75rem 1rem;
+  border-bottom: 1px solid #D6D0C3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #FAF9F5;
+}
+
+.vize-catalog-modal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #8C4830;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.vize-catalog-modal-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.01em;
+}
+
+.vize-catalog-modal-subtitle {
+  font-size: 0.84rem;
+  color: #637278;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.vize-catalog-controls {
+  padding: 0.85rem 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background-color: #FAF9F5;
+  border-bottom: 1px solid #E4DFD3;
+}
+
+.vize-catalog-tabs {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.vize-cat-tab-btn {
+  background-color: #E8E4DA;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vize-cat-tab-btn:hover {
+  background-color: #D8D2C4;
+}
+
+.vize-cat-tab-btn.active {
+  background-color: #0D2C33;
+  color: #F3F1EA;
+}
+
+.vize-catalog-search-wrap {
+  position: relative;
+  min-width: 250px;
+}
+
+.catalog-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #758288;
+  pointer-events: none;
+}
+
+.vize-catalog-search-input {
+  width: 100%;
+  padding: 0.45rem 1.8rem 0.45rem 2.2rem;
+  border: 1px solid #D6D0C3;
+  border-radius: 20px;
+  background-color: #ffffff;
+  font-size: 0.82rem;
+  color: #0D2C33;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.vize-catalog-search-input:focus {
+  border-color: #8C4830;
+}
+
+.catalog-search-clear {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #758288;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.vize-catalog-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 1.75rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+/* Big Full-Bleed Color Background Card */
+.vize-catalog-color-card-big {
+  min-height: 155px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  padding: 1.1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(9, 26, 32, 0.22);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.vize-catalog-color-card-big:hover,
+.vize-catalog-color-card-big.hovered {
+  transform: translateY(-4px) scale(1.02);
+  border-color: #c58e70;
+  box-shadow: 0 16px 36px rgba(9, 26, 32, 0.38);
+}
+
+.vize-catalog-color-card-big.selected {
+  border-color: #8C4830;
+  box-shadow: 0 0 0 2px #FAF9F5, 0 0 0 4.5px #8C4830, 0 16px 36px rgba(9, 26, 32, 0.4);
+}
+
+.vize-catalog-card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.vize-catalog-card-cat-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: rgba(9, 26, 32, 0.65);
+  backdrop-filter: blur(8px);
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vize-catalog-card-selected-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #8C4830;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.vize-catalog-card-select-btn-pill {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #F3F1EA;
+  background-color: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  padding: 0.22rem 0.55rem;
+  border-radius: 12px;
+  transition: all 0.15s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.vize-catalog-color-card-big:hover .vize-catalog-card-select-btn-pill {
+  background-color: #8C4830;
+  color: #ffffff;
+  border-color: #8C4830;
+}
+
+.vize-catalog-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  z-index: 2;
+}
+
+.vize-catalog-card-title,
+.vize-catalog-card-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: -0.01em;
+}
+
+.vize-catalog-card-desc {
+  font-size: 0.8rem;
+  color: rgba(243, 241, 234, 0.94);
+  line-height: 1.45;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.vize-catalog-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #637278;
+  font-size: 0.9rem;
+}
+
+.vize-catalog-reset-btn {
+  margin-top: 0.75rem;
+  background-color: #0D2C33;
+  color: #F3F1EA;
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vize-catalog-footer {
+  padding: 0.85rem 1.75rem;
+  background-color: #FAF9F5;
+  border-top: 1px solid #D6D0C3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.vize-catalog-active-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #0D2C33;
+}
+
+.vize-preview-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 1.5px solid rgba(13, 44, 51, 0.25);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vize-catalog-done-btn {
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.55rem 1.35rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.vize-catalog-done-btn:hover {
+  background-color: #783b26;
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 900px) {
+  .vize-pdp-hero-grid,
+  .vize-details-grid,
+  .vize-directions-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .vize-pdp-main-image-card {
+    height: auto;
+    max-height: 420px;
+  }
+
+  .vize-more-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .vize-pdp-title {
+    font-size: 1.85rem;
+  }
+
+  .vize-pdp-main-image-card {
+    height: auto;
+    max-height: 340px;
+  }
+
+  .vize-pdp-mega-color-dropdown {
+    min-width: 100%;
+    padding: 0.85rem;
+  }
+
+  .vize-dropdown-samples-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+
+  .vize-catalog-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .vize-samples-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-sample-img-box {
+    height: 100px;
+  }
+
+  .vize-video-preview-card {
+    height: 200px;
+  }
+
+  .vize-video-modal-content .vize-modal-video-tag {
+    height: 260px;
+  }
+}
+
+/* ==========================================================================
+   CART SYSTEM (SLIDE-OUT DRAWER & DEDICATED CART PAGE)
+   Theme: Luxury Speciality Polymers (Petrol Teal #0D2C33, Copper #8C4830, Ivory #F3F1EA)
+   ========================================================================== */
+
+/* --- Header Cart Button & Badge --- */
+.vize-header-cart-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-cart-badge-count {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background-color: var(--color-terracotta, #8C4830);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 2px 6px rgba(140, 72, 48, 0.4);
+  border: 1.5px solid #ffffff;
+  line-height: 1;
+  animation: cartBadgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes cartBadgePop {
+  0% { transform: scale(0.4); opacity: 0; }
+  70% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   1. RIGHT-SIDE SLIDE-OUT CART DRAWER
+   ========================================================================== */
+.vize-cart-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(7, 23, 29, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  justify-content: flex-end;
+  animation: vizeBackdropFade 0.25s ease forwards;
+}
+
+@keyframes vizeBackdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.vize-cart-drawer {
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  background: #0D2C33;
+  color: #F3F1EA;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.45);
+  animation: vizeDrawerSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+  border-left: 1px solid rgba(243, 241, 234, 0.08);
+}
+
+@keyframes vizeDrawerSlide {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Drawer Header */
+.vize-cart-drawer-header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(243, 241, 234, 0.1);
+  background: rgba(13, 44, 51, 0.95);
+}
+
+.vize-cart-header-title-box {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.vize-cart-icon-wrapper {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(140, 72, 48, 0.2);
+  border: 1px solid rgba(140, 72, 48, 0.4);
+  color: #c58e70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-cart-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #F3F1EA;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.vize-cart-items-count {
+  font-size: 0.78rem;
+  color: rgba(243, 241, 234, 0.65);
+}
+
+.vize-cart-close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #F3F1EA;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-cart-close-btn:hover {
+  background: rgba(140, 72, 48, 0.8);
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* Free Shipping Meter in Drawer */
+.vize-shipping-progress-banner {
+  padding: 0.85rem 1.5rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(243, 241, 234, 0.06);
+}
+
+.vize-shipping-progress-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  color: rgba(243, 241, 234, 0.9);
+}
+
+.vize-shipping-icon {
+  color: #c58e70;
+  flex-shrink: 0;
+}
+
+.vize-shipping-qualified {
+  color: #70d6a5;
+}
+
+.vize-shipping-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.vize-shipping-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8C4830, #c58e70);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.vize-shipping-fill.complete {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+/* Drawer Body & Items */
+.vize-cart-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.vize-cart-drawer-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.vize-cart-drawer-body::-webkit-scrollbar-thumb {
+  background: rgba(243, 241, 234, 0.2);
+  border-radius: 3px;
+}
+
+.vize-cart-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  height: 100%;
+}
+
+.vize-cart-empty-icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(243, 241, 234, 0.2);
+  color: rgba(243, 241, 234, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.vize-empty-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #F3F1EA;
+  margin: 0 0 0.5rem 0;
+}
+
+.vize-empty-desc {
+  font-size: 0.85rem;
+  color: rgba(243, 241, 234, 0.65);
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  max-width: 280px;
+}
+
+.vize-empty-shop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-empty-shop-btn:hover {
+  background: #783b26;
+  transform: translateY(-2px);
+}
+
+/* Item Card inside Drawer */
+.vize-cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vize-cart-item-card {
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.95rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(243, 241, 234, 0.08);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.vize-cart-item-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.vize-cart-item-thumb {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  background: #E8E4DA;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-cart-item-thumb img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.vize-cart-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vize-cart-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vize-cart-item-cat {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c58e70;
+  font-weight: 600;
+}
+
+.vize-cart-item-remove {
+  background: none;
+  border: none;
+  color: rgba(243, 241, 234, 0.4);
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.15s ease;
+}
+
+.vize-cart-item-remove:hover {
+  color: #ef4444;
+}
+
+.vize-cart-item-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0.15rem 0 0.4rem 0;
+  line-height: 1.25;
+}
+
+.vize-cart-item-link {
+  color: #F3F1EA;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.vize-cart-item-link:hover {
+  color: #c58e70;
+}
+
+.vize-cart-item-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+}
+
+.vize-item-spec-pill {
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(243, 241, 234, 0.85);
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+}
+
+.vize-item-color-pill {
+  font-size: 0.7rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(243, 241, 234, 0.85);
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vize-spec-color-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.vize-cart-item-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.vize-cart-item-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F3F1EA;
+}
+
+.vize-unit-price {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(243, 241, 234, 0.55);
+  margin-left: 0.25rem;
+}
+
+/* Stepper inside Drawer */
+.vize-cart-stepper {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(243, 241, 234, 0.15);
+  border-radius: 6px;
+  padding: 0.15rem;
+}
+
+.vize-drawer-step-btn {
+  background: transparent;
+  border: none;
+  color: #F3F1EA;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.vize-drawer-step-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.vize-drawer-step-qty {
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Drawer Footer */
+.vize-cart-drawer-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(243, 241, 234, 0.1);
+  background: rgba(7, 23, 29, 0.95);
+}
+
+.vize-drawer-subtotal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.vize-drawer-subtotal-label {
+  font-size: 0.95rem;
+  color: rgba(243, 241, 234, 0.8);
+}
+
+.vize-drawer-subtotal-val {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #F3F1EA;
+}
+
+.vize-drawer-tax-note {
+  font-size: 0.74rem;
+  color: rgba(243, 241, 234, 0.55);
+  margin: 0 0 1rem 0;
+}
+
+.vize-drawer-cta-group {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.vize-drawer-view-cart-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  color: #F3F1EA;
+  border: 1px solid rgba(243, 241, 234, 0.2);
+  padding: 0.75rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.vize-drawer-view-cart-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(243, 241, 234, 0.4);
+}
+
+.vize-drawer-checkout-btn {
+  flex: 1.3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-drawer-checkout-btn:hover {
+  background: #783b26;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(140, 72, 48, 0.4);
+}
+
+.vize-drawer-trust-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(243, 241, 234, 0.06);
+}
+
+.vize-drawer-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  color: rgba(243, 241, 234, 0.6);
+}
+
+.vize-trust-icon {
+  color: #c58e70;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   2. DEDICATED CART PAGE (`/cart`)
+   ========================================================================== */
+.vize-cart-page-main {
+  background-color: #F3F1EA;
+  color: #0D2C33;
+  min-height: calc(100vh - 80px);
+  padding: 1.5rem 0 4rem 0;
+}
+
+.vize-cart-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Breadcrumbs */
+.vize-cart-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: #637278;
+  margin-bottom: 1.25rem;
+}
+
+.vize-crumb-link {
+  color: #637278;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.vize-crumb-link:hover {
+  color: #8C4830;
+}
+
+.vize-crumb-sep {
+  color: #9ba8ad;
+}
+
+.vize-crumb-current {
+  color: #0D2C33;
+  font-weight: 600;
+}
+
+/* Header */
+.vize-cart-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #D6D0C3;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.vize-cart-page-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.35rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.vize-cart-title-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: #E8E4DA;
+  color: #8C4830;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(140, 72, 48, 0.2);
+}
+
+.vize-cart-page-subtitle {
+  font-size: 0.92rem;
+  color: #5c6e75;
+  margin: 0;
+}
+
+.vize-clear-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: transparent;
+  border: 1px solid #D6D0C3;
+  color: #5c6e75;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-clear-cart-btn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #ef4444;
+}
+
+/* Order Success Banner */
+.vize-checkout-success-banner {
+  background: #ecfdf5;
+  border: 1.5px solid #6ee7b7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: #065f46;
+  flex-wrap: wrap;
+}
+
+.vize-success-icon-box {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+.vize-success-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+}
+
+.vize-success-desc {
+  font-size: 0.88rem;
+  margin: 0;
+  line-height: 1.45;
+  color: #047857;
+}
+
+.vize-success-close-btn {
+  margin-left: auto;
+  background: #059669;
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Empty View in Cart Page */
+.vize-cart-page-empty-box {
+  background: #FAF9F5;
+  border: 1.5px dashed #D6D0C3;
+  border-radius: 16px;
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.vize-page-empty-icon-wrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #EDE9E1;
+  color: #8C4830;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.vize-page-empty-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.5rem 0;
+}
+
+.vize-page-empty-text {
+  font-size: 0.95rem;
+  color: #5c6e75;
+  max-width: 440px;
+  line-height: 1.55;
+  margin: 0 0 2rem 0;
+}
+
+.vize-page-empty-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.vize-page-empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.vize-page-empty-btn.primary {
+  background: #8C4830;
+  color: #ffffff;
+}
+
+.vize-page-empty-btn.primary:hover {
+  background: #783b26;
+  transform: translateY(-2px);
+}
+
+.vize-page-empty-btn.secondary {
+  background: #EDE9E1;
+  color: #0D2C33;
+  border: 1px solid #D6D0C3;
+}
+
+.vize-page-empty-btn.secondary:hover {
+  background: #E0DBD0;
+}
+
+/* Grid Layout */
+.vize-cart-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.vize-cart-items-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Free Shipping Card */
+.vize-page-shipping-card {
+  background: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(13, 44, 51, 0.03);
+}
+
+.vize-page-shipping-top {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.vize-page-shipping-icon-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(140, 72, 48, 0.12);
+  color: #8C4830;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vize-page-shipping-text p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #0D2C33;
+  line-height: 1.4;
+}
+
+.vize-page-ship-congrats {
+  color: #065f46 !important;
+}
+
+/* Cart Table Card */
+.vize-cart-table-card {
+  background: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(13, 44, 51, 0.04);
+}
+
+.vize-cart-table-header {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1.2fr 40px;
+  padding: 1rem 1.5rem;
+  background: #EDE9E1;
+  border-bottom: 1px solid #D6D0C3;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5c6e75;
+}
+
+.vize-cart-table-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.vize-cart-table-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1.2fr 40px;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #E8E4DA;
+  transition: background 0.15s ease;
+}
+
+.vize-cart-table-row:last-child {
+  border-bottom: none;
+}
+
+.vize-cart-table-row:hover {
+  background: #f7f6f0;
+}
+
+.vize-row-product-info {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.vize-row-thumb-link {
+  width: 72px;
+  height: 72px;
+  background: #E8E4DA;
+  border-radius: 8px;
+  border: 1px solid rgba(13, 44, 51, 0.08);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vize-row-img {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+}
+
+.vize-row-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vize-row-cat {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #8C4830;
+  letter-spacing: 0.06em;
+}
+
+.vize-row-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.vize-row-name-link {
+  color: #0D2C33;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.vize-row-name-link:hover {
+  color: #8C4830;
+}
+
+.vize-row-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.vize-row-pill {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: #EDE9E1;
+  color: #0D2C33;
+}
+
+.vize-row-pill.color {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vize-row-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.vize-row-unit-price .vize-cell-val {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0D2C33;
+}
+
+.vize-page-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #D6D0C3;
+  border-radius: 6px;
+  padding: 0.2rem;
+}
+
+.vize-page-step-btn {
+  background: none;
+  border: none;
+  color: #0D2C33;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.vize-page-step-btn:hover {
+  background: #EDE9E1;
+}
+
+.vize-page-step-val {
+  font-size: 0.88rem;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: center;
+}
+
+.vize-row-total-price .vize-cell-total-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-row-del-btn {
+  background: none;
+  border: none;
+  color: #9ba8ad;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.vize-row-del-btn:hover {
+  color: #ef4444;
+  background: #fee2e2;
+}
+
+.vize-mobile-label {
+  display: none;
+}
+
+/* Cart Table Footer */
+.vize-cart-table-footer {
+  padding: 1.15rem 1.5rem;
+  background: #EDE9E1;
+  border-top: 1px solid #D6D0C3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.vize-continue-shopping-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #0D2C33;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.vize-continue-shopping-link:hover {
+  color: #8C4830;
+}
+
+.vize-cart-safe-note {
+  font-size: 0.78rem;
+  color: #5c6e75;
+}
+
+/* Special Instructions / Notes */
+.vize-cart-notes-card {
+  background: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.vize-notes-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.vize-notes-icon {
+  color: #8C4830;
+}
+
+.vize-notes-header h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  color: #0D2C33;
+}
+
+.vize-notes-hint {
+  font-size: 0.82rem;
+  color: #5c6e75;
+  margin: 0 0 0.75rem 0;
+}
+
+.vize-notes-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  border: 1px solid #D6D0C3;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-family: inherit;
+  color: #0D2C33;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.vize-notes-textarea:focus {
+  outline: none;
+  border-color: #8C4830;
+  box-shadow: 0 0 0 2px rgba(140, 72, 48, 0.15);
+}
+
+/* Recommended Addons */
+.vize-recommended-addons-card {
+  background: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.vize-addons-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.vize-addons-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(140, 72, 48, 0.12);
+  color: #8C4830;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-addons-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem 0;
+  color: #0D2C33;
+}
+
+.vize-addons-subtitle {
+  font-size: 0.82rem;
+  color: #5c6e75;
+  margin: 0;
+}
+
+.vize-addons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.vize-addon-item-box {
+  background: #ffffff;
+  border: 1px solid #E8E4DA;
+  border-radius: 10px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vize-addon-item-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(13, 44, 51, 0.08);
+}
+
+.vize-addon-thumb {
+  width: 100%;
+  height: 100px;
+  background: #EDE9E1;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-addon-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vize-addon-tag {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(13, 44, 51, 0.88);
+  color: #ffffff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+}
+
+.vize-addon-info {
+  margin-bottom: 0.75rem;
+}
+
+.vize-addon-cat {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #8C4830;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.vize-addon-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0D2C33;
+  margin: 0.15rem 0 0.35rem 0;
+  line-height: 1.25;
+  min-height: 34px;
+}
+
+.vize-addon-price {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-addon-add-btn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background: #EDE9E1;
+  border: 1px solid #D6D0C3;
+  color: #0D2C33;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vize-addon-add-btn:hover {
+  background: #8C4830;
+  color: #ffffff;
+  border-color: #8C4830;
+}
+
+/* ==========================================================================
+   ORDER SUMMARY CARD (RIGHT STICKY COLUMN)
+   ========================================================================== */
+.vize-cart-summary-column {
+  position: sticky;
+  top: 90px;
+}
+
+.vize-summary-card {
+  background: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 6px 24px rgba(13, 44, 51, 0.05);
+}
+
+.vize-summary-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #D6D0C3;
+}
+
+.vize-summary-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.vize-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  color: #5c6e75;
+}
+
+.vize-summary-label.flex-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vize-summary-value {
+  font-weight: 600;
+  color: #0D2C33;
+}
+
+.vize-summary-row.discount .vize-summary-value {
+  color: #10b981;
+}
+
+.vize-summary-row.subtle {
+  font-size: 0.78rem;
+  color: #788a91;
+}
+
+.vize-free-ship-tag {
+  color: #10b981;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+.vize-summary-divider {
+  height: 1px;
+  background: #D6D0C3;
+  margin: 0.35rem 0;
+}
+
+.vize-summary-grand-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.25rem;
+}
+
+.vize-grand-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0D2C33;
+  display: block;
+}
+
+.vize-grand-tax-text {
+  font-size: 0.72rem;
+  color: #788a91;
+}
+
+.vize-grand-val {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #8C4830;
+}
+
+/* Coupon Box */
+.vize-coupon-section {
+  margin: 1.25rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #E8E4DA;
+  border-bottom: 1px solid #E8E4DA;
+}
+
+.vize-coupon-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vize-coupon-input-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.vize-coupon-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #9ba8ad;
+}
+
+.vize-coupon-input {
+  width: 100%;
+  padding: 0.65rem 0.75rem 0.65rem 2.25rem;
+  background: #ffffff;
+  border: 1px solid #D6D0C3;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #0D2C33;
+  box-sizing: border-box;
+}
+
+.vize-coupon-input:focus {
+  outline: none;
+  border-color: #8C4830;
+}
+
+.vize-coupon-apply-btn {
+  background: #0D2C33;
+  color: #F3F1EA;
+  border: none;
+  padding: 0.65rem 1.15rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.vize-coupon-apply-btn:hover {
+  background: #144450;
+}
+
+.vize-coupon-msg {
+  font-size: 0.76rem;
+  margin: 0.45rem 0 0 0;
+}
+
+.vize-coupon-msg.success {
+  color: #059669;
+}
+
+.vize-coupon-msg.error {
+  color: #dc2626;
+}
+
+.vize-active-coupon-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #065f46;
+  font-size: 0.76rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.vize-remove-coupon-btn {
+  background: none;
+  border: none;
+  color: #065f46;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Proceed Checkout Button */
+.vize-proceed-checkout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(140, 72, 48, 0.25);
+}
+
+.vize-proceed-checkout-btn:hover {
+  background: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(140, 72, 48, 0.35);
+}
+
+/* Assurances */
+.vize-summary-assurances {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #E8E4DA;
+}
+
+.vize-assurance-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.76rem;
+  color: #5c6e75;
+}
+
+.vize-assure-icon {
+  color: #8C4830;
+  flex-shrink: 0;
+}
+
+/* Payment Badges */
+.vize-payment-badges-box {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E8E4DA;
+}
+
+.vize-payment-text {
+  font-size: 0.72rem;
+  color: #788a91;
+  display: block;
+  margin-bottom: 0.45rem;
+}
+
+.vize-payment-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.vize-pay-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: #EDE9E1;
+  color: #0D2C33;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #D6D0C3;
+}
+
+/* WhatsApp Help Box */
+.vize-summary-expert-help {
+  margin-top: 1.25rem;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 10px;
+  padding: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.vize-help-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.vize-help-icon {
+  color: #059669;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.vize-help-left strong {
+  font-size: 0.82rem;
+  color: #065f46;
+  display: block;
+}
+
+.vize-help-left p {
+  font-size: 0.74rem;
+  color: #047857;
+  margin: 0.15rem 0 0 0;
+  line-height: 1.35;
+}
+
+.vize-help-whatsapp-btn {
+  display: block;
+  text-align: center;
+  background: #059669;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.vize-help-whatsapp-btn:hover {
+  background: #047857;
+}
+
+/* ==========================================================================
+   CART RESPONSIVE STYLES
+   ========================================================================== */
+@media (max-width: 980px) {
+  .vize-cart-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-cart-summary-column {
+    position: static;
+  }
+
+  .vize-addons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .vize-cart-table-header {
+    display: none;
+  }
+
+  .vize-cart-table-row {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    position: relative;
+    padding: 1.25rem 1rem;
+  }
+
+  .vize-mobile-label {
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #788a91;
+    margin-right: 0.45rem;
+  }
+
+  .vize-row-remove-action {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .vize-row-unit-price,
+  .vize-row-quantity,
+  .vize-row-total-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .vize-addons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-cart-page-title {
+    font-size: 1.65rem;
+  }
+}
+
+/* ==========================================================================
+   LUXURY FLOORING SYSTEMS PAGE (GLORIFIED PANORAMIC IMAGES & CLASSY FINISH)
+   Exact match to reference design: Deep Petrol Teal, Copper Terracotta, Warm Ivory
+   ========================================================================== */
+
+.vize-flooring-page-root {
+  background-color: #FAF9F5;
+  color: #0D2C33;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+.vize-flooring-main-content {
+  width: 100%;
+}
+
+/* ==========================================================================
+   1. HERO SECTION (GLORIFIED METALLIC FLOORING BACKGROUND)
+   ========================================================================== */
+.vize-ref-hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: #07171D;
+}
+
+.vize-ref-hero-bg-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.vize-ref-hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  display: block;
+}
+
+.vize-ref-hero-overlay-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(7, 23, 29, 0.85) 0%,
+    rgba(7, 23, 29, 0.55) 45%,
+    rgba(7, 23, 29, 0.15) 100%
+  );
+}
+
+.vize-ref-hero-content-container {
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem 2.5rem;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+.vize-ref-hero-card {
+  background: rgba(9, 26, 32, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 2.75rem 3rem;
+  max-width: 520px;
+  color: #ffffff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.vize-ref-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c58e70;
+  display: block;
+  margin-bottom: 0.85rem;
+}
+
+.vize-ref-hero-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.025em;
+}
+
+.vize-ref-hero-serif-italic {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #EDE8DF;
+}
+
+.vize-ref-hero-sub {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(243, 241, 234, 0.85);
+  margin: 0 0 2rem 0;
+}
+
+.vize-ref-hero-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.vize-ref-btn-terracotta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8C4830;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.78rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(140, 72, 48, 0.45);
+}
+
+.vize-ref-btn-terracotta:hover {
+  background-color: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(140, 72, 48, 0.6);
+}
+
+.vize-ref-btn-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  color: #EDE8DF;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.vize-ref-btn-text-link:hover {
+  color: #c58e70;
+}
+
+/* ==========================================================================
+   2. BREADCRUMBS & SECTION HEADING
+   ========================================================================== */
+.vize-ref-grid-section {
+  padding: 2.5rem 0 4.5rem;
+  background-color: #FAF9F5;
+}
+
+.vize-ref-page-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.vize-ref-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #788a91;
+  margin-bottom: 1.5rem;
+}
+
+.vize-ref-crumb-link {
+  color: #6a7c83;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vize-ref-crumb-link:hover {
+  color: #0D2C33;
+}
+
+.vize-ref-crumb-sep {
+  color: #b0bcc0;
+}
+
+.vize-ref-crumb-current {
+  color: #0D2C33;
+  font-weight: 600;
+}
+
+.vize-ref-section-header {
+  margin-bottom: 2.75rem;
+}
+
+.vize-ref-section-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.vize-ref-serif-italic {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #8C4830;
+}
+
+.vize-ref-section-lead {
+  font-size: 1rem;
+  color: #55646a;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   3. THE 8 GLORIFIED FLOORING CARDS (PANORAMIC CINEMATIC ASPECT)
+   ========================================================================== */
+.vize-ref-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.25rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.vize-ref-system-card {
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 20px rgba(13, 44, 51, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.vize-ref-system-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(13, 44, 51, 0.12);
+  border-color: #8C4830;
+}
+
+/* Panoramic High-Impact Image Box */
+.vize-ref-card-image-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7.6;
+  overflow: hidden;
+  background-color: #07171D;
+  cursor: pointer;
+}
+
+.vize-ref-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vize-ref-system-card:hover .vize-ref-card-img {
+  transform: scale(1.045);
+}
+
+.vize-ref-img-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    rgba(7, 23, 29, 0.6) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0.85rem 1.1rem;
+}
+
+.vize-ref-card-image-box:hover .vize-ref-img-hover-overlay {
+  opacity: 1;
+}
+
+.vize-ref-expand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(13, 44, 51, 0.88);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.32rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Card Body */
+.vize-ref-card-body {
+  padding: 1.4rem 1.75rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.vize-ref-card-number {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8C4830;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.vize-ref-card-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.45rem 0;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.vize-ref-card-title:hover {
+  color: #8C4830;
+}
+
+.vize-ref-card-desc {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #53646a;
+  margin: 0 0 1.15rem 0;
+  flex: 1;
+}
+
+.vize-ref-explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #8C4830;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-ref-explore-link:hover {
+  color: #783b26;
+  gap: 0.55rem;
+}
+
+.vize-ref-disclaimer {
+  text-align: center;
+  font-size: 0.78rem;
+  color: #788a91;
+  margin: 2rem auto 0;
+}
+
+/* ==========================================================================
+   4. BOTTOM CTA BANNER (EXACT TO REFERENCE)
+   ========================================================================== */
+.vize-ref-bottom-cta-section {
+  background-color: #07171D;
+  background-image: radial-gradient(circle at 100% 100%, rgba(197, 142, 112, 0.12) 0%, transparent 60%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vize-ref-bottom-cta-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.vize-ref-cta-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 3rem 0;
+  color: #ffffff;
+}
+
+.vize-ref-cta-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(1.75rem, 2.6vw, 2.35rem);
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: -0.01em;
+}
+
+.vize-ref-cta-subtitle {
+  font-size: 0.95rem;
+  color: #9ab0b8;
+  margin: 0;
+}
+
+.vize-ref-cta-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.85rem 1.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 20px rgba(140, 72, 48, 0.4);
+}
+
+.vize-ref-cta-action-btn:hover {
+  background-color: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(140, 72, 48, 0.55);
+}
+
+/* ==========================================================================
+   5. LIGHTBOX SYSTEM INSPECTOR & CONSULTATION MODAL
+   ========================================================================== */
+.vize-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 23, 29, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: vizeFadeIn 0.25s ease;
+}
+
+.vize-lightbox-card {
+  background: #0D2C33;
+  color: #ffffff;
+  border: 1px solid rgba(197, 142, 112, 0.35);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 820px;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.65);
+}
+
+.vize-lightbox-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.vize-lightbox-close:hover {
+  background: #8C4830;
+  border-color: #8C4830;
+}
+
+.vize-lightbox-media-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  background-color: #07171D;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+}
+
+.vize-lightbox-highres-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vize-lightbox-media-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(9, 26, 32, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #c58e70;
+  letter-spacing: 0.06em;
+}
+
+.vize-lightbox-content-area {
+  padding: 2rem 2.5rem 2.25rem;
+}
+
+.vize-lightbox-number {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #c58e70;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.vize-lightbox-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0.25rem 0 0.65rem 0;
+}
+
+.vize-lightbox-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #9ab0b8;
+  margin: 0 0 1.5rem 0;
+}
+
+.vize-lightbox-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background: rgba(7, 23, 29, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.vize-spec-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vize-spec-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: #788a91;
+  font-weight: 600;
+}
+
+.vize-spec-value {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.vize-lightbox-app-box {
+  background: rgba(140, 72, 48, 0.12);
+  border-left: 3px solid #8C4830;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.vize-app-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #c58e70;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.vize-app-text {
+  font-size: 0.86rem;
+  color: #EDE8DF;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.vize-lightbox-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.vize-lightbox-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.85rem 1.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-lightbox-primary-btn:hover {
+  background-color: #783b26;
+}
+
+.vize-lightbox-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #25D366;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.85rem 1.4rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.vize-lightbox-whatsapp-btn:hover {
+  background: #20bd5a;
+}
+
+/* Consultation Dialog Card */
+.vize-consult-modal-card {
+  background: #0D2C33;
+  color: #ffffff;
+  border: 1px solid rgba(197, 142, 112, 0.35);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.25rem 2.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+}
+
+.vize-consult-header {
+  margin-bottom: 1.5rem;
+  padding-right: 2rem;
+}
+
+.vize-consult-heading {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0.35rem 0 0.35rem 0;
+}
+
+.vize-consult-sub {
+  font-size: 0.88rem;
+  color: #9ab0b8;
+  margin: 0;
+}
+
+.vize-consult-sub strong {
+  color: #c58e70;
+}
+
+.vize-consult-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.vize-consult-success-state {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vize-success-check-icon {
+  color: #25D366;
+  margin-bottom: 1rem;
+}
+
+.vize-success-heading {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+}
+
+.vize-success-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #9ab0b8;
+  max-width: 440px;
+  margin: 0 0 1.5rem 0;
+}
+
+.vize-success-text strong,
+.vize-success-text em {
+  color: #c58e70;
+}
+
+/* ==========================================================================
+   6. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .vize-ref-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .vize-ref-hero-content-container {
+    padding: 3.5rem 1.5rem;
+  }
+
+  .vize-ref-page-container {
+    padding: 0 1.5rem;
+  }
+
+  .vize-ref-bottom-cta-container {
+    padding: 0 1.5rem;
+  }
+
+  .vize-ref-cta-box {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.5rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .vize-ref-hero-section {
+    min-height: auto;
+    padding: 3rem 0;
+  }
+
+  .vize-ref-hero-card {
+    padding: 2rem 1.75rem;
+    max-width: 100%;
+  }
+
+  .vize-lightbox-content-area {
+    padding: 1.5rem;
+  }
+
+  .vize-lightbox-specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-lightbox-media-wrapper {
+    height: 240px;
+  }
+}
+
+/* ==========================================================================
+   VIZE RESINS SHOP PAGE (FAITHFUL TO REFERENCE DESIGN)
+   Theme: Ivory #FAF9F5, Deep Teal #0D2C33, Terracotta Copper #8C4830, Dark #07171D
+   ========================================================================== */
+
+.vize-resins-page-root {
+  background-color: #FAF9F5;
+  color: #0D2C33;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+.vize-resins-main-container {
+  width: 100%;
+}
+
+.vize-resins-center-frame {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+/* Breadcrumbs */
+.vize-resins-breadcrumbs-wrap {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.vize-resins-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #788a91;
+}
+
+.vize-resins-crumb-link {
+  color: #6a7c83;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.vize-resins-crumb-link:hover {
+  color: #0D2C33;
+}
+
+.vize-resins-crumb-sep {
+  color: #b0bcc0;
+}
+
+.vize-resins-crumb-current {
+  color: #0D2C33;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   1. HERO BANNER WITH RIGHT FLUID ART CUTOUT
+   ========================================================================== */
+.vize-resins-hero-section {
+  padding: 1.5rem 0 2.5rem 0;
+  overflow: hidden;
+}
+
+.vize-resins-hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.vize-resins-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8C4830;
+  display: block;
+  margin-bottom: 0.65rem;
+}
+
+.vize-resins-hero-heading {
+  font-family: var(--font-sans);
+  font-size: clamp(2.3rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: #0D2C33;
+  margin: 0 0 0.85rem 0;
+  letter-spacing: -0.025em;
+}
+
+.vize-resins-hero-italic {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #8C4830;
+}
+
+.vize-resins-hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #55646a;
+  margin: 0;
+}
+
+.vize-resins-hero-visual-col {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.vize-resins-hero-cutout-frame {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 180px;
+  border-radius: 90px 0 0 90px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(13, 44, 51, 0.15);
+}
+
+.vize-resins-cutout-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+  display: block;
+}
+
+.vize-resins-cutout-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent 60%, rgba(7, 23, 29, 0.3) 100%);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   2. CATEGORY TABS
+   ========================================================================== */
+.vize-resins-tabs-section {
+  padding-bottom: 2rem;
+}
+
+.vize-resins-tabs-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.vize-resins-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-right: 1px solid #D8D2C4;
+  color: #4b5a60;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.vize-resins-tab-btn:last-child {
+  border-right: none;
+}
+
+.vize-resins-tab-btn:hover {
+  background: #E2DDD3;
+  color: #0D2C33;
+}
+
+.vize-resins-tab-btn.active {
+  background: #0D2C33;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   3. CATALOG SECTION: SIDEBAR + 3-COL GRID
+   ========================================================================== */
+.vize-resins-catalog-section {
+  padding-bottom: 5rem;
+}
+
+.vize-resins-layout-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+/* Sidebar */
+.vize-resins-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: sticky;
+  top: 90px;
+}
+
+.vize-resins-sidebar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 1.25rem 0;
+  letter-spacing: -0.01em;
+}
+
+.vize-resins-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vize-resins-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  font-size: 0.86rem;
+  color: #4b5a60;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.vize-resins-checkbox-label:hover {
+  color: #0D2C33;
+}
+
+.vize-resins-custom-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #8C4830;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.vize-resins-checkbox-text {
+  line-height: 1.3;
+}
+
+/* Sidebar Help Card */
+.vize-resins-help-card {
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 10px;
+  padding: 1.35rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vize-resins-help-icon {
+  color: #8C4830;
+  margin-bottom: 0.2rem;
+}
+
+.vize-resins-help-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0;
+}
+
+.vize-resins-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #8C4830;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.vize-resins-help-btn:hover {
+  color: #783b26;
+}
+
+/* Products Area */
+.vize-resins-products-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Search & Sort Controls Bar */
+.vize-resins-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.vize-resins-search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 480px;
+}
+
+.vize-resins-search-icon {
+  position: absolute;
+  left: 0.95rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #788a91;
+  pointer-events: none;
+}
+
+.vize-resins-search-input {
+  width: 100%;
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 6px;
+  padding: 0.68rem 2.25rem 0.68rem 2.4rem;
+  font-size: 0.88rem;
+  color: #0D2C33;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.vize-resins-search-input:focus {
+  outline: none;
+  border-color: #8C4830;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(140, 72, 48, 0.15);
+}
+
+.vize-resins-search-input::placeholder {
+  color: #788a91;
+}
+
+.vize-resins-search-clear {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #788a91;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem;
+}
+
+.vize-resins-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.vize-resins-materials-count {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #55646a;
+}
+
+.vize-resins-sort-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.vize-resins-sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 6px;
+  padding: 0.65rem 2.2rem 0.65rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.vize-resins-sort-select:focus {
+  outline: none;
+  border-color: #8C4830;
+}
+
+.vize-resins-sort-chevron {
+  position: absolute;
+  right: 0.85rem;
+  color: #55646a;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   4. 3-COLUMN PRODUCT CARDS GRID & FULL-ROW HOVER EXPANSION
+   ========================================================================== */
+.vize-resins-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vize-resins-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  position: relative;
+  width: 100%;
+}
+
+.vize-resins-product-card {
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s ease, border-color 0.5s ease;
+  z-index: 1;
+}
+
+.vize-resins-product-card:hover {
+  z-index: 50;
+  border-color: #8C4830;
+}
+
+.vize-card-normal-face {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  transition: opacity 0.4s ease;
+}
+
+.vize-resins-card-visual-link {
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+  border-radius: 9px 9px 0 0;
+}
+
+/* Card Info */
+.vize-resins-card-info {
+  padding: 1.15rem 1.35rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.vize-resins-card-title {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.vize-resins-title-link {
+  color: #0D2C33;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.vize-resins-title-link:hover {
+  color: #8C4830;
+}
+
+.vize-resins-card-desc {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #55646a;
+  margin: 0 0 0.85rem 0;
+  flex: 1;
+}
+
+.vize-resins-tag-box {
+  margin-bottom: 0.95rem;
+}
+
+.vize-resins-app-tag {
+  display: inline-block;
+  background: #DDD7CB;
+  color: #4b595f;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.vize-resins-card-action {
+  margin-top: auto;
+}
+
+.vize-resins-view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #8C4830;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.vize-resins-view-link:hover {
+  color: #783b26;
+  gap: 0.5rem;
+}
+
+/* ==========================================================================
+   FULL-ROW EXPANDED HOVER BANNER (SMOOTH & SLOW CINEMATIC EXPANSION)
+   ========================================================================== */
+.vize-card-fullrow-expanded {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  height: calc(100% + 8px);
+  width: calc(300% + 3rem);
+  background: #081d22;
+  background-image: 
+    radial-gradient(circle at 95% 10%, rgba(197, 142, 112, 0.16) 0%, transparent 55%),
+    linear-gradient(135deg, #092329 0%, #06171b 100%);
+  border: 1.5px solid #8C4830;
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: 
+    transform 0.68s cubic-bezier(0.16, 1, 0.25, 1),
+    opacity 0.48s cubic-bezier(0.16, 1, 0.25, 1),
+    box-shadow 0.68s ease;
+}
+
+/* Direction 1: Left Card (Col 0) -> expands to the RIGHT across the row */
+.vize-resins-product-card.col-0 .vize-card-fullrow-expanded {
+  left: -2px;
+  transform-origin: 16.66% center;
+  transform: scaleX(0.33) scaleY(0.95);
+}
+
+.vize-resins-product-card.col-0:hover .vize-card-fullrow-expanded {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scaleX(1) scaleY(1);
+}
+
+/* Direction 2: Middle Card (Col 1) -> expands to BOTH SIDES across the row */
+.vize-resins-product-card.col-1 .vize-card-fullrow-expanded {
+  left: calc(-100% - 1.5rem - 2px);
+  transform-origin: 50% center;
+  transform: scaleX(0.33) scaleY(0.95);
+}
+
+.vize-resins-product-card.col-1:hover .vize-card-fullrow-expanded {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scaleX(1) scaleY(1);
+}
+
+/* Direction 3: Right Card (Col 2) -> expands to the LEFT across the row */
+.vize-resins-product-card.col-2 .vize-card-fullrow-expanded {
+  left: calc(-200% - 3rem - 2px);
+  transform-origin: 83.33% center;
+  transform: scaleX(0.33) scaleY(0.95);
+}
+
+.vize-resins-product-card.col-2:hover .vize-card-fullrow-expanded {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scaleX(1) scaleY(1);
+}
+
+/* Left Visual Stage */
+.vize-fullrow-visual-col {
+  width: 32%;
+  min-width: 260px;
+  max-width: 330px;
+  background: #ffffff;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1.25rem;
+  position: relative;
+  opacity: 0.7;
+  transform: scale(0.96);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.25, 1) 0.08s, transform 0.68s cubic-bezier(0.16, 1, 0.25, 1) 0.08s;
+}
+
+.vize-resins-product-card:hover .vize-fullrow-visual-col {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.vize-fullrow-logo-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-fullrow-logo-stage .vize-logo-card-wrapper {
+  border-bottom: none;
+  background: transparent;
+  padding: 0.5rem;
+}
+
+.vize-fullrow-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.vize-fullrow-app-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: #0D2C33;
+  color: #ffffff;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.vize-fullrow-cat-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: #EDE8DF;
+  color: #4b595f;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* Right Info Stage */
+.vize-fullrow-info-col {
+  flex: 1;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FAF9F5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.58s ease 0.12s, transform 0.68s cubic-bezier(0.16, 1, 0.25, 1) 0.12s;
+}
+
+.vize-resins-product-card:hover .vize-fullrow-info-col {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vize-fullrow-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.vize-fullrow-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c58e70;
+}
+
+.vize-fullrow-grade-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(197, 142, 112, 0.18);
+  border: 1px solid rgba(197, 142, 112, 0.35);
+  color: #EDE8DF;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+
+.vize-fullrow-heading-group {
+  margin-bottom: 0.6rem;
+}
+
+.vize-fullrow-title {
+  font-family: var(--font-sans);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.2rem 0;
+  line-height: 1.2;
+}
+
+.vize-fullrow-chemistry {
+  font-size: 0.82rem;
+  color: #9eb5be;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* 4-Stat Micro Matrix */
+.vize-fullrow-specs-matrix {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  background: rgba(5, 18, 22, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.65rem;
+}
+
+.vize-fullrow-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.vize-fullrow-spec-item strong {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #EDE8DF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Advantages Checklist */
+.vize-fullrow-advantages {
+  margin-bottom: 0.65rem;
+}
+
+.vize-fullrow-adv-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #c58e70;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.vize-fullrow-adv-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 1rem;
+}
+
+.vize-fullrow-adv-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: #d1dde2;
+}
+
+/* Bottom Bar */
+.vize-fullrow-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vize-fullrow-price-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.vize-fullrow-price-lbl {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: #8da4ac;
+  font-weight: 600;
+}
+
+.vize-fullrow-price-amt {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #c58e70;
+}
+
+.vize-fullrow-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #8C4830;
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(140, 72, 48, 0.45);
+}
+
+.vize-fullrow-cta-btn:hover {
+  background: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(140, 72, 48, 0.6);
+}
+
+/* No Results Box */
+.vize-resins-no-results {
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 10px;
+  padding: 3rem;
+  text-align: center;
+  color: #55646a;
+}
+
+.vize-resins-reset-btn {
+  margin-top: 1rem;
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   5. BRAND LOGO CARD COMPONENT STYLING (MATCHING PUBLIC/LOGOS/)
+   ========================================================================== */
+.vize-logo-card-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 10.5;
+  background: #ffffff;
+  border-bottom: 1px solid #D8D2C4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s ease;
+}
+
+.vize-resins-product-card:hover .vize-logo-card-wrapper {
+  background: #FDFCF9;
+}
+
+.vize-logo-studio-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.vize-product-brand-logo {
+  max-width: 84%;
+  max-height: 82%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  filter: drop-shadow(0 4px 10px rgba(13, 44, 51, 0.08));
+}
+
+.vize-resins-product-card:hover .vize-product-brand-logo {
+  transform: scale(1.06);
+  filter: drop-shadow(0 6px 16px rgba(13, 44, 51, 0.16));
+}
+
+/* ==========================================================================
+   6. TOOLS & MACHINERY SECTION AT BOTTOM (BACKGROUND.PNG INTEGRATION)
+   ========================================================================== */
+.vize-resins-tools-section {
+  position: relative;
+  background-color: #07171D;
+  background-image: 
+    linear-gradient(90deg, rgba(7, 23, 29, 0.96) 0%, rgba(7, 23, 29, 0.82) 36%, rgba(7, 23, 29, 0.3) 68%, transparent 100%),
+    url('/background.png');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  padding: 5.5rem 0 5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+}
+
+.vize-resins-tools-relative {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.vize-resins-tools-container {
+  max-width: 580px;
+}
+
+.vize-resins-tools-headline {
+  font-family: var(--font-sans);
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.6rem 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.vize-resins-tools-italic {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #c58e70;
+}
+
+.vize-resins-tools-subhead {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #c58e70;
+  margin: 0 0 0.95rem 0;
+}
+
+.vize-resins-tools-bullets {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #c0d1d8;
+  margin: 0 0 2rem 0;
+}
+
+.vize-resins-tools-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.9rem 1.85rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(140, 72, 48, 0.45);
+}
+
+.vize-resins-tools-btn:hover {
+  background-color: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(140, 72, 48, 0.6);
+}
+
+/* ==========================================================================
+   7. EXPERT CONSULTATION MODAL
+   ========================================================================= */
+.vize-resins-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 23, 29, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: vizeFadeIn 0.25s ease;
+}
+
+.vize-resins-modal-box {
+  background: #0D2C33;
+  color: #ffffff;
+  border: 1px solid rgba(197, 142, 112, 0.35);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.25rem 2.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+}
+
+.vize-resins-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #9ab0b8;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-resins-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.vize-resins-modal-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #c58e70;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.vize-resins-modal-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.45rem 0;
+}
+
+.vize-resins-modal-sub {
+  font-size: 0.88rem;
+  color: #9ab0b8;
+  margin: 0 0 1.5rem 0;
+}
+
+.vize-resins-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.vize-resins-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.vize-resins-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.vize-resins-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #EDE9E1;
+}
+
+.vize-resins-field input,
+.vize-resins-field textarea {
+  background: rgba(7, 23, 29, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.vize-resins-field input:focus,
+.vize-resins-field textarea:focus {
+  outline: none;
+  border-color: #c58e70;
+}
+
+.vize-resins-field input::placeholder,
+.vize-resins-field textarea::placeholder {
+  color: #6a7c83;
+}
+
+.vize-resins-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.vize-resins-submit-btn:hover {
+  background-color: #783b26;
+}
+
+.vize-resins-modal-success {
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vize-success-green-icon {
+  color: #25D366;
+  margin-bottom: 1rem;
+}
+
+.vize-success-modal-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #ffffff;
+  margin: 0 0 0.65rem 0;
+}
+
+.vize-success-modal-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #9ab0b8;
+  max-width: 420px;
+  margin: 0 0 1.5rem 0;
+}
+
+.vize-resins-modal-done-btn {
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1120px) {
+  .vize-resins-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .vize-resins-layout-grid {
+    grid-template-columns: 210px 1fr;
+    gap: 1.75rem;
+  }
+
+  /* 2-column layout expansion widths */
+  .vize-card-fullrow-expanded {
+    width: calc(200% + 1.5rem + 4px);
+  }
+
+  .vize-resins-product-card.col-0 .vize-card-fullrow-expanded {
+    left: -2px;
+    transform-origin: 25% center;
+    transform: scaleX(0.5) scaleY(0.96);
+  }
+
+  .vize-resins-product-card.col-0:hover .vize-card-fullrow-expanded {
+    transform: scaleX(1) scaleY(1);
+  }
+
+  .vize-resins-product-card.col-1 .vize-card-fullrow-expanded {
+    left: calc(-100% - 1.5rem - 2px);
+    transform-origin: 75% center;
+    transform: scaleX(0.5) scaleY(0.96);
+  }
+
+  .vize-resins-product-card.col-1:hover .vize-card-fullrow-expanded {
+    transform: scaleX(1) scaleY(1);
+  }
+
+  .vize-fullrow-specs-matrix {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .vize-resins-cards-row {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-card-fullrow-expanded {
+    display: none;
+  }
+
+  .vize-resins-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-resins-sidebar {
+    position: static;
+  }
+
+  .vize-resins-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-resins-hero-visual-col {
+    display: none;
+  }
+
+  .vize-resins-tabs-row {
+    flex-wrap: wrap;
+  }
+
+  .vize-resins-tab-btn {
+    border-bottom: 1px solid #D8D2C4;
+  }
+
+  .vize-resins-tools-section {
+    padding: 4rem 0 3.5rem;
+    background-position: right 30% center;
+  }
+
+  /* On mobile/touch devices, hide hover flyout so it does not block scrolling */
+  .vize-card-expand-drawer {
+    display: none;
+  }
+}
+
+@media (max-width: 580px) {
+  .vize-resins-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-resins-center-frame {
+    padding: 0 1.25rem;
+  }
+
+  .vize-resins-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   VIZE "OUR WORK" / PROJECT ARCHIVE PAGE (EXACT MATCH TO REFERENCE DESIGN)
+   ========================================================================== */
+
+.vize-ourwork-page-root {
+  background-color: #FAF9F5;
+  color: #0D2C33;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+.vize-work-center-frame {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+/* ==========================================================================
+   1. HERO SECTION ("VIZE PROJECT ARCHIVE" + FRAMED COLLAGE)
+   ========================================================================== */
+.vize-work-hero-section {
+  background-color: #07171D;
+  background-image: radial-gradient(circle at 80% 20%, rgba(13, 44, 51, 0.75) 0%, transparent 65%);
+  color: #ffffff;
+  padding: 4.5rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vize-work-hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.vize-work-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c58e70;
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+.vize-work-hero-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0 0 1.2rem 0;
+  letter-spacing: -0.025em;
+}
+
+.vize-work-hero-italic {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #EDE8DF;
+}
+
+.vize-work-hero-subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(243, 241, 234, 0.85);
+  max-width: 480px;
+  margin: 0 0 2.25rem 0;
+}
+
+.vize-work-hero-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.vize-work-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.85rem 1.65rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(140, 72, 48, 0.4);
+}
+
+.vize-work-btn-primary:hover {
+  background-color: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(140, 72, 48, 0.55);
+}
+
+.vize-work-btn-link {
+  color: #EDE8DF;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.vize-work-btn-link:hover {
+  color: #c58e70;
+}
+
+/* Right Curated Collage Frame */
+.vize-work-collage-frame {
+  border: 1px solid rgba(197, 142, 112, 0.45);
+  padding: 6px;
+  border-radius: 6px;
+  background: rgba(7, 23, 29, 0.6);
+  display: grid;
+  grid-template-columns: 1.25fr 0.85fr;
+  grid-template-rows: 155px 155px;
+  gap: 6px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.vize-collage-main-box {
+  grid-row: 1 / 3;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vize-collage-sub-box {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vize-collage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vize-work-collage-frame:hover .vize-collage-img {
+  transform: scale(1.04);
+}
+
+.vize-collage-floating-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(7, 23, 29, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #EDE8DF;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   2. EXPLORE BY APPLICATION FILTER BAR
+   ========================================================================== */
+.vize-work-filter-bar-section {
+  background-color: #FAF9F5;
+  border-bottom: 1px solid #E5DFD3;
+  padding: 1.5rem 0;
+}
+
+.vize-work-filter-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.vize-work-pills-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.vize-work-filter-label {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-work-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.vize-work-pill-btn {
+  background: transparent;
+  border: 1px solid #D6D0C3;
+  color: #55646a;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.38rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-work-pill-btn:hover {
+  border-color: #0D2C33;
+  color: #0D2C33;
+}
+
+.vize-work-pill-btn.active {
+  background: #0D2C33;
+  border-color: #0D2C33;
+  color: #ffffff;
+}
+
+/* Search Box */
+.vize-work-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 250px;
+}
+
+.vize-work-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: #788a91;
+  pointer-events: none;
+}
+
+.vize-work-search-input {
+  width: 100%;
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 999px;
+  padding: 0.48rem 2rem 0.48rem 2.25rem;
+  font-size: 0.82rem;
+  color: #0D2C33;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.vize-work-search-input:focus {
+  outline: none;
+  border-color: #8C4830;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(140, 72, 48, 0.15);
+}
+
+.vize-work-search-clear {
+  position: absolute;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: #788a91;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   3. "SELECTED WORK." (ALTERNATING ZIG-ZAG CASE STUDIES)
+   ========================================================================== */
+.vize-work-selected-section {
+  background-color: #FAF9F5;
+  padding: 4.5rem 0 5rem;
+}
+
+.vize-work-section-header {
+  margin-bottom: 3.5rem;
+}
+
+.vize-work-section-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 3.6vw, 2.85rem);
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: -0.02em;
+}
+
+.vize-work-section-sub {
+  font-size: 0.95rem;
+  color: #55646a;
+  margin: 0;
+}
+
+.vize-work-cases-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+}
+
+.vize-work-case-item {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3.75rem;
+  align-items: center;
+}
+
+.vize-work-case-item.image-right .vize-case-image-col {
+  order: 2;
+}
+
+.vize-work-case-item.image-right .vize-case-content-col {
+  order: 1;
+}
+
+/* Case Image */
+.vize-case-img-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(13, 44, 51, 0.12);
+  position: relative;
+  background: #EDE8DF;
+}
+
+.vize-case-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vize-case-image-col:hover .vize-case-img {
+  transform: scale(1.04);
+}
+
+.vize-case-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 23, 29, 0.4);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.vize-case-image-col:hover .vize-case-img-overlay {
+  opacity: 1;
+}
+
+.vize-case-quickview-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  color: #0D2C33;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transform: translateY(6px);
+  transition: transform 0.3s ease;
+}
+
+.vize-case-image-col:hover .vize-case-quickview-pill {
+  transform: translateY(0);
+}
+
+/* Case Content */
+.vize-case-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.vize-case-eyebrow-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8C4830;
+}
+
+.vize-case-eyebrow-line {
+  width: 38px;
+  height: 1.5px;
+  background-color: #8C4830;
+}
+
+.vize-case-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(1.85rem, 2.6vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #0D2C33;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.015em;
+}
+
+.vize-case-desc {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #55646a;
+  margin: 0 0 1.75rem 0;
+}
+
+/* 3-Column Specs Row */
+.vize-case-specs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1.15rem 0;
+  border-top: 1px solid #E5DFD3;
+  border-bottom: 1px solid #E5DFD3;
+  margin-bottom: 1.75rem;
+}
+
+.vize-case-spec-lbl {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #788a91;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.vize-case-spec-val {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-case-study-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.65rem 1.35rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 12px rgba(140, 72, 48, 0.35);
+}
+
+.vize-case-study-btn:hover {
+  background-color: #783b26;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(140, 72, 48, 0.5);
+}
+
+.vize-work-empty-results {
+  background: #EDE8DF;
+  border: 1px solid #D8D2C4;
+  border-radius: 8px;
+  padding: 3rem;
+  text-align: center;
+  color: #55646a;
+}
+
+.vize-work-reset-filter-btn {
+  margin-top: 1rem;
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   4. "FROM WORN SUBSTRATE TO FINISHED SYSTEM." (BEFORE/AFTER SLIDER)
+   ========================================================================== */
+.vize-work-transformation-section {
+  background-color: #07171D;
+  background-image: radial-gradient(circle at 100% 50%, rgba(13, 44, 51, 0.75) 0%, transparent 60%);
+  color: #ffffff;
+  padding: 5rem 0 5.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vize-transform-headline {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 3rem 0;
+  letter-spacing: -0.02em;
+}
+
+.vize-transform-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: #EDE8DF;
+}
+
+.vize-transform-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+/* Interactive Before / After Split Slider */
+.vize-before-after-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55);
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.vize-ba-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.vize-ba-layer.after-base {
+  z-index: 1;
+}
+
+.vize-ba-layer.before-overlay {
+  z-index: 2;
+}
+
+.vize-ba-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.vize-ba-badge {
+  position: absolute;
+  bottom: 1rem;
+  background: rgba(7, 23, 29, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 4;
+}
+
+.vize-ba-badge.before {
+  left: 1rem;
+}
+
+.vize-ba-badge.after {
+  right: 1rem;
+}
+
+.vize-ba-divider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ffffff;
+  z-index: 10;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.vize-ba-handle-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0D2C33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Process Steps Column */
+.vize-transform-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vize-step-item-card {
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.vize-step-item-card:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.4);
+}
+
+.vize-step-item-card.active {
+  border-bottom-color: #8C4830;
+}
+
+.vize-step-item-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.vize-step-item-num {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #8C4830;
+  font-family: monospace;
+}
+
+.vize-step-item-name {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.vize-step-item-expanded {
+  margin-top: 0.75rem;
+  padding-left: 2.25rem;
+  animation: vizeFadeIn 0.25s ease;
+}
+
+.vize-step-item-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c58e70;
+  margin: 0 0 0.35rem 0;
+}
+
+.vize-step-item-desc {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9ab0b8;
+  margin: 0;
+}
+
+.vize-transform-footer-link {
+  margin-top: 2rem;
+}
+
+.vize-transform-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #EDE8DF;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.vize-transform-cta-link:hover {
+  color: #c58e70;
+}
+
+/* ==========================================================================
+   5. "THE FINISH IS IN THE DETAILS." (4 SPECIMEN TILES)
+   ========================================================================== */
+.vize-work-finishes-section {
+  background-color: #FAF9F5;
+  padding: 4.5rem 0 4.5rem;
+}
+
+.vize-finishes-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(1.85rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 2.25rem 0;
+  letter-spacing: -0.015em;
+}
+
+.vize-finishes-tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.vize-finish-tile-card {
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: #EDE8DF;
+  box-shadow: 0 6px 18px rgba(13, 44, 51, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vize-finish-tile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(13, 44, 51, 0.16);
+}
+
+.vize-finish-tile-media {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.vize-finish-tile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.vize-finish-tile-card:hover .vize-finish-tile-img {
+  transform: scale(1.05);
+}
+
+.vize-finish-tile-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7, 23, 29, 0.9) 0%, rgba(7, 23, 29, 0.2) 45%, transparent 100%);
+}
+
+.vize-finish-tile-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.85rem 1rem;
+  z-index: 2;
+}
+
+.vize-finish-tile-name {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   6. "HAVE A SURFACE IN MIND?" (SPLIT CONSULTATION CARD)
+   ========================================================================== */
+.vize-work-consultation-section {
+  background-color: #FAF9F5;
+  padding: 1rem 0 5rem;
+}
+
+.vize-consult-split-card {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 45px rgba(13, 44, 51, 0.15);
+}
+
+/* Left Column (Terracotta #8C4830) */
+.vize-consult-left-col {
+  background-color: #8C4830;
+  color: #ffffff;
+  padding: 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.vize-consult-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(2rem, 2.8vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+}
+
+.vize-consult-sub {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 2.25rem 0;
+}
+
+.vize-consult-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.vize-consult-white-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: #ffffff;
+  color: #0D2C33;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.8rem 1.4rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vize-consult-white-btn:hover {
+  background-color: #EDE8DF;
+  transform: translateY(-2px);
+}
+
+.vize-consult-outline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding: 0.8rem 1.4rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.vize-consult-outline-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+/* Right Column (Dark Petrol #07171D Form) */
+.vize-consult-right-col {
+  background-color: #07171D;
+  padding: 3.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.vize-consult-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.vize-consult-fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.vize-consult-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.vize-consult-field label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #8da4ac;
+}
+
+.vize-consult-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vize-consult-select-wrap select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(13, 44, 51, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 0.65rem 2rem 0.65rem 0.85rem;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.vize-consult-select-wrap select:focus {
+  outline: none;
+  border-color: #c58e70;
+}
+
+.vize-consult-select-wrap select option {
+  background: #07171D;
+  color: #ffffff;
+}
+
+.vize-consult-select-chevron {
+  position: absolute;
+  right: 0.75rem;
+  color: #8da4ac;
+  pointer-events: none;
+}
+
+.vize-consult-submit-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #8C4830;
+  color: #ffffff;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.vize-consult-submit-btn:hover {
+  background-color: #783b26;
+}
+
+/* Success Box */
+.vize-consult-success-box {
+  text-align: center;
+  padding: 1.5rem 0;
+  color: #ffffff;
+}
+
+.vize-consult-success-icon {
+  color: #25D366;
+  margin-bottom: 0.75rem;
+}
+
+.vize-consult-success-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.45rem;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+}
+
+.vize-consult-success-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #9ab0b8;
+  margin: 0 0 1.5rem 0;
+}
+
+.vize-consult-reset-btn {
+  background: #8C4830;
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   7. CASE STUDY DETAIL POPUP MODAL
+   ========================================================================== */
+.vize-case-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 23, 29, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: vizeFadeIn 0.25s ease;
+}
+
+.vize-case-modal-box {
+  background: #0D2C33;
+  color: #ffffff;
+  border: 1px solid rgba(197, 142, 112, 0.35);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+}
+
+.vize-case-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(7, 23, 29, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.vize-case-modal-close:hover {
+  background: #8C4830;
+}
+
+.vize-case-modal-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  position: relative;
+}
+
+.vize-case-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vize-case-modal-content {
+  padding: 2rem 2.25rem;
+}
+
+.vize-case-modal-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c58e70;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.vize-case-modal-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+}
+
+.vize-case-modal-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #9ab0b8;
+  margin: 0 0 1.5rem 0;
+}
+
+.vize-case-modal-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  background: rgba(7, 23, 29, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.vize-modal-matrix-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vize-modal-matrix-item span {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: #788a91;
+  font-weight: 600;
+}
+
+.vize-modal-matrix-item strong {
+  font-size: 0.86rem;
+  color: #EDE8DF;
+}
+
+.vize-case-modal-highlight-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(140, 72, 48, 0.15);
+  border: 1px solid rgba(140, 72, 48, 0.35);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 0.82rem;
+  color: #EDE8DF;
+  margin-bottom: 1.5rem;
+}
+
+.vize-modal-sparkle {
+  color: #c58e70;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.vize-case-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.vize-modal-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #8C4830;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.75rem 1.35rem;
+  border-radius: 4px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.vize-modal-explore-btn:hover {
+  background: #783b26;
+}
+
+.vize-modal-quote-btn {
+  color: #EDE8DF;
+  font-size: 0.84rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.vize-modal-quote-btn:hover {
+  color: #c58e70;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE BREAKPOINTS (OUR WORK PAGE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .vize-work-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .vize-work-case-item {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .vize-work-case-item.image-right .vize-case-image-col {
+    order: 1;
+  }
+
+  .vize-work-case-item.image-right .vize-case-content-col {
+    order: 2;
+  }
+
+  .vize-transform-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .vize-finishes-tiles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .vize-consult-split-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .vize-work-center-frame {
+    padding: 0 1.25rem;
+  }
+
+  .vize-work-filter-bar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .vize-work-search-wrapper {
+    width: 100%;
+  }
+
+  .vize-case-specs-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .vize-finishes-tiles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-consult-fields-row {
+    grid-template-columns: 1fr;
+  }
+
+  .vize-consult-left-col,
+  .vize-consult-right-col {
+    padding: 2.5rem 1.5rem;
   }
 }

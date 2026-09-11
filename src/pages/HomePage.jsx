@@ -5,6 +5,7 @@ import ProcessSection from '../components/ProcessSection';
 import OurResinsSection from '../components/OurResinsSection';
 import VideoGallerySection from '../components/VideoGallerySection';
 import CompleteSystemSection from '../components/CompleteSystemSection';
+import TransformationSection from '../components/TransformationSection';
 import PigmentsFinishesSection from '../components/PigmentsFinishesSection';
 import SpacesSolutionsSection from '../components/SpacesSolutionsSection';
 import WhyChooseVizeSection from '../components/WhyChooseVizeSection';
@@ -27,6 +28,7 @@ export default function HomePage() {
         <CompleteSystemSection />
         <PigmentsFinishesSection />
         <SpacesSolutionsSection />
+        <TransformationSection />
         <WhyChooseVizeSection />
         <EducationResourcesSection />
         <FeaturedCalloutsSection />
