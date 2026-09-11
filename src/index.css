@@ -11138,3 +11138,397 @@ button {
     padding: 2.5rem 1.5rem;
   }
 }
+
+/* ==========================================================================
+   GLOBAL SEARCH MODAL & COMMAND PALETTE
+   ========================================================================== */
+.vize-search-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(7, 23, 29, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 4rem 1.25rem 2rem;
+  animation: vizeFadeIn 0.2s ease forwards;
+}
+
+.vize-search-modal-container {
+  width: 100%;
+  max-width: 680px;
+  background: #FAF9F5;
+  border: 1px solid #D6D0C3;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  max-height: 82vh;
+  overflow: hidden;
+  animation: vizeModalSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes vizeModalSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.vize-search-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.15rem 1.4rem;
+  border-bottom: 1px solid #E5DFD3;
+  background: #FFFFFF;
+}
+
+.vize-search-input-icon {
+  color: #8C4830;
+  flex-shrink: 0;
+}
+
+.vize-search-main-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #0D2C33;
+  background: transparent;
+}
+
+.vize-search-main-input::placeholder {
+  color: #9E988D;
+  font-weight: 400;
+}
+
+.vize-search-clear-btn {
+  background: #F1ECE1;
+  border: none;
+  color: #555;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.vize-search-clear-btn:hover {
+  background: #8C4830;
+  color: #FFF;
+}
+
+.vize-search-modal-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.vize-esc-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #7A7469;
+  background: #EFEBE1;
+  border: 1px solid #D8D2C5;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+}
+
+.vize-search-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border-bottom: 1px solid #ECE7DC;
+  background: #F5F3EC;
+  overflow-x: auto;
+}
+
+.vize-search-tab-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #5A6266;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.vize-search-tab-pill:hover {
+  background: #EBE5D8;
+  color: #0D2C33;
+}
+
+.vize-search-tab-pill.active {
+  background: #0D2C33;
+  color: #FFFFFF;
+}
+
+.vize-search-count-pill {
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.vize-search-suggestions-block {
+  padding: 1.15rem 1.4rem 0.75rem;
+  border-bottom: 1px solid #ECE7DC;
+}
+
+.vize-search-sugg-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #8C4830;
+  margin-bottom: 0.75rem;
+}
+
+.vize-search-sugg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.vize-search-sugg-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  background: #FFFFFF;
+  border: 1px solid #DED8CB;
+  color: #0D2C33;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vize-search-sugg-chip:hover {
+  border-color: #8C4830;
+  color: #8C4830;
+  background: #FDF9F5;
+  transform: translateY(-1px);
+}
+
+.vize-search-results-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem 1.4rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vize-search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid #E8E2D5;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.vize-search-result-item:hover {
+  border-color: #8C4830;
+  box-shadow: 0 4px 16px rgba(140, 72, 48, 0.12);
+  transform: translateX(3px);
+}
+
+.vize-search-item-img-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #F0ECE3;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #E5DFD3;
+}
+
+.vize-search-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.vize-search-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.vize-search-item-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+
+.vize-search-item-category {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #8C4830;
+  text-transform: uppercase;
+}
+
+.vize-search-item-price {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0D2C33;
+}
+
+.vize-search-item-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vize-search-item-tagline {
+  font-size: 0.78rem;
+  color: #6A7276;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vize-search-item-arrow {
+  color: #A39D91;
+  transition: transform 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.vize-search-result-item:hover .vize-search-item-arrow {
+  color: #8C4830;
+  transform: translateX(3px);
+}
+
+.vize-search-no-results {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vize-search-empty-icon {
+  color: #B5AEA1;
+  margin-bottom: 1rem;
+}
+
+.vize-search-no-results h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.5rem;
+}
+
+.vize-search-no-results p {
+  font-size: 0.85rem;
+  color: #6C7478;
+  max-width: 380px;
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+.vize-search-reset-btn {
+  background: #8C4830;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.55rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vize-search-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.4rem;
+  background: #F1ECE1;
+  border-top: 1px solid #E5DFD3;
+  font-size: 0.72rem;
+  color: #6A7276;
+}
+
+.vize-search-footer-shortcuts {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vize-search-footer-shortcuts kbd {
+  background: #FFFFFF;
+  border: 1px solid #D0C9BA;
+  border-radius: 3px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-search-footer-brand {
+  font-weight: 600;
+  color: #8C4830;
+}
+
+@media (max-width: 640px) {
+  .vize-search-modal-backdrop {
+    padding: 1rem 0.75rem;
+  }
+  
+  .vize-search-modal-container {
+    max-height: 92vh;
+  }
+  
+  .vize-search-header-bar {
+    padding: 0.9rem 1rem;
+  }
+  
+  .vize-search-tabs-bar {
+    padding: 0.6rem 1rem;
+  }
+  
+  .vize-search-results-list {
+    padding: 0.75rem 1rem;
+  }
+}

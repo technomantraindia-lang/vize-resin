@@ -3,11 +3,25 @@ import { createPortal } from 'react-dom';
 import { Search, ShoppingCart, User, Menu, X, ArrowRight, Sparkles, ChevronRight, Palette, Layers, Box, Wrench, Briefcase } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import SearchModal from './SearchModal';
 
 export default function Header() {
   const { totalItemCount, openDrawer } = useCart();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
+
+  // Keyboard shortcut (Ctrl+K or Cmd+K) to open global search
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchModalOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Close mobile menu on route changes
   useEffect(() => {
@@ -120,7 +134,13 @@ export default function Header() {
         {/* Right Actions: Divider, Search, User & Cart + Mobile Menu Toggle */}
         <div className="header-actions">
           <span className="header-divider"></span>
-          <button className="icon-action-btn" aria-label="Search">
+          <button
+            type="button"
+            className="icon-action-btn vize-header-search-btn"
+            aria-label="Search"
+            onClick={() => setSearchModalOpen(true)}
+            title="Search Site (Ctrl+K)"
+          >
             <Search size={19} strokeWidth={1.75} />
           </button>
           <button className="icon-action-btn" aria-label="User Account">
@@ -151,6 +171,12 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      {/* Global Search Modal */}
+      <SearchModal
+        isOpen={searchModalOpen}
+        onClose={() => setSearchModalOpen(false)}
+      />
 
       {/* =========================================================================
           MOBILE NAVIGATION DRAWER & BACKDROP (RENDERED VIA PORTAL TO BODY)
