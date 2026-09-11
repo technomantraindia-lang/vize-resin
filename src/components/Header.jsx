@@ -1,10 +1,29 @@
-import { Search, ShoppingCart, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, ShoppingCart, User, Menu, X, ArrowRight, Sparkles, ChevronRight, Palette, Layers, Box, Wrench, Briefcase } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
 export default function Header() {
   const { totalItemCount, openDrawer } = useCart();
   const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile menu on route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <header className="vize-header">
@@ -18,7 +37,7 @@ export default function Header() {
           />
         </Link>
 
-        {/* Navigation Menu */}
+        {/* Desktop Navigation Menu */}
         <nav className="vize-nav">
           <ul className="nav-menu">
             <li>
@@ -97,7 +116,7 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Right Actions: Divider, Search, User & Cart */}
+        {/* Right Actions: Divider, Search, User & Cart + Mobile Menu Toggle */}
         <div className="header-actions">
           <span className="header-divider"></span>
           <button className="icon-action-btn" aria-label="Search">
@@ -119,8 +138,169 @@ export default function Header() {
               </span>
             )}
           </button>
+
+          {/* Mobile Hamburger Menu Button */}
+          <button
+            className="vize-mobile-menu-toggle-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Navigation Menu'}
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
+
+      {/* =========================================================================
+          MOBILE NAVIGATION DRAWER & BACKDROP
+         ========================================================================= */}
+      {mobileMenuOpen && (
+        <div
+          className="vize-mobile-backdrop"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={`vize-mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}
+        aria-label="Mobile Navigation"
+      >
+        <div className="vize-mobile-drawer-header">
+          <Link
+            to="/"
+            className="vize-brand-block"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <img
+              src="/main logo.png"
+              alt="VIZE"
+              className="vize-brand-logo-img"
+              style={{ height: '42px' }}
+            />
+          </Link>
+          <button
+            className="vize-mobile-drawer-close"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close Navigation"
+          >
+            <X size={22} />
+          </button>
+        </div>
+
+        <div className="vize-mobile-drawer-body">
+          <nav className="vize-mobile-nav-list">
+            <Link
+              to="/resins"
+              className={`vize-mobile-nav-item ${location.pathname === '/resins' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="vize-mobile-item-left">
+                <Box size={18} className="vize-mobile-icon" />
+                <span>Resins</span>
+              </div>
+              <ChevronRight size={16} className="vize-mobile-chevron" />
+            </Link>
+
+            <Link
+              to="/flooring-systems"
+              className={`vize-mobile-nav-item ${location.pathname === '/flooring-systems' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="vize-mobile-item-left">
+                <Layers size={18} className="vize-mobile-icon" />
+                <span>Flooring Systems</span>
+              </div>
+              <ChevronRight size={16} className="vize-mobile-chevron" />
+            </Link>
+
+            <Link
+              to="/table-tops"
+              className={`vize-mobile-nav-item ${location.pathname === '/table-tops' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="vize-mobile-item-left">
+                <Sparkles size={18} className="vize-mobile-icon" />
+                <span>Table Tops</span>
+              </div>
+              <ChevronRight size={16} className="vize-mobile-chevron" />
+            </Link>
+
+            <a
+              href="/#finishes"
+              className="vize-mobile-nav-item"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="vize-mobile-item-left">
+                <Palette size={18} className="vize-mobile-icon" />
+                <span>Colors & Pigments</span>
+              </div>
+              <span className="vize-mobile-pill-badge">18 Swatches</span>
+            </a>
+
+            <Link
+              to="/workshop"
+              className={`vize-mobile-nav-item ${location.pathname === '/workshop' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="vize-mobile-item-left">
+                <Wrench size={18} className="vize-mobile-icon" />
+                <span>Workshop</span>
+              </div>
+              <ChevronRight size={16} className="vize-mobile-chevron" />
+            </Link>
+
+            <Link
+              to="/our-work"
+              className={`vize-mobile-nav-item ${['/our-work', '/work', '/resources'].includes(location.pathname) ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="vize-mobile-item-left">
+                <Briefcase size={18} className="vize-mobile-icon" />
+                <span>Our Work</span>
+              </div>
+              <span className="vize-mobile-pill-badge accent">Archive</span>
+            </Link>
+          </nav>
+
+          {/* Quick Swatch Preview in Mobile Menu */}
+          <div className="vize-mobile-swatch-box">
+            <span className="vize-mobile-swatch-eyebrow">POPULAR METALLIC FINISHES</span>
+            <div className="vize-mobile-swatch-row">
+              {[
+                { name: 'Petrol Teal', img: '/colors/Petrol Teal.png' },
+                { name: 'Copper', img: '/colors/Copper.png' },
+                { name: 'Silver', img: '/colors/Silver.png' },
+                { name: 'Liquid Gold', img: '/colors/Liquid Gold.png' }
+              ].map((c) => (
+                <div key={c.name} className="vize-mobile-swatch-chip" title={c.name}>
+                  <img src={c.img} alt={c.name} />
+                  <span>{c.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Action CTAs */}
+          <div className="vize-mobile-drawer-footer">
+            <Link
+              to="/our-work#consultation"
+              className="vize-mobile-cta-btn primary"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span>Start Your Project</span>
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/resins"
+              className="vize-mobile-cta-btn secondary"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span>Explore All Products</span>
+            </Link>
+          </div>
+        </div>
+      </aside>
     </header>
   );
 }
