@@ -5,6 +5,9 @@ import CartPage from './pages/CartPage';
 import FlooringSystemsPage from './pages/FlooringSystemsPage';
 import ResinsPage from './pages/ResinsPage';
 import OurWorkPage from './pages/OurWorkPage';
+import TableTopsPage from './pages/TableTopsPage';
+import ContactUsPage from './pages/ContactUsPage';
+import ColorsPigmentsPage from './pages/ColorsPigmentsPage';
 import { CartProvider } from './context/CartContext';
 import CartDrawer from './components/CartDrawer';
 
@@ -23,11 +26,20 @@ function App() {
         <Route path="/product" element={<ProductDetailPage />} />
         <Route path="/casting-art" element={<ResinsPage />} />
         <Route path="/coatings" element={<ResinsPage />} />
-        <Route path="/table-tops" element={<ProductDetailPage />} />
+        <Route path="/table-tops" element={<TableTopsPage />} />
+        <Route path="/colors" element={<ColorsPigmentsPage />} />
+        <Route path="/colors-pigments" element={<ColorsPigmentsPage />} />
+        <Route path="/colour-chart" element={<ColorsPigmentsPage />} />
+        <Route path="/color-chart" element={<ColorsPigmentsPage />} />
+        <Route path="/pigments" element={<ColorsPigmentsPage />} />
+        <Route path="/finishes" element={<ColorsPigmentsPage />} />
         <Route path="/workshop" element={<ProductDetailPage />} />
         <Route path="/our-work" element={<OurWorkPage />} />
         <Route path="/work" element={<OurWorkPage />} />
         <Route path="/resources" element={<OurWorkPage />} />
+        <Route path="/contact" element={<ContactUsPage />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/support" element={<ContactUsPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
     </CartProvider>

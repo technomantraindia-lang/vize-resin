@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, ShoppingCart, User, Menu, X, ArrowRight, Sparkles, ChevronRight, Palette, Layers, Box, Wrench, Briefcase } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, ArrowRight, Sparkles, ChevronRight, Palette, Layers, Box, Wrench, Briefcase, PhoneCall } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import SearchModal from './SearchModal';
@@ -80,18 +80,21 @@ export default function Header() {
               </Link>
             </li>
             <li className="nav-item-dropdown">
-              <a href="/#finishes" className="nav-item nav-dropdown-trigger">
+              <Link
+                to="/colors"
+                className={`nav-item nav-dropdown-trigger ${['/colors', '/colors-pigments', '/colour-chart', '/color-chart', '/pigments'].includes(location.pathname) ? 'active' : ''}`}
+              >
                 Colors & Pigments
-              </a>
+              </Link>
               <div className="nav-mega-dropdown">
                 <div className="nav-dropdown-header">
                   <div>
-                    <span className="nav-dropdown-eyebrow">PIGMENTS & FINISHES</span>
-                    <h4 className="nav-dropdown-title">Explore 18 Signature Metallic Swatches</h4>
+                    <span className="nav-dropdown-eyebrow">PIGMENTS & RAL CHART</span>
+                    <h4 className="nav-dropdown-title">Explore 200+ RAL Shades & Signature Swatches</h4>
                   </div>
-                  <a href="/#finishes" className="nav-dropdown-view-all">
-                    <span>View All</span>
-                  </a>
+                  <Link to="/colors" className="nav-dropdown-view-all">
+                    <span>View All Colors & PDF</span>
+                  </Link>
                 </div>
                 <div className="nav-dropdown-grid">
                   {[
@@ -102,12 +105,12 @@ export default function Header() {
                     { id: 'deep-blue', name: 'Deep Blue', image: '/colors/Deep Blue.png' },
                     { id: 'bronze-vein', name: 'Bronze Vein', image: '/colors/Bronze Vein.png' }
                   ].map((color) => (
-                    <a key={color.id} href="/#finishes" className="nav-dropdown-color-item">
+                    <Link key={color.id} to="/colors" className="nav-dropdown-color-item">
                       <div className="nav-dropdown-img-box">
                         <img src={color.image} alt={color.name} />
                       </div>
                       <span className="nav-dropdown-color-name">{color.name}</span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -128,10 +131,18 @@ export default function Header() {
                 Our Work
               </Link>
             </li>
+            <li>
+              <Link
+                to="/contact"
+                className={`nav-item ${['/contact', '/contact-us', '/support'].includes(location.pathname) ? 'active' : ''}`}
+              >
+                Contact
+              </Link>
+            </li>
           </ul>
         </nav>
 
-        {/* Right Actions: Divider, Search, User & Cart + Mobile Menu Toggle */}
+        {/* Right Actions: Divider, Search & Cart + Mobile Menu Toggle */}
         <div className="header-actions">
           <span className="header-divider"></span>
           <button
@@ -142,9 +153,6 @@ export default function Header() {
             title="Search Site (Ctrl+K)"
           >
             <Search size={19} strokeWidth={1.75} />
-          </button>
-          <button className="icon-action-btn" aria-label="User Account">
-            <User size={19} strokeWidth={1.75} />
           </button>
           <button
             className="icon-action-btn vize-header-cart-btn"
@@ -257,17 +265,17 @@ export default function Header() {
                     <ChevronRight size={16} className="vize-mobile-chevron" />
                   </Link>
 
-                  <a
-                    href="/#finishes"
-                    className="vize-mobile-nav-item"
+                  <Link
+                    to="/colors"
+                    className={`vize-mobile-nav-item ${['/colors', '/colors-pigments', '/colour-chart', '/color-chart', '/pigments'].includes(location.pathname) ? 'active' : ''}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <div className="vize-mobile-item-left">
                       <Palette size={18} className="vize-mobile-icon" />
                       <span>Colors & Pigments</span>
                     </div>
-                    <span className="vize-mobile-pill-badge">18 Swatches</span>
-                  </a>
+                    <span className="vize-mobile-pill-badge accent">200+ RAL</span>
+                  </Link>
 
                   <Link
                     to="/workshop"
@@ -291,6 +299,18 @@ export default function Header() {
                       <span>Our Work</span>
                     </div>
                     <span className="vize-mobile-pill-badge accent">Archive</span>
+                  </Link>
+
+                  <Link
+                    to="/contact"
+                    className={`vize-mobile-nav-item ${['/contact', '/contact-us', '/support'].includes(location.pathname) ? 'active' : ''}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <div className="vize-mobile-item-left">
+                      <PhoneCall size={18} className="vize-mobile-icon" />
+                      <span>Contact Us</span>
+                    </div>
+                    <ChevronRight size={16} className="vize-mobile-chevron" />
                   </Link>
                 </nav>
 

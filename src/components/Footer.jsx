@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 function YoutubeIcon({ size = 18 }) {
@@ -37,13 +38,13 @@ export default function Footer() {
         <div className="footer-top-grid">
           {/* Brand Col */}
           <div className="footer-brand-col">
-            <a href="/" className="footer-logo-link" aria-label="VIZE Home">
+            <Link to="/" className="footer-logo-link" aria-label="VIZE Home">
               <img
                 src="/main logo.png"
                 alt="VIZE Speciality Polymers"
                 className="vize-footer-logo-img"
               />
-            </a>
+            </Link>
             <p className="footer-brand-tagline">Floors. Art. A Brighter Tomorrow.</p>
           </div>
 
@@ -52,26 +53,27 @@ export default function Footer() {
             <h3 className="footer-cta-title">Let’s build your next surface.</h3>
             <p className="footer-cta-sub">Extraordinary spaces start here.</p>
             <div className="footer-cta-actions">
-              <a href="#shop" className="footer-btn-primary">
+              <Link to="/resins" className="footer-btn-primary">
                 Shop Resins <ArrowRight size={15} />
-              </a>
-              <a href="#guidance" className="footer-btn-secondary">
+              </Link>
+              <Link to="/contact" className="footer-btn-secondary">
                 Get Product Guidance <ArrowRight size={15} />
-              </a>
+              </Link>
             </div>
           </div>
 
           {/* Nav Links Col */}
           <div className="footer-links-col">
             <div className="footer-nav-group">
-              <a href="#resins" className="footer-nav-link">Resin</a>
-              <a href="#flooring" className="footer-nav-link">Flooring Systems</a>
-              <a href="#table-tops" className="footer-nav-link">Table Tops</a>
+              <Link to="/resins" className="footer-nav-link">Resins</Link>
+              <Link to="/flooring-systems" className="footer-nav-link">Flooring Systems</Link>
+              <Link to="/table-tops" className="footer-nav-link">Table Tops</Link>
+              <Link to="/colors" className="footer-nav-link">Colors & RAL Chart</Link>
             </div>
             <div className="footer-nav-group">
-              <a href="#workshop" className="footer-nav-link">Workshop</a>
-              <a href="#resources" className="footer-nav-link">Resources</a>
-              <a href="#support" className="footer-nav-link">Support</a>
+              <Link to="/our-work" className="footer-nav-link">Our Work</Link>
+              <Link to="/workshop" className="footer-nav-link">Workshop</Link>
+              <Link to="/contact" className="footer-nav-link">Contact Us</Link>
             </div>
           </div>
 
