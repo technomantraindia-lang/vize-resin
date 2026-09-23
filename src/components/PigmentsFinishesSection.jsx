@@ -31,14 +31,14 @@ const SWATCHES = {
     { id: 'graphite', name: 'Graphite', image: '/colors/Graphite.png' },
   ],
   'Granual Epoxy': [
-    { id: 'black-white', name: 'Black & White', image: '/colors/granules/black-white-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'High-contrast monochrome flake broadcast' },
-    { id: 'gray-blend', name: 'Gray Blend', image: '/colors/granules/gray-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Neutral slate & ash multi-tone composite' },
-    { id: 'tan-blend', name: 'Tan Blend', image: '/colors/granules/tan-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Warm earth & desert sand mineral blend' },
-    { id: 'beige-blend', name: 'Beige Blend', image: '/colors/granules/beige-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Cream & almond architectural flake matrix' },
-    { id: 'blue-blend', name: 'Blue Blend', image: '/colors/granules/blue-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Cobalt & sapphire showroom polymer flakes' },
-    { id: 'red-blend', name: 'Red Blend', image: '/colors/granules/red-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Crimson & terracotta accent granules' },
-    { id: 'green-blend', name: 'Green Blend', image: '/colors/granules/green-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Forest & olive botanical quartz flake blend' },
-    { id: 'blue-gray-blend', name: 'Blue Gray Blend', image: '/colors/granules/blue-gray-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Steel gray & arctic blue heavy-duty coating' },
+    { id: 'black-white', name: 'Black & White', image: '/colors/granules/black-white-blend.png', preview: '/colors/granules/black-white-blend-preview.jpg', desc: 'High-contrast monochrome flake broadcast' },
+    { id: 'gray-blend', name: 'Gray Blend', image: '/colors/granules/gray-blend.png', preview: '/colors/granules/gray-blend-preview.jpg', desc: 'Neutral slate & ash multi-tone composite' },
+    { id: 'tan-blend', name: 'Tan Blend', image: '/colors/granules/tan-blend.png', preview: '/colors/granules/tan-blend-preview.jpg', desc: 'Warm earth & desert sand mineral blend' },
+    { id: 'beige-blend', name: 'Beige Blend', image: '/colors/granules/beige-blend.png', preview: '/colors/granules/beige-blend-preview.jpg', desc: 'Cream & almond architectural flake matrix' },
+    { id: 'blue-blend', name: 'Blue Blend', image: '/colors/granules/blue-blend.png', preview: '/colors/granules/blue-blend-preview.jpg', desc: 'Cobalt & sapphire showroom polymer flakes' },
+    { id: 'red-blend', name: 'Red Blend', image: '/colors/granules/red-blend.png', preview: '/colors/granules/red-blend-preview.jpg', desc: 'Crimson & terracotta accent granules' },
+    { id: 'green-blend', name: 'Green Blend', image: '/colors/granules/green-blend.png', preview: '/colors/granules/green-blend-preview.jpg', desc: 'Forest & olive botanical quartz flake blend' },
+    { id: 'blue-gray-blend', name: 'Blue Gray Blend', image: '/colors/granules/blue-gray-blend.png', preview: '/colors/granules/blue-gray-blend-preview.jpg', desc: 'Steel gray & arctic blue heavy-duty coating' },
   ],
 };
 
@@ -203,7 +203,7 @@ export default function PigmentsFinishesSection() {
             <div className="pigments-banner-col">
               <div className="pigments-banner-card">
                 <img
-                  key={currentPreview.preview || currentPreview.image}
+                  key={currentPreview.id}
                   src={currentPreview.preview || currentPreview.image}
                   alt={`${currentPreview.name} pigment resin texture`}
                   className={`pigments-banner-img dynamic-fade ${activeTab === 'Granual Epoxy' ? 'granule-banner-fit' : ''}`}
