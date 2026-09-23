@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export default function FeaturedCalloutsSection() {
@@ -7,17 +8,17 @@ export default function FeaturedCalloutsSection() {
         {/* Card 1: Resin Table Tops */}
         <div className="callout-card callout-table-tops">
           <img
-            src="/cat-casting.jpg"
-            alt="Resin Table Tops - Live Edge Wood and Epoxy"
-            className="callout-bg-img"
+            src="/table top/1N2A7888.jpg"
+            alt="Handcrafted Live Edge Resin River Table"
+            className="callout-bg-img table-callout-img"
           />
           <div className="callout-overlay" />
           <div className="callout-content">
             <h2 className="callout-title">Resin Table Tops</h2>
             <p className="callout-subtitle">Natural spaces.<br />Extraordinary results.</p>
-            <a href="#table-tops" className="callout-btn-primary">
+            <Link to="/table-tops" className="callout-btn-primary">
               Shop Table Tops <ArrowRight size={15} />
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -32,9 +33,9 @@ export default function FeaturedCalloutsSection() {
           <div className="callout-content">
             <h2 className="callout-title">Workshop Essentials</h2>
             <p className="callout-subtitle">Tools. Pigments. Ideas.<br />Bring it to life.</p>
-            <a href="#workshop" className="callout-btn-secondary">
+            <Link to="/workshop" className="callout-btn-secondary">
               Shop Workshop <ArrowRight size={15} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
