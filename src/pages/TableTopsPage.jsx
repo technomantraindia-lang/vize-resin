@@ -13,54 +13,57 @@ import {
   MessageSquare,
   ShieldCheck,
   ChevronRight,
+  ChevronLeft,
   Info,
-  Download
+  Download,
+  Eye,
+  SlidersHorizontal,
+  Compass
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { ALL_COLORS } from '../data/colors';
 
-// 1. Applications Data (Matches Screenshot 1)
+// 1. Applications Data with Real Table Top Images
 const APPLICATIONS_DATA = [
   {
     id: 'river-tables',
-    title: 'River Tables',
-    desc: 'Bold designs that make a statement.',
-    image: '/vize-table-top/02-river-tables.png',
-    longDesc: 'Dramatic translucent and colored river channels cast between natural live-edge timber slabs.',
+    title: 'Live-Edge River Tables',
+    desc: 'Grand statement dining & executive tables.',
+    image: '/table top/1N2A7888.jpg',
+    longDesc: 'Dramatic translucent azure and turquoise deep-pour river channels cast between organic live-edge timber slabs.',
     recommendedResin: 'Vize SuperCast',
-    pourDepth: 'Up to 100mm per pour'
+    pourDepth: 'Up to 100mm per single pour'
   },
   {
     id: 'dining-coffee',
-    title: 'Dining & Coffee Tables',
-    desc: 'Everyday beauty, made to last.',
-    image: '/vize-table-top/03-dining-coffee-tables.png',
-    longDesc: 'Durable, heat-resistant surfaces combining organic burl timbers with high-gloss epoxy encapsulation.',
+    title: 'Freeform & Round Slab Tables',
+    desc: 'Sculptural burl slabs with pearl & jade resin.',
+    image: '/table top/IMG20230215154153.jpg',
+    longDesc: 'Organic cross-cut tree slabs paired with opalescent jade-pearl resin centers and sapphire vein accents on modern metal bases.',
     recommendedResin: 'Vize Cast',
-    pourDepth: '20mm – 40mm'
+    pourDepth: '20mm – 45mm'
   },
   {
-    id: 'countertops-bars',
-    title: 'Countertops & Bars',
-    desc: 'Durable surfaces for modern living.',
-    image: '/vize-table-top/04-countertops-bars.png',
-    longDesc: 'Seamless, stain-resistant and food-contact safe epoxy coatings for islands, bars, and luxury kitchen tops.',
-    recommendedResin: 'Vize Cast + GlassCoat',
-    pourDepth: 'Self-leveling 2mm – 5mm'
+    id: 'side-c-tables',
+    title: 'C-Tables & Side Accents',
+    desc: 'Modern cantilever ergonomic side pieces.',
+    image: '/table top/1N2A8033.jpg',
+    longDesc: 'Space-efficient C-frame sofa companions featuring luminous emerald green metallic resin streams.',
+    recommendedResin: 'Vize Cast',
+    pourDepth: '15mm – 35mm'
   },
   {
-    id: 'art-object-casting',
-    title: 'Art & Object Casting',
-    desc: 'Turn ideas into one-of-a-kind pieces.',
-    image: '/vize-table-top/05-art-object-casting.png',
-    longDesc: 'Crystal-clear encapsulations, botanical embeds, custom sculptures, and geometric resin blocks.',
-    recommendedResin: 'Vize MaxArt',
-    pourDepth: 'High-clarity precision casting'
+    id: 'boardroom-slabs',
+    title: 'Executive Conference Slabs',
+    desc: 'Large-scale monolithic timber & epoxy works.',
+    image: '/table top/IMG20230303141433.jpg',
+    longDesc: 'Massive live-edge timber slabs cast with high-clarity UV-stable resin for corporate boardrooms and luxury residences.',
+    recommendedResin: 'Vize SuperCast',
+    pourDepth: 'Single pour up to 100mm'
   }
 ];
 
-// 2. Featured Products Data (Matches Screenshot 2)
+// 2. Featured Products Data
 const CASTING_PRODUCTS = [
   {
     id: 'vize-cast',
@@ -94,7 +97,7 @@ const CASTING_PRODUCTS = [
   }
 ];
 
-// 3. The 5-Step Process Data (Matches Screenshot 2)
+// 3. The 5-Step Process Data
 const PROCESS_STEPS = [
   {
     num: '01',
@@ -128,12 +131,12 @@ const PROCESS_STEPS = [
     num: '05',
     title: 'Cure & Finish',
     desc: 'Let it cure, then sand and finish to perfection.',
-    image: '/vize-table-top/13-cure-finish.png',
+    image: '/table top/1N2A8107.jpg',
     details: 'Allow full cure in temperature-controlled room (22-25°C), demold, progressive sand from 80 to 2000 grit, and buff with Vize CutMax & ShineMax.'
   }
 ];
 
-// 4. Finish Swatches Categories & Dedicated Table Swatches (Matches Screenshot 3)
+// 4. Finish Swatches Categories
 const FINISH_CATEGORIES = ['Opaque', 'Metallic', 'Pearl Powder'];
 
 const TABLE_SWATCHES_BY_CAT = {
@@ -163,46 +166,276 @@ const TABLE_SWATCHES_BY_CAT = {
   ]
 };
 
-// 5. Table Inspiration Gallery Data (Matches Screenshot 3)
-const INSPIRATION_GALLERY = [
+// 5. Hero Featured Inspiration (4 Cards)
+const HERO_INSPIRATION = [
   {
-    id: 'inspire-1',
-    title: 'Walnut & Emerald River Table',
-    category: 'River Table',
-    image: '/vize-table-top/20-teal-river-dining-table.png',
+    id: 'inspire-hero-1',
+    title: 'Azure Horizon River Dining Table',
+    category: 'River Dining Table',
+    image: '/table top/1N2A7888.jpg',
     layout: 'large',
-    desc: 'Custom 10-seater black walnut slab with swirling turquoise emerald river channel.'
+    desc: 'Custom 8-seater live-edge teak dining table with vibrant turquoise river channel on matte-black X-base.',
+    timber: 'Live-Edge Natural Teak',
+    dimensions: '8 ft × 3.5 ft × 2 in',
+    resin: 'Vize SuperCast Deep Pour (Azure Sky)'
   },
   {
-    id: 'inspire-2',
-    title: 'Obsidian Nebula Round Table',
-    category: 'Coffee Table',
-    image: '/vize-table-top/21-black-resin-coffee-table.png',
+    id: 'inspire-hero-2',
+    title: 'Freeform Organic Burl Resin Table',
+    category: 'Centerpiece Coffee Table',
+    image: '/table top/IMG20230215154153.jpg',
     layout: 'small-top',
-    desc: 'Deep cosmic obsidian black metallic resin with fine silver swirl patterns.'
+    desc: 'Sculptural organic tree slab featuring an opalescent jade-pearl resin core and bronze spider base.',
+    timber: 'Cross-Cut Live-Edge Burl Slab',
+    dimensions: '42" Diameter × 18" H',
+    resin: 'Vize Cast (Opalescent Jade-Pearl)'
   },
   {
-    id: 'inspire-3',
-    title: 'Calacatta Epoxy Waterfall Island',
-    category: 'Kitchen Countertop',
-    image: '/vize-table-top/22-pearl-white-resin-table.png',
+    id: 'inspire-hero-3',
+    title: 'Smoky Quartz Square Coffee Table',
+    category: 'Square Coffee Table',
+    image: '/table top/1N2A7964.jpg',
     layout: 'small-bottom',
-    desc: 'Zero-seam marbleized white and gold resin waterfall edge countertop.'
+    desc: 'Metallic smoky bronze river stream set in golden hardwood timber.',
+    timber: 'Kiln-Dried Timber Slab',
+    dimensions: '30" × 30" × 16" H',
+    resin: 'Vize Cast (Smoky Bronze)'
   },
   {
-    id: 'inspire-4',
-    title: 'Amber Vein Live-Edge Console',
-    category: 'Console Table',
-    image: '/vize-table-top/23-amber-live-edge-console.png',
+    id: 'inspire-hero-4',
+    title: 'Emerald Stream C-Frame Side Table',
+    category: 'C-Frame Side Table',
+    image: '/table top/1N2A8033.jpg',
     layout: 'tall-right',
-    desc: 'Illuminated warm amber liquid copper river table on blackened steel legs.'
+    desc: 'Ergonomic cantilever couch table featuring brilliant emerald green resin stream.',
+    timber: 'Natural Live-Edge Burl',
+    dimensions: '18" × 12" × 24" H',
+    resin: 'Vize Cast (Emerald Spark)'
+  }
+];
+
+// 6. Complete Table Tops Design Catalog (38 Real Photography Works)
+const GALLERY_CATEGORIES = [
+  'All Designs',
+  'Dining & River Tables',
+  'Coffee & Round Tables',
+  'Side & C-Tables',
+  'Macro Clarity & Edge Details'
+];
+
+const TABLE_DESIGNS_GALLERY = [
+  {
+    id: 'design-ocean-aquatic-hero',
+    title: 'Ocean 3D Aquatic River Table',
+    category: 'Dining & River Tables',
+    image: '/table top/hero.jpg',
+    desc: 'Dynamic oceanic swirl river table featuring white wave froth, vibrant sapphire-azure currents, and handcrafted aquatic inlays.',
+    timber: 'Live-Edge Solid Timber',
+    dimensions: '7.5 ft × 3.5 ft × 2 in',
+    resin: 'Vize SuperCast Deep Pour (Ocean Azure + Wave Effect)'
+  },
+  {
+    id: 'design-azure-dining-1',
+    title: 'Azure Horizon River Dining Table',
+    category: 'Dining & River Tables',
+    image: '/table top/1N2A7888.jpg',
+    desc: 'Grand 8-seater live-edge dining table with brilliant turquoise crystal resin river and matte-black steel X-frame legs.',
+    timber: 'Solid Live-Edge Teak',
+    dimensions: '8 ft × 3.5 ft × 2 in',
+    resin: 'Vize SuperCast Deep Pour (Azure Sky)'
+  },
+  {
+    id: 'design-azure-dining-2',
+    title: 'Azure Horizon Perspective & Flow',
+    category: 'Dining & River Tables',
+    image: '/table top/1N2A7896.jpg',
+    desc: 'Precision live-edge grain contours seamlessly fused with crystal epoxy stream.',
+    timber: 'Selected Kiln-Dried Teak',
+    dimensions: '8 ft × 3.5 ft',
+    resin: 'Vize SuperCast + UV Blocker'
+  },
+  {
+    id: 'design-azure-dining-3',
+    title: 'Teak Live-Edge Timber Interface',
+    category: 'Dining & River Tables',
+    image: '/table top/1N2A7895.jpg',
+    desc: 'End-grain view demonstrating bubble-free wood encapsulation and ultra-deep pour clarity.',
+    timber: 'Natural Teak Slabs',
+    dimensions: '8 ft Dining Table',
+    resin: 'Vize SuperCast Deep Pour'
+  },
+  {
+    id: 'design-freeform-burl-slab',
+    title: 'Freeform Organic Burl Resin Centerpiece Table',
+    category: 'Coffee & Round Tables',
+    image: '/table top/IMG20230215154153.jpg',
+    desc: 'Sculptural cross-cut organic tree slab featuring an opalescent jade-pearl resin core, natural burl inclusions, lightning-blue fracture fills, and custom bronze spider legs.',
+    timber: 'Cross-Cut Live-Edge Burl Slab',
+    dimensions: '42" Diameter × 18" H',
+    resin: 'Vize Cast (Opalescent Jade-Pearl & Sapphire Veins)'
+  },
+  {
+    id: 'design-lilac-round-1',
+    title: 'Lilac Pearl Round Coffee Table',
+    category: 'Coffee & Round Tables',
+    image: '/table top/1N2A7925.jpg',
+    desc: 'Organic circular cross-cut slab infused with pearlescent lavender swirl resin and satin clear coat.',
+    timber: 'Cross-Cut Timber Slab',
+    dimensions: '36" Diameter × 18" H',
+    resin: 'Vize Cast + Lilac Pearl Powder'
+  },
+  {
+    id: 'design-lilac-round-2',
+    title: 'Lilac Pearl Aerial Reflection',
+    category: 'Coffee & Round Tables',
+    image: '/table top/1N2A7942.jpg',
+    desc: 'Top-down aerial view capturing light refraction across the mineral mica swirl.',
+    timber: 'Natural Ring Grain Timber',
+    dimensions: '36" Diameter',
+    resin: 'Vize Cast Standard Pour'
+  },
+  {
+    id: 'design-lilac-round-3',
+    title: 'Lilac Pearl Live-Edge Contour',
+    category: 'Coffee & Round Tables',
+    image: '/table top/1N2A7918.jpg',
+    desc: 'Side elevation highlighting the smooth flush transition between organic timber and epoxy.',
+    timber: 'Cross-Cut Timber',
+    dimensions: '36" Round Table',
+    resin: 'Vize Cast System'
+  },
+  {
+    id: 'design-smoky-square-1',
+    title: 'Smoky Quartz Square Coffee Table',
+    category: 'Coffee & Round Tables',
+    image: '/table top/1N2A7964.jpg',
+    desc: 'Modern square lounge table featuring metallic charcoal bronze river stream and rich golden timber.',
+    timber: 'Hardwood River Slab',
+    dimensions: '30" × 30" × 16" H',
+    resin: 'Vize Cast (Smoky Metallic Bronze)'
+  },
+  {
+    id: 'design-smoky-square-2',
+    title: 'Smoky Bronze Stream Angle',
+    category: 'Coffee & Round Tables',
+    image: '/table top/1N2A7965.jpg',
+    desc: 'Beveled perimeter and smooth ultra-flat epoxy flood coat with fine metallic flakes.',
+    timber: 'Hardwood River Slab',
+    dimensions: '30" × 30"',
+    resin: 'Vize Cast Standard Pour'
+  },
+  {
+    id: 'design-emerald-c-1',
+    title: 'Emerald Stream C-Frame Sofa Table',
+    category: 'Side & C-Tables',
+    image: '/table top/1N2A8033.jpg',
+    desc: 'Sleek ergonomic cantilever C-table designed to slide neatly over couch arms, cast with emerald mica.',
+    timber: 'Live-Edge Burl Wood',
+    dimensions: '18" × 12" × 24" H',
+    resin: 'Vize Cast (Emerald Spark)'
+  },
+  {
+    id: 'design-emerald-c-2',
+    title: 'Emerald C-Table Front Elevation',
+    category: 'Side & C-Tables',
+    image: '/table top/1N2A8039.jpg',
+    desc: 'Curvilinear resin channel flowing naturally along the organic wood grain contours.',
+    timber: 'Live-Edge Burl Wood',
+    dimensions: '18" × 12" × 24" H',
+    resin: 'Vize Cast + Emerald Mica'
+  },
+  {
+    id: 'design-sapphire-end-1',
+    title: 'Sapphire Midnight Square Accent Table',
+    category: 'Side & C-Tables',
+    image: '/table top/1N2A7986.jpg',
+    desc: 'Deep midnight blue translucent resin channel set in rich brown timber on matte-black legs.',
+    timber: 'Solid Hardwood Slab',
+    dimensions: '20" × 20" × 20" H',
+    resin: 'Vize Cast (Midnight Sapphire)'
+  },
+  {
+    id: 'design-sapphire-end-2',
+    title: 'Sapphire Midnight Grain Detail',
+    category: 'Side & C-Tables',
+    image: '/table top/1N2A7987.jpg',
+    desc: 'Seamless bond between timber fibers and high-strength polymer matrix.',
+    timber: 'Solid Hardwood Slab',
+    dimensions: '20" × 20"',
+    resin: 'Vize Cast Epoxy'
+  },
+  {
+    id: 'design-bevel-macro-1',
+    title: '45° Chamfer Bevel & Emerald Clarity',
+    category: 'Macro Clarity & Edge Details',
+    image: '/table top/1N2A8107.jpg',
+    desc: 'Macro lens detail showing zero-bubble optical clarity, hand-buffed 45-degree chamfer edge, and high-gloss polish.',
+    timber: 'Chamfered Live Edge',
+    dimensions: 'Macro Close-Up',
+    resin: 'Vize Cast + CutMax & ShineMax'
+  },
+  {
+    id: 'design-mirror-macro-2',
+    title: 'Mirror Gloss Reflection & Edge Profiling',
+    category: 'Macro Clarity & Edge Details',
+    image: '/table top/1N2A8104.jpg',
+    desc: 'Glass-like surface reflection achieved with progressive wet sanding up to 3000 grit.',
+    timber: 'Sealed End Grain',
+    dimensions: 'Macro Close-Up',
+    resin: 'Vize Cast High-Gloss Topcoat'
+  },
+  {
+    id: 'design-shine-macro-3',
+    title: 'Ultra-Gloss Surface Polish',
+    category: 'Macro Clarity & Edge Details',
+    image: '/table top/1N2A8144.jpg',
+    desc: 'Scratch-resistant, mirror-smooth finish showcasing crystal clear encapsulation.',
+    timber: 'Encapsulated Timber',
+    dimensions: 'Macro Close-Up',
+    resin: 'Vize ShineMax Polishing Compound'
+  },
+  {
+    id: 'design-ocean-slab-1',
+    title: 'Ocean Marine Blue River Slab',
+    category: 'Dining & River Tables',
+    image: '/table top/IMG20230106134803.jpg',
+    desc: 'Daylight workshop showcase of full-length teak slab featuring multi-toned oceanic blue resin.',
+    timber: 'Solid Natural Teak Slab',
+    dimensions: '7 ft × 3 ft × 2.2 in',
+    resin: 'Vize SuperCast (Ocean Marine)'
+  },
+  {
+    id: 'design-boardroom-slab-1',
+    title: 'Monolithic Executive Conference Table',
+    category: 'Dining & River Tables',
+    image: '/table top/IMG20230303141433.jpg',
+    desc: 'Custom 10-foot boardroom centerpiece with massive twin slabs and illuminated turquoise resin core.',
+    timber: 'Grand Heritage Teak Slabs',
+    dimensions: '10 ft × 4 ft × 2.5 in',
+    resin: 'Vize SuperCast Single Deep Pour'
+  },
+  {
+    id: 'design-amber-teal-1',
+    title: 'Golden Timber & Turquoise River Dining Table',
+    category: 'Dining & River Tables',
+    image: '/table top/IMG20230319124730.jpg',
+    desc: 'Golden honey wood tones combined with dynamic turquoise resin river in workshop studio setting.',
+    timber: 'Golden Honey Hardwood',
+    dimensions: '7.5 ft × 3.2 ft',
+    resin: 'Vize SuperCast Deep Pour'
   }
 ];
 
 export default function TableTopsPage() {
   const [activeCategory, setActiveCategory] = useState('Metallic');
   const [selectedSwatch, setSelectedSwatch] = useState(null);
-  const [lightboxImage, setLightboxImage] = useState(null);
+  const [galleryFilter, setGalleryFilter] = useState('All Designs');
+  
+  // Lightbox state
+  const [lightboxItem, setLightboxItem] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Modals state
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [consultSubject, setConsultSubject] = useState('General Table Project Inquiry');
@@ -221,6 +454,32 @@ export default function TableTopsPage() {
 
   // Filter swatches by active category
   const filteredSwatches = TABLE_SWATCHES_BY_CAT[activeCategory] || TABLE_SWATCHES_BY_CAT['Metallic'];
+
+  // Filter table designs gallery
+  const filteredGallery = galleryFilter === 'All Designs'
+    ? TABLE_DESIGNS_GALLERY
+    : TABLE_DESIGNS_GALLERY.filter((item) => item.category === galleryFilter);
+
+  // Open Lightbox by item
+  const openLightbox = (item) => {
+    const idx = TABLE_DESIGNS_GALLERY.findIndex((g) => g.id === item.id || g.image === item.image);
+    setLightboxIndex(idx >= 0 ? idx : 0);
+    setLightboxItem(item);
+  };
+
+  const handleLightboxNext = (e) => {
+    e?.stopPropagation();
+    const nextIdx = (lightboxIndex + 1) % TABLE_DESIGNS_GALLERY.length;
+    setLightboxIndex(nextIdx);
+    setLightboxItem(TABLE_DESIGNS_GALLERY[nextIdx]);
+  };
+
+  const handleLightboxPrev = (e) => {
+    e?.stopPropagation();
+    const prevIdx = (lightboxIndex - 1 + TABLE_DESIGNS_GALLERY.length) % TABLE_DESIGNS_GALLERY.length;
+    setLightboxIndex(prevIdx);
+    setLightboxItem(TABLE_DESIGNS_GALLERY[prevIdx]);
+  };
 
   // Calculate resin requirements
   const calculateResin = () => {
@@ -271,22 +530,23 @@ export default function TableTopsPage() {
 
       <main>
         {/* =================================================================
-            1. HERO SECTION (Matches Screenshot 1 Part 1)
+            1. HERO SECTION (With hero.jpg full background featuring the swimming fish)
            ================================================================= */}
         <section className="tt-hero-section" aria-label="Table Tops Hero">
           <div className="tt-hero-bg-overlay" />
           <div className="tt-hero-container">
             <div className="tt-hero-content">
+              <span className="tt-hero-badge">AUTHENTIC HANDCRAFTED RESIN ARTISTRY</span>
               <h1 className="tt-hero-title">
                 Table tops,<br />
                 <span className="tt-hero-title-italic">cast to last.</span>
               </h1>
               <p className="tt-hero-subtitle">
-                Extraordinary tables start with extraordinary resin. Create timeless
-                surfaces with VIZE.
+                Extraordinary tables start with extraordinary resin. Explore genuine handcrafted
+                river tables, 3D aquatic wave inlays, coffee tables, and bespoke live-edge creations crafted with VIZE.
               </p>
               <div className="tt-hero-actions">
-                <a href="#casting-systems" className="tt-btn-primary">
+                <a href="#designs-gallery" className="tt-btn-primary">
                   Explore Table Resins <ArrowRight size={16} />
                 </a>
                 <button
@@ -299,31 +559,47 @@ export default function TableTopsPage() {
               </div>
             </div>
 
-            {/* Bottom-right aesthetic brand tagline */}
+            {/* Bottom-right aesthetic brand tagline & fish feature pill */}
             <div className="tt-hero-corner-tag">
-              <span className="tt-hero-tag-text">NATURAL MATERIALS</span>
-              <span className="tt-hero-tag-text">EXTRAORDINARY POSSIBILITIES</span>
+              <div 
+                className="tt-hero-fish-pill"
+                onClick={() => openLightbox({
+                  id: 'design-ocean-aquatic-hero',
+                  title: 'Ocean 3D Aquatic River Table with Swimming Fish Inlay',
+                  category: '3D Aquatic River Table',
+                  image: '/table top/hero.jpg',
+                  desc: 'Deep metallic azure epoxy river channel featuring handcrafted swimming fish inlays, realistic white wave foam, and natural live-edge timber encapsulation.',
+                  timber: 'Solid Live-Edge Timber Slab',
+                  dimensions: '7.5 ft × 3.5 ft × 2 in',
+                  resin: 'Vize SuperCast Deep Pour (Ocean Azure + Wave Effect)'
+                })}
+              >
+                <span>🐟 3D Swimming Fish Inlay & Wave Pour</span>
+                <Maximize2 size={13} />
+              </div>
+              <span className="tt-hero-tag-text">NATURAL TIMBER</span>
+              <span className="tt-hero-tag-text">CRYSTAL CLARITY POLYMER</span>
               <div className="tt-hero-tag-line" />
             </div>
           </div>
         </section>
 
         {/* =================================================================
-            2. APPLICATIONS SECTION (Matches Screenshot 1 Part 1)
+            2. APPLICATIONS SECTION (Updated with real table images)
            ================================================================= */}
         <section className="tt-section tt-applications-section" id="applications">
           <div className="tt-container">
             <div className="tt-section-header">
               <div className="tt-header-left">
-                <span className="tt-eyebrow">APPLICATIONS</span>
+                <span className="tt-eyebrow">APPLICATIONS & FORM FACTORS</span>
                 <h2 className="tt-section-title">
                   Made for remarkable <span className="tt-title-italic">surfaces.</span>
                 </h2>
               </div>
               <div className="tt-header-right">
                 <p className="tt-section-desc">
-                  From statement dining tables to functional countertops, VIZE resin
-                  helps you create beautiful, durable surfaces for any space.
+                  From centerpiece 8-seater dining river tables to space-efficient C-tables
+                  and monolithic boardroom slabs, VIZE provides optical clarity and structural resilience.
                 </p>
               </div>
             </div>
@@ -333,7 +609,7 @@ export default function TableTopsPage() {
                 <div
                   key={app.id}
                   className="tt-app-card"
-                  onClick={() => setLightboxImage(app)}
+                  onClick={() => openLightbox(app)}
                 >
                   <div className="tt-app-img-wrapper">
                     <img
@@ -364,7 +640,7 @@ export default function TableTopsPage() {
         </section>
 
         {/* =================================================================
-            3. FEATURED PRODUCTS (Matches Screenshot 2 Part 2)
+            3. FEATURED PRODUCTS
            ================================================================= */}
         <section className="tt-section tt-products-section" id="casting-systems">
           <div className="tt-container">
@@ -375,8 +651,8 @@ export default function TableTopsPage() {
               </div>
               <div className="tt-header-right">
                 <p className="tt-section-desc">
-                  Three purpose-built resin systems for exceptional table tops and
-                  creative projects.
+                  Three purpose-built resin systems engineered for ultra-low exotherm,
+                  zero bubbles, and crystal optical transparency.
                 </p>
               </div>
             </div>
@@ -411,7 +687,7 @@ export default function TableTopsPage() {
         </section>
 
         {/* =================================================================
-            4. THE PROCESS SECTION (Matches Screenshot 2 Part 2)
+            4. THE PROCESS SECTION
            ================================================================= */}
         <section className="tt-process-section" id="process">
           <div className="tt-container">
@@ -419,13 +695,13 @@ export default function TableTopsPage() {
               <div className="tt-header-left">
                 <span className="tt-eyebrow tt-eyebrow-accent">THE PROCESS</span>
                 <h2 className="tt-section-title tt-title-white">
-                  From timber to finished table.
+                  From raw timber to mirror finish.
                 </h2>
               </div>
               <div className="tt-header-right">
                 <p className="tt-section-desc tt-desc-light">
-                  A simple process, extraordinary results. Here's how to bring your
-                  table top to life with VIZE.
+                  A proven, professional woodworking and casting methodology that ensures
+                  bubble-free clarity, perfect adhesion, and lifetime structural integrity.
                 </p>
               </div>
             </div>
@@ -435,7 +711,7 @@ export default function TableTopsPage() {
                 <div
                   key={step.num}
                   className="tt-process-step-card"
-                  onClick={() => setLightboxImage(step)}
+                  onClick={() => openLightbox(step)}
                 >
                   <div className="tt-process-img-box">
                     <img
@@ -461,7 +737,7 @@ export default function TableTopsPage() {
         </section>
 
         {/* =================================================================
-            5. FINISH EXPLORER SECTION (Matches Screenshot 3 Part 3)
+            5. FINISH EXPLORER SECTION
            ================================================================= */}
         <section className="tt-section tt-finishes-section" id="finishes">
           <div className="tt-container">
@@ -548,80 +824,86 @@ export default function TableTopsPage() {
         </section>
 
         {/* =================================================================
-            6. TABLE INSPIRATION SECTION (Matches Screenshot 3 Part 3)
+            6. TABLE TOP DESIGNS & INSPIRATION (SHOWCASING 38 REAL CREATIONS)
            ================================================================= */}
-        <section className="tt-section tt-inspiration-section" id="inspiration">
+        <section className="tt-section tt-inspiration-section" id="designs-gallery">
           <div className="tt-container">
             <div className="tt-section-header">
               <div className="tt-header-left">
-                <span className="tt-eyebrow">OUR WORK</span>
-                <h2 className="tt-section-title">Table inspiration.</h2>
+                <span className="tt-eyebrow">OUR WORK & REAL CREATIONS</span>
+                <h2 className="tt-section-title">Table top designs, <span className="tt-title-italic">crafted with VIZE.</span></h2>
               </div>
               <div className="tt-header-right">
                 <p className="tt-section-desc">
-                  Real projects. Real possibilities. See what makers, designers and
-                  homeowners have created with VIZE.
+                  Real projects. Authentic craftsmanship. Browse genuine dining river tables,
+                  round coffee tables, C-tables, and macro edge bevel details created with our crystal resin.
                 </p>
               </div>
             </div>
 
-            {/* Asymmetrical Gallery Matching Reference Part 3 */}
+            {/* Featured Hero 4-Card Masonry */}
             <div className="tt-inspiration-masonry">
               {/* Left Large Column */}
               <div
                 className="tt-inspire-card tt-inspire-card-large"
-                onClick={() => setLightboxImage(INSPIRATION_GALLERY[0])}
+                onClick={() => openLightbox(HERO_INSPIRATION[0])}
               >
                 <img
-                  src={INSPIRATION_GALLERY[0].image}
-                  alt={INSPIRATION_GALLERY[0].title}
+                  src={HERO_INSPIRATION[0].image}
+                  alt={HERO_INSPIRATION[0].title}
                   className="tt-inspire-img"
                   loading="lazy"
                 />
                 <div className="tt-inspire-info-overlay">
                   <span className="tt-inspire-category">
-                    {INSPIRATION_GALLERY[0].category}
+                    {HERO_INSPIRATION[0].category}
                   </span>
-                  <h3 className="tt-inspire-title">{INSPIRATION_GALLERY[0].title}</h3>
-                  <p className="tt-inspire-desc">{INSPIRATION_GALLERY[0].desc}</p>
+                  <h3 className="tt-inspire-title">{HERO_INSPIRATION[0].title}</h3>
+                  <p className="tt-inspire-desc">{HERO_INSPIRATION[0].desc}</p>
+                  <div className="tt-inspire-meta-pills">
+                    <span>{HERO_INSPIRATION[0].timber}</span>
+                    <span>{HERO_INSPIRATION[0].dimensions}</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Middle 2 Stacked Horizontal Cards */}
+              {/* Middle 2 Stacked Cards */}
               <div className="tt-inspire-col-middle">
                 <div
                   className="tt-inspire-card tt-inspire-card-mid"
-                  onClick={() => setLightboxImage(INSPIRATION_GALLERY[1])}
+                  onClick={() => openLightbox(HERO_INSPIRATION[1])}
                 >
                   <img
-                    src={INSPIRATION_GALLERY[1].image}
-                    alt={INSPIRATION_GALLERY[1].title}
+                    src={HERO_INSPIRATION[1].image}
+                    alt={HERO_INSPIRATION[1].title}
                     className="tt-inspire-img"
                     loading="lazy"
                   />
                   <div className="tt-inspire-info-overlay">
                     <span className="tt-inspire-category">
-                      {INSPIRATION_GALLERY[1].category}
+                      {HERO_INSPIRATION[1].category}
                     </span>
-                    <h4 className="tt-inspire-title">{INSPIRATION_GALLERY[1].title}</h4>
+                    <h4 className="tt-inspire-title">{HERO_INSPIRATION[1].title}</h4>
+                    <p className="tt-inspire-desc">{HERO_INSPIRATION[1].desc}</p>
                   </div>
                 </div>
 
                 <div
                   className="tt-inspire-card tt-inspire-card-mid"
-                  onClick={() => setLightboxImage(INSPIRATION_GALLERY[2])}
+                  onClick={() => openLightbox(HERO_INSPIRATION[2])}
                 >
                   <img
-                    src={INSPIRATION_GALLERY[2].image}
-                    alt={INSPIRATION_GALLERY[2].title}
+                    src={HERO_INSPIRATION[2].image}
+                    alt={HERO_INSPIRATION[2].title}
                     className="tt-inspire-img"
                     loading="lazy"
                   />
                   <div className="tt-inspire-info-overlay">
                     <span className="tt-inspire-category">
-                      {INSPIRATION_GALLERY[2].category}
+                      {HERO_INSPIRATION[2].category}
                     </span>
-                    <h4 className="tt-inspire-title">{INSPIRATION_GALLERY[2].title}</h4>
+                    <h4 className="tt-inspire-title">{HERO_INSPIRATION[2].title}</h4>
+                    <p className="tt-inspire-desc">{HERO_INSPIRATION[2].desc}</p>
                   </div>
                 </div>
               </div>
@@ -629,41 +911,145 @@ export default function TableTopsPage() {
               {/* Right Vertical Tall Column */}
               <div
                 className="tt-inspire-card tt-inspire-card-tall"
-                onClick={() => setLightboxImage(INSPIRATION_GALLERY[3])}
+                onClick={() => openLightbox(HERO_INSPIRATION[3])}
               >
                 <img
-                  src={INSPIRATION_GALLERY[3].image}
-                  alt={INSPIRATION_GALLERY[3].title}
+                  src={HERO_INSPIRATION[3].image}
+                  alt={HERO_INSPIRATION[3].title}
                   className="tt-inspire-img"
                   loading="lazy"
                 />
                 <div className="tt-inspire-info-overlay">
                   <span className="tt-inspire-category">
-                    {INSPIRATION_GALLERY[3].category}
+                    {HERO_INSPIRATION[3].category}
                   </span>
-                  <h3 className="tt-inspire-title">{INSPIRATION_GALLERY[3].title}</h3>
-                  <p className="tt-inspire-desc">{INSPIRATION_GALLERY[3].desc}</p>
+                  <h3 className="tt-inspire-title">{HERO_INSPIRATION[3].title}</h3>
+                  <p className="tt-inspire-desc">{HERO_INSPIRATION[3].desc}</p>
+                  <div className="tt-inspire-meta-pills">
+                    <span>{HERO_INSPIRATION[3].timber}</span>
+                    <span>{HERO_INSPIRATION[3].dimensions}</span>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Complete Design Catalog Filter & Grid */}
+            <div className="tt-gallery-filter-container">
+              <div className="tt-gallery-filter-header">
+                <div>
+                  <span className="tt-filter-sublabel">BROWSE REAL WORKSHOP CREATIONS</span>
+                  <h3 className="tt-filter-heading">Table Top Collection</h3>
+                </div>
+                <div className="tt-gallery-category-pills">
+                  {GALLERY_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      className={`tt-gallery-pill-btn ${galleryFilter === cat ? 'active' : ''}`}
+                      onClick={() => setGalleryFilter(cat)}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Master Designs Grid */}
+              <div className="tt-designs-grid">
+                {filteredGallery.map((design) => (
+                  <div
+                    key={design.id}
+                    className="tt-design-card"
+                    onClick={() => openLightbox(design)}
+                  >
+                    <div className="tt-design-img-box">
+                      <img
+                        src={design.image}
+                        alt={design.title}
+                        className="tt-design-img"
+                        loading="lazy"
+                      />
+                      <div className="tt-design-badge-overlay">
+                        <span className="tt-design-cat-badge">{design.category}</span>
+                      </div>
+                      <div className="tt-design-hover-zoom">
+                        <Maximize2 size={20} />
+                        <span>View Details</span>
+                      </div>
+                    </div>
+
+                    <div className="tt-design-body">
+                      <h4 className="tt-design-title">{design.title}</h4>
+                      <p className="tt-design-desc">{design.desc}</p>
+                      
+                      <div className="tt-design-specs-list">
+                        {design.timber && (
+                          <div className="tt-design-spec-row">
+                            <span className="tt-spec-k">Timber:</span>
+                            <span className="tt-spec-v">{design.timber}</span>
+                          </div>
+                        )}
+                        {design.dimensions && (
+                          <div className="tt-design-spec-row">
+                            <span className="tt-spec-k">Dimensions:</span>
+                            <span className="tt-spec-v">{design.dimensions}</span>
+                          </div>
+                        )}
+                        {design.resin && (
+                          <div className="tt-design-spec-row">
+                            <span className="tt-spec-k">Resin:</span>
+                            <span className="tt-spec-v tt-spec-resin">{design.resin}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="tt-design-footer">
+                        <button
+                          type="button"
+                          className="tt-design-inspect-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openLightbox(design);
+                          }}
+                        >
+                          <Eye size={15} />
+                          <span>Inspect High-Res</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="tt-design-quote-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openConsult(`Quote for Table: ${design.title} (${design.dimensions || ''})`);
+                          }}
+                        >
+                          <span>Enquire</span>
+                          <ArrowRight size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
         {/* =================================================================
-            7. GET IN TOUCH CTA BANNER (Matches Screenshot 3 Part 3)
+            7. GET IN TOUCH CTA BANNER
            ================================================================= */}
         <section className="tt-cta-banner-section" aria-label="Get In Touch">
           <div className="tt-cta-banner-container">
             <div className="tt-cta-content-left">
-              <span className="tt-cta-eyebrow">GET IN TOUCH</span>
+              <span className="tt-cta-eyebrow">CUSTOM TABLE CONSULTATION</span>
               <h2 className="tt-cta-heading">
                 Bring your table idea to life.
               </h2>
             </div>
             <div className="tt-cta-content-right">
               <p className="tt-cta-text">
-                Have a project in mind? Our team is here to help you choose the
-                right resin system and achieve the best results.
+                Have a custom live-edge slab or bespoke dining table project in mind? Our resin
+                engineers will help you select the ideal casting system and pigment formulations.
               </p>
               <div className="tt-cta-btn-group">
                 <button
@@ -678,7 +1064,7 @@ export default function TableTopsPage() {
                   onClick={() => setIsCalculatorOpen(true)}
                   className="tt-cta-btn-details"
                 >
-                  Send Project Details
+                  Calculate Required Resin
                 </button>
               </div>
             </div>
@@ -914,7 +1300,7 @@ export default function TableTopsPage() {
                   <label>Timber Species, Dimensions or Questions</label>
                   <textarea
                     rows={3}
-                    placeholder="e.g. Walnut slab 8ft x 3ft x 2inch, need deep pour teal resin and bubble release guidance..."
+                    placeholder="e.g. 8ft x 3.5ft Live-Edge Teak dining river table with turquoise SuperCast pour..."
                     className="tt-textarea"
                     required
                   />
@@ -988,33 +1374,97 @@ export default function TableTopsPage() {
       )}
 
       {/* =================================================================
-          MODAL 4: IMAGE LIGHTBOX
+          MODAL 4: INTERACTIVE HIGH-RES LIGHTBOX VIEWER
          ================================================================= */}
-      {lightboxImage && (
+      {lightboxItem && (
         <div
           className="tt-modal-backdrop tt-lightbox-backdrop"
-          onClick={() => setLightboxImage(null)}
+          onClick={() => setLightboxItem(null)}
         >
           <div
             className="tt-lightbox-content"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Top Close Button */}
             <button
               type="button"
               className="tt-lightbox-close"
-              onClick={() => setLightboxImage(null)}
-              aria-label="Close"
+              onClick={() => setLightboxItem(null)}
+              aria-label="Close lightbox"
             >
-              <X size={24} />
+              <X size={22} />
             </button>
-            <img
-              src={lightboxImage.image}
-              alt={lightboxImage.title}
-              className="tt-lightbox-img"
-            />
+
+            {/* Navigation Arrows */}
+            <button
+              type="button"
+              className="tt-lightbox-nav tt-lightbox-prev"
+              onClick={handleLightboxPrev}
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={28} />
+            </button>
+
+            <button
+              type="button"
+              className="tt-lightbox-nav tt-lightbox-next"
+              onClick={handleLightboxNext}
+              aria-label="Next image"
+            >
+              <ChevronRight size={28} />
+            </button>
+
+            <div className="tt-lightbox-img-wrapper">
+              <img
+                src={lightboxItem.image}
+                alt={lightboxItem.title}
+                className="tt-lightbox-img"
+              />
+              <span className="tt-lightbox-counter">
+                {lightboxIndex + 1} / {TABLE_DESIGNS_GALLERY.length}
+              </span>
+            </div>
+
             <div className="tt-lightbox-caption">
-              <h4>{lightboxImage.title}</h4>
-              <p>{lightboxImage.desc || lightboxImage.details}</p>
+              <div className="tt-lightbox-caption-top">
+                <span className="tt-lightbox-category">{lightboxItem.category || 'Table Design'}</span>
+                <h4 className="tt-lightbox-heading">{lightboxItem.title}</h4>
+                <p className="tt-lightbox-desc">{lightboxItem.desc || lightboxItem.details}</p>
+              </div>
+
+              <div className="tt-lightbox-meta-grid">
+                {lightboxItem.timber && (
+                  <div className="tt-lightbox-meta-card">
+                    <span className="tt-meta-label">TIMBER SPECIES</span>
+                    <span className="tt-meta-value">{lightboxItem.timber}</span>
+                  </div>
+                )}
+                {lightboxItem.dimensions && (
+                  <div className="tt-lightbox-meta-card">
+                    <span className="tt-meta-label">DIMENSIONS</span>
+                    <span className="tt-meta-value">{lightboxItem.dimensions}</span>
+                  </div>
+                )}
+                {lightboxItem.resin && (
+                  <div className="tt-lightbox-meta-card">
+                    <span className="tt-meta-label">RESIN FORMULATION</span>
+                    <span className="tt-meta-value tt-meta-resin">{lightboxItem.resin}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="tt-lightbox-actions">
+                <button
+                  type="button"
+                  className="tt-btn-primary"
+                  onClick={() => {
+                    setLightboxItem(null);
+                    openConsult(`Inquiry for Table Design: ${lightboxItem.title} (${lightboxItem.dimensions || ''})`);
+                  }}
+                >
+                  Inquire / Custom Quote for this Design <ArrowRight size={16} />
+                </button>
+              </div>
             </div>
           </div>
         </div>

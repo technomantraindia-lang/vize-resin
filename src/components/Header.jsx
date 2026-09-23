@@ -1,12 +1,30 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, ShoppingCart, Menu, X, ArrowRight, Sparkles, ChevronRight, Palette, Layers, Box, Wrench, Briefcase, PhoneCall } from 'lucide-react';
+import {
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+  ArrowRight,
+  Sparkles,
+  ChevronRight,
+  Palette,
+  Layers,
+  Box,
+  Wrench,
+  Briefcase,
+  PhoneCall,
+  User,
+  ShieldCheck
+} from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import SearchModal from './SearchModal';
 
 export default function Header() {
   const { totalItemCount, openDrawer } = useCart();
+  const { user, isLoggedIn, openAccountModal } = useAuth();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -142,9 +160,11 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Right Actions: Divider, Search & Cart + Mobile Menu Toggle */}
+        {/* Right Actions: Divider, Search, Account & Cart + Mobile Menu Toggle */}
         <div className="header-actions">
           <span className="header-divider"></span>
+          
+          {/* Search Button */}
           <button
             type="button"
             className="icon-action-btn vize-header-search-btn"
@@ -154,6 +174,28 @@ export default function Header() {
           >
             <Search size={19} strokeWidth={1.75} />
           </button>
+
+          {/* Account / User Portal Button */}
+          <button
+            type="button"
+            className={`icon-action-btn vize-header-account-btn ${isLoggedIn ? 'is-logged-in' : ''}`}
+            aria-label="Account & Orders"
+            onClick={() => openAccountModal()}
+            title={isLoggedIn ? `Account: ${user.name} (${user.role})` : 'Account / Sign In (Pro & Retail)'}
+          >
+            {isLoggedIn ? (
+              <div className="vize-header-avatar-badge" title={`Signed in as ${user.name}`}>
+                <span className="vize-header-avatar-letter">
+                  {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                </span>
+                <span className="vize-header-avatar-dot" />
+              </div>
+            ) : (
+              <User size={20} strokeWidth={1.75} />
+            )}
+          </button>
+
+          {/* Cart Button */}
           <button
             className="icon-action-btn vize-header-cart-btn"
             aria-label="Shopping Cart"
@@ -228,7 +270,54 @@ export default function Header() {
               </div>
 
               <div className="vize-mobile-drawer-body">
+                {/* Mobile Account Quick Bar */}
+                <div
+                  className="vize-mobile-account-card"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openAccountModal();
+                  }}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div className="vize-mobile-account-left">
+                    <div className="vize-mobile-account-avatar">
+                      {isLoggedIn ? (
+                        <span>{user.name.charAt(0).toUpperCase()}</span>
+                      ) : (
+                        <User size={18} />
+                      )}
+                    </div>
+                    <div className="vize-mobile-account-meta">
+                      <span className="vize-mobile-account-title">
+                        {isLoggedIn ? user.name : 'Account & Pro Login'}
+                      </span>
+                      <span className="vize-mobile-account-subtitle">
+                        {isLoggedIn ? (user.role || 'Pro Verified') : 'Sign in for 15% trade discounts'}
+                      </span>
+                    </div>
+                  </div>
+                  <ChevronRight size={16} className="vize-mobile-account-arrow" />
+                </div>
+
                 <nav className="vize-mobile-nav-list">
+                  <button
+                    type="button"
+                    className="vize-mobile-nav-item vize-mobile-nav-account-link"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      openAccountModal();
+                    }}
+                  >
+                    <div className="vize-mobile-item-left">
+                      <User size={18} className="vize-mobile-icon" />
+                      <span>My Orders & Account</span>
+                    </div>
+                    <span className="vize-mobile-pill-badge accent">
+                      {isLoggedIn ? 'Active' : 'Login'}
+                    </span>
+                  </button>
+
                   <Link
                     to="/resins"
                     className={`vize-mobile-nav-item ${location.pathname === '/resins' ? 'active' : ''}`}

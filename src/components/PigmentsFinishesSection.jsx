@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, Download, FileText, ExternalLink, Sparkles, Check, ChevronRight, X } from 'lucide-react';
 import ralColors from '../data/ralColors.json';
 
-const PIGMENT_TABS = ['Opaque', 'Metallic', 'Pearl Powder', 'RAL Classic Chart (200+)'];
+const PIGMENT_TABS = ['Opaque', 'Metallic', 'Pearl Powder', 'Granual Epoxy', 'RAL Classic Chart (200+)'];
 
 const SWATCHES = {
   Opaque: [
@@ -29,6 +29,16 @@ const SWATCHES = {
     { id: 'sapphire-mist', name: 'Sapphire Mist', image: '/colors/Sapphire Mist.png' },
     { id: 'champagne', name: 'Champagne', image: '/colors/Champagne.png' },
     { id: 'graphite', name: 'Graphite', image: '/colors/Graphite.png' },
+  ],
+  'Granual Epoxy': [
+    { id: 'black-white', name: 'Black & White', image: '/colors/granules/black-white-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'High-contrast monochrome flake broadcast' },
+    { id: 'gray-blend', name: 'Gray Blend', image: '/colors/granules/gray-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Neutral slate & ash multi-tone composite' },
+    { id: 'tan-blend', name: 'Tan Blend', image: '/colors/granules/tan-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Warm earth & desert sand mineral blend' },
+    { id: 'beige-blend', name: 'Beige Blend', image: '/colors/granules/beige-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Cream & almond architectural flake matrix' },
+    { id: 'blue-blend', name: 'Blue Blend', image: '/colors/granules/blue-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Cobalt & sapphire showroom polymer flakes' },
+    { id: 'red-blend', name: 'Red Blend', image: '/colors/granules/red-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Crimson & terracotta accent granules' },
+    { id: 'green-blend', name: 'Green Blend', image: '/colors/granules/green-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Forest & olive botanical quartz flake blend' },
+    { id: 'blue-gray-blend', name: 'Blue Gray Blend', image: '/colors/granules/blue-gray-blend.png', preview: '/colors/granules/granual-epoxy-main.png', desc: 'Steel gray & arctic blue heavy-duty coating' },
   ],
 };
 
@@ -182,7 +192,9 @@ export default function PigmentsFinishesSection() {
               <div className="pigments-category-note">
                 <Sparkles size={16} className="note-sparkle" />
                 <span>
-                  High-dispersion, UV-stabilized pigments engineered for zero settlement in deep castings & metallic flooring screeds.
+                  {activeTab === 'Granual Epoxy'
+                    ? 'Textured • Durable • Decorative multi-blend vinyl polymer flakes and quartz granules broadcast into 100% solids epoxy for slip-resistant, impact-proof floors.'
+                    : 'High-dispersion, UV-stabilized pigments engineered for zero settlement in deep castings & metallic flooring screeds.'}
                 </span>
               </div>
             </div>
@@ -191,20 +203,35 @@ export default function PigmentsFinishesSection() {
             <div className="pigments-banner-col">
               <div className="pigments-banner-card">
                 <img
-                  key={currentPreview.image}
-                  src={currentPreview.image}
+                  key={currentPreview.preview || currentPreview.image}
+                  src={currentPreview.preview || currentPreview.image}
                   alt={`${currentPreview.name} pigment resin texture`}
-                  className="pigments-banner-img dynamic-fade"
+                  className={`pigments-banner-img dynamic-fade ${activeTab === 'Granual Epoxy' ? 'granule-banner-fit' : ''}`}
                 />
                 <div className="pigments-banner-overlay">
                   <div className="pigments-active-name-badge">
-                    <span className="pigments-badge-category">{activeTab}</span>
+                    <span className="pigments-badge-category">
+                      {activeTab === 'Granual Epoxy' ? 'GRANUAL EPOXY SYSTEM' : activeTab}
+                    </span>
                     <span className="pigments-badge-name">{currentPreview.name}</span>
                   </div>
-                  <span className="pigments-banner-caption">
-                    COLOUR CREATES<br />
-                    EMOTION.
-                  </span>
+
+                  {activeTab === 'Granual Epoxy' ? (
+                    <div className="granules-active-blend-badge">
+                      <div className="granule-mini-swatch">
+                        <img src={currentPreview.image} alt={currentPreview.name} />
+                      </div>
+                      <div className="granule-mini-info">
+                        <span className="granule-feature-pill">Textured • Durable • Decorative</span>
+                        <span className="granule-blend-sub">{currentPreview.desc || 'Broadcast Polymer Flake Matrix'}</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <span className="pigments-banner-caption">
+                      COLOUR CREATES<br />
+                      EMOTION.
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

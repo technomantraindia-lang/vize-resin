@@ -46,7 +46,7 @@ export default function ColorsPigmentsPage() {
             </h1>
 
             <p className="colors-hero-lead">
-              From our signature liquid metallics and celestial pearl powders to certified RAL industrial shades,
+              From our signature liquid metallics, celestial pearl powders, and textured Granual Epoxy flake blends to certified RAL industrial shades,
               VIZE precision pigment dispersions deliver flawless saturation and long-term UV permanence.
             </p>
 
@@ -99,7 +99,7 @@ export default function ColorsPigmentsPage() {
               <span className="colors-guide-eyebrow">LABORATORY COMPATIBILITY</span>
               <h2 className="colors-guide-title">Pigment Formulations by System</h2>
               <p className="colors-guide-desc">
-                Our dispersions are tested for optimal rheology and surface tension balance across each polymer base.
+                Our dispersions and decorative aggregates are tested for optimal rheology, cohesion, and surface tension balance across each polymer base.
               </p>
             </div>
 
@@ -138,6 +138,25 @@ export default function ColorsPigmentsPage() {
                 </ul>
                 <Link to="/flooring-systems" className="colors-card-link">
                   <span>Explore Flooring Systems</span>
+                  <ChevronRight size={15} />
+                </Link>
+              </div>
+
+              <div className="colors-guide-card">
+                <div className="colors-card-top">
+                  <span className="colors-card-badge">DECORATIVE &amp; DURABLE</span>
+                  <h3 className="colors-card-title">Granual Epoxy Flake Systems</h3>
+                </div>
+                <p className="colors-card-desc">
+                  Pre-engineered multi-color vinyl flakes and quartz granules broadcast into high-solids epoxy primers and sealed with clear polyaspartic.
+                </p>
+                <ul className="colors-card-list">
+                  <li>✓ Compatible with <strong>Vize FlakeBase &amp; ArmorTop</strong></li>
+                  <li>✓ Textured, slip-resistant &amp; impact-absorbing finish</li>
+                  <li>✓ 8 signature high-contrast &amp; natural mineral blends</li>
+                </ul>
+                <Link to="/flooring-systems" className="colors-card-link">
+                  <span>Explore Granual Flooring</span>
                   <ChevronRight size={15} />
                 </Link>
               </div>

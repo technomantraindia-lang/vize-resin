@@ -1986,6 +1986,62 @@ button {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
+.granules-active-blend-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(9, 26, 32, 0.75);
+  backdrop-filter: blur(14px);
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.granule-mini-swatch {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.granule-mini-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.granule-mini-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: right;
+}
+
+.granule-feature-pill {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffc499;
+  text-transform: uppercase;
+}
+
+.granule-blend-sub {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #d1dbe0;
+}
+
+.granule-banner-fit {
+  object-position: center 38%;
+}
+
 /* Pigments Header & Quick Actions */
 .pigments-title-row {
   display: flex;
@@ -12330,14 +12386,30 @@ button {
   min-height: 580px;
   background-color: #061114;
   background-image: 
-    linear-gradient(90deg, rgba(6, 17, 20, 0.98) 0%, rgba(6, 17, 20, 0.88) 40%, rgba(6, 17, 20, 0.2) 75%, rgba(6, 17, 20, 0.35) 100%),
-    url('/vize-table-top/01-hero-resin-table.png');
+    linear-gradient(90deg, rgba(6, 17, 20, 0.96) 0%, rgba(6, 17, 20, 0.78) 38%, rgba(6, 17, 20, 0.12) 65%, rgba(6, 17, 20, 0) 100%),
+    url('/table top/hero.jpg');
   background-size: cover;
-  background-position: center right;
+  background-position: right 68%;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   overflow: hidden;
+}
+
+.tt-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(143, 216, 205, 0.12);
+  border: 1px solid rgba(143, 216, 205, 0.35);
+  color: #8FD8CD;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+  backdrop-filter: blur(6px);
+  text-transform: uppercase;
 }
 
 .tt-hero-container {
@@ -12377,7 +12449,7 @@ button {
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.85);
   margin-bottom: 2.25rem;
-  max-width: 460px;
+  max-width: 480px;
 }
 
 .tt-hero-actions {
@@ -12401,6 +12473,7 @@ button {
   transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
   box-shadow: 0 4px 14px rgba(163, 88, 60, 0.3);
   cursor: pointer;
+  border: none;
 }
 
 .tt-btn-primary:hover {
@@ -12436,7 +12509,32 @@ button {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.25rem;
+  gap: 0.4rem;
+}
+
+.tt-hero-fish-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(6, 20, 26, 0.75);
+  border: 1px solid rgba(143, 216, 205, 0.4);
+  color: #A6EFE2;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 30px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0.4rem;
+}
+
+.tt-hero-fish-pill:hover {
+  background: rgba(140, 72, 48, 0.9);
+  border-color: #8C4830;
+  color: #FFFFFF;
+  transform: translateY(-2px);
 }
 
 .tt-hero-tag-text {
@@ -12451,7 +12549,7 @@ button {
   width: 90px;
   height: 1px;
   background-color: rgba(255, 255, 255, 0.4);
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }
 
 /* 2. APPLICATIONS SECTION */
@@ -13070,6 +13168,282 @@ button {
   font-size: 0.82rem;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.45;
+  margin-bottom: 0.5rem;
+}
+
+.tt-inspire-meta-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.tt-inspire-meta-pills span {
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+}
+
+/* Complete Design Catalog Filter & Grid */
+.tt-gallery-filter-container {
+  margin-top: 4.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid #E2DCD1;
+}
+
+.tt-gallery-filter-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.tt-filter-sublabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #8C4830;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.tt-filter-heading {
+  font-family: var(--font-sans);
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: #091A20;
+  letter-spacing: -0.02em;
+}
+
+.tt-gallery-category-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background: #EAE4D6;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.tt-gallery-pill-btn {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #4A565C;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tt-gallery-pill-btn:hover {
+  color: #091A20;
+}
+
+.tt-gallery-pill-btn.active {
+  background: #092328;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(9, 35, 40, 0.2);
+}
+
+/* Master Designs Grid (3 columns on desktop) */
+.tt-designs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.tt-design-card {
+  background: #FFFFFF;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #E2DCD1;
+  box-shadow: 0 4px 20px rgba(9, 26, 32, 0.04);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.tt-design-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(9, 26, 32, 0.1);
+  border-color: #C8BFAD;
+}
+
+.tt-design-img-box {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: #0A181C;
+  overflow: hidden;
+}
+
+.tt-design-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tt-design-card:hover .tt-design-img {
+  transform: scale(1.06);
+}
+
+.tt-design-badge-overlay {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 2;
+}
+
+.tt-design-cat-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(9, 26, 32, 0.75);
+  color: #8FD8CD;
+  padding: 0.3rem 0.65rem;
+  border-radius: 4px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(143, 216, 205, 0.25);
+}
+
+.tt-design-hover-zoom {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 26, 32, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #FFFFFF;
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  backdrop-filter: blur(2px);
+}
+
+.tt-design-card:hover .tt-design-hover-zoom {
+  opacity: 1;
+}
+
+.tt-design-body {
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tt-design-title {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #091A20;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+
+.tt-design-desc {
+  font-size: 0.82rem;
+  color: #556166;
+  line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+
+.tt-design-specs-list {
+  background: #F8F5EE;
+  border: 1px solid #EBE4D7;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+}
+
+.tt-design-spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tt-spec-k {
+  color: #727D82;
+  font-weight: 500;
+}
+
+.tt-spec-v {
+  color: #091A20;
+  font-weight: 600;
+  text-align: right;
+}
+
+.tt-spec-resin {
+  color: #8C4830;
+  font-weight: 700;
+}
+
+.tt-design-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #EBE5D8;
+}
+
+.tt-design-inspect-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: transparent;
+  color: #4A565C;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.2rem;
+  transition: color 0.2s ease;
+}
+
+.tt-design-inspect-btn:hover {
+  color: #091A20;
+}
+
+.tt-design-quote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #8C4830;
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tt-design-quote-btn:hover {
+  background-color: #733924;
+  transform: translateY(-1px);
 }
 
 /* 7. GET IN TOUCH CTA BANNER */
@@ -13077,8 +13451,8 @@ button {
   position: relative;
   background-color: #8E4830;
   background-image: 
-    linear-gradient(90deg, rgba(142, 72, 48, 0.96) 0%, rgba(142, 72, 48, 0.88) 45%, rgba(142, 72, 48, 0.35) 75%, rgba(142, 72, 48, 0.15) 100%),
-    url('/vize-table-top/cta-amber-swirl.jpg');
+    linear-gradient(90deg, rgba(142, 72, 48, 0.95) 0%, rgba(142, 72, 48, 0.85) 45%, rgba(142, 72, 48, 0.3) 75%, rgba(142, 72, 48, 0.15) 100%),
+    url('/table top/1N2A8107.jpg');
   background-size: cover;
   background-position: center right;
   color: #FFFFFF;
@@ -13617,64 +13991,184 @@ button {
 
 /* Lightbox Modal */
 .tt-lightbox-backdrop {
-  background: rgba(5, 12, 14, 0.92);
+  background: rgba(5, 12, 14, 0.94);
+  backdrop-filter: blur(10px);
 }
 
 .tt-lightbox-content {
   position: relative;
-  max-width: 900px;
+  max-width: 960px;
   width: 100%;
   background: #091A20;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-  animation: ttSlideUp 0.3s ease;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  animation: ttSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
 }
 
 .tt-lightbox-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.25rem;
+  right: 1.25rem;
   color: #FFFFFF;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 50%;
   padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
-  transition: background 0.2s ease;
+  z-index: 20;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
 }
 
 .tt-lightbox-close:hover {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+}
+
+.tt-lightbox-nav {
+  position: absolute;
+  top: 42%;
+  transform: translateY(-50%);
+  background: rgba(9, 26, 32, 0.7);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.tt-lightbox-nav:hover {
+  background: #8C4830;
+  border-color: #8C4830;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.tt-lightbox-prev {
+  left: 1.25rem;
+}
+
+.tt-lightbox-next {
+  right: 1.25rem;
+}
+
+.tt-lightbox-img-wrapper {
+  position: relative;
+  width: 100%;
+  background: #040D0F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tt-lightbox-img {
   width: 100%;
-  max-height: 65vh;
-  object-fit: cover;
+  max-height: 60vh;
+  object-fit: contain;
   display: block;
 }
 
-.tt-lightbox-caption {
-  padding: 1.5rem 1.75rem;
+.tt-lightbox-counter {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.25rem;
+  background: rgba(0, 0, 0, 0.65);
   color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.tt-lightbox-caption h4 {
-  font-family: var(--font-sans);
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
+.tt-lightbox-caption {
+  padding: 1.75rem 2rem;
+  color: #FFFFFF;
+  background: #091A20;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tt-lightbox-caption-top {
+  margin-bottom: 1.25rem;
+}
+
+.tt-lightbox-category {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8FD8CD;
+  display: block;
   margin-bottom: 0.35rem;
 }
 
-.tt-lightbox-caption p {
+.tt-lightbox-heading {
+  font-family: var(--font-sans);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.45rem;
+}
+
+.tt-lightbox-desc {
   font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.55;
+  max-width: 780px;
+}
+
+.tt-lightbox-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+}
+
+.tt-lightbox-meta-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.tt-meta-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6EB2A6;
+  margin-bottom: 0.2rem;
+}
+
+.tt-meta-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.tt-meta-resin {
+  color: #E6B58F;
+}
+
+.tt-lightbox-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* ==========================================================================
@@ -13685,6 +14179,9 @@ button {
     font-size: 3.8rem;
   }
   .tt-applications-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tt-designs-grid {
     grid-template-columns: repeat(2, 1fr);
   }
   .tt-process-grid {
@@ -13721,6 +14218,11 @@ button {
     gap: 1rem;
     margin-bottom: 2.25rem;
   }
+  .tt-gallery-filter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
   .tt-products-grid {
     grid-template-columns: 1fr;
   }
@@ -13736,11 +14238,17 @@ button {
   .tt-cta-heading {
     font-size: 2.5rem;
   }
+  .tt-lightbox-meta-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
   .tt-section {
     padding: 4rem 0;
+  }
+  .tt-hero-section {
+    background-position: right 72%;
   }
   .tt-hero-title {
     font-size: 2.6rem;
@@ -13749,6 +14257,9 @@ button {
     font-size: 2.2rem;
   }
   .tt-applications-grid {
+    grid-template-columns: 1fr;
+  }
+  .tt-designs-grid {
     grid-template-columns: 1fr;
   }
   .tt-process-grid {
@@ -13765,6 +14276,19 @@ button {
   }
   .tt-calc-inputs-grid, .tt-calc-result-box, .tt-form-row {
     grid-template-columns: 1fr;
+  }
+  .tt-lightbox-nav {
+    width: 36px;
+    height: 36px;
+  }
+  .tt-lightbox-prev {
+    left: 0.5rem;
+  }
+  .tt-lightbox-next {
+    right: 0.5rem;
+  }
+  .tt-lightbox-caption {
+    padding: 1.25rem;
   }
 }
 
@@ -14777,8 +15301,8 @@ button {
 
 .colors-guide-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1.75rem;
 }
 
 .colors-guide-card {
@@ -14967,5 +15491,1374 @@ button {
   }
   .colors-pdf-card {
     padding: 2.5rem 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   VIZE HEADER ACCOUNT BUTTON & AVATAR BADGE
+   ========================================================================== */
+.vize-header-account-btn {
+  position: relative;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  color: #0D2C33;
+}
+
+.vize-header-avatar-badge {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0D2C33 0%, #1A4650 100%);
+  color: #FAF9F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(13, 44, 51, 0.25);
+  border: 1.5px solid #D4A373;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vize-header-account-btn:hover .vize-header-avatar-badge {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(140, 72, 48, 0.35);
+  border-color: #8C4830;
+}
+
+.vize-header-avatar-dot {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #10B981;
+  border: 2px solid #FAF9F5;
+}
+
+/* ==========================================================================
+   MOBILE DRAWER ACCOUNT CARD
+   ========================================================================== */
+.vize-mobile-account-card {
+  margin: 1.25rem 1.25rem 1.5rem;
+  padding: 0.95rem 1.1rem;
+  background: linear-gradient(135deg, rgba(13, 44, 51, 0.04) 0%, rgba(212, 163, 115, 0.1) 100%);
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-mobile-account-card:hover {
+  background: linear-gradient(135deg, rgba(140, 72, 48, 0.08) 0%, rgba(212, 163, 115, 0.18) 100%);
+  border-color: rgba(140, 72, 48, 0.3);
+  transform: translateY(-1px);
+}
+
+.vize-mobile-account-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.vize-mobile-account-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #0D2C33;
+  color: #FAF9F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(13, 44, 51, 0.2);
+}
+
+.vize-mobile-account-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.vize-mobile-account-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-mobile-account-subtitle {
+  font-size: 0.73rem;
+  color: #8C4830;
+  font-weight: 600;
+}
+
+.vize-mobile-account-arrow {
+  color: #0D2C33;
+  opacity: 0.6;
+}
+
+.vize-mobile-nav-account-link {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   ACCOUNT MODAL (PORTAL)
+   ========================================================================== */
+.vize-account-modal-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.vize-account-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 23, 29, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: vizeFadeIn 0.25s ease forwards;
+}
+
+.vize-account-modal-wrapper {
+  position: relative;
+  z-index: 100000;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  background: #FAF9F5;
+  border-radius: 18px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(13, 44, 51, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: vizeModalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes vizeModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.vize-account-modal-header {
+  padding: 1.25rem 1.75rem;
+  background: #0D2C33;
+  color: #FAF9F5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vize-account-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.vize-account-header-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.vize-account-header-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: #D4A373;
+  padding: 0.2rem 0.6rem;
+  background: rgba(212, 163, 115, 0.12);
+  border-radius: 100px;
+  border: 1px solid rgba(212, 163, 115, 0.25);
+}
+
+.vize-account-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FAF9F5;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #D4A373;
+  transform: rotate(90deg);
+}
+
+.vize-account-modal-body {
+  padding: 1.75rem;
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vize-account-alert {
+  margin: 1rem 1.75rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.vize-account-alert.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #065F46;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.vize-account-alert.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #991B1B;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ==========================================================================
+   AUTH TABS & FORM STYLES
+   ========================================================================== */
+.vize-account-tab-pills {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(13, 44, 51, 0.06);
+  padding: 0.35rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.vize-account-pill-btn {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0D2C33;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-pill-btn.active {
+  background: #FAF9F5;
+  color: #8C4830;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.vize-account-pane-heading {
+  margin-bottom: 1.5rem;
+}
+
+.vize-account-pane-heading h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 0.35rem 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+.vize-account-pane-heading p {
+  font-size: 0.86rem;
+  color: #636B69;
+  margin: 0;
+}
+
+.vize-account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.vize-account-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.vize-account-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.vize-account-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0D2C33;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vize-account-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vize-account-link {
+  font-size: 0.78rem;
+  color: #8C4830;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.vize-account-link:hover {
+  text-decoration: underline;
+}
+
+.vize-account-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vize-account-input-icon {
+  position: absolute;
+  left: 0.95rem;
+  color: #8C9694;
+  pointer-events: none;
+}
+
+.vize-account-input-wrap input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.18);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #0D2C33;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.vize-account-input-wrap input:focus {
+  border-color: #8C4830;
+  box-shadow: 0 0 0 3px rgba(140, 72, 48, 0.12);
+}
+
+.vize-account-eye-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #8C9694;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vize-account-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vize-account-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #4A5553;
+  cursor: pointer;
+}
+
+.vize-account-role-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 0.25rem;
+}
+
+.vize-account-role-chip {
+  padding: 0.65rem 0.5rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-role-chip.selected {
+  background: #0D2C33;
+  color: #FAF9F5;
+  border-color: #0D2C33;
+  box-shadow: 0 2px 6px rgba(13, 44, 51, 0.2);
+}
+
+.vize-account-primary-btn {
+  padding: 0.85rem 1.5rem;
+  background: #8C4830;
+  color: #FAF9F5;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 14px rgba(140, 72, 48, 0.25);
+}
+
+.vize-account-primary-btn:hover {
+  background: #733722;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(140, 72, 48, 0.35);
+}
+
+/* 1-Click Demo Profiles */
+.vize-account-quick-demo-section {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed rgba(13, 44, 51, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.vize-account-divider-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #8C9694;
+  text-align: center;
+}
+
+.vize-account-demo-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.vize-account-demo-btn {
+  padding: 0.65rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+}
+
+.vize-account-demo-btn:hover {
+  border-color: #8C4830;
+  background: rgba(140, 72, 48, 0.04);
+  transform: translateX(2px);
+}
+
+.vize-account-demo-btn.pro {
+  border-left: 3px solid #8C4830;
+}
+
+.vize-account-demo-btn.designer {
+  border-left: 3px solid #D4A373;
+}
+
+.vize-account-demo-btn.artisan {
+  border-left: 3px solid #0D2C33;
+}
+
+/* ==========================================================================
+   LOGGED IN DASHBOARD STYLES
+   ========================================================================== */
+.vize-account-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vize-account-banner {
+  background: linear-gradient(135deg, #0D2C33 0%, #173E47 100%);
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  color: #FAF9F5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 18px rgba(13, 44, 51, 0.2);
+}
+
+.vize-account-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.vize-account-avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #8C4830;
+  color: #FAF9F5;
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #D4A373;
+  flex-shrink: 0;
+}
+
+.vize-account-user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.vize-account-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.vize-account-name-row h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FAF9F5;
+}
+
+.vize-account-pro-pill {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #FAF9F5;
+  background: #8C4830;
+  padding: 0.18rem 0.55rem;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vize-account-email-sub {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(250, 249, 245, 0.75);
+}
+
+.vize-account-company-tag {
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  color: #D4A373;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vize-account-logout-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #FAF9F5;
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-logout-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #FCA5A5;
+}
+
+/* Dash Nav Tabs */
+.vize-account-dash-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  border-bottom: 1px solid rgba(13, 44, 51, 0.12);
+  padding-bottom: 0.25rem;
+}
+
+.vize-account-dash-tab {
+  padding: 0.65rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #636B69;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.vize-account-dash-tab:hover {
+  color: #0D2C33;
+}
+
+.vize-account-dash-tab.active {
+  color: #8C4830;
+  border-bottom-color: #8C4830;
+  background: rgba(140, 72, 48, 0.04);
+}
+
+/* Stats Cards */
+.vize-account-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.vize-account-stat-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.vize-account-stat-card .stat-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #8C9694;
+}
+
+.vize-account-stat-card .stat-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-account-stat-card .stat-value.highlight {
+  color: #8C4830;
+  font-size: 0.95rem;
+}
+
+.vize-account-stat-card .stat-sub {
+  font-size: 0.72rem;
+  color: #636B69;
+  line-height: 1.3;
+}
+
+/* Quick link boxes */
+.vize-account-quick-links-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.vize-account-quick-link-item {
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-quick-link-item:hover {
+  border-color: #8C4830;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.vize-account-quick-link-item .link-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(13, 44, 51, 0.08);
+  color: #0D2C33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.vize-account-quick-link-item .link-icon-wrap.pro {
+  background: rgba(140, 72, 48, 0.1);
+  color: #8C4830;
+}
+
+.vize-account-quick-link-item .link-text {
+  flex: 1;
+}
+
+.vize-account-quick-link-item .link-text h5 {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-account-quick-link-item .link-text p {
+  margin: 0;
+  font-size: 0.76rem;
+  color: #636B69;
+}
+
+.vize-account-quick-link-item .chevron {
+  color: #8C9694;
+}
+
+/* Orders List & Cards */
+.vize-account-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vize-account-order-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  border-radius: 10px;
+  padding: 1.15rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vize-account-order-card:hover {
+  border-color: #8C4830;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.order-id {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2C33;
+  display: block;
+}
+
+.order-date {
+  font-size: 0.75rem;
+  color: #8C9694;
+}
+
+.order-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.order-badge.in-transit,
+.order-status-badge.in-transit {
+  background: rgba(14, 165, 233, 0.12);
+  color: #0369A1;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.order-badge.delivered,
+.order-status-badge.delivered {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.order-card-items-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: #FAF9F5;
+  padding: 0.65rem;
+  border-radius: 6px;
+}
+
+.mini-item-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: #4A5553;
+}
+
+.mini-item-preview img {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.order-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(13, 44, 51, 0.1);
+}
+
+.order-total-label {
+  font-size: 0.72rem;
+  color: #8C9694;
+  display: block;
+}
+
+.order-total-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.order-view-btn {
+  background: none;
+  border: none;
+  color: #8C4830;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+/* Order Detail Stepper */
+.vize-account-back-btn {
+  background: none;
+  border: none;
+  color: #8C4830;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.vize-order-detail-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.order-detail-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.order-detail-top .order-number {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0D2C33;
+  display: block;
+}
+
+.order-detail-top .order-date {
+  font-size: 0.78rem;
+  color: #8C9694;
+  margin: 0.2rem 0 0;
+}
+
+.vize-tracking-stepper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  position: relative;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(13, 44, 51, 0.08);
+  border-bottom: 1px solid rgba(13, 44, 51, 0.08);
+}
+
+.tracking-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  position: relative;
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.tracking-step.completed .step-circle {
+  background: #10B981;
+  color: #FFFFFF;
+}
+
+.tracking-step.current .step-circle {
+  background: #0284C7;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.2);
+}
+
+.step-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #636B69;
+}
+
+.tracking-step.completed .step-label,
+.tracking-step.current .step-label {
+  color: #0D2C33;
+}
+
+.order-carrier-info {
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  color: #0369A1;
+}
+
+.order-items-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.order-items-table h5 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem;
+  background: #FAF9F5;
+  border-radius: 8px;
+}
+
+.item-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-info h6 {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.item-variant {
+  font-size: 0.75rem;
+  color: #636B69;
+}
+
+.item-qty {
+  font-size: 0.72rem;
+  color: #8C9694;
+}
+
+.item-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.order-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(13, 44, 51, 0.1);
+}
+
+.total-label {
+  font-size: 0.75rem;
+  color: #8C9694;
+  display: block;
+}
+
+.total-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.vize-account-download-btn {
+  background: #0D2C33;
+  color: #FAF9F5;
+  border: none;
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-download-btn:hover {
+  background: #8C4830;
+}
+
+/* Saved Addresses */
+.vize-account-addresses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.vize-account-address-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  border-radius: 10px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.address-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.address-tag-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #0D2C33;
+  background: rgba(13, 44, 51, 0.08);
+  padding: 0.2rem 0.5rem;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.default-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #047857;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 0.15rem 0.45rem;
+  border-radius: 100px;
+}
+
+.address-name {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0D2C33;
+}
+
+.address-line,
+.address-city,
+.address-phone,
+.address-gstin {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #636B69;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.vize-account-add-address-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.85rem;
+  background: #FFFFFF;
+  border: 1px dashed rgba(13, 44, 51, 0.25);
+  border-radius: 10px;
+  color: #0D2C33;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vize-account-add-address-btn:hover {
+  border-color: #8C4830;
+  color: #8C4830;
+  background: rgba(140, 72, 48, 0.03);
+}
+
+/* Pro Contractor Desk */
+.vize-account-pro-desk-card {
+  background: linear-gradient(135deg, #0D2C33 0%, #153840 100%);
+  color: #FAF9F5;
+  padding: 1.75rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pro-desk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #D4A373;
+}
+
+.vize-account-pro-desk-card h4 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #FAF9F5;
+  font-family: 'Outfit', sans-serif;
+}
+
+.vize-account-pro-desk-card p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: rgba(250, 249, 245, 0.85);
+}
+
+.pro-hotline-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hotline-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hotline-contact-row div {
+  display: flex;
+  flex-direction: column;
+}
+
+.hotline-contact-row strong {
+  font-size: 0.82rem;
+  color: #D4A373;
+}
+
+.hotline-contact-row span {
+  font-size: 0.78rem;
+  color: #FAF9F5;
+}
+
+.vize-account-whatsapp-btn {
+  padding: 0.85rem 1.25rem;
+  background: #25D366;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.vize-account-whatsapp-btn:hover {
+  background: #1EBE5D;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   STANDALONE ACCOUNT PAGE (/account)
+   ========================================================================== */
+.vize-account-page-main {
+  min-height: 80vh;
+  padding: 3rem 1.5rem 5rem;
+  background: #FAF9F5;
+}
+
+.vize-account-page-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.vize-account-page-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.vize-account-page-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #8C4830;
+  text-transform: uppercase;
+}
+
+.vize-account-page-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #0D2C33;
+  margin: 0.5rem 0 0.75rem;
+  font-family: 'Outfit', sans-serif;
+}
+
+.vize-account-page-sub {
+  font-size: 0.95rem;
+  color: #636B69;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.vize-account-page-auth-card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid rgba(13, 44, 51, 0.12);
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.vize-account-page-tabs {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(13, 44, 51, 0.05);
+  padding: 0.35rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.vize-page-tab-btn {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  background: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0D2C33;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.vize-page-tab-btn.active {
+  background: #FFFFFF;
+  color: #8C4830;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.vize-account-page-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.vize-account-orders-section .section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0D2C33;
+  margin: 0 0 1rem 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .vize-account-grid-2,
+  .vize-account-stats-grid,
+  .vize-account-addresses-grid {
+    grid-template-columns: 1fr;
+  }
+  .vize-account-modal-wrapper {
+    max-height: 95vh;
+  }
+  .vize-account-modal-body {
+    padding: 1.25rem;
+  }
+  .vize-tracking-stepper {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 }
