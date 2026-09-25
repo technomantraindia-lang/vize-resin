@@ -56,7 +56,7 @@ button {
 }
 
 .header-container {
-  max-width: 1480px;
+  width: 100%;
   margin: 0 auto;
   padding: 0.95rem 3.5rem;
   display: flex;
@@ -16864,5 +16864,353 @@ button {
   .vize-tracking-stepper {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+  }
+}
+
+/* ==========================================================================
+   ABOUT VIZE POLYMERS SECTION (100% MATCHING SITE THEME)
+   ========================================================================== */
+.about-vize-section {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 4.5rem 3.5rem 4rem;
+}
+
+.about-vize-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.about-vize-eyebrow-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.about-vize-eyebrow-text {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.about-vize-eyebrow-line {
+  width: 36px;
+  height: 1.5px;
+  background-color: var(--color-copper-line);
+}
+
+.about-vize-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.about-vize-nav-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+.about-vize-nav-btn:hover {
+  background-color: var(--color-terracotta);
+  color: #ffffff;
+  border-color: var(--color-terracotta);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(184, 88, 59, 0.25);
+}
+
+.about-vize-counter {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #79878d;
+  letter-spacing: 0.05em;
+  min-width: 45px;
+  text-align: center;
+}
+
+/* Category Navigation Tabs (Same style as Pigments & Resins) */
+.about-vize-tabs {
+  display: flex;
+  gap: 2.25rem;
+  margin-bottom: 2.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+}
+
+.about-vize-tab-btn {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6a787e;
+  position: relative;
+  padding-bottom: 0.65rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  background: none;
+  border: none;
+}
+
+.about-vize-tab-btn:hover {
+  color: var(--color-text-dark);
+}
+
+.about-vize-tab-btn.active {
+  color: var(--color-text-dark);
+  font-weight: 600;
+}
+
+.about-vize-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-text-dark);
+}
+
+/* 2-Column Grid */
+.about-vize-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.about-vize-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-vize-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.2rem, 3.4vw, 3.3rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-dark);
+  margin-bottom: 1rem;
+}
+
+.about-vize-tagline {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #3a484e;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+}
+
+.about-vize-desc {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: #5c6e75;
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
+}
+
+/* Points List */
+.about-vize-points-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.about-vize-point-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.about-vize-point-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(13, 44, 51, 0.08);
+  color: var(--color-teal-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-vize-point-text {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #2c3e44;
+}
+
+/* Footer Row: CTA + Stat Pill */
+.about-vize-footer-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  padding-top: 0.5rem;
+}
+
+.about-vize-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--color-terracotta);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.75rem 1.6rem;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.about-vize-cta-btn:hover {
+  background-color: #8c4830;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(163, 88, 60, 0.3);
+}
+
+.about-vize-stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 1.15rem;
+  background-color: #ffffff;
+  border: 1px solid #dedad0;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.about-vize-stat-number {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-teal-btn);
+  line-height: 1;
+}
+
+.about-vize-stat-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6a787e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Right Visual Column */
+.about-vize-visual-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-vize-banner-card {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #1a1f22;
+  min-height: 420px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.about-vize-banner-img {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-vize-banner-card:hover .about-vize-banner-img {
+  transform: scale(1.03);
+}
+
+.about-vize-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(9, 26, 32, 0.88) 0%, rgba(9, 26, 32, 0.25) 45%, transparent 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.about-vize-badge-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.3rem 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.about-vize-banner-caption {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .about-vize-section {
+    padding: 3.5rem 2rem;
+  }
+  .about-vize-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-vize-section {
+    padding: 3rem 1.25rem;
+  }
+  .about-vize-tabs {
+    gap: 1.25rem;
+  }
+  .about-vize-title {
+    font-size: 1.95rem;
+  }
+  .about-vize-footer-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .about-vize-cta-btn {
+    justify-content: center;
+  }
+  .about-vize-stat-pill {
+    justify-content: center;
   }
 }

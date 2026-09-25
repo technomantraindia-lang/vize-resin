@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection';
 import CategoryBanners from '../components/CategoryBanners';
 import ProcessSection from '../components/ProcessSection';
 import OurResinsSection from '../components/OurResinsSection';
+import AboutUsStorySection from '../components/AboutUsStorySection';
 import VideoGallerySection from '../components/VideoGallerySection';
 import CompleteSystemSection from '../components/CompleteSystemSection';
 import TransformationSection from '../components/TransformationSection';
@@ -21,12 +22,13 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
+        <PigmentsFinishesSection />
         <CategoryBanners />
         <ProcessSection />
         <OurResinsSection />
+        <AboutUsStorySection />
         <VideoGallerySection />
         <CompleteSystemSection />
-        <PigmentsFinishesSection />
         <SpacesSolutionsSection />
         <TransformationSection />
         <WhyChooseVizeSection />

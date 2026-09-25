@@ -46,11 +46,11 @@ export default function ProcessSection() {
             </div>
           </div>
 
-          {/* Middle Column: Pouring Visual Card */}
+          {/* Middle Column / Left Visual Card: Process in Action */}
           <div className="process-visual-card">
             <img
-              src="/process-pour.jpg"
-              alt="Liquid resin being poured"
+              src="/processes.JPG"
+              alt="Live resin crafting and workshop process"
               className="process-visual-img"
               loading="lazy"
             />
