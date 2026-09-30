@@ -42,6 +42,14 @@ const APPLICATION_FILTERS = [
 
 // Rich technical specs for the hover-extension drawer
 const MATERIAL_SPECS = {
+  'vize-primex': {
+    chemistry: '100% Pure Epoxy Primer & Substrate Sealer',
+    cure: '6–8 hrs tack-free',
+    potLife: '35 mins @ 25°C',
+    coverage: '~250 sq.ft / 5kg kit',
+    grade: 'Industrial Substrate Prep',
+    features: ['Penetrates porous concrete pores', 'Eliminates pinhole outgassing', 'Extreme mechanical interlock bond']
+  },
   'vize-prime': {
     chemistry: '100% Pure Epoxy Primer & Substrate Sealer',
     cure: '6–8 hrs tack-free',
@@ -49,6 +57,14 @@ const MATERIAL_SPECS = {
     coverage: '~250 sq.ft / 5kg kit',
     grade: 'Industrial Substrate Prep',
     features: ['Penetrates porous concrete pores', 'Eliminates pinhole outgassing', 'Extreme mechanical interlock bond']
+  },
+  'vize-screed-max': {
+    chemistry: '3-Part High-Load Epoxy Levelling Screed',
+    cure: '12–16 hrs full cure',
+    potLife: '40 mins mortar mix',
+    coverage: '50 sq.ft @ 3mm depth',
+    grade: 'Heavy Industrial Mortar',
+    features: ['Withstands heavy forklift loads', 'Repairs deep concrete spalls', 'Zero-shrinkage monolithic cure']
   },
   'vize-polyscreed': {
     chemistry: '3-Part High-Load Epoxy Levelling Screed',
@@ -58,6 +74,14 @@ const MATERIAL_SPECS = {
     grade: 'Heavy Industrial Mortar',
     features: ['Withstands heavy forklift loads', 'Repairs deep concrete spalls', 'Zero-shrinkage monolithic cure']
   },
+  'vize-rockhard': {
+    chemistry: 'UV-Aliphatic Stone Carpet Matrix',
+    cure: '12–18 hrs foot traffic',
+    potLife: '30 mins open time',
+    coverage: 'Binds 75kg stone / 5kg',
+    grade: 'Exterior & Interior Paving',
+    features: ['100% UV-stable non-yellowing', 'Permeable water drainage matrix', 'Firmly encapsulates natural pebbles']
+  },
   'vize-rock-hard': {
     chemistry: 'UV-Aliphatic Stone Carpet Matrix',
     cure: '12–18 hrs foot traffic',
@@ -65,6 +89,14 @@ const MATERIAL_SPECS = {
     coverage: 'Binds 75kg stone / 5kg',
     grade: 'Exterior & Interior Paving',
     features: ['100% UV-stable non-yellowing', 'Permeable water drainage matrix', 'Firmly encapsulates natural pebbles']
+  },
+  'vize-epowrap': {
+    chemistry: 'High-Gloss 3D Self-Leveling Metallic Epoxy',
+    cure: '8–12 hrs walk-on',
+    potLife: '45 mins vein styling',
+    coverage: '~150 sq.ft / 15kg pack',
+    grade: 'Luxury Retail & Showrooms',
+    features: ['Mirror glass reflective gloss', 'Deep iridescent fluid veins', 'Seamless hygienic designer floor']
   },
   'vize-marble-metallics': {
     chemistry: 'High-Gloss 3D Self-Leveling Metallic Epoxy',
@@ -74,6 +106,14 @@ const MATERIAL_SPECS = {
     grade: 'Luxury Retail & Showrooms',
     features: ['Mirror glass reflective gloss', 'Deep iridescent fluid veins', 'Seamless hygienic designer floor']
   },
+  'vize-epowrap-pro': {
+    chemistry: 'Extended Pot-Life Designer Metallic Epoxy',
+    cure: '18–24 hrs slow cure',
+    potLife: '60+ mins extended open time',
+    coverage: '~150 sq.ft / 15kg pack',
+    grade: 'Artisan Floor Masters',
+    features: ['Ample time for complex veins', 'Zero premature gelling during pour', 'Ultra-deep color cell dispersion']
+  },
   'vize-marble-slowpro': {
     chemistry: 'Extended Pot-Life Designer Metallic Epoxy',
     cure: '18–24 hrs slow cure',
@@ -81,6 +121,22 @@ const MATERIAL_SPECS = {
     coverage: '~150 sq.ft / 15kg pack',
     grade: 'Artisan Floor Masters',
     features: ['Ample time for complex veins', 'Zero premature gelling during pour', 'Ultra-deep color cell dispersion']
+  },
+  'vize-epowrap-max': {
+    chemistry: '3:1 Super Clearcoat Epoxy Resin System',
+    cure: '16–24 hrs full cure',
+    potLife: '45 mins pot life',
+    coverage: '~120 sq.ft / 4kg unit',
+    grade: 'Crystal Clear High-Gloss Topcoat',
+    features: ['3:1 clear formula for topcoats', 'Blush-free self-leveling finish', 'UV-resistant protective matrix']
+  },
+  'vize-aspartic-max': {
+    chemistry: 'Ultra-Fast 2-Part Aliphatic Polyaspartic',
+    cure: '2–4 hrs rapid handover',
+    potLife: '20 mins fast set',
+    coverage: '~350 sq.ft / 5kg kit',
+    grade: 'Commercial Exterior Topcoat',
+    features: ['4-Hour rapid return to service', '100% UV & weather proof', 'Superior hot-tire pickup resistance']
   },
   'vize-polyaspartic': {
     chemistry: 'Ultra-Fast 2-Part Aliphatic Polyaspartic',
@@ -90,13 +146,29 @@ const MATERIAL_SPECS = {
     grade: 'Commercial Exterior Topcoat',
     features: ['4-Hour rapid return to service', '100% UV & weather proof', 'Superior hot-tire pickup resistance']
   },
-  'vize-glasscoat': {
-    chemistry: '1K High-Hardness Polyurethane Topcoat',
+  'vize-urethane-max': {
+    chemistry: 'Super Clear High-Hardness Urethane Coating',
     cure: '6–8 hrs tack-free',
-    potLife: 'Single-component ready',
+    potLife: 'Two-component ready',
     coverage: '~380 sq.ft / 4kg can',
     grade: 'Scratch & Chemical Shield',
-    features: ['Zero ratio mixing errors', 'Micro-scratch self healing', 'Resistant to harsh acids and oils']
+    features: ['Metallic sheen enhancement', 'Micro-scratch self healing', 'Resistant to harsh acids and oils']
+  },
+  'vize-glasscoat': {
+    chemistry: 'Super Clear High-Hardness Urethane Coating',
+    cure: '6–8 hrs tack-free',
+    potLife: 'Two-component ready',
+    coverage: '~380 sq.ft / 4kg can',
+    grade: 'Scratch & Chemical Shield',
+    features: ['Metallic sheen enhancement', 'Micro-scratch self healing', 'Resistant to harsh acids and oils']
+  },
+  'vize-cast-max': {
+    chemistry: 'Water-Clear Deep Casting Epoxy (50–100mm)',
+    cure: '24–36 hrs demold',
+    potLife: '90 mins low exotherm',
+    coverage: 'Up to 100mm pour depth',
+    grade: 'River Tables & Live Edge Wood',
+    features: ['Self-degassing bubble release', 'Low thermal heat build-up', 'Diamond crystal transparency']
   },
   'vize-cast': {
     chemistry: 'Water-Clear Deep Casting Epoxy (50mm)',
@@ -114,6 +186,14 @@ const MATERIAL_SPECS = {
     grade: 'Heavy Timber Architecture',
     features: ['Ultra-low thermal heat buildup', 'No warping or shrink tension', 'Museum preservation clarity']
   },
+  'vize-art-max': {
+    chemistry: 'High-Gloss Self-Doming Art Epoxy',
+    cure: '12–16 hrs cured',
+    potLife: '45 mins pattern work',
+    coverage: '~30 sq.ft / 3kg kit',
+    grade: 'Resin Art & Coasters',
+    features: ['High dome surface tension', 'Vibrant metallic pigment hold', 'HNA UV inhibitors against yellowing']
+  },
   'vize-maxart': {
     chemistry: 'High-Viscosity Art & Craft Epoxy',
     cure: '12–16 hrs cured',
@@ -121,6 +201,14 @@ const MATERIAL_SPECS = {
     coverage: '~25 sq.ft / 1.5kg kit',
     grade: 'Resin Art & Coasters',
     features: ['High dome surface tension', 'Vibrant metallic pigment hold', 'HNA UV inhibitors against yellowing']
+  },
+  'vize-nano': {
+    chemistry: 'Hydrophobic Nano Silicon Finishing Compound',
+    cure: 'Instant buffing & seal',
+    potLife: 'Water-based nano emulsion',
+    coverage: 'Treats up to 600 sq.ft',
+    grade: 'Surface Restorer & Sealant',
+    features: ['Rapidly removes fine scratches', 'Hydrophobic repellent seal', 'Deep optical mirror gloss']
   },
   'vize-cutmax': {
     chemistry: 'Step 1 Heavy Fast-Cut Nano Compound',

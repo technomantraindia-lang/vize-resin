@@ -22,10 +22,10 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
+        <OurResinsSection />
         <PigmentsFinishesSection />
         <CategoryBanners />
         <ProcessSection />
-        <OurResinsSection />
         <AboutUsStorySection />
         <VideoGallerySection />
         <CompleteSystemSection />

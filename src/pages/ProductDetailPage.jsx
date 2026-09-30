@@ -29,14 +29,24 @@ export default function ProductDetailPage() {
   // 1. Resolve active product based on ID or fallback route
   const product = useMemo(() => {
     if (id) {
-      const found = productsData.find((p) => p.id === id);
+      const cleanId = id.toLowerCase();
+      const found = productsData.find(
+        (p) => p.id.toLowerCase() === cleanId || p.aliases?.some((a) => a.toLowerCase() === cleanId)
+      );
       if (found) return found;
     }
     const path = location.pathname.toLowerCase();
-    if (path.includes('casting')) return productsData.find((p) => p.id === 'cast-max') || productsData[0];
-    if (path.includes('coating')) return productsData.find((p) => p.id === 'aspartic-max') || productsData[0];
-    if (path.includes('primer')) return productsData.find((p) => p.id === 'primex') || productsData[0];
-    if (path.includes('art')) return productsData.find((p) => p.id === 'art-max') || productsData[0];
+    if (path.includes('casting') || path.includes('cast')) return productsData.find((p) => p.id.includes('cast')) || productsData[0];
+    if (path.includes('aspartic')) return productsData.find((p) => p.id.includes('aspartic')) || productsData[0];
+    if (path.includes('urethane')) return productsData.find((p) => p.id.includes('urethane')) || productsData[0];
+    if (path.includes('primer') || path.includes('prime')) return productsData.find((p) => p.id.includes('prime')) || productsData[0];
+    if (path.includes('screed')) return productsData.find((p) => p.id.includes('screed')) || productsData[0];
+    if (path.includes('rockhard')) return productsData.find((p) => p.id.includes('rockhard')) || productsData[0];
+    if (path.includes('epowrap-pro')) return productsData.find((p) => p.id === 'vize-epowrap-pro') || productsData[0];
+    if (path.includes('epowrap-max')) return productsData.find((p) => p.id === 'vize-epowrap-max') || productsData[0];
+    if (path.includes('epowrap')) return productsData.find((p) => p.id === 'vize-epowrap') || productsData[0];
+    if (path.includes('nano')) return productsData.find((p) => p.id.includes('nano')) || productsData[0];
+    if (path.includes('art')) return productsData.find((p) => p.id.includes('art')) || productsData[0];
     return productsData[0];
   }, [id, location.pathname]);
 
@@ -63,7 +73,7 @@ export default function ProductDetailPage() {
   const [cartSuccessMessage, setCartSuccessMessage] = useState('');
 
   // Reviews state
-  const [reviewsList, setReviewsList] = useState(product.reviews || []);
+  const [reviewsList, setReviewsList] = useState(product?.reviews || []);
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewAuthor, setReviewAuthor] = useState('');
   const [reviewComment, setReviewComment] = useState('');
@@ -73,7 +83,7 @@ export default function ProductDetailPage() {
   useEffect(() => {
     if (product) {
       setSelectedImageIndex(0);
-      setSelectedSizeId(product.sizes?.[1]?.id || product.sizes?.[0]?.id || '');
+      setSelectedSizeId(product.sizes?.[0]?.id || '');
       setSelectedColorId(product.samples?.[0]?.id || 'petrol-teal');
       setQuantity(1);
       setActiveTab('details');
@@ -181,7 +191,7 @@ export default function ProductDetailPage() {
 
   // Other products for "More products" row (excluding current)
   const moreProducts = useMemo(() => {
-    return productsData.filter((p) => p.id !== product.id).slice(0, 3);
+    return productsData.filter((p) => p.id !== product.id);
   }, [product]);
 
   return (
@@ -246,6 +256,13 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
+              {/* 50 Sq.Ft Kit Visual Badge */}
+              {!activeDisplay.isColorFinish && (
+                <div className="vize-pdp-kit-coverage-pill">
+                  <span>📐 50 Sq.Ft Package</span>
+                </div>
+              )}
+
               <div className="vize-pdp-zoom-hint" title="Zoom in">
                 <ZoomIn size={18} />
               </div>
@@ -301,6 +318,18 @@ export default function ProductDetailPage() {
               <span className="vize-pdp-amount">
                 {selectedSize ? selectedSize.price.toLocaleString('en-IN') : '—'}
               </span>
+              <span className="vize-pdp-price-unit-tag">/ 50 Sq.Ft Fixed Kit</span>
+            </div>
+
+            {/* Simple Fixed Kit Coverage Note */}
+            <div className="vize-simple-coverage-card">
+              <div className="vize-simple-coverage-badge">
+                <span className="vize-badge-dot"></span>
+                <span>Fixed Standard Kit • <strong>50 Sq.Ft Coverage</strong></span>
+              </div>
+              <p className="vize-simple-coverage-desc">
+                Pre-measured kit includes Part A Base + Part B Hardener pouches and application mixing bucket, engineered for complete 50 square feet coverage.
+              </p>
             </div>
 
             {/* Color / Metallic Shade Selector Block with Big Hover Dropdown */}
@@ -446,7 +475,6 @@ export default function ProductDetailPage() {
                   value={selectedSizeId}
                   onChange={(e) => setSelectedSizeId(e.target.value)}
                 >
-                  <option value="">Choose an option</option>
                   {product.sizes?.map((size) => (
                     <option key={size.id} value={size.id}>
                       {size.label} ({product.currency} {size.price.toLocaleString('en-IN')})
@@ -455,6 +483,12 @@ export default function ProductDetailPage() {
                 </select>
                 <ChevronDown size={17} className="vize-pdp-select-chevron" />
               </div>
+              {selectedSize?.coverageDesc && (
+                <div className="vize-pdp-size-coverage-note">
+                  <CheckCircle2 size={13} className="vize-check-icon-teal" />
+                  <span>Coverage: <strong>{selectedSize.coverageDesc}</strong></span>
+                </div>
+              )}
             </div>
 
             {/* Quantity Stepper + Add To Cart Button */}
@@ -571,6 +605,36 @@ export default function ProductDetailPage() {
                   About this <em>product.</em>
                 </h2>
                 <p className="vize-about-text">{product.aboutText}</p>
+
+                {/* Package & Coverage Technical Specs Breakdown */}
+                <div className="vize-tech-specs-card">
+                  <div className="vize-tech-specs-header">
+                    <span className="vize-specs-badge-icon">📐</span>
+                    <h3 className="vize-tech-specs-title">Package & Area Coverage Specifications</h3>
+                  </div>
+                  <div className="vize-tech-specs-grid">
+                    <div className="vize-spec-cell">
+                      <span className="vize-spec-label">Standard Kit Coverage</span>
+                      <strong className="vize-spec-val highlight-tea">50 Sq.Ft (Square Feet)</strong>
+                      <span className="vize-spec-sub">Pre-measured complete coverage</span>
+                    </div>
+                    <div className="vize-spec-cell">
+                      <span className="vize-spec-label">Package Configuration</span>
+                      <strong className="vize-spec-val">Part A + Part B + Application Bucket</strong>
+                      <span className="vize-spec-sub">Pre-proportioned two-component unit</span>
+                    </div>
+                    <div className="vize-spec-cell">
+                      <span className="vize-spec-label">Spread Rate</span>
+                      <strong className="vize-spec-val">1 Package = 50 Sq.Ft</strong>
+                      <span className="vize-spec-sub">Covers 50 sq.ft at recommended thickness</span>
+                    </div>
+                    <div className="vize-spec-cell">
+                      <span className="vize-spec-label">Substrate Compatibility</span>
+                      <strong className="vize-spec-val">Concrete, Screed, Marble, Wood</strong>
+                      <span className="vize-spec-sub">Seamless monolithic bonding</span>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Safety & Handling Precautions */}
                 <div className="vize-safety-precautions-card">
@@ -784,16 +848,19 @@ export default function ProductDetailPage() {
           
           {/* Section Header */}
           <div className="vize-more-header">
-            <h2 className="vize-more-title">
-              More <em>products.</em>
-            </h2>
+            <div>
+              <h2 className="vize-more-title">
+                Explore all <em>formulations.</em>
+              </h2>
+              <p className="vize-more-subline">Browse our full range of 11 commercial-grade resin systems and compounds</p>
+            </div>
             <Link to="/resins" className="vize-view-all-link">
-              <span>View all resins</span>
+              <span>View full catalog</span>
               <ArrowUpRight size={15} />
             </Link>
           </div>
 
-          {/* 3 Compact Product Cards */}
+          {/* All Product Cards Grid */}
           <div className="vize-more-cards-grid">
             {moreProducts.map((item) => (
               <div key={item.id} className="vize-compact-product-card">
@@ -806,7 +873,9 @@ export default function ProductDetailPage() {
                   />
                 </div>
                 <div className="vize-compact-info">
+                  <span className="vize-compact-cat">{item.category}</span>
                   <h3 className="vize-compact-name">{item.name}</h3>
+                  <span className="vize-compact-price">From {item.currency}{item.basePrice?.toLocaleString('en-IN')}</span>
                   <Link to={`/product/${item.id}`} className="vize-compact-link">
                     <span>View product</span>
                     <ArrowUpRight size={13} />
