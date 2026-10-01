@@ -13,7 +13,11 @@ import {
   Check,
   Search,
   Sparkles,
-  ShieldAlert
+  ShieldAlert,
+  Clock,
+  Droplets,
+  Layers,
+  ShieldCheck
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -300,35 +304,40 @@ export default function ProductDetailPage() {
           {/* Right Column: Purchase Details */}
           <div className="vize-pdp-details-col">
             
-            {/* Category Tag */}
-            <span className="vize-pdp-category-tag">{product.category}</span>
+            {/* Badges Row */}
+            <div className="vize-pdp-badge-row">
+              <span className="vize-pdp-category-tag">{product.category}</span>
+              {product.grade && <span className="vize-pdp-grade-badge">{product.grade}</span>}
+            </div>
 
-            {/* Heading: Product Name with Italic Suffix */}
+            {/* Heading: Product Name */}
             <h1 className="vize-pdp-title">
               {product.brand || product.name}{' '}
               {product.suffix && <em className="vize-pdp-title-italic">{product.suffix}</em>}
             </h1>
 
-            {/* Tagline / Short Description */}
-            <p className="vize-pdp-tagline">{product.tagline}</p>
+            {/* Tagline / Subtitle */}
+            <p className="vize-pdp-tagline">{product.tagline || product.chemistry}</p>
 
             {/* Price Row */}
             <div className="vize-pdp-price-row">
               <span className="vize-pdp-currency">{product.currency}</span>
               <span className="vize-pdp-amount">
-                {selectedSize ? selectedSize.price.toLocaleString('en-IN') : '—'}
+                {selectedSize ? selectedSize.price.toLocaleString('en-IN') : (product.basePrice ? product.basePrice.toLocaleString('en-IN') : '—')}
               </span>
-              <span className="vize-pdp-price-unit-tag">/ 50 Sq.Ft Fixed Kit</span>
+              <span className="vize-pdp-price-unit-tag">
+                / {selectedSize?.coverageDesc || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft Fixed Kit` : '50 Sq.Ft Fixed Kit')}
+              </span>
             </div>
 
             {/* Simple Fixed Kit Coverage Note */}
             <div className="vize-simple-coverage-card">
               <div className="vize-simple-coverage-badge">
                 <span className="vize-badge-dot"></span>
-                <span>Fixed Standard Kit • <strong>50 Sq.Ft Coverage</strong></span>
+                <span>Fixed Standard Kit • <strong>{product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft Coverage` : '50 Sq.Ft Coverage')}</strong></span>
               </div>
               <p className="vize-simple-coverage-desc">
-                Pre-measured kit includes Part A Base + Part B Hardener pouches and application mixing bucket, engineered for complete 50 square feet coverage.
+                Pre-measured kit includes Part A Base + Part B Hardener pouches and application mixing bucket, engineered for complete {product.sqftCoverage || 50} square feet coverage.
               </p>
             </div>
 
@@ -610,23 +619,33 @@ export default function ProductDetailPage() {
                 <div className="vize-tech-specs-card">
                   <div className="vize-tech-specs-header">
                     <span className="vize-specs-badge-icon">📐</span>
-                    <h3 className="vize-tech-specs-title">Package & Area Coverage Specifications</h3>
+                    <h3 className="vize-tech-specs-title">Package & Material Specifications</h3>
                   </div>
                   <div className="vize-tech-specs-grid">
                     <div className="vize-spec-cell">
                       <span className="vize-spec-label">Standard Kit Coverage</span>
-                      <strong className="vize-spec-val highlight-tea">50 Sq.Ft (Square Feet)</strong>
+                      <strong className="vize-spec-val highlight-tea">{product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft (Square Feet)` : '50 Sq.Ft')}</strong>
                       <span className="vize-spec-sub">Pre-measured complete coverage</span>
                     </div>
                     <div className="vize-spec-cell">
-                      <span className="vize-spec-label">Package Configuration</span>
-                      <strong className="vize-spec-val">Part A + Part B + Application Bucket</strong>
-                      <span className="vize-spec-sub">Pre-proportioned two-component unit</span>
+                      <span className="vize-spec-label">Cure Time</span>
+                      <strong className="vize-spec-val">{product.cureTime || '6–8 hrs tack-free'}</strong>
+                      <span className="vize-spec-sub">Recommended cure window</span>
                     </div>
                     <div className="vize-spec-cell">
-                      <span className="vize-spec-label">Spread Rate</span>
-                      <strong className="vize-spec-val">1 Package = 50 Sq.Ft</strong>
-                      <span className="vize-spec-sub">Covers 50 sq.ft at recommended thickness</span>
+                      <span className="vize-spec-label">Pot Life / Working Time</span>
+                      <strong className="vize-spec-val">{product.potLife || '30 mins work time'}</strong>
+                      <span className="vize-spec-sub">Open handling time</span>
+                    </div>
+                    <div className="vize-spec-cell">
+                      <span className="vize-spec-label">Material Grade</span>
+                      <strong className="vize-spec-val">{product.grade || product.category}</strong>
+                      <span className="vize-spec-sub">Performance classification</span>
+                    </div>
+                    <div className="vize-spec-cell">
+                      <span className="vize-spec-label">Chemistry Formulation</span>
+                      <strong className="vize-spec-val">{product.chemistry || product.tagline}</strong>
+                      <span className="vize-spec-sub">Polymer matrix</span>
                     </div>
                     <div className="vize-spec-cell">
                       <span className="vize-spec-label">Substrate Compatibility</span>
@@ -635,6 +654,21 @@ export default function ProductDetailPage() {
                     </div>
                   </div>
                 </div>
+
+                {/* Key Advantages Highlights */}
+                {product.features && product.features.length > 0 && (
+                  <div className="vize-pdp-advantages-card">
+                    <h3 className="vize-pdp-advantages-title">Key Advantages & Features</h3>
+                    <ul className="vize-pdp-advantages-list">
+                      {product.features.map((feature, fi) => (
+                        <li key={fi}>
+                          <Check size={14} className="vize-benefit-check" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 {/* Safety & Handling Precautions */}
                 <div className="vize-safety-precautions-card">

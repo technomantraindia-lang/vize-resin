@@ -28,8 +28,6 @@ const REELS = [
     handle: '@vizeresin',
     url: 'https://www.instagram.com/reel/DcGpYzNSQvu/?igsi=NHd0ZTh0ZmFmanBn',
     embedUrl: 'https://www.instagram.com/reel/DcGpYzNSQvu/embed/',
-    thumb: '/reel-1-thumb.jpg',
-    duration: '0:45',
     badge: 'Trending Pour',
   },
   {
@@ -40,8 +38,6 @@ const REELS = [
     handle: '@vizeresin',
     url: 'https://www.instagram.com/reel/DaSM54WxHEp/?igsi=MTRoMHFpMmZ4czA2Ng==',
     embedUrl: 'https://www.instagram.com/reel/DaSM54WxHEp/embed/',
-    thumb: '/reel-2-thumb.jpg',
-    duration: '0:58',
     badge: 'Masterclass',
   },
   {
@@ -51,9 +47,7 @@ const REELS = [
     platform: 'Facebook',
     handle: 'Vize Resins Pro',
     url: 'https://www.facebook.com/share/r/1CKSp9sd4G/?mibextid=wwXIfr',
-    embedUrl: 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fr%2F1CKSp9sd4G%2F&show_text=0',
-    thumb: '/reel-3-thumb.jpg',
-    duration: '0:35',
+    embedUrl: 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fr%2F1CKSp9sd4G%2F&show_text=0&width=380',
     badge: 'Pro Technique',
   },
 ];
@@ -62,7 +56,6 @@ const CATEGORIES = ['All Videos', 'Flooring', 'Casting & Art', 'Protective Coati
 
 export default function VideoGallerySection() {
   const [activeTab, setActiveTab] = useState('All Videos');
-  const [activeVideoModal, setActiveVideoModal] = useState(null);
 
   const filteredReels = activeTab === 'All Videos'
     ? REELS
@@ -86,7 +79,7 @@ export default function VideoGallerySection() {
 
           <div className="gallery-header-right">
             <p className="gallery-header-desc">
-              Explore step-by-step application reels, deep studio pours, and masterclass demonstrations from our laboratory and certified artisans.
+              Live from our social channels. Explore step-by-step application reels, deep studio pours, and masterclasses directly from Instagram & Facebook.
             </p>
             {/* Filter Tabs */}
             <div className="gallery-tabs">
@@ -104,132 +97,47 @@ export default function VideoGallerySection() {
           </div>
         </div>
 
-        {/* Video Cards Grid */}
-        <div className="gallery-grid">
+        {/* Video Cards Grid with Live Instagram / Facebook Embeds */}
+        <div className="gallery-grid gallery-live-embed-grid">
           {filteredReels.map((reel) => (
-            <div key={reel.id} className="gallery-card">
-              {/* Thumbnail + Overlays */}
-              <div className="gallery-card-media" onClick={() => setActiveVideoModal(reel)}>
-                <img
-                  src={reel.thumb}
-                  alt={reel.title}
-                  className="gallery-card-thumb"
-                  loading="lazy"
-                />
-                
-                {/* Gradient overlays */}
-                <div className="gallery-media-overlay" />
-
-                {/* Top Badge */}
-                <div className="gallery-card-top-bar">
-                  <span className="gallery-platform-badge">
-                    {reel.platform === 'Instagram' ? (
-                      <InstagramIcon size={13} />
-                    ) : (
-                      <FacebookIcon size={13} />
-                    )}
-                    <span>{reel.platform} Reel</span>
-                  </span>
-                  <span className="gallery-pill-feature">
-                    <Sparkles size={11} />
-                    {reel.badge}
-                  </span>
-                </div>
-
-                {/* Play Button Trigger */}
-                <button
-                  type="button"
-                  className="gallery-play-btn"
-                  aria-label={`Play ${reel.title}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveVideoModal(reel);
-                  }}
+            <div key={reel.id} className="gallery-card gallery-embed-card">
+              <div className="gallery-embed-header">
+                <span className="gallery-platform-badge">
+                  {reel.platform === 'Instagram' ? (
+                    <InstagramIcon size={13} />
+                  ) : (
+                    <FacebookIcon size={13} />
+                  )}
+                  <span>{reel.platform} Reel</span>
+                </span>
+                <a
+                  href={reel.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="gallery-open-post-btn"
+                  title={`Open on ${reel.platform}`}
                 >
-                  <Play size={22} fill="#ffffff" color="#ffffff" className="play-icon" />
-                </button>
+                  <span>Open</span>
+                  <ExternalLink size={12} />
+                </a>
+              </div>
 
-                {/* Card Bottom Meta */}
-                <div className="gallery-card-bottom">
-                  <span className="gallery-card-category">{reel.category}</span>
-                  <h3 className="gallery-card-title">{reel.title}</h3>
-                  <div className="gallery-card-footer">
-                    <span className="gallery-card-handle">{reel.handle}</span>
-                    <a
-                      href={reel.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="gallery-direct-link"
-                      onClick={(e) => e.stopPropagation()}
-                      title={`Open on ${reel.platform}`}
-                    >
-                      <span>Watch</span>
-                      <ExternalLink size={13} />
-                    </a>
-                  </div>
-                </div>
+              {/* Official Social Embed Frame (fetches real live cover automatically) */}
+              <div className="gallery-embed-wrapper">
+                <iframe
+                  src={reel.embedUrl}
+                  title={reel.title}
+                  className="gallery-social-iframe"
+                  scrolling="no"
+                  frameBorder="0"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen
+                />
               </div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Video Modal / Lightbox */}
-      {activeVideoModal && (
-        <div
-          className="video-modal-backdrop"
-          onClick={() => setActiveVideoModal(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="video-modal-header">
-              <div className="video-modal-title-info">
-                <span className="video-modal-platform">
-                  {activeVideoModal.platform === 'Instagram' ? (
-                    <InstagramIcon size={14} />
-                  ) : (
-                    <FacebookIcon size={14} />
-                  )}
-                  {activeVideoModal.platform} Reel
-                </span>
-                <h4 className="video-modal-title">{activeVideoModal.title}</h4>
-              </div>
-              <button
-                type="button"
-                className="video-modal-close-btn"
-                onClick={() => setActiveVideoModal(null)}
-                aria-label="Close video"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="video-modal-iframe-wrapper">
-              <iframe
-                src={activeVideoModal.embedUrl}
-                title={activeVideoModal.title}
-                className="video-modal-iframe"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-
-            <div className="video-modal-footer">
-              <a
-                href={activeVideoModal.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="video-modal-action-btn"
-              >
-                <span>Open original on {activeVideoModal.platform}</span>
-                <ExternalLink size={15} />
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

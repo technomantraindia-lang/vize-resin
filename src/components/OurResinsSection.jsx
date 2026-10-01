@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import productsData from '../data/products.json';
+
 const CATEGORIES = [
   'All Products',
   'Flooring Systems',
@@ -10,96 +12,25 @@ const CATEGORIES = [
   'Protective Coatings',
 ];
 
-const ALL_PRODUCTS = [
-  {
-    id: 'primex',
-    name: 'Vize PrimeX',
-    category: 'Primers & Screeds',
-    subtitle: 'High-performance primer & sealer',
-    image: '/rasin-product/primex-bucket.png',
-    link: '/product/vize-primex',
-  },
-  {
-    id: 'screed-max',
-    name: 'Vize Screed Max',
-    category: 'Primers & Screeds',
-    subtitle: 'Heavy-duty leveling floor screed',
-    image: '/rasin-product/screedmax-bucket.png',
-    link: '/product/vize-screed-max',
-  },
-  {
-    id: 'epowrap',
-    name: 'Vize EpoWrap',
-    category: 'Flooring Systems',
-    subtitle: 'Seamless monolithic metallic flooring',
-    image: '/rasin-product/epowrap-bucket.png',
-    link: '/product/vize-epowrap',
-  },
-  {
-    id: 'epowrap-pro',
-    name: 'Vize EpoWrap Pro',
-    category: 'Flooring Systems',
-    subtitle: 'Professional slow-flow metallic system',
-    image: '/rasin-product/epowrappro-bucket.png',
-    link: '/product/vize-epowrap-pro',
-  },
-  {
-    id: 'epowrap-max',
-    name: 'Vize EpoWrap Max',
-    category: 'Flooring Systems',
-    subtitle: '3:1 Super clearcoat epoxy resin',
-    image: '/rasin-product/epowrapmax-bucket.png',
-    link: '/product/vize-epowrap-max',
-  },
-  {
-    id: 'rockhard',
-    name: 'Vize RockHard',
-    category: 'Flooring Systems',
-    subtitle: 'Natural aggregate stone carpet binder',
-    image: '/rasin-product/rockhard-bucket.png',
-    link: '/product/vize-rockhard',
-  },
-  {
-    id: 'aspartic-max',
-    name: 'Vize Aspartic Max',
-    category: 'Protective Coatings',
-    subtitle: 'Protective exterior fast-cure shield',
-    image: '/rasin-product/asparticmax-bucket.png',
-    link: '/product/vize-aspartic-max',
-  },
-  {
-    id: 'urethane-max',
-    name: 'Vize Urethane Max',
-    category: 'Protective Coatings',
-    subtitle: 'High-hardness polyurethane topcoat',
-    image: '/rasin-product/urethanemax-bucket.png',
-    link: '/product/vize-urethane-max',
-  },
-  {
-    id: 'cast-max',
-    name: 'Vize Cast Max',
-    category: 'Casting & Art',
-    subtitle: 'Crystal clear river table casting resin',
-    image: '/rasin-product/castmax-bucket.png',
-    link: '/product/vize-cast-max',
-  },
-  {
-    id: 'art-max',
-    name: 'Vize Art Max',
-    category: 'Casting & Art',
-    subtitle: 'Self-doming high-gloss art formulation',
-    image: '/rasin-product/artmax-bucket.png',
-    link: '/product/vize-art-max',
-  },
-  {
-    id: 'nano-silicon',
-    name: 'Vize Nano Silicon',
-    category: 'Protective Coatings',
-    subtitle: 'Hydrophobic nanotech surface sealant',
-    image: '/rasin-product/nano-bucket.png',
-    link: '/product/vize-nano',
-  },
-];
+const mapCategory = (cat, appCat) => {
+  if (appCat?.toLowerCase().includes('primer') || appCat?.toLowerCase().includes('screed')) return 'Primers & Screeds';
+  if (cat?.toLowerCase().includes('flooring')) return 'Flooring Systems';
+  if (cat?.toLowerCase().includes('casting')) return 'Casting & Art';
+  if (cat?.toLowerCase().includes('protective') || cat?.toLowerCase().includes('finishing')) return 'Protective Coatings';
+  return 'Flooring Systems';
+};
+
+const ALL_PRODUCTS = productsData.map((p) => {
+  const bucketImg = p.images?.find((img) => img.includes('bucket')) || p.images?.[0] || '/rasin-product/primex-bucket.png';
+  return {
+    id: p.id,
+    name: p.name,
+    category: mapCategory(p.category, p.applicationCategory),
+    subtitle: p.tagline || p.chemistry,
+    image: bucketImg,
+    link: `/product/${p.id}`
+  };
+});
 
 export default function OurResinsSection() {
   const [activeCategory, setActiveCategory] = useState('All Products');

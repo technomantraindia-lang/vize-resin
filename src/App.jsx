@@ -9,6 +9,7 @@ import TableTopsPage from './pages/TableTopsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import ColorsPigmentsPage from './pages/ColorsPigmentsPage';
 import AccountPage from './pages/AccountPage';
+import WorkshopPage from './pages/WorkshopPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import CartDrawer from './components/CartDrawer';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/orders" element={<AccountPage />} />
           <Route path="/profile" element={<AccountPage />} />
           <Route path="/flooring-systems" element={<FlooringSystemsPage />} />
+          <Route path="/flooring-resins" element={<ResinsPage />} />
           <Route path="/resins" element={<ResinsPage />} />
           <Route path="/products" element={<ResinsPage />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
@@ -41,9 +43,10 @@ function App() {
           <Route path="/colour-chart" element={<ColorsPigmentsPage />} />
           <Route path="/color-chart" element={<ColorsPigmentsPage />} />
           <Route path="/pigments" element={<ColorsPigmentsPage />} />
-          <Route path="/finishes" element={<ColorsPigmentsPage />} />
-          <Route path="/workshop" element={<ProductDetailPage />} />
-          <Route path="/our-work" element={<OurWorkPage />} />
+          <Route path="/workshop" element={<WorkshopPage />} />
+          <Route path="/workshops" element={<WorkshopPage />} />
+          <Route path="/training" element={<WorkshopPage />} />
+          <Route path="/academy" element={<WorkshopPage />} />
           <Route path="/work" element={<OurWorkPage />} />
           <Route path="/resources" element={<OurWorkPage />} />
           <Route path="/contact" element={<ContactUsPage />} />

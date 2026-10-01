@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Search,
   ArrowUpRight,
@@ -8,14 +8,7 @@ import {
   X,
   CheckCircle2,
   SlidersHorizontal,
-  ArrowRight,
-  Check,
-  Clock,
-  ShieldCheck,
-  Sparkles,
-  Layers,
-  Flame,
-  Droplets
+  ArrowRight
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -40,196 +33,20 @@ const APPLICATION_FILTERS = [
   'Finishing compounds'
 ];
 
-// Rich technical specs for the hover-extension drawer
-const MATERIAL_SPECS = {
-  'vize-primex': {
-    chemistry: '100% Pure Epoxy Primer & Substrate Sealer',
-    cure: '6–8 hrs tack-free',
-    potLife: '35 mins @ 25°C',
-    coverage: '~250 sq.ft / 5kg kit',
-    grade: 'Industrial Substrate Prep',
-    features: ['Penetrates porous concrete pores', 'Eliminates pinhole outgassing', 'Extreme mechanical interlock bond']
-  },
-  'vize-prime': {
-    chemistry: '100% Pure Epoxy Primer & Substrate Sealer',
-    cure: '6–8 hrs tack-free',
-    potLife: '35 mins @ 25°C',
-    coverage: '~250 sq.ft / 5kg kit',
-    grade: 'Industrial Substrate Prep',
-    features: ['Penetrates porous concrete pores', 'Eliminates pinhole outgassing', 'Extreme mechanical interlock bond']
-  },
-  'vize-screed-max': {
-    chemistry: '3-Part High-Load Epoxy Levelling Screed',
-    cure: '12–16 hrs full cure',
-    potLife: '40 mins mortar mix',
-    coverage: '50 sq.ft @ 3mm depth',
-    grade: 'Heavy Industrial Mortar',
-    features: ['Withstands heavy forklift loads', 'Repairs deep concrete spalls', 'Zero-shrinkage monolithic cure']
-  },
-  'vize-polyscreed': {
-    chemistry: '3-Part High-Load Epoxy Levelling Screed',
-    cure: '12–16 hrs full cure',
-    potLife: '40 mins mortar mix',
-    coverage: '50 sq.ft @ 3mm depth',
-    grade: 'Heavy Industrial Mortar',
-    features: ['Withstands heavy forklift loads', 'Repairs deep concrete spalls', 'Zero-shrinkage monolithic cure']
-  },
-  'vize-rockhard': {
-    chemistry: 'UV-Aliphatic Stone Carpet Matrix',
-    cure: '12–18 hrs foot traffic',
-    potLife: '30 mins open time',
-    coverage: 'Binds 75kg stone / 5kg',
-    grade: 'Exterior & Interior Paving',
-    features: ['100% UV-stable non-yellowing', 'Permeable water drainage matrix', 'Firmly encapsulates natural pebbles']
-  },
-  'vize-rock-hard': {
-    chemistry: 'UV-Aliphatic Stone Carpet Matrix',
-    cure: '12–18 hrs foot traffic',
-    potLife: '30 mins open time',
-    coverage: 'Binds 75kg stone / 5kg',
-    grade: 'Exterior & Interior Paving',
-    features: ['100% UV-stable non-yellowing', 'Permeable water drainage matrix', 'Firmly encapsulates natural pebbles']
-  },
-  'vize-epowrap': {
-    chemistry: 'High-Gloss 3D Self-Leveling Metallic Epoxy',
-    cure: '8–12 hrs walk-on',
-    potLife: '45 mins vein styling',
-    coverage: '~150 sq.ft / 15kg pack',
-    grade: 'Luxury Retail & Showrooms',
-    features: ['Mirror glass reflective gloss', 'Deep iridescent fluid veins', 'Seamless hygienic designer floor']
-  },
-  'vize-marble-metallics': {
-    chemistry: 'High-Gloss 3D Self-Leveling Metallic Epoxy',
-    cure: '8–12 hrs walk-on',
-    potLife: '45 mins vein styling',
-    coverage: '~150 sq.ft / 15kg pack',
-    grade: 'Luxury Retail & Showrooms',
-    features: ['Mirror glass reflective gloss', 'Deep iridescent fluid veins', 'Seamless hygienic designer floor']
-  },
-  'vize-epowrap-pro': {
-    chemistry: 'Extended Pot-Life Designer Metallic Epoxy',
-    cure: '18–24 hrs slow cure',
-    potLife: '60+ mins extended open time',
-    coverage: '~150 sq.ft / 15kg pack',
-    grade: 'Artisan Floor Masters',
-    features: ['Ample time for complex veins', 'Zero premature gelling during pour', 'Ultra-deep color cell dispersion']
-  },
-  'vize-marble-slowpro': {
-    chemistry: 'Extended Pot-Life Designer Metallic Epoxy',
-    cure: '18–24 hrs slow cure',
-    potLife: '60+ mins extended open time',
-    coverage: '~150 sq.ft / 15kg pack',
-    grade: 'Artisan Floor Masters',
-    features: ['Ample time for complex veins', 'Zero premature gelling during pour', 'Ultra-deep color cell dispersion']
-  },
-  'vize-epowrap-max': {
-    chemistry: '3:1 Super Clearcoat Epoxy Resin System',
-    cure: '16–24 hrs full cure',
-    potLife: '45 mins pot life',
-    coverage: '~120 sq.ft / 4kg unit',
-    grade: 'Crystal Clear High-Gloss Topcoat',
-    features: ['3:1 clear formula for topcoats', 'Blush-free self-leveling finish', 'UV-resistant protective matrix']
-  },
-  'vize-aspartic-max': {
-    chemistry: 'Ultra-Fast 2-Part Aliphatic Polyaspartic',
-    cure: '2–4 hrs rapid handover',
-    potLife: '20 mins fast set',
-    coverage: '~350 sq.ft / 5kg kit',
-    grade: 'Commercial Exterior Topcoat',
-    features: ['4-Hour rapid return to service', '100% UV & weather proof', 'Superior hot-tire pickup resistance']
-  },
-  'vize-polyaspartic': {
-    chemistry: 'Ultra-Fast 2-Part Aliphatic Polyaspartic',
-    cure: '2–4 hrs rapid handover',
-    potLife: '20 mins fast set',
-    coverage: '~350 sq.ft / 5kg kit',
-    grade: 'Commercial Exterior Topcoat',
-    features: ['4-Hour rapid return to service', '100% UV & weather proof', 'Superior hot-tire pickup resistance']
-  },
-  'vize-urethane-max': {
-    chemistry: 'Super Clear High-Hardness Urethane Coating',
-    cure: '6–8 hrs tack-free',
-    potLife: 'Two-component ready',
-    coverage: '~380 sq.ft / 4kg can',
-    grade: 'Scratch & Chemical Shield',
-    features: ['Metallic sheen enhancement', 'Micro-scratch self healing', 'Resistant to harsh acids and oils']
-  },
-  'vize-glasscoat': {
-    chemistry: 'Super Clear High-Hardness Urethane Coating',
-    cure: '6–8 hrs tack-free',
-    potLife: 'Two-component ready',
-    coverage: '~380 sq.ft / 4kg can',
-    grade: 'Scratch & Chemical Shield',
-    features: ['Metallic sheen enhancement', 'Micro-scratch self healing', 'Resistant to harsh acids and oils']
-  },
-  'vize-cast-max': {
-    chemistry: 'Water-Clear Deep Casting Epoxy (50–100mm)',
-    cure: '24–36 hrs demold',
-    potLife: '90 mins low exotherm',
-    coverage: 'Up to 100mm pour depth',
-    grade: 'River Tables & Live Edge Wood',
-    features: ['Self-degassing bubble release', 'Low thermal heat build-up', 'Diamond crystal transparency']
-  },
-  'vize-cast': {
-    chemistry: 'Water-Clear Deep Casting Epoxy (50mm)',
-    cure: '24–36 hrs demold',
-    potLife: '90 mins low exotherm',
-    coverage: '50mm single pour depth',
-    grade: 'River Tables & Wood Casts',
-    features: ['Self-degassing zero bubbles', 'Zero odor 100% solids matrix', 'Diamond crystal transparency']
-  },
-  'vize-supercast': {
-    chemistry: 'Massive Depth Slab Casting Epoxy (100mm)',
-    cure: '48–72 hrs controlled cure',
-    potLife: '180 mins continuous pour',
-    coverage: '100mm single deep pour',
-    grade: 'Heavy Timber Architecture',
-    features: ['Ultra-low thermal heat buildup', 'No warping or shrink tension', 'Museum preservation clarity']
-  },
-  'vize-art-max': {
-    chemistry: 'High-Gloss Self-Doming Art Epoxy',
-    cure: '12–16 hrs cured',
-    potLife: '45 mins pattern work',
-    coverage: '~30 sq.ft / 3kg kit',
-    grade: 'Resin Art & Coasters',
-    features: ['High dome surface tension', 'Vibrant metallic pigment hold', 'HNA UV inhibitors against yellowing']
-  },
-  'vize-maxart': {
-    chemistry: 'High-Viscosity Art & Craft Epoxy',
-    cure: '12–16 hrs cured',
-    potLife: '45 mins pattern work',
-    coverage: '~25 sq.ft / 1.5kg kit',
-    grade: 'Resin Art & Coasters',
-    features: ['High dome surface tension', 'Vibrant metallic pigment hold', 'HNA UV inhibitors against yellowing']
-  },
-  'vize-nano': {
-    chemistry: 'Hydrophobic Nano Silicon Finishing Compound',
-    cure: 'Instant buffing & seal',
-    potLife: 'Water-based nano emulsion',
-    coverage: 'Treats up to 600 sq.ft',
-    grade: 'Surface Restorer & Sealant',
-    features: ['Rapidly removes fine scratches', 'Hydrophobic repellent seal', 'Deep optical mirror gloss']
-  },
-  'vize-cutmax': {
-    chemistry: 'Step 1 Heavy Fast-Cut Nano Compound',
-    cure: 'Instant buffing',
-    potLife: 'Water-based nano emulsion',
-    coverage: 'Removes 1500-grit scratches',
-    grade: 'Surface Restorer',
-    features: ['Rapidly removes sanding marks', 'No silicone or filler mask', 'Low-dust clean wiping']
-  },
-  'vize-shinemax': {
-    chemistry: 'Step 2 Optical Mirror Glaze Polish',
-    cure: 'Instant showroom shine',
-    potLife: 'Ultra-fine finishing cream',
-    coverage: '95+ GU Optical Gloss',
-    grade: 'Final High-Gloss Finish',
-    features: ['Removes holograms & buffer swirls', 'Showroom reflection clarity', 'Safe on cured epoxy & poly']
-  }
-};
+
 
 export default function ResinsPage() {
-  const [activeCategory, setActiveCategory] = useState('All Materials');
+  const location = useLocation();
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const p = window.location.pathname;
+      const s = window.location.search;
+      if (p === '/casting-art' || s.includes('casting')) return 'Casting & Art';
+      if (p === '/coatings' || s.includes('coating')) return 'Protective Coatings';
+      if (p === '/flooring-resins' || s.includes('flooring')) return 'Flooring Resins';
+    }
+    return 'All Materials';
+  });
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('featured');
@@ -245,7 +62,19 @@ export default function ResinsPage() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+
+    if (location.pathname === '/casting-art' || location.search.includes('casting')) {
+      setActiveCategory('Casting & Art');
+    } else if (location.pathname === '/coatings' || location.search.includes('coating')) {
+      setActiveCategory('Protective Coatings');
+    } else if (location.pathname === '/flooring-resins' || location.search.includes('flooring')) {
+      setActiveCategory('Flooring Resins');
+    } else if (location.pathname === '/resins' || location.pathname === '/products') {
+      if (!location.search) {
+        setActiveCategory('All Materials');
+      }
+    }
+  }, [location.pathname, location.search]);
 
   // Filter Toggle Handler
   const toggleFilter = (filterName) => {
@@ -466,178 +295,61 @@ export default function ResinsPage() {
                   </div>
                 </div>
 
-                {/* 3-Column Product Cards Grid with Full-Row Expansion on Hover */}
+                {/* Clean, Minimal 3-Column Product Cards Grid */}
                 {filteredProducts.length > 0 ? (
-                  <div className="vize-resins-cards-container">
-                    {Array.from({ length: Math.ceil(filteredProducts.length / 3) }).map((_, rowIndex) => {
-                      const rowProducts = filteredProducts.slice(rowIndex * 3, rowIndex * 3 + 3);
+                  <div className="vize-resins-cards-grid">
+                    {filteredProducts.map((product) => (
+                      <article
+                        key={product.id}
+                        className="vize-resins-product-card"
+                      >
+                        <Link
+                          to={`/product/${product.id}`}
+                          className="vize-resins-card-visual-link"
+                          aria-label={`View ${product.name}`}
+                        >
+                          <ProductBucketVisual id={product.id} name={product.name} />
+                        </Link>
 
-                      return (
-                        <div key={rowIndex} className="vize-resins-cards-row">
-                          {rowProducts.map((product, colIndex) => {
-                            const specs = MATERIAL_SPECS[product.id] || {
-                              chemistry: product.tagline || 'High-performance chemical resin matrix',
-                              cure: '6–8 hrs tack-free',
-                              potLife: '30 mins work time',
-                              coverage: 'Covers ~200 sq.ft',
-                              grade: product.category,
-                              features: ['100% Solid formulation', 'Seamless monolithic cure', 'Professional grade']
-                            };
+                        <div className="vize-resins-card-info">
+                          <div className="vize-resins-tag-box">
+                            <span className="vize-resins-app-tag">
+                              {product.applicationTag}
+                            </span>
+                            <span className="vize-resins-cat-tag">
+                              {product.category}
+                            </span>
+                          </div>
 
-                            return (
-                              <article
-                                key={product.id}
-                                className={`vize-resins-product-card col-${colIndex}`}
-                              >
-                                {/* Default Normal Card Face */}
-                                <div className="vize-card-normal-face">
-                                  <Link
-                                    to={`/product/${product.id}`}
-                                    className="vize-resins-card-visual-link"
-                                    aria-label={`View ${product.name}`}
-                                  >
-                                    <ProductBucketVisual id={product.id} name={product.name} />
-                                  </Link>
+                          <h3 className="vize-resins-card-title">
+                            <Link to={`/product/${product.id}`} className="vize-resins-title-link">
+                              {product.name}
+                            </Link>
+                          </h3>
+                          
+                          <p className="vize-resins-card-desc">
+                            {product.tagline}
+                          </p>
 
-                                  <div className="vize-resins-card-info">
-                                    <h3 className="vize-resins-card-title">
-                                      <Link to={`/product/${product.id}`} className="vize-resins-title-link">
-                                        {product.name}
-                                      </Link>
-                                    </h3>
-                                    
-                                    <p className="vize-resins-card-desc">
-                                      {product.tagline}
-                                    </p>
+                          <div className="vize-resins-card-footer">
+                            <div className="vize-card-price-group">
+                              <span className="vize-card-price-lbl">Starting Price</span>
+                              <strong className="vize-card-price-val">
+                                ₹{product.basePrice.toLocaleString('en-IN')}
+                              </strong>
+                            </div>
 
-                                    <div className="vize-resins-tag-box">
-                                      <span className="vize-resins-app-tag">
-                                        {product.applicationTag}
-                                      </span>
-                                    </div>
-
-                                    <div className="vize-resins-card-action">
-                                      <Link
-                                        to={`/product/${product.id}`}
-                                        className="vize-resins-view-link"
-                                      >
-                                        <span>View product</span>
-                                        <ArrowUpRight size={14} />
-                                      </Link>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* =========================================================================
-                                    FULL-ROW EXPANDED HOVER BANNER (TAKES FULL 3-COLUMN WIDTH)
-                                    - Col 0 (Left Card): Expands to the right across all 3 cards
-                                    - Col 1 (Middle Card): Expands outwards to both left & right
-                                    - Col 2 (Right Card): Expands to the left across all 3 cards
-                                    - Layout: Left side = Image/Logo | Right side = Rich Info & Specs
-                                   ========================================================================= */}
-                                <div className={`vize-card-fullrow-expanded expand-from-col-${colIndex}`}>
-                                  
-                                  {/* Left Visual Column */}
-                                  <div className="vize-fullrow-visual-col">
-                                    <div className="vize-fullrow-logo-stage">
-                                      <ProductBucketVisual id={product.id} name={product.name} />
-                                    </div>
-                                    <div className="vize-fullrow-badges-row">
-                                      <span className="vize-fullrow-app-badge">{product.applicationTag}</span>
-                                      <span className="vize-fullrow-cat-badge">{product.category}</span>
-                                    </div>
-                                  </div>
-
-                                  {/* Right Detailed Info Column */}
-                                  <div className="vize-fullrow-info-col">
-                                    <div className="vize-fullrow-top-bar">
-                                      <span className="vize-fullrow-eyebrow">
-                                        <Sparkles size={13} className="vize-drawer-sparkle" />
-                                        MATERIAL SPECIFICATIONS
-                                      </span>
-                                      <span className="vize-fullrow-grade-tag">{specs.grade}</span>
-                                    </div>
-
-                                    <div className="vize-fullrow-heading-group">
-                                      <h3 className="vize-fullrow-title">{product.name}</h3>
-                                      <p className="vize-fullrow-chemistry">{specs.chemistry}</p>
-                                    </div>
-
-                                    {/* 4-Stat Micro Matrix */}
-                                    <div className="vize-fullrow-specs-matrix">
-                                      <div className="vize-fullrow-spec-item">
-                                        <div className="vize-spec-label-row">
-                                          <Clock size={13} />
-                                          <span>CURE TIME</span>
-                                        </div>
-                                        <strong>{specs.cure}</strong>
-                                      </div>
-
-                                      <div className="vize-fullrow-spec-item">
-                                        <div className="vize-spec-label-row">
-                                          <Droplets size={13} />
-                                          <span>POT LIFE</span>
-                                        </div>
-                                        <strong>{specs.potLife}</strong>
-                                      </div>
-
-                                      <div className="vize-fullrow-spec-item">
-                                        <div className="vize-spec-label-row">
-                                          <Layers size={13} />
-                                          <span>COVERAGE</span>
-                                        </div>
-                                        <strong>{specs.coverage}</strong>
-                                      </div>
-
-                                      <div className="vize-fullrow-spec-item">
-                                        <div className="vize-spec-label-row">
-                                          <ShieldCheck size={13} />
-                                          <span>APPLICATION</span>
-                                        </div>
-                                        <strong>{product.applicationTag}</strong>
-                                      </div>
-                                    </div>
-
-                                    {/* Key Advantages Checklist */}
-                                    <div className="vize-fullrow-advantages">
-                                      <span className="vize-fullrow-adv-title">Key Advantages:</span>
-                                      <ul className="vize-fullrow-adv-list">
-                                        {specs.features.map((feature, fi) => (
-                                          <li key={fi}>
-                                            <Check size={14} className="vize-benefit-check" />
-                                            <span>{feature}</span>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-
-                                    {/* Bottom Footer Bar with Price and CTA Button */}
-                                    <div className="vize-fullrow-bottom-bar">
-                                      <div className="vize-fullrow-price-block">
-                                        <span className="vize-fullrow-price-lbl">Starting Pack Price</span>
-                                        <strong className="vize-fullrow-price-amt">
-                                          ₹{product.basePrice.toLocaleString('en-IN')}
-                                        </strong>
-                                      </div>
-
-                                      <Link
-                                        to={`/product/${product.id}`}
-                                        className="vize-fullrow-cta-btn"
-                                      >
-                                        <span>View Full Product Details</span>
-                                        <ArrowRight size={15} />
-                                      </Link>
-                                    </div>
-                                  </div>
-
-                                </div>
-
-                              </article>
-                            );
-                          })}
+                            <Link
+                              to={`/product/${product.id}`}
+                              className="vize-resins-view-link"
+                            >
+                              <span>View Product</span>
+                              <ArrowRight size={14} />
+                            </Link>
+                          </div>
                         </div>
-                      );
-                    })}
+                      </article>
+                    ))}
                   </div>
                 ) : (
                   <div className="vize-resins-no-results">
