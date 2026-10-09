@@ -103,6 +103,14 @@ Route::get('/quick-admin', function () {
     return response('No admin found in database. Please run /setup-db first.', 404);
 });
 
+Route::get('/reset-session', function () {
+    auth()->guard('admin')->logout();
+    auth()->guard('customer')->logout();
+    session()->flush();
+    session()->regenerate();
+    return redirect()->route('admin.session.create');
+});
+
 Route::get('/simulate-login', function () {
     try {
         $email = request('email', 'admin@admin.com');
