@@ -56,4 +56,11 @@ return Application::configure(basePath: dirname(__DIR__))
             session()->flash('error', 'The uploaded photos exceeded the server upload limit. Please try selecting slightly smaller files or fewer photos at once.');
             return redirect()->back();
         });
+
+        $exceptions->render(function (\Throwable $e, $request) {
+            \Illuminate\Support\Facades\Log::error($e->getMessage() . "\n" . $e->getTraceAsString());
+            if ($request->is('admin*') || $request->is('api*') || $request->is('debug*')) {
+                return response('<div style="font-family:monospace;padding:30px;background:#181825;color:#cdd6f4;"><h2>VIZE Admin Exception</h2><p style="color:#f38ba8;font-size:16px;"><b>' . e($e->getMessage()) . '</b></p><p style="color:#a6adc8;">File: ' . e($e->getFile()) . ':' . e($e->getLine()) . '</p><details><summary style="cursor:pointer;color:#89b4fa;">Stack Trace</summary><pre style="white-space:pre-wrap;font-size:12px;color:#fab387;">' . e($e->getTraceAsString()) . '</pre></details></div>', 500);
+            }
+        });
     })->create();
