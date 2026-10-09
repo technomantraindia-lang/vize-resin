@@ -332,6 +332,10 @@ export default function ProductDetailPage() {
                 key={activeDisplay.src}
                 src={activeDisplay.src}
                 alt={activeDisplay.alt}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/rasin-product/Vize PrimeX.png';
+                }}
                 className={`vize-pdp-main-img ${activeDisplay.isCutout ? 'is-contain' : ''} ${activeDisplay.isColorFinish ? 'finish-preview dynamic-fade' : ''}`}
               />
 
@@ -376,6 +380,10 @@ export default function ProductDetailPage() {
                     <img
                       src={imgSrc}
                       alt=""
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/rasin-product/Vize PrimeX.png';
+                      }}
                       className={`vize-pdp-thumb-img ${isCutout ? 'is-contain' : ''}`}
                     />
                   </button>

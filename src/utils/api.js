@@ -62,6 +62,10 @@ export function resolveImageUrl(src) {
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:') || trimmed.startsWith('blob:')) {
     return trimmed;
   }
+  // In local development, all static images and uploads are served directly by Vite from public/
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    return trimmed;
+  }
   if (trimmed.startsWith('/uploads/')) {
     return `${API_BASE_URL}${trimmed}`;
   }

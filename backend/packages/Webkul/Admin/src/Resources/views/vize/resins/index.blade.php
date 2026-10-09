@@ -84,12 +84,13 @@
                             $images = json_decode($item->images ?? '[]', true);
                             $thumb = is_array($images) && count($images) > 0 ? $images[0] : '/rasin-product/Vize PrimeX.png';
                             $imgCount = is_array($images) ? count($images) : 1;
+                            $svgPlaceholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' fill='%23f1f5f9' rx='8'/%3E%3Cpath d='M20 18h20v4H20zm-2 6h24l-3 22H21z' fill='%230284c7' opacity='0.75'/%3E%3Crect x='24' y='28' width='12' height='4' rx='2' fill='white'/%3E%3C/svg%3E";
                         @endphp
                         <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/40 transition">
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="relative w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800 overflow-hidden border border-gray-200 shrink-0 p-1 flex items-center justify-center">
-                                        <img src="{{ $thumb }}" alt="{{ $item->name }}" class="max-w-full max-h-full object-contain" onerror="this.src='/rasin-product/Vize PrimeX.png'">
+                                        <img src="{{ $thumb }}" alt="{{ $item->name }}" class="max-w-full max-h-full object-contain" onerror="this.onerror=null; this.src='{{ $svgPlaceholder }}';">
                                         @if($imgCount > 1)
                                             <span class="absolute bottom-0 right-0 bg-black/70 text-[9px] text-white font-bold px-1 rounded-tl">
                                                 +{{ $imgCount - 1 }}

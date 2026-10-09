@@ -58,7 +58,18 @@ class Handler extends BaseHandler
      */
     protected function handleServerException(): void
     {
+        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, Request $request) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Not Found', 'message' => $e->getMessage() ?: 'Resource not found.'], 404);
+            }
+            return response('404 Not Found', 404);
+        });
+
         $this->renderable(function (Throwable $throwable, Request $request) {
+            if ($throwable instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+                return response('404 Not Found', 404);
+            }
+
             \Illuminate\Support\Facades\Log::error('Server Exception: ' . $throwable->getMessage() . ' in ' . $throwable->getFile() . ':' . $throwable->getLine() . "\n" . $throwable->getTraceAsString());
 
             if ($request->wantsJson()) {
