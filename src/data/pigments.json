@@ -1,0 +1,411 @@
+[
+    {
+        "id": "opaque",
+        "name": "Opaque",
+        "slug": "opaque",
+        "badge": "SOLID OPAQUE DISPERSION",
+        "subtitle": "High-coverage liquid dispersion paste for solid opaque color bases, deep marbling and solid slabs.",
+        "sizes": [
+            {
+                "id": "500g",
+                "label": "500 Grams",
+                "price": 513,
+                "weight": "500g"
+            },
+            {
+                "id": "1kg",
+                "label": "1 Kilogram",
+                "price": 1026,
+                "weight": "1kg"
+            }
+        ],
+        "shades": [
+            {
+                "id": "petrol-teal",
+                "name": "Petrol Teal",
+                "code": null,
+                "hex": "#005f73",
+                "image": "/colors/Petrol Teal.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "copper",
+                "name": "Copper",
+                "code": null,
+                "hex": "#b87333",
+                "image": "/colors/Copper.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "deep-blue",
+                "name": "Deep Blue",
+                "code": null,
+                "hex": "#002855",
+                "image": "/colors/Deep Blue.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "silver",
+                "name": "Silver",
+                "code": null,
+                "hex": "#c0c0c0",
+                "image": "/colors/Silver.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "pearl",
+                "name": "Pearl",
+                "code": null,
+                "hex": "#f5f5f0",
+                "image": "/colors/Pearl.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "charcoal",
+                "name": "Charcoal",
+                "code": null,
+                "hex": "#1a1a1a",
+                "image": "/colors/Charcoal.png",
+                "preview": null,
+                "desc": null
+            }
+        ]
+    },
+    {
+        "id": "metallic",
+        "name": "Metallic",
+        "slug": "metallic",
+        "badge": "METALLIC FINISH",
+        "subtitle": "High-dispersion, UV-stabilized pigments engineered for zero settlement in deep castings & metallic flooring screeds.",
+        "sizes": [
+            {
+                "id": "500g",
+                "label": "500 Grams",
+                "price": 1568.4,
+                "weight": "500g"
+            },
+            {
+                "id": "1kg",
+                "label": "1 Kilogram",
+                "price": 3079.8,
+                "weight": "1kg"
+            }
+        ],
+        "shades": [
+            {
+                "id": "liquid-gold",
+                "name": "Liquid Gold",
+                "code": null,
+                "hex": "#ffd700",
+                "image": "/colors/Liquid Gold.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "bronze-vein",
+                "name": "Bronze Vein",
+                "code": null,
+                "hex": "#cd7f32",
+                "image": "/colors/Bronze Vein.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "titanium",
+                "name": "Titanium",
+                "code": null,
+                "hex": "#878681",
+                "image": "/colors/Titanium.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "emerald-spark",
+                "name": "Emerald Spark",
+                "code": null,
+                "hex": "#2ecc71",
+                "image": "/colors/Emerald Spark.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "ruby-smoke",
+                "name": "Ruby Smoke",
+                "code": null,
+                "hex": "#8b0000",
+                "image": "/colors/Ruby Smoke.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "obsidian",
+                "name": "Obsidian",
+                "code": null,
+                "hex": "#1c1c1c",
+                "image": "/colors/Obsidian.png",
+                "preview": null,
+                "desc": null
+            }
+        ]
+    },
+    {
+        "id": "pearl-powder",
+        "name": "Pearl Powder",
+        "slug": "pearl-powder",
+        "badge": "PEARL & MICA POWDER",
+        "subtitle": "Cosmetic-grade celestial mica shimmer powder. Zero pigment settlement across 72h deep castings.",
+        "sizes": [
+            {
+                "id": "500g",
+                "label": "500 Grams",
+                "price": 769.95,
+                "weight": "500g"
+            },
+            {
+                "id": "1kg",
+                "label": "1 Kilogram",
+                "price": 1539.9,
+                "weight": "1kg"
+            }
+        ],
+        "shades": [
+            {
+                "id": "moonstone",
+                "name": "Moonstone",
+                "code": null,
+                "hex": "#e0e6ed",
+                "image": "/colors/Moonstone.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "sunburst",
+                "name": "Sunburst",
+                "code": null,
+                "hex": "#f39c12",
+                "image": "/colors/Sunburst.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "rose-quartz",
+                "name": "Rose Quartz",
+                "code": null,
+                "hex": "#f4a6b8",
+                "image": "/colors/Rose Quartz.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "sapphire-mist",
+                "name": "Sapphire Mist",
+                "code": null,
+                "hex": "#2980b9",
+                "image": "/colors/Sapphire Mist.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "champagne",
+                "name": "Champagne",
+                "code": null,
+                "hex": "#f7e7ce",
+                "image": "/colors/Champagne.png",
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "graphite",
+                "name": "Graphite",
+                "code": null,
+                "hex": "#3d3d3d",
+                "image": "/colors/Graphite.png",
+                "preview": null,
+                "desc": null
+            }
+        ]
+    },
+    {
+        "id": "granual-epoxy",
+        "name": "Granual Epoxy",
+        "slug": "granual-epoxy",
+        "badge": "GRANUAL EPOXY SYSTEM",
+        "subtitle": "Textured \u2022 Durable \u2022 Decorative multi-blend vinyl polymer flakes broadcast into 100% solids epoxy for slip-resistant floors.",
+        "sizes": [
+            {
+                "id": "1kg",
+                "label": "1 Kilogram",
+                "price": 1250,
+                "weight": "1kg"
+            },
+            {
+                "id": "5kg",
+                "label": "5 Kilograms",
+                "price": 5750,
+                "weight": "5kg"
+            },
+            {
+                "id": "25kg",
+                "label": "25 Kilograms",
+                "price": 26500,
+                "weight": "25kg"
+            }
+        ],
+        "shades": [
+            {
+                "id": "black-white",
+                "name": "Black & White",
+                "code": null,
+                "hex": "#222222",
+                "image": "/colors/granules/black-white-blend.png",
+                "preview": "/colors/granules/black-white-blend-preview.jpg",
+                "desc": "High-contrast monochrome flake broadcast"
+            },
+            {
+                "id": "gray-blend",
+                "name": "Gray Blend",
+                "code": null,
+                "hex": "#7f8c8d",
+                "image": "/colors/granules/gray-blend.png",
+                "preview": "/colors/granules/gray-blend-preview.jpg",
+                "desc": "Neutral slate & ash multi-tone composite"
+            },
+            {
+                "id": "tan-blend",
+                "name": "Tan Blend",
+                "code": null,
+                "hex": "#d2b48c",
+                "image": "/colors/granules/tan-blend.png",
+                "preview": "/colors/granules/tan-blend-preview.jpg",
+                "desc": "Warm earth & desert sand mineral blend"
+            },
+            {
+                "id": "beige-blend",
+                "name": "Beige Blend",
+                "code": null,
+                "hex": "#f5f5dc",
+                "image": "/colors/granules/beige-blend.png",
+                "preview": "/colors/granules/beige-blend-preview.jpg",
+                "desc": "Cream & almond architectural flake matrix"
+            },
+            {
+                "id": "blue-blend",
+                "name": "Blue Blend",
+                "code": null,
+                "hex": "#1f4e79",
+                "image": "/colors/granules/blue-blend.png",
+                "preview": "/colors/granules/blue-blend-preview.jpg",
+                "desc": "Cobalt & sapphire showroom polymer flakes"
+            },
+            {
+                "id": "red-blend",
+                "name": "Red Blend",
+                "code": null,
+                "hex": "#a93226",
+                "image": "/colors/granules/red-blend.png",
+                "preview": "/colors/granules/red-blend-preview.jpg",
+                "desc": "Crimson & terracotta accent granules"
+            },
+            {
+                "id": "green-blend",
+                "name": "Green Blend",
+                "code": null,
+                "hex": "#27ae60",
+                "image": "/colors/granules/green-blend.png",
+                "preview": "/colors/granules/green-blend-preview.jpg",
+                "desc": "Forest & olive botanical quartz flake blend"
+            },
+            {
+                "id": "blue-gray-blend",
+                "name": "Blue Gray Blend",
+                "code": null,
+                "hex": "#34495e",
+                "image": "/colors/granules/blue-gray-blend.png",
+                "preview": "/colors/granules/blue-gray-blend-preview.jpg",
+                "desc": "Steel gray & arctic blue heavy-duty coating"
+            }
+        ]
+    },
+    {
+        "id": "ral",
+        "name": "RAL Classic Chart (200+)",
+        "slug": "ral",
+        "badge": "OFFICIAL RAL CLASSIC SPEC",
+        "subtitle": "Standardized European industrial RAL color matchings with 100% non-fading aliphatic UV permanence.",
+        "sizes": [
+            {
+                "id": "500g",
+                "label": "500 Grams",
+                "price": 513,
+                "weight": "500g"
+            },
+            {
+                "id": "1kg",
+                "label": "1 Kilogram",
+                "price": 1026,
+                "weight": "1kg"
+            }
+        ],
+        "shades": [
+            {
+                "id": "ral-7016",
+                "name": "Anthracite grey",
+                "code": "RAL 7016",
+                "hex": "#383E42",
+                "image": null,
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "ral-5002",
+                "name": "Ultramarine blue",
+                "code": "RAL 5002",
+                "hex": "#20214F",
+                "image": null,
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "ral-9005",
+                "name": "Jet black",
+                "code": "RAL 9005",
+                "hex": "#0A0A0A",
+                "image": null,
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "ral-9010",
+                "name": "Pure white",
+                "code": "RAL 9010",
+                "hex": "#F7FBF5",
+                "image": null,
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "ral-3020",
+                "name": "Traffic red",
+                "code": "RAL 3020",
+                "hex": "#CC0605",
+                "image": null,
+                "preview": null,
+                "desc": null
+            },
+            {
+                "id": "ral-6005",
+                "name": "Moss green",
+                "code": "RAL 6005",
+                "hex": "#2F4538",
+                "image": null,
+                "preview": null,
+                "desc": null
+            }
+        ]
+    }
+]

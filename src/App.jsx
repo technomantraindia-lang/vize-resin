@@ -14,6 +14,7 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import CartDrawer from './components/CartDrawer';
 import AccountModal from './components/AccountModal';
+import OfferPopup from './components/OfferPopup';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <CartProvider>
         <CartDrawer />
         <AccountModal />
+        <OfferPopup />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
@@ -47,7 +49,10 @@ function App() {
           <Route path="/workshops" element={<WorkshopPage />} />
           <Route path="/training" element={<WorkshopPage />} />
           <Route path="/academy" element={<WorkshopPage />} />
+          <Route path="/our-work" element={<OurWorkPage />} />
           <Route path="/work" element={<OurWorkPage />} />
+          <Route path="/showcase" element={<OurWorkPage />} />
+          <Route path="/portfolio" element={<OurWorkPage />} />
           <Route path="/resources" element={<OurWorkPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />

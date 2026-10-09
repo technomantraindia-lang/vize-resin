@@ -1,0 +1,56 @@
+[
+    {
+        "id": "offer-8",
+        "db_id": 8,
+        "title": "Up to 15% OFF on All Epoxy Resins & Hardeners",
+        "badge": "\u26a1 15% OFF",
+        "discountPercent": 15,
+        "applicableCategory": "resins",
+        "targetProductId": null,
+        "description": "Direct factory pricing on crystal clear casting resins, deep pour polymers, and commercial floor coatings.",
+        "customFields": [
+            {
+                "label": "Discount",
+                "value": "Flat 15% Cut in Cart"
+            },
+            {
+                "label": "Applicable",
+                "value": "All Resin & Hardener Products"
+            },
+            {
+                "label": "Dispatch",
+                "value": "Same-Day Dispatch Across India"
+            }
+        ],
+        "buttonText": "Explore Resins",
+        "buttonLink": "/resins",
+        "imageUrl": "/epowrap-product.jpg",
+        "isActive": true,
+        "sortOrder": 1
+    },
+    {
+        "id": "offer-5",
+        "db_id": 5,
+        "title": "Buy Pigments & Get 10% OFF Colors",
+        "badge": "\ud83c\udfa8 10% OFF",
+        "discountPercent": 10,
+        "applicableCategory": "pigments",
+        "targetProductId": null,
+        "description": "High-dispersion metallic pearl powders and RAL liquid pigment pastes.",
+        "customFields": [
+            {
+                "label": "Discount",
+                "value": "10% Cut on Colors & Pigments"
+            },
+            {
+                "label": "Bonus",
+                "value": "Free Shade Swatch Included"
+            }
+        ],
+        "buttonText": "View Color Chart",
+        "buttonLink": "/colors-pigments",
+        "imageUrl": "/uploads/offers/1791457261_offer_buy-pigments-get-10-off-colors.png",
+        "isActive": true,
+        "sortOrder": 2
+    }
+]

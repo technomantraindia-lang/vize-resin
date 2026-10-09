@@ -32,9 +32,9 @@ const EXTENDED_SEARCH_ITEMS = [
     type: 'product',
     name: 'Vize Cast Max (River Table & Deep Pour)',
     subtitle: 'Water-Clear Deep Casting Epoxy',
-    tagline: 'Best for river tables, live-edge slab furniture and crystal encapsulation (up to 50mm single pour).',
+    tagline: 'Best for river tables, live-edge slab furniture and crystal encapsulation (3:1 mix ratio).',
     category: 'Casting & Art',
-    price: '₹3,499',
+    price: '₹9,840',
     image: '/rasin-product/Vize Cast Max.png',
     link: '/product/vize-cast-max',
     keywords: [
@@ -60,7 +60,7 @@ const EXTENDED_SEARCH_ITEMS = [
     subtitle: 'Massive Depth Slab Casting Epoxy',
     tagline: 'Designed for single continuous 100mm pours with ultra-low thermal heat buildup and zero shrinkage.',
     category: 'Casting & Art',
-    price: '₹3,499',
+    price: '₹9,840',
     image: '/rasin-product/Vize Cast Max.png',
     link: '/product/vize-cast-max',
     keywords: [
@@ -75,17 +75,19 @@ const EXTENDED_SEARCH_ITEMS = [
   {
     id: 'search-vize-maxart',
     type: 'product',
-    name: 'Vize Art Max (Art & Craft Resin)',
-    subtitle: 'High-Viscosity Art & Craft Epoxy',
-    tagline: 'High-dome surface tension formula for epoxy artwork, canvas paintings, geodes and coasters.',
+    name: 'Vize Coat Max (Topcoat & Resin Art)',
+    subtitle: 'High-Gloss Protective Topcoat & Art Epoxy',
+    tagline: 'High-dome surface tension formula for epoxy artwork, countertops, canvas paintings, geodes and coasters.',
     category: 'Casting & Art',
-    price: '₹2,499',
+    price: '₹9,570',
     image: '/rasin-product/Vize Art Max.png',
     link: '/product/vize-art-max',
     keywords: [
       'epoxy resin for artwork',
       'art resin',
       'resin for art',
+      'coat max',
+      'vize coat max',
       'geode resin',
       'craft resin',
       'resin coasters',
@@ -101,11 +103,11 @@ const EXTENDED_SEARCH_ITEMS = [
   {
     id: 'search-vize-prime',
     type: 'product',
-    name: 'Vize Prime / PrimeX',
+    name: 'Vize Primax (2:1 Concrete Primer)',
     subtitle: 'High-Penetration Concrete Primer & Sealer',
     tagline: 'Deep capillary penetration that seals concrete pores, stops pinhole outgassing and guarantees permanent bond.',
     category: 'Flooring Resins',
-    price: '₹3,299',
+    price: '₹6,264',
     image: '/rasin-product/Vize PrimeX.png',
     link: '/product/vize-primex',
     keywords: [
@@ -119,7 +121,8 @@ const EXTENDED_SEARCH_ITEMS = [
       'moisture pinhole outgassing',
       'dusty unsealed substrate',
       'damaged concrete prep',
-      'base primer'
+      'base primer',
+      'vize primax'
     ]
   },
 
@@ -127,11 +130,11 @@ const EXTENDED_SEARCH_ITEMS = [
   {
     id: 'search-vize-polyscreed',
     type: 'product',
-    name: 'Vize Screed Max (Heavy Screed)',
+    name: 'Vize ScreedMax (Heavy Screed)',
     subtitle: '3-Part Heavy-Duty Epoxy / Mortar Screed',
     tagline: 'High-compressive mortar engineered for heavy forklift loads, industrial facilities and floor leveling.',
     category: 'Flooring Resins',
-    price: '₹4,199',
+    price: '₹3,200',
     image: '/rasin-product/Vize Screed Max.png',
     link: '/product/vize-screed-max',
     keywords: [
@@ -148,7 +151,8 @@ const EXTENDED_SEARCH_ITEMS = [
       'thermal shock resistant',
       'dairy beverage plant flooring',
       'haccp certified floor',
-      'acid resistant floor'
+      'acid resistant floor',
+      'screedmax'
     ]
   },
 
@@ -183,11 +187,11 @@ const EXTENDED_SEARCH_ITEMS = [
   {
     id: 'search-vize-marble-metallics',
     type: 'product',
-    name: 'Vize EpoWrap (Metallic Epoxy)',
+    name: 'Vize EpoWrap Non UV (Metallic Epoxy)',
     subtitle: 'High-Gloss 3D Flow Metallic Epoxy',
     tagline: 'Flowable pigment formula creating liquid copper, petrol teal and gold veined floors for luxury commercial spaces.',
     category: 'Flooring Resins',
-    price: '₹4,999',
+    price: '₹6,167',
     image: '/rasin-product/Vize EpoWrap.png',
     link: '/product/vize-epowrap',
     keywords: [
@@ -201,41 +205,44 @@ const EXTENDED_SEARCH_ITEMS = [
       'seamless designer floor',
       'commercial interior flooring',
       'restaurant flooring',
-      'high gloss floor'
+      'high gloss floor',
+      'epowrap non uv'
     ]
   },
   {
     id: 'search-vize-epowrap-pro',
     type: 'product',
-    name: 'Vize EpoWrap Pro (Slow-Flow Metallic)',
+    name: 'Vize EpoWrap Pro UV (Slow-Flow Metallic)',
     subtitle: 'Slow-Curing Designer Metallic Epoxy',
     tagline: 'Extended pot life formula for detailed artistic patterns, swirls and vein effects.',
     category: 'Flooring Resins',
-    price: '₹5,399',
+    price: '₹9,570',
     image: '/rasin-product/Vize EpoWrap Pro.png',
     link: '/product/vize-epowrap-pro',
     keywords: [
       'epowrap pro',
       'slow flow epoxy',
       'metallic floor slow cure',
-      'artistic vein epoxy'
+      'artistic vein epoxy',
+      'epowrap pro uv'
     ]
   },
   {
     id: 'search-vize-epowrap-max',
     type: 'product',
-    name: 'Vize EpoWrap Max (3:1 Clearcoat Epoxy)',
+    name: 'Vize EpoWrap Max UV (3:1 Clearcoat Slow Cure)',
     subtitle: '3:1 Super Clearcoat Epoxy Resin',
     tagline: 'Super clear formula for final glossy topcoat with self-leveling and UV resistance.',
     category: 'Flooring Resins',
-    price: '₹5,699',
+    price: '₹9,840',
     image: '/rasin-product/Vize EpoWrap Max.png',
     link: '/product/vize-epowrap-max',
     keywords: [
       'epowrap max',
       'clearcoat epoxy resin',
       'topcoat gloss resin',
-      'high gloss clear coat'
+      'high gloss clear coat',
+      'epowrap max uv'
     ]
   },
 
@@ -265,11 +272,11 @@ const EXTENDED_SEARCH_ITEMS = [
   {
     id: 'search-vize-glasscoat',
     type: 'product',
-    name: 'Vize Urethane Max (High-Hardness Topcoat)',
-    subtitle: 'High-Hardness Polyurethane Topcoat',
-    tagline: 'Self-healing micro-scratch shield providing harsh chemical, acid and oil resistance for high-traffic surfaces.',
+    name: 'Vize Urethane Max (3:1 Topcoat)',
+    subtitle: 'Advanced 3:1 Urethane Top Coat',
+    tagline: 'Professional grade high-gloss urethane topcoat with extreme chemical resistance and approx. 400 sq.ft coverage.',
     category: 'Protective Coatings',
-    price: '₹3,899',
+    price: '₹4,437',
     image: '/rasin-product/Vize Urethane Max.png',
     link: '/product/vize-urethane-max',
     keywords: [
@@ -279,6 +286,8 @@ const EXTENDED_SEARCH_ITEMS = [
       'protective coating',
       'chemical resistant coating',
       'polyurethane topcoat',
+      'urethane max',
+      'vize urethane max',
       'micro-scratch healing',
       'easy clean floor'
     ]
@@ -288,18 +297,19 @@ const EXTENDED_SEARCH_ITEMS = [
   {
     id: 'search-vize-nano',
     type: 'product',
-    name: 'Vize Nano Silicon (Surface Finishing & Sealant)',
-    subtitle: 'Nano Silicon Compound & Sealant',
-    tagline: 'Hydrophobic nanotech surface sealant and finishing compound for cured resin surfaces and high-traffic floors.',
+    name: 'VIZE Nano (Nano Silicon Coating)',
+    subtitle: 'Professional Nano Silicon Hydrophobic Coating',
+    tagline: 'Advanced hydrophobic nano protection for superior surface defense, scratch resistance and deep gloss.',
     category: 'Finishing Compounds',
-    price: '₹1,999',
+    price: '₹3,500',
     image: '/rasin-product/Vize Nano.png',
     link: '/product/vize-nano',
     keywords: [
       'nano silicon',
-      'resin cutting and polishing compound',
-      'resin cutting compound',
-      'rubbing compound for resin',
+      'vize nano',
+      'hydrophobic coating',
+      'nano protection',
+      'scratch resistance',
       'polishing river table',
       'remove sanding scratches',
       'buffing resin',

@@ -76,6 +76,27 @@ export default function ResinsPage() {
     }
   }, [location.pathname, location.search]);
 
+  const [liveProducts, setLiveProducts] = useState(productsData);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLiveProducts = async () => {
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/vize/products');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+            setLiveProducts(json.data);
+          }
+        }
+      } catch (e) {
+        // Fallback gracefully to products.json
+      }
+    };
+    fetchLiveProducts();
+    return () => { isMounted = false; };
+  }, []);
+
   // Filter Toggle Handler
   const toggleFilter = (filterName) => {
     setSelectedFilters((prev) =>
@@ -87,7 +108,7 @@ export default function ResinsPage() {
 
   // Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
-    return productsData
+    return liveProducts
       .filter((product) => {
         // 1. Category Tab match
         if (activeCategory !== 'All Materials') {
@@ -104,22 +125,24 @@ export default function ResinsPage() {
         // 3. Search query match
         if (searchQuery.trim() !== '') {
           const query = searchQuery.toLowerCase();
-          const matchesName = product.name.toLowerCase().includes(query);
-          const matchesDesc = product.tagline?.toLowerCase().includes(query);
-          const matchesTag = product.applicationTag?.toLowerCase().includes(query);
+          const matchesName = (product.name || '').toLowerCase().includes(query);
+          const matchesDesc = (product.tagline || '').toLowerCase().includes(query);
+          const matchesTag = (product.applicationTag || '').toLowerCase().includes(query);
           if (!matchesName && !matchesDesc && !matchesTag) return false;
         }
 
         return true;
       })
       .sort((a, b) => {
-        if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
-        if (sortBy === 'name-desc') return b.name.localeCompare(a.name);
-        if (sortBy === 'price-low') return a.basePrice - b.basePrice;
-        if (sortBy === 'price-high') return b.basePrice - a.basePrice;
+        const priceA = Number(a.basePrice ?? a.base_price ?? 0);
+        const priceB = Number(b.basePrice ?? b.base_price ?? 0);
+        if (sortBy === 'name-asc') return (a.name || '').localeCompare(b.name || '');
+        if (sortBy === 'name-desc') return (b.name || '').localeCompare(a.name || '');
+        if (sortBy === 'price-low') return priceA - priceB;
+        if (sortBy === 'price-high') return priceB - priceA;
         return 0; // 'featured' retains original catalogue order
       });
-  }, [activeCategory, selectedFilters, searchQuery, sortBy]);
+  }, [liveProducts, activeCategory, selectedFilters, searchQuery, sortBy]);
 
   const handleExpertSubmit = (e) => {
     e.preventDefault();
@@ -308,7 +331,13 @@ export default function ResinsPage() {
                           className="vize-resins-card-visual-link"
                           aria-label={`View ${product.name}`}
                         >
-                          <ProductBucketVisual id={product.id} name={product.name} />
+                          {Array.isArray(product.images) && product.images.length > 0 && product.images[0].startsWith('/uploads') ? (
+                            <div className="vize-logo-card-wrapper flex items-center justify-center p-3">
+                              <img src={product.images[0]} alt={product.name} className="max-h-36 object-contain" />
+                            </div>
+                          ) : (
+                            <ProductBucketVisual id={product.id} name={product.name} />
+                          )}
                         </Link>
 
                         <div className="vize-resins-card-info">
@@ -335,7 +364,7 @@ export default function ResinsPage() {
                             <div className="vize-card-price-group">
                               <span className="vize-card-price-lbl">Starting Price</span>
                               <strong className="vize-card-price-val">
-                                ₹{product.basePrice.toLocaleString('en-IN')}
+                                ₹{Number(product.basePrice ?? product.base_price ?? 0).toLocaleString('en-IN')}
                               </strong>
                             </div>
 

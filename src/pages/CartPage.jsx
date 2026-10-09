@@ -59,8 +59,13 @@ export default function CartPage() {
     isFreeShipping,
     freeShippingProgress,
     amountNeededForFreeShipping,
+    activeOfferDiscount,
+    offerDiscountAmount,
+    getItemDiscountInfo,
     grandTotal,
     estimatedTax,
+    taxRateLabel,
+    taxBreakdown,
     updateQuantity,
     removeFromCart,
     clearCart,
@@ -179,6 +184,26 @@ export default function CartPage() {
               {/* LEFT COLUMN: Cart Items & Extra Options */}
               <div className="vize-cart-items-column">
                 
+                {/* Active Offer Discount Banner */}
+                {offerDiscountAmount > 0 && (
+                  <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '12px', padding: '14px 18px', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontSize: '22px' }}>⚡</span>
+                      <div>
+                        <div style={{ fontSize: '14px', fontWeight: 800, color: '#065f46' }}>
+                          Active Offer Applied: {activeOfferDiscount?.title || 'Special Promotion'}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#047857' }}>
+                          {activeOfferDiscount?.discountPercent}% discount automatically cut on eligible products in your cart.
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ background: '#10b981', color: '#ffffff', fontWeight: 800, fontSize: '13px', padding: '4px 14px', borderRadius: '999px', boxShadow: '0 2px 6px rgba(16,185,129,0.3)' }}>
+                      YOU SAVE ₹{offerDiscountAmount.toLocaleString('en-IN')}
+                    </div>
+                  </div>
+                )}
+
                 {/* Free Shipping Banner Card */}
                 <div className="vize-page-shipping-card">
                   <div className="vize-page-shipping-top">
@@ -218,101 +243,134 @@ export default function CartPage() {
 
                   {/* Item Rows */}
                   <div className="vize-cart-table-rows">
-                    {cartItems.map((item) => (
-                      <div key={item.cartItemId} className="vize-cart-table-row">
-                        
-                        {/* Product Info Col */}
-                        <div className="vize-row-product-info">
-                          <Link to={`/product/${item.productId}`} className="vize-row-thumb-link">
-                            <img src={item.image} alt={item.name} className="vize-row-img" />
-                          </Link>
+                    {cartItems.map((item) => {
+                      const discount = getItemDiscountInfo(item);
+                      return (
+                        <div key={item.cartItemId} className="vize-cart-table-row">
                           
-                          <div className="vize-row-meta">
-                            <span className="vize-row-cat">{item.category}</span>
-                            <h3 className="vize-row-name">
-                              <Link to={`/product/${item.productId}`} className="vize-row-name-link">
-                                {item.name}
-                              </Link>
-                            </h3>
+                          {/* Product Info Col */}
+                          <div className="vize-row-product-info">
+                            <Link to={`/product/${item.productId}`} className="vize-row-thumb-link">
+                              <img src={item.image} alt={item.name} className="vize-row-img" />
+                            </Link>
+                            
+                            <div className="vize-row-meta">
+                              <span className="vize-row-cat">{item.category}</span>
+                              <h3 className="vize-row-name">
+                                <Link to={`/product/${item.productId}`} className="vize-row-name-link">
+                                  {item.name}
+                                </Link>
+                              </h3>
 
-                            {/* Badges for Size and Color */}
-                            <div className="vize-row-pills">
-                              {item.size && (
-                                <span className="vize-row-pill size">
-                                  <strong>Kit:</strong> {item.size.label}
+                              {/* Badges for Size and Color */}
+                              <div className="vize-row-pills">
+                                {item.size && (
+                                  <span className="vize-row-pill size">
+                                    <strong>Kit:</strong> {item.size.label}
+                                  </span>
+                                )}
+                                {item.color && (
+                                  <span className="vize-row-pill color">
+                                    {item.color.image && (
+                                      <img
+                                        src={item.color.image}
+                                        alt=""
+                                        className="vize-row-color-dot"
+                                      />
+                                    )}
+                                    <span>{item.color.name}</span>
+                                  </span>
+                                )}
+                                {discount.hasDiscount && (
+                                  <span style={{ fontSize: '10px', fontWeight: 800, background: '#dcfce7', color: '#15803d', padding: '2px 8px', borderRadius: '4px', border: '1px solid #bbf7d0' }}>
+                                    ⚡ {discount.discountPercent}% OFF
+                                  </span>
+                                )}
+                                <span style={{ fontSize: '10px', fontWeight: 700, background: '#fef3c7', color: '#92400e', padding: '2px 7px', borderRadius: '4px', border: '1px solid #fde68a' }}>
+                                  🏷️ {item.taxRate !== undefined && item.taxRate !== null ? item.taxRate : 18}% GST
                                 </span>
-                              )}
-                              {item.color && (
-                                <span className="vize-row-pill color">
-                                  {item.color.image && (
-                                    <img
-                                      src={item.color.image}
-                                      alt=""
-                                      className="vize-row-color-dot"
-                                    />
-                                  )}
-                                  <span>{item.color.name}</span>
-                                </span>
-                              )}
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Unit Price Col */}
-                        <div className="vize-row-unit-price">
-                          <span className="vize-mobile-label">Price:</span>
-                          <span className="vize-cell-val">
-                            {item.currency} {item.price.toLocaleString('en-IN')}
-                          </span>
-                        </div>
+                          {/* Unit Price Col */}
+                          <div className="vize-row-unit-price">
+                            <span className="vize-mobile-label">Price:</span>
+                            {discount.hasDiscount ? (
+                              <div className="vize-cell-val">
+                                <span style={{ color: '#16a34a', fontWeight: 800 }}>
+                                  {item.currency} {discount.discountedPrice.toLocaleString('en-IN')}
+                                </span>
+                                <span style={{ textDecoration: 'line-through', color: '#94a3b8', fontSize: '11px', display: 'block' }}>
+                                  {item.currency} {item.price.toLocaleString('en-IN')}
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="vize-cell-val">
+                                {item.currency} {item.price.toLocaleString('en-IN')}
+                              </span>
+                            )}
+                          </div>
 
-                        {/* Quantity Stepper Col */}
-                        <div className="vize-row-quantity">
-                          <span className="vize-mobile-label">Qty:</span>
-                          <div className="vize-page-stepper">
+                          {/* Quantity Stepper Col */}
+                          <div className="vize-row-quantity">
+                            <span className="vize-mobile-label">Qty:</span>
+                            <div className="vize-page-stepper">
+                              <button
+                                type="button"
+                                className="vize-page-step-btn"
+                                onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
+                                aria-label="Decrease quantity"
+                              >
+                                <Minus size={14} />
+                              </button>
+                              <span className="vize-page-step-val">{item.quantity}</span>
+                              <button
+                                type="button"
+                                className="vize-page-step-btn"
+                                onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                                aria-label="Increase quantity"
+                              >
+                                <Plus size={14} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Line Item Total Col */}
+                          <div className="vize-row-total-price">
+                            <span className="vize-mobile-label">Total:</span>
+                            {discount.hasDiscount ? (
+                              <div className="vize-cell-total-val">
+                                <span style={{ color: '#16a34a', fontWeight: 800 }}>
+                                  {item.currency} {(discount.discountedPrice * item.quantity).toLocaleString('en-IN')}
+                                </span>
+                                <span style={{ textDecoration: 'line-through', color: '#94a3b8', fontSize: '11px', display: 'block' }}>
+                                  {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="vize-cell-total-val">
+                                {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Remove Action Col */}
+                          <div className="vize-row-remove-action">
                             <button
                               type="button"
-                              className="vize-page-step-btn"
-                              onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                              aria-label="Decrease quantity"
+                              className="vize-row-del-btn"
+                              onClick={() => removeFromCart(item.cartItemId)}
+                              aria-label="Remove item"
+                              title="Remove from cart"
                             >
-                              <Minus size={14} />
-                            </button>
-                            <span className="vize-page-step-val">{item.quantity}</span>
-                            <button
-                              type="button"
-                              className="vize-page-step-btn"
-                              onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                              aria-label="Increase quantity"
-                            >
-                              <Plus size={14} />
+                              <Trash2 size={16} />
                             </button>
                           </div>
-                        </div>
 
-                        {/* Line Item Total Col */}
-                        <div className="vize-row-total-price">
-                          <span className="vize-mobile-label">Total:</span>
-                          <span className="vize-cell-total-val">
-                            {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
-                          </span>
                         </div>
-
-                        {/* Remove Action Col */}
-                        <div className="vize-row-remove-action">
-                          <button
-                            type="button"
-                            className="vize-row-del-btn"
-                            onClick={() => removeFromCart(item.cartItemId)}
-                            aria-label="Remove item"
-                            title="Remove from cart"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* Cart Table Bottom Actions */}
@@ -418,6 +476,18 @@ export default function CartPage() {
                       </span>
                     </div>
 
+                    {/* Offer Discount Row */}
+                    {offerDiscountAmount > 0 && (
+                      <div className="vize-summary-row" style={{ color: '#16a34a', fontWeight: 700 }}>
+                        <span className="vize-summary-label" style={{ color: '#15803d', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          ⚡ {activeOfferDiscount?.badge || 'Offer Discount'} ({activeOfferDiscount?.discountPercent}% OFF)
+                        </span>
+                        <span className="vize-summary-value" style={{ color: '#15803d' }}>
+                          -₹{offerDiscountAmount.toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    )}
+
                     {/* Shipping Estimate */}
                     <div className="vize-summary-row">
                       <span className="vize-summary-label">
@@ -435,12 +505,23 @@ export default function CartPage() {
                     {/* Estimated GST */}
                     <div className="vize-summary-row subtle">
                       <span className="vize-summary-label">
-                        Estimated GST (18% inclusive)
+                        Estimated GST ({taxRateLabel || '18% inclusive'})
                       </span>
                       <span className="vize-summary-value">
                         ₹{estimatedTax.toLocaleString('en-IN')}
                       </span>
                     </div>
+
+                    {taxBreakdown && taxBreakdown.length > 1 && (
+                      <div style={{ fontSize: '11px', color: '#64748b', padding: '0 4px', marginTop: '-4px', marginBottom: '6px' }}>
+                        {taxBreakdown.map((tb) => (
+                          <div key={tb.rate} style={{ display: 'flex', justifyContent: 'space-between', padding: '1px 0' }}>
+                            <span>• GST @ {tb.rate}%:</span>
+                            <span>₹{tb.amount.toLocaleString('en-IN')}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Divider */}
                     <div className="vize-summary-divider" />

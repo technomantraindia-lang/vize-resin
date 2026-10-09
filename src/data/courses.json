@@ -1,0 +1,217 @@
+[
+  {
+    "id": "epoxy-flooring",
+    "aliases": ["metallic-resin-flooring", "flooring-workshop", "epoxy-flooring-workshop"],
+    "name": "METALLIC & RESIN FLOORING WORKSHOP",
+    "provider": "ESSENTIAL ARTWORKS",
+    "category": "Metallic & Resin Flooring",
+    "duration": "4 Days of Technical + Hands-on Training",
+    "date": "22nd – 25th October 2026",
+    "location": "Menpura, Vadodara, Gujarat",
+    "seats": "LIMITED SEATS – ONLY 30 PARTICIPANTS",
+    "level": "Contractors • Interior Designers • Architects • Entrepreneurs • Flooring Applicators • Beginners",
+    "shortDesc": "4 Days of Technical + Hands-on Training with Certification, live practical application & complete equipment exposure.",
+    "overview": "Go beyond theory and learn how resin flooring is actually prepared, applied, finished and executed at site level. Get hands-on experience with professional equipment, materials and application techniques used in real flooring projects. Perfect for anyone looking to start, expand or professionally enter the Resin Flooring Industry.",
+    "keyHighlight": "LIVE PRACTICAL TRAINING + EQUIPMENT EXPOSURE",
+    "keyHighlightDesc": "Go beyond theory and learn how resin flooring is actually prepared, applied, finished and executed at site level with professional equipment, materials and application techniques used in real flooring projects.",
+    "badge": "22nd – 25th Oct 2026 · Vadodara",
+    "batchNote": "Block your seat for the October 2026 batch · LIMITED SEATS – ONLY 30 PARTICIPANTS · Menpura, Vadodara, Gujarat",
+    "image": "/cat-flooring.jpg",
+    "flooringTechniques": [
+      {
+        "name": "Metallic Flooring",
+        "desc": "3D marble flows, iridescent fluid veins and high-gloss designer finishes"
+      },
+      {
+        "name": "Flake Flooring",
+        "desc": "High-traffic commercial color flake broadcast systems"
+      },
+      {
+        "name": "Industrial Flooring",
+        "desc": "Heavy-duty high-load screeds, chemical-resistant and forklift grade floors"
+      },
+      {
+        "name": "Terrazzo Flooring",
+        "desc": "Seamless resin-bound stone aggregate matrix & high-polish finishing"
+      }
+    ],
+    "curriculum": [
+      "4 Days of Technical + Hands-on Live Practical Bay Training",
+      "Metallic Flooring: 3D marble flows, pigment veins & high-gloss finishing",
+      "Flake Flooring: Commercial color flake broadcast & durability sealing",
+      "Industrial Flooring: Heavy-duty screed levelling & high-traffic systems",
+      "Terrazzo Flooring: Seamless resin stone aggregate formulation & polishing",
+      "Substrate preparation, moisture testing & mechanical diamond profiling",
+      "Live Practical Application: Site level mixing, pouring, troweling & degassing",
+      "Complete Equipment & Tools Exposure (Notch trowels, spike shoes, mixers, scrapers)"
+    ],
+    "inclusions": [
+      "4 Days of Technical + Hands-on Training",
+      "Training with Certification",
+      "Live Practical Application",
+      "Complete Equipment & Tools Exposure",
+      "Pickup & Drop from Vadodara Railway Station",
+      "Internal Transportation – Hotel ↔ Factory",
+      "Lunch",
+      "Evening Tea/Coffee & Snacks"
+    ],
+    "whoCanJoin": [
+      "Contractors",
+      "Interior Designers",
+      "Architects",
+      "Entrepreneurs",
+      "Flooring Applicators",
+      "Beginners",
+      "Perfect for anyone looking to start, expand or professionally enter the Resin Flooring Industry."
+    ]
+  },
+  {
+    "id": "resin-tabletop-making",
+    "aliases": ["casting-training-program", "tabletop-workshop", "deep-casting-program"],
+    "name": "CASTING TRAINING PROGRAM (Resin Table Making)",
+    "provider": "ESSENTIAL ARTWORKS",
+    "category": "Resin Casting & Table Making",
+    "duration": "5-Day Hands-On Technical Training Program",
+    "date": "Monthly Scheduled Batches",
+    "location": "ESSENTIAL ARTWORKS Studio & Factory",
+    "seats": "Limited Cohorts for Personalized Machine Training",
+    "level": "Furniture Makers, Woodworkers, Designers, Artists, Entrepreneurs & Beginners",
+    "shortDesc": "A 5-Day Hands-On Technical Training Program designed to give you complete practical knowledge of resin casting and table making.",
+    "overview": "A 5-Day Hands-On Technical Training Program designed to give you complete practical knowledge of resin casting and table making. Master deep casting, woodworking, wood moisture testing, mould release, CNC machine handling, wave art, and the advanced Optic Fiber Table.",
+    "keyHighlight": "HIGHLIGHT: OPTIC FIBER TABLE MASTERCLASS",
+    "keyHighlightDesc": "Advanced Casting Techniques – HIGHLIGHT: OPTIC FIBER TABLE (Professional casting methods & problem-solving). LEARN THE ART.",
+    "badge": "5-Day Technical Program",
+    "batchNote": "5-Day Intensive Cohort · Complete Timber, Machine & CNC Router Access · LEARN THE ART.",
+    "image": "/vize-table-top/01-hero-resin-table.png",
+    "trainingModules": [
+      {
+        "num": "01",
+        "title": "Deep Casting",
+        "desc": "Resin understanding, depth, curing & casting techniques"
+      },
+      {
+        "num": "02",
+        "title": "Woodworking",
+        "desc": "Wood selection, preparation, cutting & basic woodworking techniques"
+      },
+      {
+        "num": "03",
+        "title": "Wood Moisture Testing",
+        "desc": "Moisture meter usage, reading & understanding acceptable moisture levels"
+      },
+      {
+        "num": "04",
+        "title": "Resin Surfacing",
+        "desc": "Surface preparation, finishing & polishing"
+      },
+      {
+        "num": "05",
+        "title": "Mould Making for Casting",
+        "desc": "Mould preparation, sizing, release systems & casting applications"
+      },
+      {
+        "num": "06",
+        "title": "CNC Machine Handling",
+        "desc": "Basic operation, handling & practical understanding"
+      },
+      {
+        "num": "07",
+        "title": "Table Sizing & Design",
+        "desc": "Complete sizing and proportion understanding"
+      },
+      {
+        "num": "08",
+        "title": "4-Seater & 6-Seater Tables",
+        "desc": "Dimensions, structure & practical execution"
+      },
+      {
+        "num": "09",
+        "title": "Table Variants",
+        "desc": "Different designs, shapes & possibilities"
+      },
+      {
+        "num": "10",
+        "title": "Digital Paper Application",
+        "desc": "Techniques & creative applications"
+      },
+      {
+        "num": "11",
+        "title": "Wave Techniques",
+        "desc": "Ocean Wave creation, common issues & troubleshooting"
+      },
+      {
+        "num": "12",
+        "title": "Advanced Casting Techniques",
+        "desc": "HIGHLIGHT: OPTIC FIBER TABLE – Professional casting methods & problem-solving"
+      }
+    ],
+    "curriculum": [
+      "Deep Casting – Resin understanding, depth, curing & casting techniques",
+      "Woodworking – Wood selection, preparation, cutting & basic woodworking techniques",
+      "Wood Moisture Testing – Moisture meter usage, reading & understanding acceptable moisture levels",
+      "Resin Surfacing – Surface preparation, finishing & polishing",
+      "Mould Making for Casting – Mould preparation, sizing, release systems & casting applications",
+      "CNC Machine Handling – Basic operation, handling & practical understanding",
+      "Table Sizing & Design – Complete sizing and proportion understanding",
+      "4-Seater & 6-Seater Tables – Dimensions, structure & practical execution",
+      "Table Variants – Different designs, shapes & possibilities",
+      "Digital Paper Application – Techniques & creative applications",
+      "Wave Techniques – Ocean Wave creation, common issues & troubleshooting",
+      "Advanced Casting Techniques (HIGHLIGHT) – Optic Fiber Table making & problem-solving"
+    ],
+    "inclusions": [
+      "5 Full Days of hands-on technical training program",
+      "Live woodworking, mould making & deep casting practical bays",
+      "CNC Machine handling & practical leveling exposure",
+      "Advanced Optic Fiber Table embedding masterclass",
+      "Surface finishing, sanding & nano polishing materials provided",
+      "Official ESSENTIAL ARTWORKS × VIZE Master Certification"
+    ],
+    "whoCanJoin": [
+      "Contractors & Woodworkers",
+      "Interior Designers & Architects",
+      "Entrepreneurs launching a luxury resin table manufacturing brand",
+      "Artists & Beginners wanting complete table fabrication mastery"
+    ]
+  },
+  {
+    "id": "resin-art",
+    "aliases": ["art-workshop", "resin-art-masterclass", "fluid-art"],
+    "name": "RESIN ART & DOMING MASTERCLASS",
+    "provider": "ESSENTIAL ARTWORKS × VIZE",
+    "category": "Artistry & Creative Casting",
+    "duration": "1-Day Intensive (6 Hours)",
+    "date": "Weekly Weekend Batches",
+    "location": "VIZE Creative Studio",
+    "seats": "Limited to 12 Participants per Batch",
+    "level": "Beginners, Hobbyists, Crafters & Intermediate Artists",
+    "shortDesc": "Explore creative techniques, colour play, silicone mould casting, and ocean wave effects with resin.",
+    "overview": "Explore creative techniques, colour play and the art of working with resin. Master pigment blending, silicone mould casting, geode wall art, doming, and flawless bubble-free finishes under master artist guidance.",
+    "keyHighlight": "HANDS-ON FLUID ART & GEODE DOMING",
+    "keyHighlightDesc": "Master pigment dispersion, high-dome resin surface tension, and heat-gun cell creation.",
+    "badge": "1-Day Intensive Workshop",
+    "batchNote": "Weekend Batch Available · All Art Materials Provided · Take Home Your Finished Pieces",
+    "image": "/cat-casting.jpg",
+    "curriculum": [
+      "Resin Chemistry, Viscosity Control & Studio Safety Protocols",
+      "Pigment Dispersions: Alcohol Inks, Mica Pearl & Solid Color Pastes",
+      "Geode & Canvas Art: Multi-layered pours, quartz crystal embeddings & textures",
+      "Silicone Mould Pouring: Coasters, trays, bookmark plates & craft items",
+      "Ocean Wave Lacing Effects using Heat Gun & Thermal Degassing",
+      "Surface High-Doming, Edge Finishing & UV Non-Yellowing Clear Sealing"
+    ],
+    "inclusions": [
+      "Art-grade casting resins & hardeners provided for all exercises",
+      "Premium mica pearl, alcohol ink & pigment sets",
+      "Assorted silicone molds, geode boards & coaster templates",
+      "Full protective gear (organic vapor respirator, nitrile gloves, apron)",
+      "Take home your finished cured resin art pieces",
+      "Certificate of Participation upon completion"
+    ],
+    "whoCanJoin": [
+      "Art Enthusiasts, Crafters & DIY Creators",
+      "Creative Entrepreneurs selling online art, geodes & decor",
+      "Beginners looking for a fun, hands-on weekend creative experience"
+    ]
+  }
+]

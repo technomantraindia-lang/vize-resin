@@ -1,0 +1,54 @@
+[
+    {
+        "id": "reel-5",
+        "db_id": 5,
+        "title": "my video",
+        "category": "Flooring",
+        "platform": "Instagram",
+        "handle": "@vizeresin",
+        "badge": "Featured Pour",
+        "url": "https://www.instagram.com/reel/DeHOteNN2Jg/?stkn=MWV4M3lkNjJxMDNpOQ==",
+        "embedUrl": "https://www.instagram.com/reel/DeHOteNN2Jg/embed/",
+        "thumbnail": "/videos/thumbnails/1791435472_thumb_my-video.png",
+        "sort_order": 1
+    },
+    {
+        "id": "reel-1",
+        "db_id": 1,
+        "title": "Live-Edge River Table 3-Inch Deep Pour",
+        "category": "Flooring",
+        "platform": "Mp4",
+        "handle": "@vizeresin",
+        "badge": "Featured",
+        "url": "/hero-video.mp4",
+        "embedUrl": "/hero-video.mp4",
+        "thumbnail": "/process-pour.jpg",
+        "sort_order": 1
+    },
+    {
+        "id": "reel-2",
+        "db_id": 2,
+        "title": "Industrial Metallic Marble Floor Coating Application",
+        "category": "Flooring",
+        "platform": "Mp4",
+        "handle": "@vizeresin",
+        "badge": "Featured",
+        "url": "/hero-video-2.mp4",
+        "embedUrl": "/hero-video-2.mp4",
+        "thumbnail": "/process-trowel.jpg",
+        "sort_order": 2
+    },
+    {
+        "id": "reel-3",
+        "db_id": 3,
+        "title": "Workshop Masterclass Hands-on Live Batch",
+        "category": "Flooring",
+        "platform": "Mp4",
+        "handle": "@vizeresin",
+        "badge": "Featured",
+        "url": "/make_the_video_on_this_this_is.mp4",
+        "embedUrl": "/make_the_video_on_this_this_is.mp4",
+        "thumbnail": "/reel-1-thumb.jpg",
+        "sort_order": 3
+    }
+]

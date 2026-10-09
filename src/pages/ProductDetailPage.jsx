@@ -29,30 +29,114 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const location = useLocation();
   const { addToCart } = useCart();
+  const [dbProduct, setDbProduct] = useState(null);
 
-  // 1. Resolve active product based on ID or fallback route
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLiveProduct = async () => {
+      try {
+        const targetId = id || 'vize-primex';
+        const res = await fetch(`http://127.0.0.1:8000/api/vize/products/${targetId}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data && isMounted) {
+            setDbProduct(json.data);
+          }
+        }
+      } catch (e) {
+        // Fallback gracefully to bundled products.json
+      }
+    };
+    fetchLiveProduct();
+    return () => { isMounted = false; };
+  }, [id]);
+
+  // 1. Resolve active product based on ID or fallback route + merged with dbProduct
   const product = useMemo(() => {
+    let presetMatch = null;
     if (id) {
       const cleanId = id.toLowerCase();
-      const found = productsData.find(
+      presetMatch = productsData.find(
         (p) => p.id.toLowerCase() === cleanId || p.aliases?.some((a) => a.toLowerCase() === cleanId)
       );
-      if (found) return found;
+    } else {
+      const path = location.pathname.toLowerCase();
+      if (path.includes('casting') || path.includes('cast')) presetMatch = productsData.find((p) => p.id.includes('cast'));
+      else if (path.includes('aspartic')) presetMatch = productsData.find((p) => p.id.includes('aspartic'));
+      else if (path.includes('urethane')) presetMatch = productsData.find((p) => p.id.includes('urethane'));
+      else if (path.includes('primer') || path.includes('prime')) presetMatch = productsData.find((p) => p.id.includes('prime'));
+      else if (path.includes('screed')) presetMatch = productsData.find((p) => p.id.includes('screed'));
+      else if (path.includes('rockhard')) presetMatch = productsData.find((p) => p.id.includes('rockhard'));
+      else if (path.includes('epowrap-pro')) presetMatch = productsData.find((p) => p.id === 'vize-epowrap-pro');
+      else if (path.includes('epowrap-max')) presetMatch = productsData.find((p) => p.id === 'vize-epowrap-max');
+      else if (path.includes('epowrap')) presetMatch = productsData.find((p) => p.id === 'vize-epowrap');
+      else if (path.includes('nano')) presetMatch = productsData.find((p) => p.id.includes('nano'));
+      else if (path.includes('art')) presetMatch = productsData.find((p) => p.id.includes('art'));
     }
-    const path = location.pathname.toLowerCase();
-    if (path.includes('casting') || path.includes('cast')) return productsData.find((p) => p.id.includes('cast')) || productsData[0];
-    if (path.includes('aspartic')) return productsData.find((p) => p.id.includes('aspartic')) || productsData[0];
-    if (path.includes('urethane')) return productsData.find((p) => p.id.includes('urethane')) || productsData[0];
-    if (path.includes('primer') || path.includes('prime')) return productsData.find((p) => p.id.includes('prime')) || productsData[0];
-    if (path.includes('screed')) return productsData.find((p) => p.id.includes('screed')) || productsData[0];
-    if (path.includes('rockhard')) return productsData.find((p) => p.id.includes('rockhard')) || productsData[0];
-    if (path.includes('epowrap-pro')) return productsData.find((p) => p.id === 'vize-epowrap-pro') || productsData[0];
-    if (path.includes('epowrap-max')) return productsData.find((p) => p.id === 'vize-epowrap-max') || productsData[0];
-    if (path.includes('epowrap')) return productsData.find((p) => p.id === 'vize-epowrap') || productsData[0];
-    if (path.includes('nano')) return productsData.find((p) => p.id.includes('nano')) || productsData[0];
-    if (path.includes('art')) return productsData.find((p) => p.id.includes('art')) || productsData[0];
-    return productsData[0];
-  }, [id, location.pathname]);
+
+    if (dbProduct) {
+      const cleanDbImages = Array.isArray(dbProduct.images)
+        ? dbProduct.images.filter((img) => typeof img === 'string' && img.trim().length > 0)
+        : [];
+
+      const fallbackImages = presetMatch?.images || ['/rasin-product/Vize PrimeX.png'];
+      const mergedImages = cleanDbImages.length > 0 ? cleanDbImages : fallbackImages;
+
+      const basePriceNum = Number(dbProduct.basePrice ?? dbProduct.base_price ?? presetMatch?.basePrice ?? 6264);
+      const packQtyStr = dbProduct.packQty || dbProduct.pack_qty || presetMatch?.packQty || '15 KG';
+      const coverageStr = dbProduct.coverage || presetMatch?.coverage || (dbProduct.sqftCoverage ? `~${dbProduct.sqftCoverage} sq.ft` : '~100 sq.ft');
+
+      const customSizes = (presetMatch?.sizes && presetMatch.sizes.length > 0) ? presetMatch.sizes : [
+        {
+          id: 'standard-pack',
+          label: `Standard Pack (${packQtyStr})`,
+          price: basePriceNum,
+          coverageDesc: coverageStr
+        }
+      ];
+
+      return {
+        id: dbProduct.slug || dbProduct.id || id || 'resin-product',
+        name: dbProduct.name || presetMatch?.name || 'VIZE Resin System',
+        brand: dbProduct.brand || dbProduct.name || presetMatch?.brand || 'VIZE',
+        suffix: dbProduct.suffix !== undefined && dbProduct.suffix !== null ? dbProduct.suffix : (presetMatch ? presetMatch.suffix : ''),
+        category: dbProduct.category || dbProduct.application_category || presetMatch?.category || 'Flooring Resins',
+        grade: dbProduct.grade || presetMatch?.grade || 'Professional Grade',
+        chemistry: dbProduct.chemistry || (presetMatch?.chemistry || 'Epoxy Polymer Formulation'),
+        tagline: dbProduct.tagline || (presetMatch?.tagline || `${dbProduct.mixRatio || '2:1'} Professional Resin System`),
+        basePrice: basePriceNum,
+        currency: dbProduct.currency || presetMatch?.currency || '₹',
+        packQty: packQtyStr,
+        packComposition: dbProduct.packComposition || dbProduct.pack_composition || presetMatch?.packComposition || '',
+        mixRatio: dbProduct.mixRatio || dbProduct.mix_ratio || presetMatch?.mixRatio || '2 : 1',
+        cureTime: dbProduct.cureTime || dbProduct.cure_time || presetMatch?.cureTime || '12–16 hrs',
+        potLife: dbProduct.potLife || dbProduct.pot_life || presetMatch?.potLife || '30–45 mins',
+        coverage: coverageStr,
+        sqftCoverage: Number(dbProduct.sqftCoverage || dbProduct.sqft_coverage || presetMatch?.sqftCoverage || 100),
+        pricePerKg: dbProduct.pricePerKg || (parseInt(packQtyStr) > 0 ? Math.round(basePriceNum / parseInt(packQtyStr)) : null),
+        taxRate: Number(dbProduct.taxRate ?? dbProduct.tax_rate ?? presetMatch?.taxRate ?? presetMatch?.tax_rate ?? 18),
+        tax_rate: Number(dbProduct.tax_rate ?? dbProduct.taxRate ?? presetMatch?.tax_rate ?? presetMatch?.taxRate ?? 18),
+        inStock: dbProduct.inStock !== undefined ? Boolean(dbProduct.inStock) : true,
+        aboutText: dbProduct.aboutText || dbProduct.about_text || presetMatch?.aboutText || 'High-performance specialty resin formulation engineered for durable, seamless application and maximum substrate bonding.',
+        features: (Array.isArray(dbProduct.features) && dbProduct.features.length > 0) ? dbProduct.features : (presetMatch?.features || [
+          'High bond strength to concrete & masonry',
+          'Optimum pot life for easy leveling',
+          'Professional-grade chemical resistance',
+          'UV-resistant color stability'
+        ]),
+        images: mergedImages,
+        video: dbProduct.video || presetMatch?.video || null,
+        sizes: customSizes,
+        samples: presetMatch?.samples || productsData[0]?.samples || [],
+        howToUseSteps: presetMatch?.howToUseSteps || productsData[0]?.howToUseSteps || [],
+        reviews: presetMatch?.reviews || [],
+        tds: presetMatch?.tds || { title: `${dbProduct.name || 'VIZE'} Technical Data Sheet`, url: '#' },
+        sds: presetMatch?.sds || { title: `${dbProduct.name || 'VIZE'} Safety Data Sheet`, url: '#' }
+      };
+    }
+
+    return presetMatch || productsData[0];
+  }, [id, location.pathname, dbProduct]);
 
   // 2. Interactive state
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -312,32 +396,44 @@ export default function ProductDetailPage() {
 
             {/* Heading: Product Name */}
             <h1 className="vize-pdp-title">
-              {product.brand || product.name}{' '}
-              {product.suffix && <em className="vize-pdp-title-italic">{product.suffix}</em>}
+              {product.name || product.brand}
+              {product.suffix ? <> <em className="vize-pdp-title-italic">{product.suffix}</em></> : null}
             </h1>
 
             {/* Tagline / Subtitle */}
-            <p className="vize-pdp-tagline">{product.tagline || product.chemistry}</p>
+            {product.tagline ? (
+              <p className="vize-pdp-tagline">{product.tagline}</p>
+            ) : product.chemistry ? (
+              <p className="vize-pdp-tagline">{product.chemistry}</p>
+            ) : null}
 
             {/* Price Row */}
             <div className="vize-pdp-price-row">
-              <span className="vize-pdp-currency">{product.currency}</span>
+              <span className="vize-pdp-currency">{product.currency || '₹'}</span>
               <span className="vize-pdp-amount">
-                {selectedSize ? selectedSize.price.toLocaleString('en-IN') : (product.basePrice ? product.basePrice.toLocaleString('en-IN') : '—')}
+                {selectedSize ? Number(selectedSize.price).toLocaleString('en-IN') : (product.basePrice ? Number(product.basePrice).toLocaleString('en-IN') : '—')}
               </span>
               <span className="vize-pdp-price-unit-tag">
-                / {selectedSize?.coverageDesc || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft Fixed Kit` : '50 Sq.Ft Fixed Kit')}
+                / {selectedSize?.coverageDesc || product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft Fixed Kit` : 'Standard Kit')}
+                {product.pricePerKg ? ` (₹${product.pricePerKg}/KG)` : ''}
               </span>
             </div>
+            <p style={{ fontSize: '11px', color: '#64748b', marginTop: '-4px', marginBottom: '10px', fontWeight: 600 }}>
+              ✓ All prices inclusive of {product.taxRate || product.tax_rate || 18}% GST
+            </p>
 
             {/* Simple Fixed Kit Coverage Note */}
             <div className="vize-simple-coverage-card">
               <div className="vize-simple-coverage-badge">
                 <span className="vize-badge-dot"></span>
-                <span>Fixed Standard Kit • <strong>{product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft Coverage` : '50 Sq.Ft Coverage')}</strong></span>
+                <span>Fixed Standard Kit • <strong>{product.coverage || (product.packQty ? `${product.packQty} Package` : 'Standard Package')}</strong></span>
               </div>
               <p className="vize-simple-coverage-desc">
-                Pre-measured kit includes Part A Base + Part B Hardener pouches and application mixing bucket, engineered for complete {product.sqftCoverage || 50} square feet coverage.
+                {product.packComposition ? (
+                  `Pre-measured kit includes ${product.packComposition}, engineered for complete ${product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} sq.ft` : '')} coverage.`
+                ) : (
+                  `Pre-measured kit includes Part A Base + Part B Hardener pouches and application mixing bucket, engineered for complete ${product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} sq.ft` : 'coverage')}.`
+                )}
               </p>
             </div>
 
@@ -627,6 +723,27 @@ export default function ProductDetailPage() {
                       <strong className="vize-spec-val highlight-tea">{product.coverage || (product.sqftCoverage ? `${product.sqftCoverage} Sq.Ft (Square Feet)` : '50 Sq.Ft')}</strong>
                       <span className="vize-spec-sub">Pre-measured complete coverage</span>
                     </div>
+                    {product.packQty && (
+                      <div className="vize-spec-cell">
+                        <span className="vize-spec-label">Pack Quantity</span>
+                        <strong className="vize-spec-val">{product.packQty}</strong>
+                        <span className="vize-spec-sub">{product.packComposition || 'Standard Pack'}</span>
+                      </div>
+                    )}
+                    {product.mixRatio && (
+                      <div className="vize-spec-cell">
+                        <span className="vize-spec-label">Mix Ratio</span>
+                        <strong className="vize-spec-val">{product.mixRatio}</strong>
+                        <span className="vize-spec-sub">By weight (Part A : Part B)</span>
+                      </div>
+                    )}
+                    {product.pricePerKg && (
+                      <div className="vize-spec-cell">
+                        <span className="vize-spec-label">Price per KG</span>
+                        <strong className="vize-spec-val">₹{product.pricePerKg}/-</strong>
+                        <span className="vize-spec-sub">Effective unit rate</span>
+                      </div>
+                    )}
                     <div className="vize-spec-cell">
                       <span className="vize-spec-label">Cure Time</span>
                       <strong className="vize-spec-val">{product.cureTime || '6–8 hrs tack-free'}</strong>

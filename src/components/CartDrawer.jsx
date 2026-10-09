@@ -22,6 +22,11 @@ export default function CartDrawer() {
     isFreeShipping,
     freeShippingProgress,
     amountNeededForFreeShipping,
+    activeOfferDiscount,
+    offerDiscountAmount,
+    getItemDiscountInfo,
+    estimatedTax,
+    taxRateLabel,
     isDrawerOpen,
     closeDrawer,
     updateQuantity,
@@ -120,92 +125,133 @@ export default function CartDrawer() {
               </button>
             </div>
           ) : (
-            <div className="vize-cart-items-list">
-              {cartItems.map((item) => (
-                <div key={item.cartItemId} className="vize-cart-item-card">
-                  {/* Item Image */}
-                  <div className="vize-cart-item-thumb">
-                    <img src={item.image} alt={item.name} />
+            <div>
+              {/* Active Offer Discount Banner */}
+              {offerDiscountAmount > 0 && (
+                <div style={{ margin: '10px 14px 12px', padding: '8px 12px', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '14px' }}>⚡</span>
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#065f46' }}>
+                      {activeOfferDiscount?.badge || 'OFFER'}: {activeOfferDiscount?.discountPercent}% OFF Applied
+                    </span>
                   </div>
-
-                  {/* Item Details */}
-                  <div className="vize-cart-item-info">
-                    <div className="vize-cart-item-top">
-                      <span className="vize-cart-item-cat">{item.category}</span>
-                      <button
-                        type="button"
-                        className="vize-cart-item-remove"
-                        onClick={() => removeFromCart(item.cartItemId)}
-                        aria-label="Remove item"
-                        title="Remove from cart"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-
-                    <h4 className="vize-cart-item-name">
-                      <Link
-                        to={`/product/${item.productId}`}
-                        onClick={closeDrawer}
-                        className="vize-cart-item-link"
-                      >
-                        {item.name}
-                      </Link>
-                    </h4>
-
-                    {/* Variant & Color details */}
-                    <div className="vize-cart-item-specs">
-                      {item.size && (
-                        <span className="vize-item-spec-pill">{item.size.label}</span>
-                      )}
-                      {item.color && (
-                        <span className="vize-item-color-pill">
-                          {item.color.image && (
-                            <img
-                              src={item.color.image}
-                              alt=""
-                              className="vize-spec-color-dot"
-                            />
-                          )}
-                          <span>{item.color.name}</span>
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Price and Quantity Controls */}
-                    <div className="vize-cart-item-bottom">
-                      <div className="vize-cart-item-price">
-                        {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
-                        {item.quantity > 1 && (
-                          <span className="vize-unit-price">
-                            ({item.currency} {item.price.toLocaleString('en-IN')} each)
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="vize-cart-stepper">
-                        <button
-                          type="button"
-                          className="vize-drawer-step-btn"
-                          onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                          aria-label="Decrease quantity"
-                        >
-                          <Minus size={13} />
-                        </button>
-                        <span className="vize-drawer-step-qty">{item.quantity}</span>
-                        <button
-                          type="button"
-                          className="vize-drawer-step-btn"
-                          onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                          aria-label="Increase quantity"
-                        >
-                          <Plus size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <span style={{ fontSize: '11px', fontWeight: 800, color: '#047857' }}>
+                    -₹{offerDiscountAmount.toLocaleString('en-IN')}
+                  </span>
                 </div>
-              ))}
+              )}
+
+              <div className="vize-cart-items-list">
+                {cartItems.map((item) => {
+                  const discount = getItemDiscountInfo(item);
+                  return (
+                    <div key={item.cartItemId} className="vize-cart-item-card">
+                      {/* Item Image */}
+                      <div className="vize-cart-item-thumb">
+                        <img src={item.image} alt={item.name} />
+                      </div>
+
+                      {/* Item Details */}
+                      <div className="vize-cart-item-info">
+                        <div className="vize-cart-item-top">
+                          <span className="vize-cart-item-cat">{item.category}</span>
+                          <button
+                            type="button"
+                            className="vize-cart-item-remove"
+                            onClick={() => removeFromCart(item.cartItemId)}
+                            aria-label="Remove item"
+                            title="Remove from cart"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+
+                        <h4 className="vize-cart-item-name">
+                          <Link
+                            to={`/product/${item.productId}`}
+                            onClick={closeDrawer}
+                            className="vize-cart-item-link"
+                          >
+                            {item.name}
+                          </Link>
+                        </h4>
+
+                        {/* Variant & Color details */}
+                        <div className="vize-cart-item-specs">
+                          {item.size && (
+                            <span className="vize-item-spec-pill">{item.size.label}</span>
+                          )}
+                          {item.color && (
+                            <span className="vize-item-color-pill">
+                              {item.color.image && (
+                                <img
+                                  src={item.color.image}
+                                  alt=""
+                                  className="vize-spec-color-dot"
+                                />
+                              )}
+                              <span>{item.color.name}</span>
+                            </span>
+                          )}
+                          {item.taxRate !== undefined && item.taxRate !== null && (
+                            <span className="vize-item-spec-pill" style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', fontWeight: 700 }}>
+                              {item.taxRate}% GST
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Price and Quantity Controls */}
+                        <div className="vize-cart-item-bottom">
+                          <div className="vize-cart-item-price">
+                            {discount.hasDiscount ? (
+                              <div>
+                                <span style={{ color: '#16a34a', fontWeight: 800 }}>
+                                  {item.currency} {(discount.discountedPrice * item.quantity).toLocaleString('en-IN')}
+                                </span>
+                                <span style={{ textDecoration: 'line-through', color: '#94a3b8', fontSize: '11px', marginLeft: '6px' }}>
+                                  {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
+                                </span>
+                                <span style={{ background: '#dcfce7', color: '#15803d', fontSize: '10px', fontWeight: 800, padding: '1px 5px', borderRadius: '4px', marginLeft: '6px' }}>
+                                  {discount.discountPercent}% OFF
+                                </span>
+                              </div>
+                            ) : (
+                              <>
+                                {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
+                                {item.quantity > 1 && (
+                                  <span className="vize-unit-price">
+                                    ({item.currency} {item.price.toLocaleString('en-IN')} each)
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </div>
+
+                          <div className="vize-cart-stepper">
+                            <button
+                              type="button"
+                              className="vize-drawer-step-btn"
+                              onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
+                              aria-label="Decrease quantity"
+                            >
+                              <Minus size={13} />
+                            </button>
+                            <span className="vize-drawer-step-qty">{item.quantity}</span>
+                            <button
+                              type="button"
+                              className="vize-drawer-step-btn"
+                              onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                              aria-label="Increase quantity"
+                            >
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
@@ -220,8 +266,28 @@ export default function CartDrawer() {
                 ₹{subtotal.toLocaleString('en-IN')}
               </span>
             </div>
+
+            {/* Offer Discount Cut */}
+            {offerDiscountAmount > 0 && (
+              <div className="vize-drawer-subtotal-row" style={{ color: '#16a34a', fontWeight: 700 }}>
+                <span className="vize-drawer-subtotal-label" style={{ color: '#15803d' }}>
+                  ⚡ {activeOfferDiscount?.badge || 'Offer Discount'} ({activeOfferDiscount?.discountPercent}% OFF)
+                </span>
+                <span className="vize-drawer-subtotal-val" style={{ color: '#15803d' }}>
+                  -₹{offerDiscountAmount.toLocaleString('en-IN')}
+                </span>
+              </div>
+            )}
+
+            <div className="vize-drawer-subtotal-row" style={{ fontWeight: 800, fontSize: '1.05rem', borderTop: '1px dashed #e2e8f0', paddingTop: '8px', marginTop: '6px' }}>
+              <span className="vize-drawer-subtotal-label" style={{ color: '#0f172a' }}>Estimated Total</span>
+              <span className="vize-drawer-subtotal-val" style={{ color: '#0f172a' }}>
+                ₹{(subtotal - offerDiscountAmount).toLocaleString('en-IN')}
+              </span>
+            </div>
+
             <p className="vize-drawer-tax-note">
-              Taxes and shipping calculated at checkout
+              Includes {taxRateLabel || '18% GST'} (₹{estimatedTax.toLocaleString('en-IN')}) · Free shipping on qualifying orders
             </p>
 
             {/* CTAs */}

@@ -1,0 +1,263 @@
+[
+  {
+    "id": "showcase-metallic-bkc",
+    "title": "Petrol Teal & Liquid Copper Atrium Floor",
+    "tagline": "Mirror-grade 3D metallic flow engineered for an executive commercial headquarters.",
+    "category": "Resin Flooring",
+    "subcategory": "Metallic Floors",
+    "featured": true,
+    "hasVideo": true,
+    "location": "Bandra Kurla Complex, Mumbai",
+    "client": "Flagship Commercial Atrium",
+    "area": "4,800 sq.ft",
+    "turnaround": "5 Days Execution",
+    "image": "/Metallic Resin Flooring.png",
+    "video": "/hero-video-2.mp4",
+    "productsUsed": [
+      { "name": "Vize Primax 2:1", "role": "Moisture Barrier Primer", "link": "/product/vize-primax" },
+      { "name": "Vize Urethane Max 3:1", "role": "High-Gloss Flow Body Coat", "link": "/product/vize-urethane-max" },
+      { "name": "VIZE Pearl / Mica (Petrol Teal & Copper)", "role": "3D Metallic Pigment Dispersion", "link": "/colors" }
+    ],
+    "description": "Custom hand-feathered liquid copper and petrol teal pigment veins over an ultra-flat concrete substrate, providing 3D mirror optical depth with maximum scratch and foot traffic resistance.",
+    "stats": {
+      "Hardness": "Shore D 85",
+      "UV Stability": "100% Aliphatic Non-Yellowing",
+      "VOC Level": "Zero VOC / Odor Free",
+      "Finish": "Ultra Mirror Gloss"
+    }
+  },
+  {
+    "id": "showcase-teal-river-table",
+    "title": "Live-Edge Teak 'Teal Abyssal' River Dining Table",
+    "tagline": "Reclaimed 60-year seasoned Burma Teak paired with crystal-clear oceanic teal deep pour.",
+    "category": "Custom Tables",
+    "subcategory": "Dining Tables",
+    "featured": true,
+    "hasVideo": true,
+    "location": "Alibaug Luxury Sea Villa",
+    "client": "Private Architectural Residence",
+    "area": "8.5 ft × 3.8 ft (10-Seater)",
+    "turnaround": "3 Weeks Handcrafted",
+    "image": "/table top/IMG20230215154153.jpg",
+    "video": "/make_the_video_on_this_this_is.mp4",
+    "productsUsed": [
+      { "name": "Vize Cast Max 3:1", "role": "Ultra-Clear Deep Casting Resin (Up to 100mm)", "link": "/product/vize-cast-max" },
+      { "name": "Vize Coat Max 2:1", "role": "Self-Doming High-Gloss Glaze", "link": "/product/vize-coat-max" },
+      { "name": "VIZE Nano Silicon Coating", "role": "Hydrophobic Scratch Defense", "link": "/product/vize-nano" }
+    ],
+    "description": "Reclaimed seasoned Teak slabs embedded in crystal-clear teal oceanic resin with luminous micro-pearl clouds. Flattened on CNC precision bed, sanded up to 3000 grit, and sealed with hydrophobic Nano Silicon.",
+    "stats": {
+      "Timber": "Burma Teak (<8% Moisture)",
+      "Pour Depth": "65mm Single Pour",
+      "Finish": "Hydrophobic Nano Glass Gloss",
+      "Leg Base": "Matte Black Steel X-Frame"
+    }
+  },
+  {
+    "id": "showcase-industrial-pune",
+    "title": "Automotive Engineering Forklift Bay Floor",
+    "tagline": "Heavy-duty 6mm polyurethane screed engineered for 5-ton forklift point-loads.",
+    "category": "Industrial Facilities",
+    "subcategory": "Heavy Screeds",
+    "featured": true,
+    "hasVideo": true,
+    "location": "Chakan Industrial Zone, Pune",
+    "client": "Precision Component Manufacturer",
+    "area": "22,000 sq.ft",
+    "turnaround": "7 Days Turnkey",
+    "image": "/Industrial Resin Flooring.png",
+    "video": "/hero-video.mp4",
+    "productsUsed": [
+      { "name": "Vize ScreedMax 3-Part", "role": "6mm Heavy-Duty Mortar Screed", "link": "/product/vize-screed-max" },
+      { "name": "Vize Primax 2:1", "role": "High Penetration Sealer", "link": "/product/vize-primax" }
+    ],
+    "description": "High-compressive polyurethane screed engineered for heavy point loads, pallet dragging, motor oil washdowns, and aggressive mechanical impact.",
+    "stats": {
+      "Load Capacity": "5-Ton Forklift Rated",
+      "Compressive Strength": "65 N/mm²",
+      "Temp Range": "-20°C to +110°C",
+      "Chemical Resistance": "Hydraulic Oils, Fuels & Acids"
+    }
+  },
+  {
+    "id": "showcase-emerald-boardroom",
+    "title": "14-Foot Emerald Lagoon Executive Boardroom Table",
+    "tagline": "Monumental live-edge Acacia slab encased in crystalline emerald teal optical polymer.",
+    "category": "Custom Tables",
+    "subcategory": "Specialty Tables",
+    "featured": true,
+    "hasVideo": true,
+    "location": "Worli Sea Face, Mumbai",
+    "client": "Corporate Headquarters",
+    "area": "14 ft × 4.5 ft (14-Seater)",
+    "turnaround": "4 Weeks Handcrafted",
+    "image": "/table top/1N2A7888.jpg",
+    "video": "/hero-video-3.mp4",
+    "productsUsed": [
+      { "name": "Vize Cast Max 3:1", "role": "Deep Casting Polymer Matrix", "link": "/product/vize-cast-max" },
+      { "name": "VIZE Selected Shades", "role": "Emerald Spark & Sapphire Mist", "link": "/colors" }
+    ],
+    "description": "Exquisite 14-foot seamless live-edge boardroom table featuring dual bookmatched organic slabs fused with transparent emerald teal resin, micro-polished to diamond mirror brilliance.",
+    "stats": {
+      "Timber": "Single Harvest Acacia Slab",
+      "Pour Depth": "80mm Single Pour",
+      "Finish": "Diamond Buffed Optical Gloss",
+      "Base": "Solid Stainless Steel Trestle"
+    }
+  },
+  {
+    "id": "showcase-optic-fiber-table",
+    "title": "Illuminated Starry Sky Optic Fiber Table",
+    "tagline": "200 micro optical fibers creating glowing starry constellations in deep resin river.",
+    "category": "Custom Tables",
+    "subcategory": "Specialty Tables",
+    "featured": true,
+    "hasVideo": true,
+    "location": "Jubilee Hills, Hyderabad",
+    "client": "Penthouse Lounge",
+    "area": "6 ft × 3 ft Coffee Table",
+    "turnaround": "4 Weeks Handcrafted",
+    "image": "/table top/1N2A8033.jpg",
+    "video": "/hero-video-3.mp4",
+    "productsUsed": [
+      { "name": "Vize Cast Max 3:1", "role": "Deep Pour Optical Matrix", "link": "/product/vize-cast-max" },
+      { "name": "VIZE Selected Shades", "role": "Cosmic Deep Space Tint", "link": "/colors" }
+    ],
+    "description": "200 individually embedded optical fiber strands illuminating custom celestial constellations in dark smoky crystal resin, powered by a concealed rechargeable lithium LED generator.",
+    "stats": {
+      "Lighting": "200 Optic Fibers (Dual-Tone Warm/Cool)",
+      "Timber": "American Walnut",
+      "Battery": "24+ Hours Run Time",
+      "Controls": "Touch & Wireless Dimming"
+    }
+  },
+  {
+    "id": "showcase-bio-lab",
+    "title": "ISO Class 5 Hermetic Cleanroom Floor",
+    "tagline": "Jointless antibacterial floor-to-wall coving meeting ISO 5 pharmaceutical standards.",
+    "category": "Industrial Facilities",
+    "subcategory": "Cleanrooms & Labs",
+    "featured": false,
+    "hasVideo": false,
+    "location": "Genome Valley, Hyderabad",
+    "client": "Biotech Research Facility",
+    "area": "6,500 sq.ft",
+    "turnaround": "4 Days Application",
+    "image": "/Bio Safety Lab Critical Non Porous Flooring.png",
+    "video": "/hero-video.mp4",
+    "productsUsed": [
+      { "name": "Vize EpoWrap Pro UV", "role": "Non-Porous Antibacterial Body Matrix", "link": "/product/vize-epowrap-pro" },
+      { "name": "Vize Primax 2:1", "role": "Hermetic Vapor Sealer", "link": "/product/vize-primax" }
+    ],
+    "description": "Monolithic, zero-porosity antibacterial flooring with integrated floor-to-wall radius coving to prevent bacterial harborage and withstand chemical sanitisation.",
+    "stats": {
+      "Cleanroom Grade": "ISO Class 5 Certified",
+      "Porosity": "0.0% Hermetically Sealed",
+      "Coving": "100mm Radius Curved Wall Transition",
+      "Sanitisation": "Resistant to Formaldehyde & Chlorine"
+    }
+  },
+  {
+    "id": "showcase-flake-gurugram",
+    "title": "Granite Flake High-Traffic Showroom Floor",
+    "tagline": "Multi-tone vinyl broadcast chips with 100% hot-tire pickup proof polyaspartic glaze.",
+    "category": "Resin Flooring",
+    "subcategory": "Flake Systems",
+    "featured": false,
+    "hasVideo": true,
+    "location": "Cyber City, Gurugram",
+    "client": "Luxury Automotive Gallery",
+    "area": "8,200 sq.ft",
+    "turnaround": "3 Days Quick-Cure",
+    "image": "/high traffic flake flooring.png",
+    "video": "/hero-video-2.mp4",
+    "productsUsed": [
+      { "name": "Vize Urethane Max 3:1", "role": "Fast-Curing Polyaspartic Clear Glaze", "link": "/product/vize-urethane-max" },
+      { "name": "VIZE Granual Epoxy Flakes", "role": "High-Density Vinyl Broadcast Chips", "link": "/colors" }
+    ],
+    "description": "Multi-tone architectural vinyl chips broadcast to full refusal into tinted epoxy base and sealed with dual-coat aliphatic polyaspartic topcoat.",
+    "stats": {
+      "Hot-Tire Proof": "100% Non-Marking",
+      "Turnaround": "Full Traffic in 24 Hours",
+      "Slip Rating": "R11 Anti-Slip Texture",
+      "Durability": "15+ Years Commercial Life"
+    }
+  },
+  {
+    "id": "showcase-amber-console",
+    "title": "Golden Amber Translucent Live-Edge Console",
+    "tagline": "Honey-toned amber resin river poured against organic dark walnut contours.",
+    "category": "Custom Tables",
+    "subcategory": "Console & Accents",
+    "featured": false,
+    "hasVideo": false,
+    "location": "Koregaon Park, Pune",
+    "client": "Boutique Hotel Lobby",
+    "area": "5 ft × 1.8 ft",
+    "turnaround": "2.5 Weeks",
+    "image": "/table top/1N2A8107.jpg",
+    "video": "/hero-video-3.mp4",
+    "productsUsed": [
+      { "name": "Vize Cast Max 3:1", "role": "Deep Casting Polymer", "link": "/product/vize-cast-max" },
+      { "name": "VIZE Pearl / Mica (Liquid Gold)", "role": "Golden Amber Iridescence", "link": "/colors" }
+    ],
+    "description": "Rich honey-amber translucent resin cast against deep walnut bark contours with solid brushed brass hairpin legs and mirror gloss polish.",
+    "stats": {
+      "Timber": "Indian Walnut Slabs",
+      "Resin Color": "Amber Liquid Gold",
+      "Leg Base": "Brushed Brass Hairpin",
+      "Finish": "SuperCoat Ultra-Gloss"
+    }
+  },
+  {
+    "id": "showcase-crystal-pour",
+    "title": "Ultra-Clear River Void Architectural Coffee Table",
+    "tagline": "Optically pure crystal casting revealing microscopic wood grain striations.",
+    "category": "Custom Tables",
+    "subcategory": "Coffee Tables",
+    "featured": true,
+    "hasVideo": true,
+    "location": "Indiranagar, Bengaluru",
+    "client": "Modern Design Studio",
+    "area": "4.5 ft × 2.8 ft",
+    "turnaround": "3 Weeks Handcrafted",
+    "image": "/table top/1N2A7896.jpg",
+    "video": "/make_the_video_on_this_this_is.mp4",
+    "productsUsed": [
+      { "name": "Vize Cast Max 3:1", "role": "Optically Clear Deep Casting Polymer", "link": "/product/vize-cast-max" },
+      { "name": "Vize Coat Max 2:1", "role": "Diamond Scratch Defense Topcoat", "link": "/product/vize-coat-max" }
+    ],
+    "description": "Museum-grade water-clear resin river cast between bookmatched rosewood timbers with zero micro-bubbles and diamond-honed beveled edges.",
+    "stats": {
+      "Clarity": "99.8% Optical Transparency",
+      "Pour Depth": "75mm Single Monolithic Pour",
+      "Timber": "Rosewood Natural Bark Edge",
+      "Finish": "Glass-Clear Nano Sealed"
+    }
+  },
+  {
+    "id": "showcase-food-safe",
+    "title": "Thermal-Shock HACCP Dairy Processing Floor",
+    "tagline": "Food-safe heavy screed resistant to 120°C boiling water and lactic acids.",
+    "category": "Industrial Facilities",
+    "subcategory": "Food-Safe",
+    "featured": false,
+    "hasVideo": false,
+    "location": "Khadki Industrial Area, Pune",
+    "client": "Dairy & Beverage Facility",
+    "area": "14,000 sq.ft",
+    "turnaround": "6 Days Turnkey",
+    "image": "/Food Safe Non Porous Flooring.png",
+    "video": "/hero-video.mp4",
+    "productsUsed": [
+      { "name": "Vize ScreedMax 3-Part", "role": "Thermal Shock Food Grade Screed", "link": "/product/vize-screed-max" }
+    ],
+    "description": "Heavy-duty food-grade screed engineered for steam cleaning washdowns up to 120°C, lactic acid exposure, and slip-free worker safety.",
+    "stats": {
+      "Certification": "HACCP Food Safety Certified",
+      "Steam Cleaning": "Up to 120°C Steam Resistant",
+      "Acid Proof": "Lactic, Citric & Caustic Wash Proof",
+      "Texture": "High-Traction Anti-Slip Profile"
+    }
+  }
+]

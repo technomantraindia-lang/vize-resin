@@ -1,545 +1,1073 @@
 [
-  {
-    "id": "vize-primex",
-    "aliases": ["primex", "vize-prime"],
-    "name": "Vize PrimeX",
-    "brand": "Vize Prime",
-    "suffix": "X",
-    "category": "Flooring Resins",
-    "applicationCategory": "Primers & sealers",
-    "applicationTag": "Surface preparation",
-    "grade": "Industrial Substrate Prep",
-    "chemistry": "100% Pure Epoxy Primer & Substrate Sealer",
-    "tagline": "100% Pure Epoxy Primer & Substrate Sealer",
-    "cureTime": "6–8 hrs tack-free",
-    "potLife": "35 mins @ 25°C",
-    "coverage": "~250 sq.ft / 5kg kit",
-    "features": [
-      "Penetrates porous concrete pores",
-      "Extreme mechanical interlock bond",
-      "Eliminates pinhole outgassing"
-    ],
-    "currency": "₹",
-    "basePrice": 3299,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-PRM-01",
-    "images": [
-      "/rasin-product/Vize PrimeX.png",
-      "/rasin-product/primex-bucket.png",
-      "/logos/Vize PrimeX PNG.png",
-      "/floor-system-cutaway.jpg"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 3.5, "price": 3299, "coverageDesc": "Covers 50 sq.ft", "sqft": 50 }
-    ],
-    "aboutText": "Vize PrimeX is a high-penetration epoxy primer and seal coat designed to seal concrete pores, prevent pinhole outgassing, and ensure maximum mechanical bond strength before applying body and metallic coats. The standard package is precisely measured to cover 50 square feet.",
-    "samples": [
-      { "id": "pearl", "name": "Standard Clear Primer", "image": "/colors/Pearl.png" },
-      { "id": "charcoal", "name": "Dark Base Prime", "image": "/colors/Charcoal.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Diamond grind substrate to CSP-2 profile" },
-      { "num": "02", "text": "Mix Part A & B for 2 minutes thoroughly in provided bucket" },
-      { "num": "03", "text": "Squeegee and back-roll evenly across 50 sq.ft area" },
-      { "num": "04", "text": "Allow 6-8 hours tack-free before topcoat" }
-    ],
-    "video": { "thumbnail": "/process-trowel.jpg", "src": "/hero-video.mp4", "title": "Substrate Priming Application" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-screed-max",
-    "aliases": ["screed-max", "vize-polyscreed", "vize-screed"],
-    "name": "Vize Screed Max",
-    "brand": "Vize Screed",
-    "suffix": "Max",
-    "category": "Flooring Resins",
-    "applicationCategory": "Screeding systems",
-    "applicationTag": "Floor levelling",
-    "grade": "Heavy Industrial Mortar",
-    "chemistry": "3-Part High-Load Epoxy Levelling Screed",
-    "tagline": "3-Part High-Load Epoxy Levelling Screed",
-    "cureTime": "12–16 hrs full cure",
-    "potLife": "40 mins mortar mix",
-    "coverage": "50 sq.ft @ 3mm depth",
-    "features": [
-      "Withstands heavy forklift loads",
-      "Zero-shrinkage monolithic cure",
-      "Repairs deep concrete spalls"
-    ],
-    "currency": "₹",
-    "basePrice": 4199,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-PSC-02",
-    "images": [
-      "/rasin-product/Vize Screed Max.png",
-      "/rasin-product/screedmax-bucket.png",
-      "/logos/Vize Screed Max PNG.png",
-      "/Industrial Resin Flooring.png"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 10.0, "price": 4199, "coverageDesc": "Covers 50 sq.ft at 3mm depth", "sqft": 50 }
-    ],
-    "aboutText": "Vize Screed Max is a heavy-duty, three-part epoxy mortar and floor leveling screed engineered for repairing deep spalls, leveling uneven concrete, and withstanding extreme heavy impact loads. Standard package covers 50 square feet at 3mm thickness.",
-    "samples": [
-      { "id": "screed-grey", "name": "Industrial Grey", "image": "/colors/Titanium.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Apply Vize PrimeX tack coat" },
-      { "num": "02", "text": "Mix aggregate with resin matrix in provided bucket" },
-      { "num": "03", "text": "Trowel and compact evenly across 50 sq.ft area" },
-      { "num": "04", "text": "Cure 12-16 hours before body coat" }
-    ],
-    "video": { "thumbnail": "/process-pour.jpg", "src": "/hero-video.mp4", "title": "Heavy Screed Application" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-rockhard",
-    "aliases": ["rockhard", "vize-rock-hard"],
-    "name": "Vize RockHard",
-    "brand": "Vize Rock",
-    "suffix": "Hard",
-    "category": "Flooring Resins",
-    "applicationCategory": "Stone binders",
-    "applicationTag": "Stone binding",
-    "grade": "Exterior & Interior Paving",
-    "chemistry": "UV-Aliphatic Stone Carpet Matrix",
-    "tagline": "UV-Aliphatic Stone Carpet Matrix",
-    "cureTime": "12–18 hrs foot traffic",
-    "potLife": "30 mins open time",
-    "coverage": "Binds 75kg stone / 5kg",
-    "features": [
-      "100% UV-stable non-yellowing",
-      "Permeable water drainage matrix",
-      "Firmly encapsulates natural pebbles"
-    ],
-    "currency": "₹",
-    "basePrice": 4899,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-RKH-03",
-    "images": [
-      "/rasin-product/Vize RockHard.png",
-      "/rasin-product/rockhard-bucket.png",
-      "/logos/Vize RockHard PNG.png",
-      "/space-residential.jpg"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 4.5, "price": 4899, "coverageDesc": "Covers 50 sq.ft (binds 65kg stone)", "sqft": 50 }
-    ],
-    "aboutText": "Vize RockHard is an ultra-clear, UV-resistant resin binder specifically formulated to encapsulate natural stone pebbles, marble granules, and colored quartz for permeable stone carpet flooring. Standard kit covers 50 square feet.",
-    "samples": [
-      { "id": "quartz-gold", "name": "Natural Gold Quartz", "image": "/colors/Liquid Gold.png" },
-      { "id": "quartz-silver", "name": "Silver Granite", "image": "/colors/Silver.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Ensure stone aggregate is 100% dry and dust-free" },
-      { "num": "02", "text": "Mix Part A & B with stone in provided bucket for 3 mins" },
-      { "num": "03", "text": "Screed and hand-trowel smoothly over 50 sq.ft area" },
-      { "num": "04", "text": "Allow 24 hours full cure" }
-    ],
-    "video": { "thumbnail": "/space-residential.jpg", "src": "/hero-video.mp4", "title": "Stone Carpet Installation" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-epowrap",
-    "aliases": ["epowrap", "vize-marble-metallics"],
-    "name": "Vize EpoWrap",
-    "brand": "Vize Epo",
-    "suffix": "Wrap",
-    "category": "Flooring Resins",
-    "applicationCategory": "Decorative topcoats",
-    "applicationTag": "Metallic finish",
-    "grade": "Luxury Retail & Showrooms",
-    "chemistry": "High-Gloss 3D Self-Leveling Metallic Epoxy",
-    "tagline": "High-Gloss 3D Self-Leveling Metallic Epoxy",
-    "cureTime": "8–12 hrs walk-on",
-    "potLife": "45 mins vein styling",
-    "coverage": "~150 sq.ft / 15kg pack",
-    "features": [
-      "Mirror glass reflective gloss",
-      "Deep iridescent fluid veins",
-      "Seamless hygienic designer floor"
-    ],
-    "currency": "₹",
-    "basePrice": 4999,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-MBM-04",
-    "images": [
-      "/rasin-product/Vize EpoWrap.png",
-      "/rasin-product/epowrap-bucket.png",
-      "/logos/Vize EpoWrap.png",
-      "/Metallic Resin Flooring.png"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 5.0, "price": 4999, "coverageDesc": "Covers 50 sq.ft", "sqft": 50 }
-    ],
-    "aboutText": "Vize EpoWrap creates flowing, 3D iridescent marble-like finishes for luxury retail, villas, and commercial showrooms with breathtaking high-gloss brilliance and durability. The standard package (Part A + Part B + bucket) provides complete coverage for 50 square feet.",
-    "samples": [
-      { "id": "petrol-teal", "name": "Petrol Teal", "image": "/colors/Petrol Teal.png" },
-      { "id": "copper", "name": "Copper", "image": "/colors/Copper.png" },
-      { "id": "liquid-gold", "name": "Liquid Gold", "image": "/colors/Liquid Gold.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Prime surface with Vize PrimeX" },
-      { "num": "02", "text": "Blend metallic pigment with Part A, add Part B in bucket" },
-      { "num": "03", "text": "Pour and manipulate veins across 50 sq.ft area" },
-      { "num": "04", "text": "Allow 24 hours foot traffic cure" }
-    ],
-    "video": { "thumbnail": "/reel-1-thumb.jpg", "src": "/hero-video.mp4", "title": "Metallic Resin Floor Pouring" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-epowrap-pro",
-    "aliases": ["epowrap-pro", "vize-marble-slowpro"],
-    "name": "Vize EpoWrap Pro",
-    "brand": "Vize EpoWrap",
-    "suffix": "Pro",
-    "category": "Flooring Resins",
-    "applicationCategory": "Decorative topcoats",
-    "applicationTag": "Extended working time",
-    "grade": "Artisan Floor Masters",
-    "chemistry": "Extended Pot-Life Designer Metallic Epoxy",
-    "tagline": "Extended Pot-Life Designer Metallic Epoxy",
-    "cureTime": "18–24 hrs slow cure",
-    "potLife": "60+ mins extended open time",
-    "coverage": "~150 sq.ft / 15kg pack",
-    "features": [
-      "Ample time for complex veins",
-      "Zero premature gelling during pour",
-      "Ultra-deep color cell dispersion"
-    ],
-    "currency": "₹",
-    "basePrice": 5399,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-MSP-05",
-    "images": [
-      "/rasin-product/Vize EpoWrap Pro.png",
-      "/rasin-product/epowrappro-bucket.png",
-      "/logos/Vize EpoWrap Pro.png",
-      "/Metallic Resin Flooring.png"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 5.0, "price": 5399, "coverageDesc": "Covers 50 sq.ft", "sqft": 50 }
-    ],
-    "aboutText": "Vize EpoWrap Pro features an extended 60-minute pot life, giving applicators average ample time to feather intricate marble veins, alcohol dispersion cells, and dual-tone swirls. Standard package covers 50 square feet.",
-    "samples": [
-      { "id": "copper", "name": "Copper", "image": "/colors/Copper.png" },
-      { "id": "silver", "name": "Silver", "image": "/colors/Silver.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Apply black or white base primer" },
-      { "num": "02", "text": "Mix SlowPro matrix for 3 minutes in bucket" },
-      { "num": "03", "text": "Create intricate artistic vein effects over 50 sq.ft" },
-      { "num": "04", "text": "Cure 28 hours" }
-    ],
-    "video": { "thumbnail": "/reel-1-thumb.jpg", "src": "/hero-video.mp4", "title": "Slow-Flow Marble Floor Crafting" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-epowrap-max",
-    "aliases": ["epowrap-max"],
-    "name": "Vize EpoWrap Max",
-    "brand": "Vize EpoWrap",
-    "suffix": "Max",
-    "category": "Flooring Resins",
-    "applicationCategory": "Decorative topcoats",
-    "applicationTag": "Super clear topcoat",
-    "grade": "Crystal Clear High-Gloss Topcoat",
-    "chemistry": "3:1 Super Clearcoat Epoxy Resin System",
-    "tagline": "3:1 Super Clearcoat Epoxy Resin System",
-    "cureTime": "16–24 hrs full cure",
-    "potLife": "45 mins pot life",
-    "coverage": "~120 sq.ft / 4kg unit",
-    "features": [
-      "3:1 clear formula for topcoats",
-      "Blush-free self-leveling finish",
-      "UV-resistant protective matrix"
-    ],
-    "currency": "₹",
-    "basePrice": 5699,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-EWM-06",
-    "images": [
-      "/rasin-product/Vize EpoWrap Max.png",
-      "/rasin-product/epowrapmax-bucket.png",
-      "/logos/Vize EpoWrap Max.png",
-      "/Metallic Resin Flooring.png"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 4.0, "price": 5699, "coverageDesc": "Covers 50 sq.ft", "sqft": 50 }
-    ],
-    "aboutText": "Vize EpoWrap Max is a high-grade 3:1 clearcoat epoxy resin system engineered for crystal-clear topcoats. Featuring slow-curing thick viscosity, blush-free curing, self-leveling chemistry, and professional UV resistance. Standard package covers 50 square feet.",
-    "samples": [
-      { "id": "pearl", "name": "Crystal Clear Gloss", "image": "/colors/Pearl.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Clean and deburr metallic or base epoxy coat" },
-      { "num": "02", "text": "Mix 3:1 by weight for 3 minutes thoroughly" },
-      { "num": "03", "text": "Pour and gently spread over 50 sq.ft area with notched squeegee" },
-      { "num": "04", "text": "Allow 24 hours for final mirror-gloss cure" }
-    ],
-    "video": { "thumbnail": "/reel-1-thumb.jpg", "src": "/hero-video.mp4", "title": "Clear Topcoat Application" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-aspartic-max",
-    "aliases": ["aspartic-max", "vize-polyaspartic"],
-    "name": "Vize Aspartic Max",
-    "brand": "Vize Aspartic",
-    "suffix": "Max",
-    "category": "Protective Coatings",
-    "applicationCategory": "Protective topcoats",
-    "applicationTag": "Outdoor & high-traffic",
-    "grade": "Commercial Exterior Topcoat",
-    "chemistry": "Ultra-Fast 2-Part Aliphatic Polyaspartic",
-    "tagline": "Ultra-Fast 2-Part Aliphatic Polyaspartic",
-    "cureTime": "2–4 hrs rapid handover",
-    "potLife": "20 mins fast set",
-    "coverage": "~350 sq.ft / 5kg kit",
-    "features": [
-      "4-Hour rapid return to service",
-      "100% UV & weather proof",
-      "Superior hot-tire pickup resistance"
-    ],
-    "currency": "₹",
-    "basePrice": 6299,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-PAS-07",
-    "images": [
-      "/rasin-product/Vize Aspartic Max.png",
-      "/rasin-product/asparticmax-bucket.png",
-      "/logos/Vize Aspartic Max.png",
-      "/high traffic flake flooring.png"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 4.0, "price": 6299, "coverageDesc": "Covers 50 sq.ft", "sqft": 50 }
-    ],
-    "aboutText": "Vize Aspartic Max is an ultra-fast curing, non-yellowing aliphatic polyaspartic coating system offering supreme UV stability, high chemical tolerance, hot-tire resistance, and rapid 4-hour return-to-service. Standard package covers 50 square feet.",
-    "samples": [
-      { "id": "clear-gloss", "name": "Crystal Clear Gloss", "image": "/colors/Pearl.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Ensure base resin is clean and abraded" },
-      { "num": "02", "text": "Mix Part A & B 1:1 for 2 minutes in bucket" },
-      { "num": "03", "text": "Roll evenly across 50 sq.ft with lint-free roller" },
-      { "num": "04", "text": "Return to service in 4 hours" }
-    ],
-    "video": { "thumbnail": "/reel-3-thumb.jpg", "src": "/hero-video-3.mp4", "title": "Fast-Cure Aspartic Coating" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-urethane-max",
-    "aliases": ["urethane-max", "vize-glasscoat"],
-    "name": "Vize Urethane Max",
-    "brand": "Vize Urethane",
-    "suffix": "Max",
-    "category": "Protective Coatings",
-    "applicationCategory": "Protective topcoats",
-    "applicationTag": "Surface protection",
-    "grade": "Scratch & Chemical Shield",
-    "chemistry": "Super Clear High-Hardness Urethane Coating",
-    "tagline": "Super Clear High-Hardness Urethane Coating",
-    "cureTime": "6–8 hrs tack-free",
-    "potLife": "Two-component ready",
-    "coverage": "~380 sq.ft / 4kg can",
-    "features": [
-      "Metallic sheen enhancement",
-      "Micro-scratch self healing",
-      "Resistant to harsh acids and oils"
-    ],
-    "currency": "₹",
-    "basePrice": 3899,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-GLC-08",
-    "images": [
-      "/rasin-product/Vize Urethane Max.png",
-      "/rasin-product/urethanemax-bucket.png",
-      "/logos/Vize UrethaneMax.png",
-      "/resin-interior.jpg"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 3.5, "price": 3899, "coverageDesc": "Covers 50 sq.ft", "sqft": 50 }
-    ],
-    "aboutText": "Vize Urethane Max is a super clear, self-leveling two-component urethane coating system engineered with high UV resistance and metallic sheen enhancement to protect resin floors from micro-scratches and chemicals. Standard package covers 50 square feet.",
-    "samples": [
-      { "id": "glass-satin", "name": "Diamond Satin", "image": "/colors/Pearl.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Lightly abrade surface with 180-grit" },
-      { "num": "02", "text": "Mix Part A & B thoroughly in provided bucket" },
-      { "num": "03", "text": "Cross-roll thin uniform film over 50 sq.ft" },
-      { "num": "04", "text": "Light traffic in 16 hours" }
-    ],
-    "video": { "thumbnail": "/reel-3-thumb.jpg", "src": "/hero-video-3.mp4", "title": "Urethane Max Application" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-cast-max",
-    "aliases": ["cast-max", "vize-cast", "vize-supercast"],
-    "name": "Vize Cast Max",
-    "brand": "Vize Cast",
-    "suffix": "Max",
-    "category": "Casting & Art",
-    "applicationCategory": "Casting & art",
-    "applicationTag": "Casting resin",
-    "grade": "River Tables & Live Edge Wood",
-    "chemistry": "Water-Clear Deep Casting Epoxy (50–100mm)",
-    "tagline": "Water-Clear Deep Casting Epoxy (50–100mm)",
-    "cureTime": "24–36 hrs demold",
-    "potLife": "90 mins low exotherm",
-    "coverage": "Up to 100mm pour depth",
-    "features": [
-      "Self-degassing bubble release",
-      "Low thermal heat build-up",
-      "Diamond crystal transparency"
-    ],
-    "currency": "₹",
-    "basePrice": 3499,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-CST-09",
-    "images": [
-      "/rasin-product/Vize Cast Max.png",
-      "/rasin-product/castmax-bucket.png",
-      "/logos/Vize Cast Max.png",
-      "/cat-casting.jpg"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 4.5, "price": 3499, "coverageDesc": "Covers 50 sq.ft at standard pour", "sqft": 50 }
-    ],
-    "aboutText": "Vize Cast Max is an ultra-clear, low-exotherm casting epoxy resin system designed for deep river tables, silicone molds, live-edge wood slabs, and encapsulation with bubble-release degassing. Standard package covers 50 square feet.",
-    "samples": [
-      { "id": "sapphire", "name": "Sapphire Mist", "image": "/colors/Sapphire Mist.png" },
-      { "id": "liquid-gold", "name": "Liquid Gold", "image": "/colors/Liquid Gold.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Mix Part A & B 2:1 by weight in provided bucket" },
-      { "num": "02", "text": "Pour slowly into sealed mold" },
-      { "num": "03", "text": "Allow 24-36 hours cure time" }
-    ],
-    "video": { "thumbnail": "/reel-2-thumb.jpg", "src": "/hero-video-2.mp4", "title": "River Table Casting" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-art-max",
-    "aliases": ["art-max", "vize-maxart"],
-    "name": "Vize Art Max",
-    "brand": "Vize Art",
-    "suffix": "Max",
-    "category": "Casting & Art",
-    "applicationCategory": "Casting & art",
-    "applicationTag": "Art & crafts",
-    "grade": "Resin Art & Coasters",
-    "chemistry": "High-Gloss Self-Doming Art Epoxy",
-    "tagline": "High-Gloss Self-Doming Art Epoxy",
-    "cureTime": "12–16 hrs cured",
-    "potLife": "45 mins pattern work",
-    "coverage": "~30 sq.ft / 3kg kit",
-    "features": [
-      "High dome surface tension",
-      "Vibrant metallic pigment hold",
-      "HNA UV inhibitors against yellowing"
-    ],
-    "currency": "₹",
-    "basePrice": 2499,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-MXA-10",
-    "images": [
-      "/rasin-product/Vize Art Max.png",
-      "/rasin-product/artmax-bucket.png",
-      "/logos/Vize Art Max.png",
-      "/cat-casting.jpg"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 2.5, "price": 2499, "coverageDesc": "Covers 50 sq.ft at 1mm art dome", "sqft": 50 }
-    ],
-    "aboutText": "Vize Art Max delivers ultra-high gloss self-doming properties for artists working on canvases, geode boards, jewelry, and acrylic fluid art with zero shrinkage and high UV clarity. Standard kit covers 50 square feet.",
-    "samples": [
-      { "id": "liquid-gold", "name": "Liquid Gold", "image": "/colors/Liquid Gold.png" },
-      { "id": "copper", "name": "Copper", "image": "/colors/Copper.png" }
-    ],
-    "howToUseSteps": [
-      { "num": "01", "text": "Measure Part A & B 1:1 volume ratio in bucket" },
-      { "num": "02", "text": "Stir slowly for 3 minutes" },
-      { "num": "03", "text": "Pour on canvas/crafts across 50 sq.ft" },
-      { "num": "04", "text": "Dust-free cure in 12 hours" }
-    ],
-    "video": { "thumbnail": "/reel-2-thumb.jpg", "src": "/hero-video-2.mp4", "title": "Fluid Art Pouring" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  },
-  {
-    "id": "vize-nano",
-    "aliases": ["nano", "nano-silicon", "vize-cutmax", "vize-shinemax"],
-    "name": "Vize Nano Silicon",
-    "brand": "Vize Nano",
-    "suffix": "SiliCon",
-    "category": "Finishing Compounds",
-    "applicationCategory": "Finishing compounds",
-    "applicationTag": "Nanotech surface sealing",
-    "grade": "Surface Restorer & Sealant",
-    "chemistry": "Hydrophobic Nano Silicon Finishing Compound",
-    "tagline": "Hydrophobic Nano Silicon Finishing Compound",
-    "cureTime": "Instant buffing & seal",
-    "potLife": "Water-based nano emulsion",
-    "coverage": "Treats up to 600 sq.ft",
-    "features": [
-      "Rapidly removes fine scratches",
-      "Hydrophobic repellent seal",
-      "Deep optical mirror gloss"
-    ],
-    "currency": "₹",
-    "basePrice": 1999,
-    "sqftCoverage": 50,
-    "inStock": true,
-    "sku": "VZ-NNO-11",
-    "images": [
-      "/rasin-product/Vize Nano.png",
-      "/rasin-product/nano-bucket.png",
-      "/logos/Vize Nano PNG.png",
-      "/cat-protective.jpg"
-    ],
-    "sizes": [
-      { "id": "size-50sqft", "label": "Standard Fixed Kit (50 Sq.Ft Coverage)", "weightKg": 1.0, "price": 1999, "coverageDesc": "Treats & seals 50 sq.ft area", "sqft": 50 }
-    ],
-    "aboutText": "Vize Nano Silicon is an advanced nanotech finishing and hydrophobic protective compound that creates an ultra-deep hologram-free mirror reflection and hydrophobic seal on cured resin surfaces, table tops, and floor topcoats. Standard package treats 50 square feet.",
-    "samples": [],
-    "howToUseSteps": [
-      { "num": "01", "text": "Sand resin up to P1500 wet grit" },
-      { "num": "02", "text": "Apply Nano Silicon onto rotary wool pad from bucket" },
-      { "num": "03", "text": "Buff at 1200-1500 RPM across 50 sq.ft area" },
-      { "num": "04", "text": "Wipe residue with microfiber cloth" }
-    ],
-    "video": { "thumbnail": "/process-pour.jpg", "src": "/hero-video.mp4", "title": "Mirror Finish Polishing" },
-    "tds": { "name": "Technical data sheet", "url": "#tds" },
-    "sds": { "name": "Safety data sheet", "url": "#sds" },
-    "reviews": []
-  }
+    {
+        "id":  "vize-primex",
+        "aliases":  [
+                        "primex",
+                        "vize-prime",
+                        "vize-primex",
+                        "primax",
+                        "vize-primax"
+                    ],
+        "name":  "Vize Primax",
+        "brand":  "Vize Primax",
+        "suffix":  "Max",
+        "category":  "Flooring Resins",
+        "applicationCategory":  "Primers \u0026 sealers",
+        "applicationTag":  "Surface preparation",
+        "grade":  "Industrial Substrate Prep",
+        "chemistry":  "100% Pure Epoxy Primer \u0026 Substrate Sealer",
+        "tagline":  "2:1 Pure Epoxy Concrete Primer \u0026 Substrate Sealer",
+        "cureTime":  "6–8 hrs tack-free",
+        "potLife":  "35 mins @ 25°C",
+        "coverage":  "~100 sq.ft / 15kg pack",
+        "mixRatio":  "2 : 1",
+        "packQty":  "15 KG",
+        "packComposition":  "Resin – 10 KG, Hardener – 5 KG",
+        "pricePerKg":  417,
+        "features":  [
+                         "Penetrates porous concrete pores",
+                         "Extreme mechanical interlock bond",
+                         "Eliminates pinhole outgassing"
+                     ],
+        "currency":  "₹",
+        "basePrice":  6264,
+        "sqftCoverage":  100,
+        "inStock":  true,
+        "sku":  "VZ-PRM-01",
+        "images":  [
+                       "/rasin-product/Vize PrimeX.png",
+                       "/rasin-product/primex-bucket.png",
+                       "/logos/Vize PrimeX PNG.png",
+                       "/floor-system-cutaway.jpg"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-15kg",
+                          "label":  "Standard Pack (15 KG - Covers ~100 Sq.Ft)",
+                          "weightKg":  15.0,
+                          "price":  6264,
+                          "pricePerKg":  417,
+                          "coverageDesc":  "Covers ~100 sq.ft (₹417/KG)",
+                          "sqft":  100
+                      }
+                  ],
+        "aboutText":  "Vize Primax is a high-penetration 2:1 epoxy primer and seal coat designed to seal concrete pores, prevent pinhole outgassing, and ensure maximum mechanical bond strength before applying body and metallic coats. Standard 15 KG package (10 KG Resin + 5 KG Hardener) provides coverage for ~100 square feet at ₹417/KG.",
+        "samples":  [
+                        {
+                            "id":  "pearl",
+                            "name":  "Standard Clear Primer",
+                            "image":  "/colors/Pearl.png"
+                        },
+                        {
+                            "id":  "charcoal",
+                            "name":  "Dark Base Prime",
+                            "image":  "/colors/Charcoal.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Diamond grind substrate to CSP-2 profile"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix Part A (10 KG) \u0026 Part B (5 KG) for 2 minutes thoroughly in provided bucket"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Squeegee and back-roll evenly across 100 sq.ft area"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Allow 6-8 hours tack-free before topcoat"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/process-trowel.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Substrate Priming Application"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-screed-max",
+        "aliases":  [
+                        "screed-max",
+                        "vize-polyscreed",
+                        "vize-screed",
+                        "screedmax",
+                        "vize-screedmax"
+                    ],
+        "name":  "Vize ScreedMax",
+        "brand":  "Vize Screed",
+        "suffix":  "Max",
+        "category":  "Flooring Resins",
+        "applicationCategory":  "Screeding systems",
+        "applicationTag":  "Floor levelling",
+        "grade":  "Heavy Industrial Mortar",
+        "chemistry":  "3-Part High-Load Epoxy Levelling Screed",
+        "tagline":  "3-Part High-Load Epoxy Levelling Screed",
+        "cureTime":  "12–16 hrs full cure",
+        "potLife":  "40 mins mortar mix",
+        "coverage":  "~60 sq.ft / 35kg pack",
+        "packQty":  "35 KG",
+        "packComposition":  "Resin – 4.55 KG, Hardener – 2.45 KG, Admix – 28 KG",
+        "pricePerKg":  91,
+        "features":  [
+                         "Withstands heavy forklift loads",
+                         "Zero-shrinkage monolithic cure",
+                         "Repairs deep concrete spalls"
+                     ],
+        "currency":  "₹",
+        "basePrice":  3200,
+        "sqftCoverage":  60,
+        "inStock":  true,
+        "sku":  "VZ-PSC-02",
+        "images":  [
+                       "/rasin-product/Vize Screed Max.png",
+                       "/rasin-product/screedmax-bucket.png",
+                       "/logos/Vize Screed Max PNG.png",
+                       "/Industrial Resin Flooring.png"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-35kg",
+                          "label":  "Standard Pack (35 KG - Covers ~60 Sq.Ft)",
+                          "weightKg":  35.0,
+                          "price":  3200,
+                          "pricePerKg":  91,
+                          "coverageDesc":  "Covers ~60 sq.ft (₹91/KG)",
+                          "sqft":  60
+                      }
+                  ],
+        "aboutText":  "Vize ScreedMax is a heavy-duty, three-part epoxy mortar and floor leveling screed engineered for repairing deep spalls, leveling uneven concrete, and withstanding extreme heavy forklift impact loads. Standard 35 KG package (4.55 KG Resin + 2.45 KG Hardener + 28 KG Admix) covers ~60 square feet at ₹91/KG.",
+        "samples":  [
+                        {
+                            "id":  "screed-grey",
+                            "name":  "Industrial Grey",
+                            "image":  "/colors/Titanium.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Apply Vize Primax tack coat"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix aggregate admix (28 KG) with resin matrix (7 KG) in provided bucket"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Trowel and compact evenly across 60 sq.ft area"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Cure 12-16 hours before body coat"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/process-pour.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Heavy Screed Application"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-rockhard",
+        "aliases":  [
+                        "rockhard",
+                        "vize-rock-hard"
+                    ],
+        "name":  "Vize RockHard",
+        "brand":  "Vize Rock",
+        "suffix":  "Hard",
+        "category":  "Flooring Resins",
+        "applicationCategory":  "Stone binders",
+        "applicationTag":  "Stone binding",
+        "grade":  "Exterior \u0026 Interior Paving",
+        "chemistry":  "UV-Aliphatic Stone Carpet Matrix",
+        "tagline":  "UV-Aliphatic Stone Carpet Matrix",
+        "cureTime":  "12–18 hrs foot traffic",
+        "potLife":  "30 mins open time",
+        "coverage":  "Binds 75kg stone / 5kg",
+        "features":  [
+                         "100% UV-stable non-yellowing",
+                         "Permeable water drainage matrix",
+                         "Firmly encapsulates natural pebbles"
+                     ],
+        "currency":  "₹",
+        "basePrice":  4899,
+        "sqftCoverage":  50,
+        "inStock":  true,
+        "sku":  "VZ-RKH-03",
+        "images":  [
+                       "/rasin-product/Vize RockHard.png",
+                       "/rasin-product/rockhard-bucket.png",
+                       "/logos/Vize RockHard PNG.png",
+                       "/space-residential.jpg"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-50sqft",
+                          "label":  "Standard Fixed Kit (50 Sq.Ft Coverage)",
+                          "weightKg":  4.5,
+                          "price":  4899,
+                          "coverageDesc":  "Covers 50 sq.ft (binds 65kg stone)",
+                          "sqft":  50
+                      }
+                  ],
+        "aboutText":  "Vize RockHard is an ultra-clear, UV-resistant resin binder specifically formulated to encapsulate natural stone pebbles, marble granules, and colored quartz for permeable stone carpet flooring. Standard kit covers 50 square feet.",
+        "samples":  [
+                        {
+                            "id":  "quartz-gold",
+                            "name":  "Natural Gold Quartz",
+                            "image":  "/colors/Liquid Gold.png"
+                        },
+                        {
+                            "id":  "quartz-silver",
+                            "name":  "Silver Granite",
+                            "image":  "/colors/Silver.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Ensure stone aggregate is 100% dry and dust-free"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix Part A \u0026 B with stone in provided bucket for 3 mins"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Screed and hand-trowel smoothly over 50 sq.ft area"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Allow 24 hours full cure"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/space-residential.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Stone Carpet Installation"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-epowrap",
+        "aliases":  [
+                        "epowrap",
+                        "vize-epowrap",
+                        "vize-epowrap-non-uv",
+                        "epowrap-non-uv",
+                        "vize-marble-metallics"
+                    ],
+        "name":  "Vize EpoWrap Non UV",
+        "brand":  "Vize EpoWrap",
+        "suffix":  "Non UV",
+        "category":  "Flooring Resins",
+        "applicationCategory":  "Decorative topcoats",
+        "applicationTag":  "Metallic finish",
+        "grade":  "Luxury Retail \u0026 Showrooms",
+        "chemistry":  "2:1 High-Gloss 3D Self-Leveling Metallic Epoxy",
+        "tagline":  "2:1 High-Gloss 3D Self-Leveling Metallic Epoxy",
+        "cureTime":  "8–12 hrs walk-on",
+        "potLife":  "45 mins vein styling",
+        "coverage":  "~100 sq.ft / 12kg pack",
+        "mixRatio":  "2 : 1",
+        "packQty":  "12 KG",
+        "packComposition":  "Resin – 8 KG, Hardener – 4 KG",
+        "pricePerKg":  514,
+        "features":  [
+                         "Mirror glass reflective gloss",
+                         "Deep iridescent fluid veins",
+                         "Seamless hygienic designer floor"
+                     ],
+        "currency":  "₹",
+        "basePrice":  6167,
+        "sqftCoverage":  100,
+        "inStock":  true,
+        "sku":  "VZ-MBM-04",
+        "images":  [
+                       "/rasin-product/Vize EpoWrap.png",
+                       "/rasin-product/epowrap-bucket.png",
+                       "/logos/Vize EpoWrap.png",
+                       "/Metallic Resin Flooring.png"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-12kg",
+                          "label":  "Standard Pack (12 KG - Covers ~100 Sq.Ft)",
+                          "weightKg":  12.0,
+                          "price":  6167,
+                          "pricePerKg":  514,
+                          "coverageDesc":  "Covers ~100 sq.ft (₹514/KG)",
+                          "sqft":  100
+                      }
+                  ],
+        "aboutText":  "Vize EpoWrap Non UV creates flowing, 3D iridescent marble-like finishes for luxury retail, villas, and commercial showrooms with breathtaking high-gloss brilliance and durability. Standard 12 KG package (8 KG Resin + 4 KG Hardener) provides coverage for ~100 square feet at ₹514/KG.",
+        "samples":  [
+                        {
+                            "id":  "petrol-teal",
+                            "name":  "Petrol Teal",
+                            "image":  "/colors/Petrol Teal.png"
+                        },
+                        {
+                            "id":  "copper",
+                            "name":  "Copper",
+                            "image":  "/colors/Copper.png"
+                        },
+                        {
+                            "id":  "liquid-gold",
+                            "name":  "Liquid Gold",
+                            "image":  "/colors/Liquid Gold.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Prime surface with Vize Primax"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Blend metallic pigment with Part A (8 KG), add Part B (4 KG) in bucket"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Pour and manipulate veins across 100 sq.ft area"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Allow 24 hours foot traffic cure"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-1-thumb.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Metallic Resin Floor Pouring"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-epowrap-pro",
+        "aliases":  [
+                        "epowrap-pro",
+                        "vize-epowrap-pro",
+                        "vize-epowrap-pro-uv",
+                        "epowrap-pro-uv",
+                        "vize-marble-slowpro"
+                    ],
+        "name":  "Vize EpoWrap Pro UV",
+        "brand":  "Vize EpoWrap",
+        "suffix":  "Pro UV",
+        "category":  "Flooring Resins",
+        "applicationCategory":  "Decorative topcoats",
+        "applicationTag":  "Extended working time",
+        "grade":  "Artisan Floor Masters",
+        "chemistry":  "2:1 Extended Pot-Life UV Designer Metallic Epoxy",
+        "tagline":  "2:1 Extended Pot-Life UV Designer Metallic Epoxy",
+        "cureTime":  "18–24 hrs slow cure",
+        "potLife":  "60+ mins extended open time",
+        "coverage":  "~100 sq.ft / 12kg pack",
+        "mixRatio":  "2 : 1",
+        "packQty":  "12 KG",
+        "packComposition":  "Resin – 8 KG, Hardener – 4 KG",
+        "pricePerKg":  797,
+        "features":  [
+                         "Ample time for complex veins",
+                         "Zero premature gelling during pour",
+                         "Ultra-deep color cell dispersion"
+                     ],
+        "currency":  "₹",
+        "basePrice":  9570,
+        "sqftCoverage":  100,
+        "inStock":  true,
+        "sku":  "VZ-MSP-05",
+        "images":  [
+                       "/rasin-product/Vize EpoWrap Pro.png",
+                       "/rasin-product/epowrappro-bucket.png",
+                       "/logos/Vize EpoWrap Pro.png",
+                       "/Metallic Resin Flooring.png"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-12kg",
+                          "label":  "Standard Pack (12 KG - Covers ~100 Sq.Ft)",
+                          "weightKg":  12.0,
+                          "price":  9570,
+                          "pricePerKg":  797,
+                          "coverageDesc":  "Covers ~100 sq.ft (₹797/KG)",
+                          "sqft":  100
+                      }
+                  ],
+        "aboutText":  "Vize EpoWrap Pro UV features an extended 60-minute pot life and superior UV stability, giving applicators ample time to feather intricate marble veins, alcohol dispersion cells, and dual-tone swirls. Standard 12 KG package (8 KG Resin + 4 KG Hardener) provides coverage for ~100 square feet at ₹797/KG.",
+        "samples":  [
+                        {
+                            "id":  "copper",
+                            "name":  "Copper",
+                            "image":  "/colors/Copper.png"
+                        },
+                        {
+                            "id":  "silver",
+                            "name":  "Silver",
+                            "image":  "/colors/Silver.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Apply black or white base primer"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix SlowPro matrix (8 KG Part A + 4 KG Part B) for 3 minutes in bucket"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Create intricate artistic vein effects over 100 sq.ft"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Cure 28 hours"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-1-thumb.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Slow-Flow Marble Floor Crafting"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-epowrap-max",
+        "aliases":  [
+                        "epowrap-max",
+                        "vize-epowrap-max",
+                        "epowrap-max-uv",
+                        "vize-epowrap-max-uv"
+                    ],
+        "name":  "Vize EpoWrap Max UV (Slow Cure)",
+        "brand":  "Vize EpoWrap",
+        "suffix":  "Max UV",
+        "category":  "Flooring Resins",
+        "applicationCategory":  "Decorative topcoats",
+        "applicationTag":  "Super clear topcoat",
+        "grade":  "Crystal Clear High-Gloss Topcoat",
+        "chemistry":  "3:1 Super Clearcoat UV Epoxy Resin System",
+        "tagline":  "3:1 Super Clearcoat UV Epoxy Resin System (Slow Cure)",
+        "cureTime":  "16–24 hrs full cure",
+        "potLife":  "45 mins pot life",
+        "coverage":  "~100 sq.ft / 12kg pack",
+        "mixRatio":  "3 : 1",
+        "packQty":  "12 KG",
+        "packComposition":  "Resin – 9 KG, Hardener – 3 KG",
+        "pricePerKg":  820,
+        "features":  [
+                         "3:1 clear formula for topcoats",
+                         "Blush-free self-leveling finish",
+                         "UV-resistant protective matrix"
+                     ],
+        "currency":  "₹",
+        "basePrice":  9840,
+        "sqftCoverage":  100,
+        "inStock":  true,
+        "sku":  "VZ-EWM-06",
+        "images":  [
+                       "/rasin-product/Vize EpoWrap Max.png",
+                       "/rasin-product/epowrapmax-bucket.png",
+                       "/logos/Vize EpoWrap Max.png",
+                       "/Metallic Resin Flooring.png"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-12kg",
+                          "label":  "Standard Pack (12 KG - Covers ~100 Sq.Ft)",
+                          "weightKg":  12.0,
+                          "price":  9840,
+                          "pricePerKg":  820,
+                          "coverageDesc":  "Covers ~100 sq.ft (₹820/KG)",
+                          "sqft":  100
+                      }
+                  ],
+        "aboutText":  "Vize EpoWrap Max UV (Slow Cure) is a high-grade 3:1 clearcoat epoxy resin system engineered for crystal-clear topcoats. Featuring slow-curing thick viscosity, blush-free curing, self-leveling chemistry, and professional UV resistance. Standard 12 KG package (9 KG Resin + 3 KG Hardener) covers ~100 square feet at ₹820/KG.",
+        "samples":  [
+                        {
+                            "id":  "pearl",
+                            "name":  "Crystal Clear Gloss",
+                            "image":  "/colors/Pearl.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Clean and deburr metallic or base epoxy coat"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix 3:1 by weight (9 KG Part A + 3 KG Part B) for 3 minutes thoroughly"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Pour and gently spread over 100 sq.ft area with notched squeegee"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Allow 24 hours for final mirror-gloss cure"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-1-thumb.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Clear Topcoat Application"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-aspartic-max",
+        "aliases":  [
+                        "aspartic-max",
+                        "vize-polyaspartic"
+                    ],
+        "name":  "Vize Aspartic Max",
+        "brand":  "Vize Aspartic",
+        "suffix":  "Max",
+        "category":  "Protective Coatings",
+        "applicationCategory":  "Protective topcoats",
+        "applicationTag":  "Outdoor \u0026 high-traffic",
+        "grade":  "Commercial Exterior Topcoat",
+        "chemistry":  "Ultra-Fast 2-Part Aliphatic Polyaspartic",
+        "tagline":  "Ultra-Fast 2-Part Aliphatic Polyaspartic",
+        "cureTime":  "2–4 hrs rapid handover",
+        "potLife":  "20 mins fast set",
+        "coverage":  "~350 sq.ft / 5kg kit",
+        "features":  [
+                         "4-Hour rapid return to service",
+                         "100% UV \u0026 weather proof",
+                         "Superior hot-tire pickup resistance"
+                     ],
+        "currency":  "₹",
+        "basePrice":  6299,
+        "sqftCoverage":  50,
+        "inStock":  true,
+        "sku":  "VZ-PAS-07",
+        "images":  [
+                       "/rasin-product/Vize Aspartic Max.png",
+                       "/rasin-product/asparticmax-bucket.png",
+                       "/logos/Vize Aspartic Max.png",
+                       "/high traffic flake flooring.png"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-50sqft",
+                          "label":  "Standard Fixed Kit (50 Sq.Ft Coverage)",
+                          "weightKg":  4.0,
+                          "price":  6299,
+                          "coverageDesc":  "Covers 50 sq.ft",
+                          "sqft":  50
+                      }
+                  ],
+        "aboutText":  "Vize Aspartic Max is an ultra-fast curing, non-yellowing aliphatic polyaspartic coating system offering supreme UV stability, high chemical tolerance, hot-tire resistance, and rapid 4-hour return-to-service. Standard package covers 50 square feet.",
+        "samples":  [
+                        {
+                            "id":  "clear-gloss",
+                            "name":  "Crystal Clear Gloss",
+                            "image":  "/colors/Pearl.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Ensure base resin is clean and abraded"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix Part A \u0026 B 1:1 for 2 minutes in bucket"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Roll evenly across 50 sq.ft with lint-free roller"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Return to service in 4 hours"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-3-thumb.jpg",
+                      "src":  "/hero-video-3.mp4",
+                      "title":  "Fast-Cure Aspartic Coating"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-urethane-max",
+        "aliases":  [
+                        "urethane-max",
+                        "vize-urethane-max",
+                        "vize-urethane",
+                        "vize-glasscoat"
+                    ],
+        "name":  "Vize Urethane Max",
+        "brand":  "Vize Urethane",
+        "suffix":  "Max",
+        "category":  "Protective Coatings",
+        "applicationCategory":  "Protective topcoats",
+        "applicationTag":  "Surface protection",
+        "grade":  "Professional Grade Top Coat",
+        "chemistry":  "3:1 Advanced Urethane Top Coat System",
+        "tagline":  "Advanced Urethane Top Coat | 3:1 Mixing Ratio",
+        "cureTime":  "6–8 hrs tack-free",
+        "potLife":  "30 mins open time",
+        "coverage":  "Approx. 400 Sq. Ft. / 4kg pack",
+        "mixRatio":  "3 : 1",
+        "packQty":  "4 KG",
+        "packComposition":  "Resin – 3 KG, Hardener – 1 KG",
+        "pricePerKg":  1100,
+        "features":  [
+                         "Professional Grade High-Gloss Finish",
+                         "Extreme Chemical \u0026 Acid Resistance",
+                         "Micro-Scratch Self-Healing Protection",
+                         "Long-Lasting Heavy Foot Traffic Durability"
+                     ],
+        "currency":  "₹",
+        "basePrice":  4437,
+        "sqftCoverage":  400,
+        "inStock":  true,
+        "sku":  "VZ-URM-08",
+        "images":  [
+                       "/rasin-product/Vize Urethane Max.png",
+                       "/rasin-product/urethanemax-bucket.png",
+                       "/logos/Vize UrethaneMax.png",
+                       "/resin-interior.jpg"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-4kg",
+                          "label":  "Standard Pack (4 KG - Covers ~400 Sq.Ft)",
+                          "weightKg":  4.0,
+                          "price":  4437,
+                          "pricePerKg":  1100,
+                          "coverageDesc":  "Covers ~400 sq.ft (₹1,100/KG)",
+                          "sqft":  400
+                      }
+                  ],
+        "aboutText":  "Vize Urethane Max is an advanced 3:1 polyurethane protective topcoat engineered for professional flooring applications. It delivers high-gloss brilliance, extreme chemical resistance, micro-scratch self-healing, and durable long-lasting surface protection. Standard 4 KG package (3 KG Part A + 1 KG Part B) provides coverage for approx. 400 square feet at ₹1,100/KG (₹4,437 per pack).",
+        "samples":  [
+                        {
+                            "id":  "glass-satin",
+                            "name":  "High-Gloss Crystal",
+                            "image":  "/colors/Pearl.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Lightly abrade cured resin surface with 180-220 grit"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Mix Part A (3 KG) \u0026 Part B (1 KG) 3:1 thoroughly for 3 minutes"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Cross-roll thin uniform film across approx. 400 sq.ft area"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Light traffic in 16 hours, full chemical cure in 48 hours"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-3-thumb.jpg",
+                      "src":  "/hero-video-3.mp4",
+                      "title":  "Urethane Max Application"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-cast-max",
+        "aliases":  [
+                        "cast-max",
+                        "vize-cast",
+                        "vize-supercast",
+                        "vize-cast-max",
+                        "castmax"
+                    ],
+        "name":  "Vize Cast Max",
+        "brand":  "Vize Cast",
+        "suffix":  "Max",
+        "category":  "Casting \u0026 Art",
+        "applicationCategory":  "Casting \u0026 art",
+        "applicationTag":  "Casting resin",
+        "grade":  "River Tables \u0026 Live Edge Wood",
+        "chemistry":  "3:1 Water-Clear Deep Casting Epoxy (50–100mm)",
+        "tagline":  "3:1 Water-Clear Deep Casting Epoxy (50–100mm)",
+        "cureTime":  "24–36 hrs demold",
+        "potLife":  "90 mins low exotherm",
+        "coverage":  "~100 sq.ft / 12kg pack",
+        "mixRatio":  "3 : 1",
+        "packQty":  "12 KG",
+        "packComposition":  "Resin – 9 KG, Hardener – 3 KG",
+        "pricePerKg":  820,
+        "features":  [
+                         "Self-degassing bubble release",
+                         "Low thermal heat build-up",
+                         "Diamond crystal transparency"
+                     ],
+        "currency":  "₹",
+        "basePrice":  9840,
+        "sqftCoverage":  100,
+        "inStock":  true,
+        "sku":  "VZ-CST-09",
+        "images":  [
+                       "/rasin-product/Vize Cast Max.png",
+                       "/rasin-product/castmax-bucket.png",
+                       "/logos/Vize Cast Max.png",
+                       "/cat-casting.jpg"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-12kg",
+                          "label":  "Standard Pack (12 KG - Covers ~100 Sq.Ft / Deep Pour)",
+                          "weightKg":  12.0,
+                          "price":  9840,
+                          "pricePerKg":  820,
+                          "coverageDesc":  "Covers ~100 sq.ft / deep casting (₹820/KG)",
+                          "sqft":  100
+                      }
+                  ],
+        "aboutText":  "Vize Cast Max is an ultra-clear, 3:1 low-exotherm casting epoxy resin system designed for deep river tables, silicone molds, live-edge wood slabs, and encapsulation with bubble-release degassing. Standard 12 KG package (9 KG Resin + 3 KG Hardener) covers ~100 square feet / deep casting volume at ₹820/KG.",
+        "samples":  [
+                        {
+                            "id":  "sapphire",
+                            "name":  "Sapphire Mist",
+                            "image":  "/colors/Sapphire Mist.png"
+                        },
+                        {
+                            "id":  "liquid-gold",
+                            "name":  "Liquid Gold",
+                            "image":  "/colors/Liquid Gold.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Mix Part A (9 KG) \u0026 Part B (3 KG) 3:1 by weight in provided bucket"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Pour slowly into sealed mold"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Allow 24-36 hours cure time"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-2-thumb.jpg",
+                      "src":  "/hero-video-2.mp4",
+                      "title":  "River Table Casting"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-art-max",
+        "aliases":  [
+                        "coat-max",
+                        "vize-coat-max",
+                        "coatmax",
+                        "art-max",
+                        "vize-art-max",
+                        "vize-maxart"
+                    ],
+        "name":  "Vize Coat Max",
+        "brand":  "Vize Coat",
+        "suffix":  "Max",
+        "category":  "Casting \u0026 Art",
+        "applicationCategory":  "Protective topcoats \u0026 art",
+        "applicationTag":  "Topcoat \u0026 art resin",
+        "grade":  "Mirror Gloss Coating \u0026 Resin Art",
+        "chemistry":  "2:1 High-Gloss Protective Epoxy Coating",
+        "tagline":  "2:1 High-Gloss Protective Epoxy Coating System",
+        "cureTime":  "12–16 hrs cured",
+        "potLife":  "45 mins pattern work",
+        "coverage":  "~100 sq.ft / 12kg pack",
+        "mixRatio":  "2 : 1",
+        "packQty":  "12 KG",
+        "packComposition":  "Resin – 8 KG, Hardener – 4 KG",
+        "pricePerKg":  797,
+        "features":  [
+                         "High dome surface tension",
+                         "Vibrant metallic pigment hold",
+                         "HNA UV inhibitors against yellowing"
+                     ],
+        "currency":  "₹",
+        "basePrice":  9570,
+        "sqftCoverage":  100,
+        "inStock":  true,
+        "sku":  "VZ-MXA-10",
+        "images":  [
+                       "/rasin-product/Vize Art Max.png",
+                       "/rasin-product/artmax-bucket.png",
+                       "/logos/Vize Art Max.png",
+                       "/cat-casting.jpg"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-12kg",
+                          "label":  "Standard Pack (12 KG - Covers ~100 Sq.Ft)",
+                          "weightKg":  12.0,
+                          "price":  9570,
+                          "pricePerKg":  797,
+                          "coverageDesc":  "Covers ~100 sq.ft (₹797/KG)",
+                          "sqft":  100
+                      }
+                  ],
+        "aboutText":  "Vize Coat Max delivers ultra-high gloss self-doming properties, mirror-grade finish, and extreme durability for countertops, live edge protective coats, and resin art with zero shrinkage and high UV clarity. Standard 12 KG package (8 KG Resin + 4 KG Hardener) provides coverage for ~100 square feet at ₹797/KG.",
+        "samples":  [
+                        {
+                            "id":  "liquid-gold",
+                            "name":  "Liquid Gold",
+                            "image":  "/colors/Liquid Gold.png"
+                        },
+                        {
+                            "id":  "copper",
+                            "name":  "Copper",
+                            "image":  "/colors/Copper.png"
+                        }
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Measure Part A (8 KG) \u0026 Part B (4 KG) 2:1 ratio in bucket"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Stir slowly for 3 minutes"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Pour on surface/crafts across 100 sq.ft"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Dust-free cure in 12 hours"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/reel-2-thumb.jpg",
+                      "src":  "/hero-video-2.mp4",
+                      "title":  "Fluid Art Pouring"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    },
+    {
+        "id":  "vize-nano",
+        "aliases":  [
+                        "nano",
+                        "vize-nano",
+                        "nano-silicon",
+                        "vize-nano-silicon",
+                        "vize-cutmax",
+                        "vize-shinemax"
+                    ],
+        "name":  "VIZE Nano - Professional Nano Silicon Coating",
+        "brand":  "VIZE Nano",
+        "suffix":  "Silicon Coating",
+        "category":  "Finishing Compounds",
+        "applicationCategory":  "Finishing compounds",
+        "applicationTag":  "Nanotech surface defense",
+        "grade":  "Automotive \u0026 Industrial Defense",
+        "chemistry":  "Advanced Hydrophobic Nano Silicon Coating Matrix",
+        "tagline":  "Advanced Hydrophobic Nano Protection for Superior Surface Defense",
+        "cureTime":  "Instant hydrophobic bond",
+        "potLife":  "Ready-to-use nano formulation",
+        "coverage":  "Treats up to 600 sq.ft / 1L",
+        "features":  [
+                         "Better Scratch Resistance",
+                         "Better UV Protection",
+                         "Easier Maintenance \u0026 Self-Cleaning",
+                         "Deep Hydrophobic Surface Defense"
+                     ],
+        "currency":  "₹",
+        "basePrice":  3500,
+        "sqftCoverage":  300,
+        "inStock":  true,
+        "sku":  "VZ-NNO-11",
+        "images":  [
+                       "/rasin-product/Vize Nano.png",
+                       "/rasin-product/nano-bucket.png",
+                       "/logos/Vize Nano PNG.png",
+                       "/cat-protective.jpg"
+                   ],
+        "sizes":  [
+                      {
+                          "id":  "size-500g",
+                          "label":  "500 Grams (500ml Bottle)",
+                          "weightKg":  0.5,
+                          "price":  3500,
+                          "coverageDesc":  "Treats up to 300 sq.ft (₹3,500)",
+                          "sqft":  300
+                      },
+                      {
+                          "id":  "size-1L",
+                          "label":  "1 Litre (1000ml Bottle)",
+                          "weightKg":  1.0,
+                          "price":  7000,
+                          "coverageDesc":  "Treats up to 600 sq.ft (₹7,000)",
+                          "sqft":  600
+                      }
+                  ],
+        "aboutText":  "VIZE Nano Professional Nano Silicon Coating delivers advanced hydrophobic nano protection for superior surface defense. Engineered for epoxy coatings, table tops, and automotive/industrial surfaces with enhanced scratch resistance, powerful UV defense, easy cleanability, and deep optical shine.",
+        "samples":  [
+
+                    ],
+        "howToUseSteps":  [
+                              {
+                                  "num":  "01",
+                                  "text":  "Ensure surface is clean, polished, and free of dust or oils"
+                              },
+                              {
+                                  "num":  "02",
+                                  "text":  "Apply a few drops of VIZE Nano onto applicator pad or microfiber block"
+                              },
+                              {
+                                  "num":  "03",
+                                  "text":  "Wipe in cross-hatch pattern evenly across surface"
+                              },
+                              {
+                                  "num":  "04",
+                                  "text":  "Buff lightly with clean microfiber towel after 2-3 minutes for deep hydrophobic gloss"
+                              }
+                          ],
+        "video":  {
+                      "thumbnail":  "/process-pour.jpg",
+                      "src":  "/hero-video.mp4",
+                      "title":  "Nano Silicon Coating Application"
+                  },
+        "tds":  {
+                    "name":  "Technical data sheet",
+                    "url":  "#tds"
+                },
+        "sds":  {
+                    "name":  "Safety data sheet",
+                    "url":  "#sds"
+                },
+        "reviews":  [
+
+                    ],
+        "taxRate":  18
+    }
 ]

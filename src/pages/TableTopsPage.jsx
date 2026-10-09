@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -67,33 +67,33 @@ const APPLICATIONS_DATA = [
 const CASTING_PRODUCTS = [
   {
     id: 'vize-cast',
-    name: 'Vize Cast',
-    tagline: 'Reliable performance for stunning table tops.',
+    name: 'Vize Cast Max',
+    tagline: 'Reliable 3:1 deep pour performance for stunning table tops.',
     image: '/vize-table-top/06-vize-cast-bucket.png',
-    price: '₹3,499',
-    badge: 'Standard Pours',
-    specs: 'Up to 40mm thickness • 2:1 Ratio • 24h Cure',
-    link: '/product/vize-cast'
+    price: '₹9,840',
+    badge: 'Deep Pour Master',
+    specs: '12 KG Pack • 3:1 Ratio • ₹820/KG • 24h Cure',
+    link: '/product/vize-cast-max'
   },
   {
     id: 'vize-supercast',
-    name: 'Vize SuperCast',
-    tagline: 'For deeper pours and larger table projects.',
+    name: 'Vize EpoWrap Max UV',
+    tagline: 'Super clear 3:1 slow-cure formula for deep pours and clearcoats.',
     image: '/vize-table-top/07-vize-supercast-bucket.png',
-    price: '₹4,499',
-    badge: 'Deep Pour Master',
-    specs: 'Single pour up to 100mm • Ultra-low Exotherm • 48-72h Cure',
-    link: '/product/vize-supercast'
+    price: '₹9,840',
+    badge: 'Crystal Clear UV',
+    specs: '12 KG Pack • 3:1 Ratio • ₹820/KG • Non-Yellowing',
+    link: '/product/vize-epowrap-max'
   },
   {
     id: 'vize-maxart',
-    name: 'Vize MaxArt',
-    tagline: 'Creative freedom for unique designs and objects.',
+    name: 'Vize Coat Max',
+    tagline: 'Protective topcoat & art finish for scratch-proof table tops.',
     image: '/vize-table-top/08-vize-maxart-bucket.png',
-    price: '₹2,499',
-    badge: 'High Gloss Art',
-    specs: '1:1 Volume Ratio • Self-Doming • UV Stable',
-    link: '/product/vize-maxart'
+    price: '₹9,570',
+    badge: 'Mirror Gloss Coat',
+    specs: '12 KG Pack • 2:1 Ratio • ₹797/KG • High Dome',
+    link: '/product/vize-art-max'
   }
 ];
 
@@ -173,6 +173,7 @@ const HERO_INSPIRATION = [
     title: 'Azure Horizon River Dining Table',
     category: 'River Dining Table',
     image: '/table top/1N2A7888.jpg',
+    images: ['/table top/1N2A7888.jpg', '/table top/1N2A7896.jpg', '/table top/1N2A7895.jpg'],
     layout: 'large',
     desc: 'Custom 8-seater live-edge teak dining table with vibrant turquoise river channel on matte-black X-base.',
     timber: 'Live-Edge Natural Teak',
@@ -184,6 +185,7 @@ const HERO_INSPIRATION = [
     title: 'Freeform Organic Burl Resin Table',
     category: 'Centerpiece Coffee Table',
     image: '/table top/IMG20230215154153.jpg',
+    images: ['/table top/IMG20230215154153.jpg', '/table top/IMG20230204113707.jpg', '/table top/IMG20230208114809.jpg', '/table top/IMG20230211201059.jpg'],
     layout: 'small-top',
     desc: 'Sculptural organic tree slab featuring an opalescent jade-pearl resin core and bronze spider base.',
     timber: 'Cross-Cut Live-Edge Burl Slab',
@@ -195,6 +197,7 @@ const HERO_INSPIRATION = [
     title: 'Smoky Quartz Square Coffee Table',
     category: 'Square Coffee Table',
     image: '/table top/1N2A7964.jpg',
+    images: ['/table top/1N2A7964.jpg', '/table top/1N2A7965.jpg'],
     layout: 'small-bottom',
     desc: 'Metallic smoky bronze river stream set in golden hardwood timber.',
     timber: 'Kiln-Dried Timber Slab',
@@ -206,6 +209,7 @@ const HERO_INSPIRATION = [
     title: 'Emerald Stream C-Frame Side Table',
     category: 'C-Frame Side Table',
     image: '/table top/1N2A8033.jpg',
+    images: ['/table top/1N2A8033.jpg', '/table top/1N2A8039.jpg', '/table top/1N2A8051.jpg', '/table top/1N2A8067.jpg'],
     layout: 'tall-right',
     desc: 'Ergonomic cantilever couch table featuring brilliant emerald green resin stream.',
     timber: 'Natural Live-Edge Burl',
@@ -214,216 +218,14 @@ const HERO_INSPIRATION = [
   }
 ];
 
-// 6. Complete Table Tops Design Catalog (38 Real Photography Works)
+// 6. Gallery Categories Filter
 const GALLERY_CATEGORIES = [
   'All Designs',
   'Dining & River Tables',
   'Coffee & Round Tables',
   'Side & C-Tables',
+  'Executive Desks',
   'Macro Clarity & Edge Details'
-];
-
-const TABLE_DESIGNS_GALLERY = [
-  {
-    id: 'design-ocean-aquatic-hero',
-    title: 'Ocean 3D Aquatic River Table',
-    category: 'Dining & River Tables',
-    image: '/table top/hero.jpg',
-    desc: 'Dynamic oceanic swirl river table featuring white wave froth, vibrant sapphire-azure currents, and handcrafted aquatic inlays.',
-    timber: 'Live-Edge Solid Timber',
-    dimensions: '7.5 ft × 3.5 ft × 2 in',
-    resin: 'Vize SuperCast Deep Pour (Ocean Azure + Wave Effect)'
-  },
-  {
-    id: 'design-azure-dining-1',
-    title: 'Azure Horizon River Dining Table',
-    category: 'Dining & River Tables',
-    image: '/table top/1N2A7888.jpg',
-    desc: 'Grand 8-seater live-edge dining table with brilliant turquoise crystal resin river and matte-black steel X-frame legs.',
-    timber: 'Solid Live-Edge Teak',
-    dimensions: '8 ft × 3.5 ft × 2 in',
-    resin: 'Vize SuperCast Deep Pour (Azure Sky)'
-  },
-  {
-    id: 'design-azure-dining-2',
-    title: 'Azure Horizon Perspective & Flow',
-    category: 'Dining & River Tables',
-    image: '/table top/1N2A7896.jpg',
-    desc: 'Precision live-edge grain contours seamlessly fused with crystal epoxy stream.',
-    timber: 'Selected Kiln-Dried Teak',
-    dimensions: '8 ft × 3.5 ft',
-    resin: 'Vize SuperCast + UV Blocker'
-  },
-  {
-    id: 'design-azure-dining-3',
-    title: 'Teak Live-Edge Timber Interface',
-    category: 'Dining & River Tables',
-    image: '/table top/1N2A7895.jpg',
-    desc: 'End-grain view demonstrating bubble-free wood encapsulation and ultra-deep pour clarity.',
-    timber: 'Natural Teak Slabs',
-    dimensions: '8 ft Dining Table',
-    resin: 'Vize SuperCast Deep Pour'
-  },
-  {
-    id: 'design-freeform-burl-slab',
-    title: 'Freeform Organic Burl Resin Centerpiece Table',
-    category: 'Coffee & Round Tables',
-    image: '/table top/IMG20230215154153.jpg',
-    desc: 'Sculptural cross-cut organic tree slab featuring an opalescent jade-pearl resin core, natural burl inclusions, lightning-blue fracture fills, and custom bronze spider legs.',
-    timber: 'Cross-Cut Live-Edge Burl Slab',
-    dimensions: '42" Diameter × 18" H',
-    resin: 'Vize Cast (Opalescent Jade-Pearl & Sapphire Veins)'
-  },
-  {
-    id: 'design-lilac-round-1',
-    title: 'Lilac Pearl Round Coffee Table',
-    category: 'Coffee & Round Tables',
-    image: '/table top/1N2A7925.jpg',
-    desc: 'Organic circular cross-cut slab infused with pearlescent lavender swirl resin and satin clear coat.',
-    timber: 'Cross-Cut Timber Slab',
-    dimensions: '36" Diameter × 18" H',
-    resin: 'Vize Cast + Lilac Pearl Powder'
-  },
-  {
-    id: 'design-lilac-round-2',
-    title: 'Lilac Pearl Aerial Reflection',
-    category: 'Coffee & Round Tables',
-    image: '/table top/1N2A7942.jpg',
-    desc: 'Top-down aerial view capturing light refraction across the mineral mica swirl.',
-    timber: 'Natural Ring Grain Timber',
-    dimensions: '36" Diameter',
-    resin: 'Vize Cast Standard Pour'
-  },
-  {
-    id: 'design-lilac-round-3',
-    title: 'Lilac Pearl Live-Edge Contour',
-    category: 'Coffee & Round Tables',
-    image: '/table top/1N2A7918.jpg',
-    desc: 'Side elevation highlighting the smooth flush transition between organic timber and epoxy.',
-    timber: 'Cross-Cut Timber',
-    dimensions: '36" Round Table',
-    resin: 'Vize Cast System'
-  },
-  {
-    id: 'design-smoky-square-1',
-    title: 'Smoky Quartz Square Coffee Table',
-    category: 'Coffee & Round Tables',
-    image: '/table top/1N2A7964.jpg',
-    desc: 'Modern square lounge table featuring metallic charcoal bronze river stream and rich golden timber.',
-    timber: 'Hardwood River Slab',
-    dimensions: '30" × 30" × 16" H',
-    resin: 'Vize Cast (Smoky Metallic Bronze)'
-  },
-  {
-    id: 'design-smoky-square-2',
-    title: 'Smoky Bronze Stream Angle',
-    category: 'Coffee & Round Tables',
-    image: '/table top/1N2A7965.jpg',
-    desc: 'Beveled perimeter and smooth ultra-flat epoxy flood coat with fine metallic flakes.',
-    timber: 'Hardwood River Slab',
-    dimensions: '30" × 30"',
-    resin: 'Vize Cast Standard Pour'
-  },
-  {
-    id: 'design-emerald-c-1',
-    title: 'Emerald Stream C-Frame Sofa Table',
-    category: 'Side & C-Tables',
-    image: '/table top/1N2A8033.jpg',
-    desc: 'Sleek ergonomic cantilever C-table designed to slide neatly over couch arms, cast with emerald mica.',
-    timber: 'Live-Edge Burl Wood',
-    dimensions: '18" × 12" × 24" H',
-    resin: 'Vize Cast (Emerald Spark)'
-  },
-  {
-    id: 'design-emerald-c-2',
-    title: 'Emerald C-Table Front Elevation',
-    category: 'Side & C-Tables',
-    image: '/table top/1N2A8039.jpg',
-    desc: 'Curvilinear resin channel flowing naturally along the organic wood grain contours.',
-    timber: 'Live-Edge Burl Wood',
-    dimensions: '18" × 12" × 24" H',
-    resin: 'Vize Cast + Emerald Mica'
-  },
-  {
-    id: 'design-sapphire-end-1',
-    title: 'Sapphire Midnight Square Accent Table',
-    category: 'Side & C-Tables',
-    image: '/table top/1N2A7986.jpg',
-    desc: 'Deep midnight blue translucent resin channel set in rich brown timber on matte-black legs.',
-    timber: 'Solid Hardwood Slab',
-    dimensions: '20" × 20" × 20" H',
-    resin: 'Vize Cast (Midnight Sapphire)'
-  },
-  {
-    id: 'design-sapphire-end-2',
-    title: 'Sapphire Midnight Grain Detail',
-    category: 'Side & C-Tables',
-    image: '/table top/1N2A7987.jpg',
-    desc: 'Seamless bond between timber fibers and high-strength polymer matrix.',
-    timber: 'Solid Hardwood Slab',
-    dimensions: '20" × 20"',
-    resin: 'Vize Cast Epoxy'
-  },
-  {
-    id: 'design-bevel-macro-1',
-    title: '45° Chamfer Bevel & Emerald Clarity',
-    category: 'Macro Clarity & Edge Details',
-    image: '/table top/1N2A8107.jpg',
-    desc: 'Macro lens detail showing zero-bubble optical clarity, hand-buffed 45-degree chamfer edge, and high-gloss polish.',
-    timber: 'Chamfered Live Edge',
-    dimensions: 'Macro Close-Up',
-    resin: 'Vize Cast + CutMax & ShineMax'
-  },
-  {
-    id: 'design-mirror-macro-2',
-    title: 'Mirror Gloss Reflection & Edge Profiling',
-    category: 'Macro Clarity & Edge Details',
-    image: '/table top/1N2A8104.jpg',
-    desc: 'Glass-like surface reflection achieved with progressive wet sanding up to 3000 grit.',
-    timber: 'Sealed End Grain',
-    dimensions: 'Macro Close-Up',
-    resin: 'Vize Cast High-Gloss Topcoat'
-  },
-  {
-    id: 'design-shine-macro-3',
-    title: 'Ultra-Gloss Surface Polish',
-    category: 'Macro Clarity & Edge Details',
-    image: '/table top/1N2A8144.jpg',
-    desc: 'Scratch-resistant, mirror-smooth finish showcasing crystal clear encapsulation.',
-    timber: 'Encapsulated Timber',
-    dimensions: 'Macro Close-Up',
-    resin: 'Vize ShineMax Polishing Compound'
-  },
-  {
-    id: 'design-ocean-slab-1',
-    title: 'Ocean Marine Blue River Slab',
-    category: 'Dining & River Tables',
-    image: '/table top/IMG20230106134803.jpg',
-    desc: 'Daylight workshop showcase of full-length teak slab featuring multi-toned oceanic blue resin.',
-    timber: 'Solid Natural Teak Slab',
-    dimensions: '7 ft × 3 ft × 2.2 in',
-    resin: 'Vize SuperCast (Ocean Marine)'
-  },
-  {
-    id: 'design-boardroom-slab-1',
-    title: 'Monolithic Executive Conference Table',
-    category: 'Dining & River Tables',
-    image: '/table top/IMG20230303141433.jpg',
-    desc: 'Custom 10-foot boardroom centerpiece with massive twin slabs and illuminated turquoise resin core.',
-    timber: 'Grand Heritage Teak Slabs',
-    dimensions: '10 ft × 4 ft × 2.5 in',
-    resin: 'Vize SuperCast Single Deep Pour'
-  },
-  {
-    id: 'design-amber-teal-1',
-    title: 'Golden Timber & Turquoise River Dining Table',
-    category: 'Dining & River Tables',
-    image: '/table top/IMG20230319124730.jpg',
-    desc: 'Golden honey wood tones combined with dynamic turquoise resin river in workshop studio setting.',
-    timber: 'Golden Honey Hardwood',
-    dimensions: '7.5 ft × 3.2 ft',
-    resin: 'Vize SuperCast Deep Pour'
-  }
 ];
 
 export default function TableTopsPage() {
@@ -431,15 +233,151 @@ export default function TableTopsPage() {
   const [selectedSwatch, setSelectedSwatch] = useState(null);
   const [galleryFilter, setGalleryFilter] = useState('All Designs');
   
-  // Lightbox state
+  // Lightbox state for multi-photo view
   const [lightboxItem, setLightboxItem] = useState(null);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [lightboxPhotoIndex, setLightboxPhotoIndex] = useState(0);
 
   // Modals state
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [consultSubject, setConsultSubject] = useState('General Table Project Inquiry');
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmittingConsult, setIsSubmittingConsult] = useState(false);
+  const [consultFormData, setConsultFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    notes: '',
+    dimensions: '',
+    wood: ''
+  });
+
+  // Dynamic DB tables & Casting Products from Laravel backend
+  const [liveDbTables, setLiveDbTables] = useState([]);
+  const [isDbLoading, setIsDbLoading] = useState(true);
+  const [castingProducts, setCastingProducts] = useState(CASTING_PRODUCTS);
+
+  useEffect(() => {
+    let isMounted = true;
+    
+    // 1. Fetch Table Tops Designs from Database
+    const fetchDbTables = async () => {
+      setIsDbLoading(true);
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/vize/table-tops');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && isMounted) {
+            setLiveDbTables(json.data.map((t) => {
+              const rawImgs = (Array.isArray(t.images) && t.images.length > 0)
+                ? t.images
+                : (t.image_url ? [t.image_url] : ['/table top/1N2A7888.jpg']);
+              
+              const cleanImgs = rawImgs.map((img) => {
+                if (typeof img === 'string') {
+                  if (img.startsWith('/uploads/') || img.startsWith('/table top/') || img.startsWith('http') || img.startsWith('data:')) {
+                    return img;
+                  }
+                  if (img.startsWith('/table-tops/')) {
+                    if (img.includes('glacier')) return '/table top/1N2A7925.jpg';
+                    if (img.includes('emerald')) return '/table top/1N2A8033.jpg';
+                    return '/table top/1N2A7888.jpg';
+                  }
+                }
+                return img || '/table top/1N2A7888.jpg';
+              });
+
+              return {
+                id: `db-table-${t.id}`,
+                title: t.name || t.title,
+                category: t.category || (t.status === 'Ready to Ship' ? 'Dining & River Tables' : 'Executive Desks'),
+                image: cleanImgs[0] || '/table top/1N2A7888.jpg',
+                images: cleanImgs,
+                desc: t.description || t.desc || `${t.wood_type || 'Live-Edge'} timber slab with crystal optical resin formulation.`,
+                timber: t.wood_type || t.timber || 'Solid Live-Edge Timber',
+                dimensions: t.dimensions || 'Custom Sizing',
+                status: t.status || 'Ready to Ship',
+                resin: t.resin || 'Vize SuperCast Deep Pour'
+              };
+            }));
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to fetch table tops from backend:', e);
+      } finally {
+        if (isMounted) setIsDbLoading(false);
+      }
+    };
+
+    // 2. Fetch Featured Casting Products from Backend Resins API
+    const fetchCastingProducts = async () => {
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/vize/products');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+            const matched = [];
+            const targetSlugs = ['vize-cast-max', 'vize-epowrap-max', 'vize-art-max'];
+            
+            targetSlugs.forEach((slugKey) => {
+              const found = json.data.find(p => 
+                (p.slug && p.slug.toLowerCase().includes(slugKey.replace('vize-', ''))) ||
+                (p.id && p.id.toLowerCase().includes(slugKey.replace('vize-', ''))) ||
+                (p.name && p.name.toLowerCase().includes(slugKey.replace('vize-', '').replace('-max', '')))
+              );
+
+              if (found) {
+                const isCast = (found.slug || found.id || found.name).toLowerCase().includes('cast');
+                const isEpowrap = (found.slug || found.id || found.name).toLowerCase().includes('epowrap');
+                
+                const fallbackImg = isCast 
+                  ? '/vize-table-top/06-vize-cast-bucket.png' 
+                  : (isEpowrap ? '/vize-table-top/07-vize-supercast-bucket.png' : '/vize-table-top/08-vize-maxart-bucket.png');
+
+                const productImg = (found.images && found.images[1]) 
+                  ? found.images[1] 
+                  : ((found.images && found.images[0]) ? found.images[0] : fallbackImg);
+
+                matched.push({
+                  id: found.slug || found.id,
+                  name: found.brand || found.name,
+                  tagline: found.tagline || (isCast ? 'Reliable 3:1 deep pour performance for stunning table tops.' : (isEpowrap ? 'Super clear 3:1 slow-cure formula for deep pours and clearcoats.' : 'Protective topcoat & art finish for scratch-proof table tops.')),
+                  image: productImg,
+                  price: `₹${Number(found.basePrice || 9840).toLocaleString('en-IN')}`,
+                  badge: isCast ? 'Deep Pour Master' : (isEpowrap ? 'Crystal Clear UV' : 'Mirror Gloss Coat'),
+                  specs: `${found.packQty || '12 KG'} Pack • ${found.mixRatio || '3:1'} Ratio • ₹${found.pricePerKg || 820}/KG • ${found.cureTime || '24h Cure'}`,
+                  link: `/product/${found.slug || found.id}`
+                });
+              }
+            });
+
+            if (matched.length > 0 && isMounted) {
+              setCastingProducts(matched);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to fetch casting products from backend:', e);
+      }
+    };
+
+    fetchDbTables();
+    fetchCastingProducts();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Body scroll locking when any popup is open
+  useEffect(() => {
+    const hasModalOpen = !!lightboxItem || isCalculatorOpen || isConsultModalOpen || !!selectedSwatch;
+    if (hasModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [lightboxItem, isCalculatorOpen, isConsultModalOpen, selectedSwatch]);
 
   // Calculator state
   const [calcUnits, setCalcUnits] = useState('cm'); // 'cm' or 'inches'
@@ -455,30 +393,47 @@ export default function TableTopsPage() {
   // Filter swatches by active category
   const filteredSwatches = TABLE_SWATCHES_BY_CAT[activeCategory] || TABLE_SWATCHES_BY_CAT['Metallic'];
 
+  // Dynamic Table Tops Collection (Connected strictly to Backend Database ONLY)
+  const allDesignsList = useMemo(() => {
+    return liveDbTables;
+  }, [liveDbTables]);
+
   // Filter table designs gallery
   const filteredGallery = galleryFilter === 'All Designs'
-    ? TABLE_DESIGNS_GALLERY
-    : TABLE_DESIGNS_GALLERY.filter((item) => item.category === galleryFilter);
+    ? allDesignsList
+    : allDesignsList.filter((item) => item.category === galleryFilter);
 
   // Open Lightbox by item
-  const openLightbox = (item) => {
-    const idx = TABLE_DESIGNS_GALLERY.findIndex((g) => g.id === item.id || g.image === item.image);
-    setLightboxIndex(idx >= 0 ? idx : 0);
-    setLightboxItem(item);
+  const openLightbox = (item, photoIdx = 0) => {
+    const normalizedItem = {
+      ...item,
+      images: (Array.isArray(item.images) && item.images.length > 0)
+        ? item.images
+        : [item.image || '/table top/1N2A7888.jpg']
+    };
+    setLightboxItem(normalizedItem);
+    setLightboxPhotoIndex(photoIdx);
   };
 
-  const handleLightboxNext = (e) => {
+  // Photos of the currently active table in the Lightbox
+  const lightboxPhotos = useMemo(() => {
+    if (!lightboxItem) return [];
+    if (Array.isArray(lightboxItem.images) && lightboxItem.images.length > 0) {
+      return lightboxItem.images;
+    }
+    return lightboxItem.image ? [lightboxItem.image] : ['/table top/1N2A7888.jpg'];
+  }, [lightboxItem]);
+
+  const handlePhotoNext = (e) => {
     e?.stopPropagation();
-    const nextIdx = (lightboxIndex + 1) % TABLE_DESIGNS_GALLERY.length;
-    setLightboxIndex(nextIdx);
-    setLightboxItem(TABLE_DESIGNS_GALLERY[nextIdx]);
+    if (lightboxPhotos.length <= 1) return;
+    setLightboxPhotoIndex((prev) => (prev + 1) % lightboxPhotos.length);
   };
 
-  const handleLightboxPrev = (e) => {
+  const handlePhotoPrev = (e) => {
     e?.stopPropagation();
-    const prevIdx = (lightboxIndex - 1 + TABLE_DESIGNS_GALLERY.length) % TABLE_DESIGNS_GALLERY.length;
-    setLightboxIndex(prevIdx);
-    setLightboxItem(TABLE_DESIGNS_GALLERY[prevIdx]);
+    if (lightboxPhotos.length <= 1) return;
+    setLightboxPhotoIndex((prev) => (prev - 1 + lightboxPhotos.length) % lightboxPhotos.length);
   };
 
   // Calculate resin requirements
@@ -513,13 +468,37 @@ export default function TableTopsPage() {
 
   const calcResult = calculateResin();
 
-  const handleConsultSubmit = (e) => {
+  const handleConsultSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setIsSubmittingConsult(true);
+    try {
+      await fetch('http://127.0.0.1:8000/api/vize/table-tops/inquire', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer_name: consultFormData.name,
+          email: consultFormData.email,
+          phone: consultFormData.phone,
+          requested_dimensions: consultFormData.dimensions || 'Custom Specification',
+          wood_preference: consultFormData.wood || 'Live-Edge Timber',
+          message: `Subject: ${consultSubject} | Details: ${consultFormData.notes}`
+        })
+      });
+    } catch (err) {
+      console.warn('Inquiry post notice:', err);
+    } finally {
+      setIsSubmittingConsult(false);
+      setFormSubmitted(true);
+    }
   };
 
-  const openConsult = (subject) => {
+  const openConsult = (subject, dimensions = '', wood = '') => {
     setConsultSubject(subject || 'Table Project Inquiry');
+    setConsultFormData((prev) => ({
+      ...prev,
+      dimensions: dimensions || prev.dimensions,
+      wood: wood || prev.wood
+    }));
     setFormSubmitted(false);
     setIsConsultModalOpen(true);
   };
@@ -658,13 +637,17 @@ export default function TableTopsPage() {
             </div>
 
             <div className="tt-products-grid">
-              {CASTING_PRODUCTS.map((prod) => (
+              {castingProducts.map((prod) => (
                 <div key={prod.id} className="tt-product-card">
                   <div className="tt-product-img-box">
                     <img
                       src={prod.image}
                       alt={prod.name}
                       className="tt-product-bucket-img"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/vize-table-top/06-vize-cast-bucket.png';
+                      }}
                     />
                   </div>
                   <div className="tt-product-body">
@@ -954,82 +937,111 @@ export default function TableTopsPage() {
                 </div>
               </div>
 
-              {/* Master Designs Grid */}
+              {/* Master Designs Grid (Exclusively Live Database Tables) */}
               <div className="tt-designs-grid">
-                {filteredGallery.map((design) => (
-                  <div
-                    key={design.id}
-                    className="tt-design-card"
-                    onClick={() => openLightbox(design)}
-                  >
-                    <div className="tt-design-img-box">
-                      <img
-                        src={design.image}
-                        alt={design.title}
-                        className="tt-design-img"
-                        loading="lazy"
-                      />
-                      <div className="tt-design-badge-overlay">
-                        <span className="tt-design-cat-badge">{design.category}</span>
-                      </div>
-                      <div className="tt-design-hover-zoom">
-                        <Maximize2 size={20} />
-                        <span>View Details</span>
-                      </div>
-                    </div>
-
-                    <div className="tt-design-body">
-                      <h4 className="tt-design-title">{design.title}</h4>
-                      <p className="tt-design-desc">{design.desc}</p>
-                      
-                      <div className="tt-design-specs-list">
-                        {design.timber && (
-                          <div className="tt-design-spec-row">
-                            <span className="tt-spec-k">Timber:</span>
-                            <span className="tt-spec-v">{design.timber}</span>
-                          </div>
-                        )}
-                        {design.dimensions && (
-                          <div className="tt-design-spec-row">
-                            <span className="tt-spec-k">Dimensions:</span>
-                            <span className="tt-spec-v">{design.dimensions}</span>
-                          </div>
-                        )}
-                        {design.resin && (
-                          <div className="tt-design-spec-row">
-                            <span className="tt-spec-k">Resin:</span>
-                            <span className="tt-spec-v tt-spec-resin">{design.resin}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="tt-design-footer">
-                        <button
-                          type="button"
-                          className="tt-design-inspect-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openLightbox(design);
-                          }}
-                        >
-                          <Eye size={15} />
-                          <span>Inspect High-Res</span>
-                        </button>
-                        <button
-                          type="button"
-                          className="tt-design-quote-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openConsult(`Quote for Table: ${design.title} (${design.dimensions || ''})`);
-                          }}
-                        >
-                          <span>Enquire</span>
-                          <ArrowRight size={14} />
-                        </button>
-                      </div>
-                    </div>
+                {isDbLoading ? (
+                  <div style={{ gridColumn: '1 / -1', padding: '60px 20px', textAlign: 'center', color: '#64748b' }}>
+                    <p style={{ fontSize: '15px', fontWeight: '600', color: '#334155', marginBottom: '4px' }}>Loading Live Workshop Tables...</p>
+                    <p style={{ fontSize: '13px' }}>Connecting to database studio</p>
                   </div>
-                ))}
+                ) : filteredGallery.length === 0 ? (
+                  <div style={{ gridColumn: '1 / -1', padding: '50px 20px', textAlign: 'center', background: '#f8fafc', borderRadius: '12px', border: '1px dashed #cbd5e1' }}>
+                    <p style={{ fontSize: '15px', fontWeight: '600', color: '#1e293b', marginBottom: '4px' }}>No Table Designs Found</p>
+                    <p style={{ fontSize: '13px', color: '#64748b' }}>
+                      {galleryFilter !== 'All Designs'
+                        ? `No tables listed under "${galleryFilter}". Select "All Designs" or add new designs in the Admin Panel.`
+                        : 'No table creations currently published in the database.'}
+                    </p>
+                  </div>
+                ) : (
+                  filteredGallery.map((design) => (
+                    <div
+                      key={design.id}
+                      className="tt-design-card"
+                      onClick={() => openLightbox(design, 0)}
+                    >
+                      <div className="tt-design-img-box">
+                        <img
+                          src={design.image || (design.images && design.images[0]) || '/table top/1N2A7888.jpg'}
+                          alt={design.title}
+                          className="tt-design-img"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = '/table top/1N2A7888.jpg';
+                          }}
+                        />
+                        <div className="tt-design-badge-overlay">
+                          <span className="tt-design-cat-badge">{design.category}</span>
+                        </div>
+                        {design.images && design.images.length > 1 && (
+                          <span className="tt-design-photo-badge">
+                            📸 {design.images.length} Photos
+                          </span>
+                        )}
+                        <div className="tt-design-hover-zoom">
+                          <Maximize2 size={20} />
+                          <span>View Details</span>
+                        </div>
+                      </div>
+
+                      <div className="tt-design-body">
+                        <h4 className="tt-design-title">{design.title}</h4>
+                        <p className="tt-design-desc">{design.desc}</p>
+                        
+                        <div className="tt-design-specs-list">
+                          {design.timber && (
+                            <div className="tt-design-spec-row">
+                              <span className="tt-spec-k">Timber:</span>
+                              <span className="tt-spec-v">{design.timber}</span>
+                            </div>
+                          )}
+                          {design.dimensions && (
+                            <div className="tt-design-spec-row">
+                              <span className="tt-spec-k">Dimensions:</span>
+                              <span className="tt-spec-v">{design.dimensions}</span>
+                            </div>
+                          )}
+                          {design.resin && (
+                            <div className="tt-design-spec-row">
+                              <span className="tt-spec-k">Resin:</span>
+                              <span className="tt-spec-v tt-spec-resin">{design.resin}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="tt-design-footer">
+                          <button
+                            type="button"
+                            className="tt-design-inspect-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openLightbox(design, 0);
+                            }}
+                          >
+                            <Eye size={15} />
+                            <span>Inspect High-Res</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="tt-design-quote-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openConsult(
+                                `Quote for Table: ${design.title} (${design.dimensions || ''})`,
+                                design.dimensions,
+                                design.timber
+                              );
+                            }}
+                          >
+                            <span>Enquire</span>
+                            <ArrowRight size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -1262,7 +1274,8 @@ export default function TableTopsPage() {
                   <label>Project Scope / Subject</label>
                   <input
                     type="text"
-                    defaultValue={consultSubject}
+                    value={consultSubject}
+                    onChange={(e) => setConsultSubject(e.target.value)}
                     className="tt-input"
                     required
                   />
@@ -1273,6 +1286,8 @@ export default function TableTopsPage() {
                     <input
                       type="text"
                       placeholder="Your name"
+                      value={consultFormData.name}
+                      onChange={(e) => setConsultFormData({ ...consultFormData, name: e.target.value })}
                       className="tt-input"
                       required
                     />
@@ -1282,6 +1297,8 @@ export default function TableTopsPage() {
                     <input
                       type="tel"
                       placeholder="+91 98765 43210"
+                      value={consultFormData.phone}
+                      onChange={(e) => setConsultFormData({ ...consultFormData, phone: e.target.value })}
                       className="tt-input"
                       required
                     />
@@ -1292,21 +1309,32 @@ export default function TableTopsPage() {
                   <input
                     type="email"
                     placeholder="name@example.com"
+                    value={consultFormData.email}
+                    onChange={(e) => setConsultFormData({ ...consultFormData, email: e.target.value })}
                     className="tt-input"
                     required
                   />
                 </div>
                 <div className="tt-form-field">
-                  <label>Timber Species, Dimensions or Questions</label>
+                  <label>Timber Species, Dimensions or Specific Questions</label>
                   <textarea
                     rows={3}
                     placeholder="e.g. 8ft x 3.5ft Live-Edge Teak dining river table with turquoise SuperCast pour..."
+                    value={consultFormData.notes}
+                    onChange={(e) => setConsultFormData({ ...consultFormData, notes: e.target.value })}
                     className="tt-textarea"
                     required
                   />
                 </div>
-                <button type="submit" className="tt-btn-primary">
-                  Submit Project Details <Send size={16} />
+                <button type="submit" disabled={isSubmittingConsult} className="tt-btn-primary">
+                  {isSubmittingConsult ? (
+                    <span>Submitting Inquiry...</span>
+                  ) : (
+                    <>
+                      <span>Submit Project Details</span>
+                      <Send size={16} />
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -1376,6 +1404,9 @@ export default function TableTopsPage() {
       {/* =================================================================
           MODAL 4: INTERACTIVE HIGH-RES LIGHTBOX VIEWER
          ================================================================= */}
+      {/* =================================================================
+          MODAL 4: INTERACTIVE HIGH-RES LIGHTBOX VIEWER (MULTI-PHOTO)
+         ================================================================= */}
       {lightboxItem && (
         <div
           className="tt-modal-backdrop tt-lightbox-backdrop"
@@ -1395,36 +1426,70 @@ export default function TableTopsPage() {
               <X size={22} />
             </button>
 
-            {/* Navigation Arrows */}
-            <button
-              type="button"
-              className="tt-lightbox-nav tt-lightbox-prev"
-              onClick={handleLightboxPrev}
-              aria-label="Previous image"
-            >
-              <ChevronLeft size={28} />
-            </button>
+            {/* Navigation Arrows (Cycles photos of the active table) */}
+            {lightboxPhotos.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="tt-lightbox-nav tt-lightbox-prev"
+                  onClick={handlePhotoPrev}
+                  aria-label="Previous photo"
+                >
+                  <ChevronLeft size={28} />
+                </button>
 
-            <button
-              type="button"
-              className="tt-lightbox-nav tt-lightbox-next"
-              onClick={handleLightboxNext}
-              aria-label="Next image"
-            >
-              <ChevronRight size={28} />
-            </button>
+                <button
+                  type="button"
+                  className="tt-lightbox-nav tt-lightbox-next"
+                  onClick={handlePhotoNext}
+                  aria-label="Next photo"
+                >
+                  <ChevronRight size={28} />
+                </button>
+              </>
+            )}
 
+            {/* Main Active Photo */}
             <div className="tt-lightbox-img-wrapper">
               <img
-                src={lightboxItem.image}
-                alt={lightboxItem.title}
+                src={lightboxPhotos[lightboxPhotoIndex] || lightboxPhotos[0] || '/table top/1N2A7888.jpg'}
+                alt={`${lightboxItem.title} - Photo ${lightboxPhotoIndex + 1}`}
                 className="tt-lightbox-img"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/table top/1N2A7888.jpg';
+                }}
               />
               <span className="tt-lightbox-counter">
-                {lightboxIndex + 1} / {TABLE_DESIGNS_GALLERY.length}
+                {lightboxPhotoIndex + 1} / {lightboxPhotos.length}
               </span>
             </div>
 
+            {/* Multiple Photo Thumbnails Strip */}
+            {lightboxPhotos.length > 1 && (
+              <div className="tt-lightbox-thumbs">
+                {lightboxPhotos.map((thumbUrl, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`tt-lightbox-thumb-btn ${lightboxPhotoIndex === idx ? 'active' : ''}`}
+                    onClick={() => setLightboxPhotoIndex(idx)}
+                    aria-label={`View photo angle ${idx + 1}`}
+                  >
+                    <img
+                      src={thumbUrl}
+                      alt={`Thumbnail ${idx + 1}`}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/table top/1N2A7888.jpg';
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Table Information, Specs & Quote Action */}
             <div className="tt-lightbox-caption">
               <div className="tt-lightbox-caption-top">
                 <span className="tt-lightbox-category">{lightboxItem.category || 'Table Design'}</span>
@@ -1459,7 +1524,11 @@ export default function TableTopsPage() {
                   className="tt-btn-primary"
                   onClick={() => {
                     setLightboxItem(null);
-                    openConsult(`Inquiry for Table Design: ${lightboxItem.title} (${lightboxItem.dimensions || ''})`);
+                    openConsult(
+                      `Inquiry for Table Design: ${lightboxItem.title} (${lightboxItem.dimensions || ''})`,
+                      lightboxItem.dimensions,
+                      lightboxItem.timber
+                    );
                   }}
                 >
                   Inquire / Custom Quote for this Design <ArrowRight size={16} />

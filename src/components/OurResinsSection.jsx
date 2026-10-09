@@ -20,28 +20,52 @@ const mapCategory = (cat, appCat) => {
   return 'Flooring Systems';
 };
 
-const ALL_PRODUCTS = productsData.map((p) => {
-  const bucketImg = p.images?.find((img) => img.includes('bucket')) || p.images?.[0] || '/rasin-product/primex-bucket.png';
-  return {
-    id: p.id,
-    name: p.name,
-    category: mapCategory(p.category, p.applicationCategory),
-    subtitle: p.tagline || p.chemistry,
-    image: bucketImg,
-    link: `/product/${p.id}`
-  };
-});
+const formatProductsList = (list) => {
+  return (list || []).map((p) => {
+    const bucketImg = p.images?.find((img) => typeof img === 'string' && img.includes('bucket')) || p.images?.[0] || '/rasin-product/primex-bucket.png';
+    return {
+      id: p.id || p.slug,
+      name: p.name,
+      category: mapCategory(p.category, p.applicationCategory),
+      subtitle: p.tagline || p.chemistry,
+      image: bucketImg,
+      link: `/product/${p.id || p.slug}`
+    };
+  });
+};
+
+const DEFAULT_PRODUCTS = formatProductsList(productsData);
 
 export default function OurResinsSection() {
   const [activeCategory, setActiveCategory] = useState('All Products');
+  const [productsList, setProductsList] = useState(DEFAULT_PRODUCTS);
   const sliderRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLive = async () => {
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/vize/products');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+            setProductsList(formatProductsList(json.data));
+          }
+        }
+      } catch (e) {
+        // Fallback gracefully
+      }
+    };
+    fetchLive();
+    return () => { isMounted = false; };
+  }, []);
+
   const filteredProducts =
     activeCategory === 'All Products'
-      ? ALL_PRODUCTS
-      : ALL_PRODUCTS.filter((p) => p.category === activeCategory);
+      ? productsList
+      : productsList.filter((p) => p.category === activeCategory);
 
   const updateScrollState = () => {
     if (!sliderRef.current) return;
@@ -113,8 +137,8 @@ export default function OurResinsSection() {
           {CATEGORIES.map((cat) => {
             const count =
               cat === 'All Products'
-                ? ALL_PRODUCTS.length
-                : ALL_PRODUCTS.filter((p) => p.category === cat).length;
+                ? productsList.length
+                : productsList.filter((p) => p.category === cat).length;
             return (
               <button
                 key={cat}

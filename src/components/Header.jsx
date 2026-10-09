@@ -144,7 +144,7 @@ export default function Header() {
             <li>
               <Link
                 to="/our-work"
-                className={`nav-item ${['/our-work', '/work', '/resources'].includes(location.pathname) ? 'active' : ''}`}
+                className={`nav-item ${['/our-work', '/work', '/showcase', '/portfolio', '/resources'].includes(location.pathname) ? 'active' : ''}`}
               >
                 Our Work
               </Link>
@@ -380,14 +380,14 @@ export default function Header() {
 
                   <Link
                     to="/our-work"
-                    className={`vize-mobile-nav-item ${['/our-work', '/work', '/resources'].includes(location.pathname) ? 'active' : ''}`}
+                    className={`vize-mobile-nav-item ${['/our-work', '/work', '/showcase', '/portfolio', '/resources'].includes(location.pathname) ? 'active' : ''}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <div className="vize-mobile-item-left">
                       <Briefcase size={18} className="vize-mobile-icon" />
                       <span>Our Work</span>
                     </div>
-                    <span className="vize-mobile-pill-badge accent">Archive</span>
+                    <span className="vize-mobile-pill-badge accent">Showcase</span>
                   </Link>
 
                   <Link

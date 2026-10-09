@@ -11,11 +11,13 @@ import {
   ExternalLink,
   ChevronRight,
   Compass,
-  Palette
+  Palette,
+  ShoppingCart
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PigmentsFinishesSection from '../components/PigmentsFinishesSection';
+import PigmentsOrderSection from '../components/PigmentsOrderSection';
 
 export default function ColorsPigmentsPage() {
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
@@ -51,10 +53,15 @@ export default function ColorsPigmentsPage() {
             </p>
 
             <div className="colors-hero-actions">
+              <a href="#order-pigments" className="colors-hero-btn-primary">
+                <ShoppingCart size={18} />
+                <span>Order Pigments &amp; Colors</span>
+              </a>
+
               <a
                 href="/ral-colour-chart.pdf"
                 download="RAL-Classic-Colour-Chart-VIZE.pdf"
-                className="colors-hero-btn-primary"
+                className="colors-hero-btn-outline"
                 title="Download 4-page official RAL Classic Colour Chart PDF"
               >
                 <Download size={18} />
@@ -63,7 +70,7 @@ export default function ColorsPigmentsPage() {
 
               <a href="#finishes" className="colors-hero-btn-outline">
                 <Palette size={18} />
-                <span>Explore Interactive Palette</span>
+                <span>Explore Swatch Palette</span>
               </a>
             </div>
 
@@ -86,9 +93,195 @@ export default function ColorsPigmentsPage() {
         </section>
 
         {/* =================================================================
-            2. INTERACTIVE PIGMENTS & RAL PALETTE EXPLORER
+            2. DEDICATED PIGMENTS & COLORS SEPARATE ORDERING SECTION
+           ================================================================= */}
+        <PigmentsOrderSection />
+
+        {/* =================================================================
+            3. INTERACTIVE PIGMENTS & RAL PALETTE EXPLORER
            ================================================================= */}
         <PigmentsFinishesSection />
+
+        {/* =================================================================
+            4. OFFICIAL PIGMENT SELLING PRICE LIST (GST INCLUSIVE)
+           ================================================================= */}
+        <section className="vize-pigment-pricing-section" id="pigment-price-list">
+          <div className="colors-container">
+            <div className="vize-pigment-pricing-header">
+              <div className="colors-eyebrow-wrap">
+                <span className="colors-eyebrow">VIZE SPECIALITY POLYMERS</span>
+                <span className="colors-eyebrow-line" />
+              </div>
+              <h2 className="vize-pigment-pricing-title">
+                VIZE Pigments Selling Price List
+              </h2>
+              <p className="vize-pigment-pricing-subtitle">
+                Colours that create extraordinary spaces · All prices are inclusive of 18% GST
+              </p>
+            </div>
+
+            {/* Price Table Card */}
+            <div className="vize-pigment-pricing-card">
+              <div className="vize-pigment-table-wrapper">
+                <table className="vize-pigment-table">
+                  <thead>
+                    <tr>
+                      <th className="th-product">PRODUCT</th>
+                      <th className="th-500g">
+                        500 GRAMS
+                        <span className="th-sub">SELLING PRICE (GST INCL.)</span>
+                      </th>
+                      <th className="th-1kg">
+                        1 KG
+                        <span className="th-sub">SELLING PRICE (GST INCL.)</span>
+                      </th>
+                      <th className="th-status">AVAILABILITY</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="td-product">
+                        <div className="vize-pgm-cell">
+                          <div className="vize-pgm-badge-img pigment-blue" />
+                          <div>
+                            <strong className="vize-pgm-name">PIGMENT</strong>
+                            <p className="vize-pgm-desc">Rich, vibrant colours for stunning finishes.</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="td-price td-500g">
+                        <span className="vize-pgm-price">₹513.00</span>
+                        <span className="vize-pgm-weight">(500 g)</span>
+                      </td>
+                      <td className="td-price td-1kg">
+                        <span className="vize-pgm-price">₹1,026.00</span>
+                        <span className="vize-pgm-weight">(1 kg)</span>
+                      </td>
+                      <td className="td-status">
+                        <span className="vize-pgm-instock-badge">Available Online</span>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="td-product">
+                        <div className="vize-pgm-cell">
+                          <div className="vize-pgm-badge-img pearl-shimmer" />
+                          <div>
+                            <strong className="vize-pgm-name">PEARL / MICA</strong>
+                            <p className="vize-pgm-desc">Adds depth, shimmer and elegance.</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="td-price td-500g">
+                        <span className="vize-pgm-price">₹769.95</span>
+                        <span className="vize-pgm-weight">(500 g)</span>
+                      </td>
+                      <td className="td-price td-1kg">
+                        <span className="vize-pgm-price">₹1,539.90</span>
+                        <span className="vize-pgm-weight">(1 kg)</span>
+                      </td>
+                      <td className="td-status">
+                        <span className="vize-pgm-instock-badge">Available Online</span>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="td-product">
+                        <div className="vize-pgm-cell">
+                          <div className="vize-pgm-badge-img selected-shades" />
+                          <div>
+                            <strong className="vize-pgm-name">SELECTED SHADES</strong>
+                            <p className="vize-pgm-desc">Unique shades for creative expressions.</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="td-price td-500g">
+                        <span className="vize-pgm-price">₹855.00</span>
+                        <span className="vize-pgm-weight">(500 g)</span>
+                      </td>
+                      <td className="td-price td-1kg">
+                        <span className="vize-pgm-price">₹1,711.00</span>
+                        <span className="vize-pgm-weight">(1 kg)</span>
+                      </td>
+                      <td className="td-status">
+                        <span className="vize-pgm-instock-badge">Available Online</span>
+                      </td>
+                    </tr>
+
+                    <tr className="tr-metallic-offline">
+                      <td className="td-product">
+                        <div className="vize-pgm-cell">
+                          <div className="vize-pgm-badge-img metallic-gold" />
+                          <div>
+                            <strong className="vize-pgm-name">METALLIC (COPPER / PALE GOLD)</strong>
+                            <p className="vize-pgm-desc">Premium metallic finish for luxurious spaces.</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="td-price td-500g">
+                        <span className="vize-pgm-price">₹1,568.40</span>
+                        <span className="vize-pgm-weight">(500 g)</span>
+                      </td>
+                      <td className="td-price td-1kg">
+                        <span className="vize-pgm-price">₹3,079.80</span>
+                        <span className="vize-pgm-weight">(1 kg)</span>
+                      </td>
+                      <td className="td-status">
+                        <span className="vize-pgm-offline-badge" title="Not available on website / Special Order">
+                          Special / Offline Order
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Shipping Charges Ribbon */}
+              <div className="vize-pgm-shipping-bar">
+                <div className="vize-pgm-shipping-title-block">
+                  <span className="vize-pgm-ship-icon">🚚</span>
+                  <div>
+                    <strong>SHIPPING CHARGES</strong>
+                    <span className="vize-pgm-ship-sub">Direct courier dispatch</span>
+                  </div>
+                </div>
+
+                <div className="vize-pgm-ship-tier">
+                  <span className="vize-pgm-pin-icon">📍</span>
+                  <div>
+                    <span className="vize-pgm-ship-region">GUJARAT</span>
+                    <strong className="vize-pgm-ship-rate">₹75 <small>/kg</small></strong>
+                  </div>
+                </div>
+
+                <div className="vize-pgm-ship-tier">
+                  <span className="vize-pgm-pin-icon">📍</span>
+                  <div>
+                    <span className="vize-pgm-ship-region">REST OF INDIA</span>
+                    <strong className="vize-pgm-ship-rate">₹110 <small>/kg</small></strong>
+                  </div>
+                </div>
+
+                <div className="vize-pgm-ship-tier defense-tier">
+                  <span className="vize-pgm-pin-icon">🛡️</span>
+                  <div>
+                    <span className="vize-pgm-ship-region">DEFENCE AREAS</span>
+                    <span className="vize-pgm-ship-note">Calculated separately</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Note Bar */}
+              <div className="vize-pgm-notice-bar">
+                <span className="vize-pgm-notice-badge">NOTE</span>
+                <ul className="vize-pgm-notice-list">
+                  <li>All prices are inclusive of 18% GST.</li>
+                  <li>Metallic Copper &amp; Pale Gold are not available on the website (Available via offline/direct orders).</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* =================================================================
             3. ARCHITECTURAL & INDUSTRIAL SPECIFICATION GUIDE
