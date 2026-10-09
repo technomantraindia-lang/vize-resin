@@ -2,6 +2,65 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/debug-status', function () {
+    $out = [];
+    try {
+        $out['database_name'] = \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
+        $out['has_admins_table'] = \Illuminate\Support\Facades\Schema::hasTable('admins');
+        if ($out['has_admins_table']) {
+            $out['admins_count'] = \Illuminate\Support\Facades\DB::table('admins')->count();
+            $out['admins'] = \Illuminate\Support\Facades\DB::table('admins')->select('id', 'name', 'email')->get();
+        }
+        $out['has_channels_table'] = \Illuminate\Support\Facades\Schema::hasTable('channels');
+        $out['has_locales_table'] = \Illuminate\Support\Facades\Schema::hasTable('locales');
+        $out['has_currencies_table'] = \Illuminate\Support\Facades\Schema::hasTable('currencies');
+        $out['installed_file_exists'] = file_exists(storage_path('installed'));
+    } catch (\Throwable $e) {
+        $out['db_error'] = $e->getMessage();
+    }
+
+    try {
+        $out['test_view'] = 'trying...';
+        $v = view('admin::users.sessions.create')->render();
+        $out['test_view'] = 'rendered ok, length: ' . strlen($v);
+    } catch (\Throwable $e) {
+        $out['view_error'] = $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+    }
+
+    $logFile = storage_path('logs/laravel.log');
+    if (file_exists($logFile)) {
+        $lines = file($logFile);
+        $out['recent_logs'] = array_slice($lines, -40);
+    } else {
+        $out['recent_logs'] = 'No log file found';
+    }
+
+    return response()->json($out, 200, [], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+});
+
+Route::get('/setup-db', function () {
+    try {
+        $sqlPath = base_path('database_backup.sql');
+        if (!file_exists($sqlPath)) {
+            return response()->json(['error' => 'database_backup.sql not found at ' . $sqlPath], 404);
+        }
+        $sql = file_get_contents($sqlPath);
+        \Illuminate\Support\Facades\DB::unprepared($sql);
+        touch(storage_path('installed'));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'database_backup.sql executed successfully!',
+            'admins_count' => \Illuminate\Support\Facades\DB::table('admins')->count(),
+            'admins' => \Illuminate\Support\Facades\DB::table('admins')->select('id', 'name', 'email')->get()
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 Route::get('/', fn () => redirect()->route('admin.session.create'));
 
 Route::get('/storefront', fn () => redirect('http://localhost:5173'))->name('shop.home.index');
