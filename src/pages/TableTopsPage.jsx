@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -264,25 +265,24 @@ export default function TableTopsPage() {
     const fetchDbTables = async () => {
       setIsDbLoading(true);
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/vize/table-tops');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && isMounted) {
-            setLiveDbTables(json.data.map((t) => {
-              const rawImgs = (Array.isArray(t.images) && t.images.length > 0)
-                ? t.images
-                : (t.image_url ? [t.image_url] : ['/table top/1N2A7888.jpg']);
-              
-              const cleanImgs = rawImgs.map((img) => {
-                if (typeof img === 'string') {
-                  if (img.startsWith('/uploads/') || img.startsWith('/table top/') || img.startsWith('http') || img.startsWith('data:')) {
-                    return img;
-                  }
-                  if (img.startsWith('/table-tops/')) {
-                    if (img.includes('glacier')) return '/table top/1N2A7925.jpg';
-                    if (img.includes('emerald')) return '/table top/1N2A8033.jpg';
-                    return '/table top/1N2A7888.jpg';
-                  }
+        const json = await fetchFromApi('/api/vize/table-tops');
+        if (json && json.success && Array.isArray(json.data) && isMounted) {
+          setLiveDbTables(json.data.map((t) => {
+            const rawImgs = (Array.isArray(t.images) && t.images.length > 0)
+              ? t.images
+              : (t.image_url ? [t.image_url] : ['/table top/1N2A7888.jpg']);
+            
+            const cleanImgs = rawImgs.map((img) => {
+              if (typeof img === 'string') {
+                if (img.startsWith('/uploads/')) return resolveImageUrl(img);
+                if (img.startsWith('/table top/') || img.startsWith('http') || img.startsWith('data:')) {
+                  return img;
+                }
+                if (img.startsWith('/table-tops/')) {
+                  if (img.includes('glacier')) return '/table top/1N2A7925.jpg';
+                  if (img.includes('emerald')) return '/table top/1N2A8033.jpg';
+                  return '/table top/1N2A7888.jpg';
+                }
                 }
                 return img || '/table top/1N2A7888.jpg';
               });
@@ -301,8 +301,7 @@ export default function TableTopsPage() {
               };
             }));
           }
-        }
-      } catch (e) {
+        } catch (e) {
         console.warn('Failed to fetch table tops from backend:', e);
       } finally {
         if (isMounted) setIsDbLoading(false);
@@ -312,12 +311,10 @@ export default function TableTopsPage() {
     // 2. Fetch Featured Casting Products from Backend Resins API
     const fetchCastingProducts = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/vize/products');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-            const matched = [];
-            const targetSlugs = ['vize-cast-max', 'vize-epowrap-max', 'vize-art-max'];
+        const json = await fetchFromApi('/api/vize/products');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          const matched = [];
+          const targetSlugs = ['vize-cast-max', 'vize-epowrap-max', 'vize-art-max'];
             
             targetSlugs.forEach((slugKey) => {
               const found = json.data.find(p => 
@@ -355,8 +352,7 @@ export default function TableTopsPage() {
               setCastingProducts(matched);
             }
           }
-        }
-      } catch (e) {
+        } catch (e) {
         console.warn('Failed to fetch casting products from backend:', e);
       }
     };
@@ -472,7 +468,7 @@ export default function TableTopsPage() {
     e.preventDefault();
     setIsSubmittingConsult(true);
     try {
-      await fetch('http://127.0.0.1:8000/api/vize/table-tops/inquire', {
+      await fetchFromApi('/api/vize/table-tops/inquire', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

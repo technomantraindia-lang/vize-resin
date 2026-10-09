@@ -14,6 +14,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProductBucketVisual from '../components/ProductBucketVisual';
 import productsData from '../data/products.json';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 const CATEGORY_TABS = [
   'All Materials',
@@ -82,12 +83,16 @@ export default function ResinsPage() {
     let isMounted = true;
     const fetchLiveProducts = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/vize/products');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-            setLiveProducts(json.data);
-          }
+        const json = await fetchFromApi('/api/vize/products');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          const formatted = json.data.map(p => {
+            const rawImgs = Array.isArray(p.images) ? p.images : (typeof p.images === 'string' ? JSON.parse(p.images || '[]') : []);
+            return {
+              ...p,
+              images: rawImgs.map(resolveImageUrl),
+            };
+          });
+          setLiveProducts(formatted);
         }
       } catch (e) {
         // Fallback gracefully to products.json
@@ -327,13 +332,13 @@ export default function ResinsPage() {
                         className="vize-resins-product-card"
                       >
                         <Link
-                          to={`/product/${product.id}`}
+                          to={`/product/${product.slug || product.id}`}
                           className="vize-resins-card-visual-link"
                           aria-label={`View ${product.name}`}
                         >
-                          {Array.isArray(product.images) && product.images.length > 0 && product.images[0].startsWith('/uploads') ? (
+                          {Array.isArray(product.images) && product.images.length > 0 && (product.images[0].startsWith('/uploads') || product.images[0].includes('upload') || product.images[0].startsWith('http')) ? (
                             <div className="vize-logo-card-wrapper flex items-center justify-center p-3">
-                              <img src={product.images[0]} alt={product.name} className="max-h-36 object-contain" />
+                              <img src={resolveImageUrl(product.images[0])} alt={product.name} className="max-h-36 object-contain" />
                             </div>
                           ) : (
                             <ProductBucketVisual id={product.id} name={product.name} />
@@ -351,7 +356,7 @@ export default function ResinsPage() {
                           </div>
 
                           <h3 className="vize-resins-card-title">
-                            <Link to={`/product/${product.id}`} className="vize-resins-title-link">
+                            <Link to={`/product/${product.slug || product.id}`} className="vize-resins-title-link">
                               {product.name}
                             </Link>
                           </h3>
@@ -369,7 +374,7 @@ export default function ResinsPage() {
                             </div>
 
                             <Link
-                              to={`/product/${product.id}`}
+                              to={`/product/${product.slug || product.id}`}
                               className="vize-resins-view-link"
                             >
                               <span>View Product</span>

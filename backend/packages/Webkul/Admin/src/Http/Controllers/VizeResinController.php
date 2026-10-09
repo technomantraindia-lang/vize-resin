@@ -60,11 +60,14 @@ class VizeResinController extends Controller
         $slug = Str::slug($request->input('name'));
         $sku = 'VZ-' . strtoupper(Str::random(5));
 
-        // Dual directory support for instant live preview on both Vite and Laravel servers
+        // Dual directory support for instant live preview on local Vite and Laravel servers
         $dest1 = public_path('uploads/resins');
-        $dest2 = base_path('../public/uploads/resins');
         File::ensureDirectoryExists($dest1);
-        File::ensureDirectoryExists($dest2);
+
+        $dest2 = File::isDirectory(base_path('../public')) ? base_path('../public/uploads/resins') : null;
+        if ($dest2) {
+            File::ensureDirectoryExists($dest2);
+        }
 
         $images = [];
 
@@ -73,7 +76,9 @@ class VizeResinController extends Controller
             $file = $request->file('primary_image_file');
             $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
             $file->move($dest1, $filename);
-            @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+            if ($dest2) {
+                @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+            }
             $images[] = '/uploads/resins/' . $filename;
         } elseif ($request->filled('image_url')) {
             $images[] = trim($request->input('image_url'));
@@ -92,7 +97,9 @@ class VizeResinController extends Controller
             if ($file && $file->isValid()) {
                 $filename = time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
                 $file->move($dest1, $filename);
-                @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                if ($dest2) {
+                    @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                }
                 $images[] = '/uploads/resins/' . $filename;
             }
         }
@@ -166,9 +173,12 @@ class VizeResinController extends Controller
         try {
             $existing = DB::table('vize_resins')->where('id', $id)->first();
             $dest1 = public_path('uploads/resins');
-            $dest2 = base_path('../public/uploads/resins');
             File::ensureDirectoryExists($dest1);
-            File::ensureDirectoryExists($dest2);
+
+            $dest2 = File::isDirectory(base_path('../public')) ? base_path('../public/uploads/resins') : null;
+            if ($dest2) {
+                File::ensureDirectoryExists($dest2);
+            }
 
             $images = [];
 
@@ -193,7 +203,9 @@ class VizeResinController extends Controller
                     if ($replaceFile && $replaceFile->isValid() && isset($images[$slotIdx])) {
                         $filename = time() . '_' . Str::random(6) . '.' . $replaceFile->getClientOriginalExtension();
                         $replaceFile->move($dest1, $filename);
-                        @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                        if ($dest2) {
+                            @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                        }
                         $images[$slotIdx] = '/uploads/resins/' . $filename;
                     }
                 }
@@ -204,7 +216,9 @@ class VizeResinController extends Controller
                 $file = $request->file('primary_image_file');
                 $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
                 $file->move($dest1, $filename);
-                @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                if ($dest2) {
+                    @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                }
                 // Put new primary image at the beginning
                 array_unshift($images, '/uploads/resins/' . $filename);
             }
@@ -222,7 +236,9 @@ class VizeResinController extends Controller
                 if ($file && $file->isValid()) {
                     $filename = time() . '_' . Str::random(6) . '.' . $file->getClientOriginalExtension();
                     $file->move($dest1, $filename);
-                    @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                    if ($dest2) {
+                        @copy($dest1 . '/' . $filename, $dest2 . '/' . $filename);
+                    }
                     $images[] = '/uploads/resins/' . $filename;
                 }
             }

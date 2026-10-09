@@ -3,6 +3,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import productsData from '../data/products.json';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 const CATEGORIES = [
   'All Products',
@@ -22,9 +23,10 @@ const mapCategory = (cat, appCat) => {
 
 const formatProductsList = (list) => {
   return (list || []).map((p) => {
-    const bucketImg = p.images?.find((img) => typeof img === 'string' && img.includes('bucket')) || p.images?.[0] || '/rasin-product/primex-bucket.png';
+    const rawImg = p.images?.find((img) => typeof img === 'string' && img.includes('bucket')) || p.images?.[0] || '/rasin-product/primex-bucket.png';
+    const bucketImg = resolveImageUrl(rawImg);
     return {
-      id: p.id || p.slug,
+      id: p.slug || p.id,
       name: p.name,
       category: mapCategory(p.category, p.applicationCategory),
       subtitle: p.tagline || p.chemistry,
@@ -47,12 +49,9 @@ export default function OurResinsSection() {
     let isMounted = true;
     const fetchLive = async () => {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/vize/products');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-            setProductsList(formatProductsList(json.data));
-          }
+        const json = await fetchFromApi('/api/vize/products');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          setProductsList(formatProductsList(json.data));
         }
       } catch (e) {
         // Fallback gracefully

@@ -24,6 +24,7 @@ import Footer from '../components/Footer';
 import productsData from '../data/products.json';
 import { ALL_COLORS, COLOR_CATEGORIES } from '../data/colors';
 import { useCart } from '../context/CartContext';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -36,12 +37,9 @@ export default function ProductDetailPage() {
     const fetchLiveProduct = async () => {
       try {
         const targetId = id || 'vize-primex';
-        const res = await fetch(`http://127.0.0.1:8000/api/vize/products/${targetId}`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && json.data && isMounted) {
-            setDbProduct(json.data);
-          }
+        const json = await fetchFromApi(`/api/vize/products/${targetId}`);
+        if (json && json.success && json.data && isMounted) {
+          setDbProduct(json.data);
         }
       } catch (e) {
         // Fallback gracefully to bundled products.json
@@ -80,7 +78,8 @@ export default function ProductDetailPage() {
         : [];
 
       const fallbackImages = presetMatch?.images || ['/rasin-product/Vize PrimeX.png'];
-      const mergedImages = cleanDbImages.length > 0 ? cleanDbImages : fallbackImages;
+      const rawImages = cleanDbImages.length > 0 ? cleanDbImages : fallbackImages;
+      const mergedImages = rawImages.map(resolveImageUrl);
 
       const basePriceNum = Number(dbProduct.basePrice ?? dbProduct.base_price ?? presetMatch?.basePrice ?? 6264);
       const packQtyStr = dbProduct.packQty || dbProduct.pack_qty || presetMatch?.packQty || '15 KG';
@@ -183,7 +182,7 @@ export default function ProductDetailPage() {
 
   // Selected variant size object
   const selectedSize = useMemo(() => {
-    return product.sizes?.find((s) => s.id === selectedSizeId) || null;
+    return product.sizes?.find((s) => s.id === selectedSizeId) || product.sizes?.[0] || null;
   }, [product, selectedSizeId]);
 
   // Selected color object
@@ -344,10 +343,10 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
-              {/* 50 Sq.Ft Kit Visual Badge */}
+              {/* Kit Visual Badge */}
               {!activeDisplay.isColorFinish && (
                 <div className="vize-pdp-kit-coverage-pill">
-                  <span>📐 50 Sq.Ft Package</span>
+                  <span>📐 {product.coverage || (product.sqftCoverage ? `~${product.sqftCoverage} sq.ft` : 'Standard Package')}</span>
                 </div>
               )}
 

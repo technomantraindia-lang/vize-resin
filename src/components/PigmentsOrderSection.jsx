@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ralColors from '../data/ralColors.json';
+import { fetchFromApi } from '../utils/api';
 
 const RAL_GROUPS = [
   'All',
@@ -164,13 +165,11 @@ export default function PigmentsOrderSection() {
     let isMounted = true;
     async function loadBackendPigments() {
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/vize/pigments');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-            setCategories(json.data);
-            const activeIdx = json.data.length > 1 ? 1 : 0;
-            setActiveCategoryIndex(activeIdx);
+        const json = await fetchFromApi('/api/vize/pigments');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          setCategories(json.data);
+          const activeIdx = json.data.length > 1 ? 1 : 0;
+          setActiveCategoryIndex(activeIdx);
             const activeCat = json.data[activeIdx] || json.data[0];
             if (activeCat?.shades?.length > 0) {
               setSelectedSwatch(activeCat.shades[0]);
@@ -179,8 +178,7 @@ export default function PigmentsOrderSection() {
               setSelectedSize(activeCat.sizes[0]);
             }
           }
-        }
-      } catch (err) {
+        } catch (err) {
         // Fallback gracefully to local dataset
       }
     }

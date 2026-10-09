@@ -12,8 +12,8 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
-      '/storage': {
-        target: 'http://127.0.0.1:8000',
+      '/uploads': {
+        target: 'https://vize-resin-production.up.railway.app',
         changeOrigin: true,
         secure: false,
       },

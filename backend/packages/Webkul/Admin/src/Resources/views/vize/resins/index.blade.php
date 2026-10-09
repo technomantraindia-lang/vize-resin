@@ -897,22 +897,24 @@
             }
         });
 
-        // Auto Image Compression: Scales high-res camera photos down to web standards (max 1920px) to prevent PostTooLargeException
-        async function compressImageFile(file, maxDimension = 1920, quality = 0.85) {
+        // High-Speed Image Optimizer: Compresses photos in parallel to web-ready JPEG (max 1400px, 80% quality)
+        async function compressImageFile(file, maxDimension = 1400, quality = 0.82) {
             if (!file || !file.type || !file.type.startsWith('image/')) {
                 return file;
             }
-            // If already small (< 350 KB), skip compression
-            if (file.type === 'image/svg+xml' || file.size < 350 * 1024) {
+            // If already compact (< 250 KB) or SVG, preserve original
+            if (file.type === 'image/svg+xml' || file.size < 250 * 1024) {
                 return file;
             }
 
             return new Promise((resolve) => {
+                const timer = setTimeout(() => resolve(file), 3000); // 3s safety timeout
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const img = new Image();
                     img.onload = function() {
                         try {
+                            clearTimeout(timer);
                             let width = img.naturalWidth || img.width;
                             let height = img.naturalHeight || img.height;
 
@@ -938,31 +940,33 @@
                             ctx.imageSmoothingQuality = 'high';
                             ctx.drawImage(img, 0, 0, width, height);
 
-                            const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                            // JPEG conversion provides 80-90% size reduction compared to lossless PNG
+                            const targetMime = 'image/jpeg';
                             canvas.toBlob((blob) => {
                                 if (blob && blob.size < file.size) {
                                     const baseName = file.name.replace(/\.[^/.]+$/, "");
-                                    const ext = mimeType === 'image/jpeg' ? '.jpg' : '.png';
-                                    const optimizedFile = new File([blob], baseName + ext, {
-                                        type: mimeType,
+                                    const optimizedFile = new File([blob], baseName + '.jpg', {
+                                        type: targetMime,
                                         lastModified: Date.now()
                                     });
                                     resolve(optimizedFile);
                                 } else {
                                     resolve(file);
                                 }
-                            }, mimeType, quality);
+                            }, targetMime, quality);
                         } catch (err) {
-                            console.warn('Canvas compression error:', err);
+                            clearTimeout(timer);
                             resolve(file);
                         }
                     };
                     img.onerror = function() {
+                        clearTimeout(timer);
                         resolve(file);
                     };
                     img.src = e.target.result;
                 };
                 reader.onerror = function() {
+                    clearTimeout(timer);
                     resolve(file);
                 };
                 reader.readAsDataURL(file);
@@ -974,7 +978,8 @@
             form.dataset.submitting = 'true';
 
             const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
+            const updateStatus = (text) => {
+                if (!submitBtn) return;
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = `
                     <span class="inline-flex items-center gap-1.5">
@@ -982,20 +987,24 @@
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        <span>Optimizing & Saving...</span>
+                        <span>${text}</span>
                     </span>
                 `;
-            }
+            };
+
+            updateStatus('Optimizing photos...');
 
             try {
                 const fileInputs = form.querySelectorAll('input[type="file"]');
                 for (const input of fileInputs) {
                     if (input.files && input.files.length > 0 && window.DataTransfer) {
+                        const filesList = Array.from(input.files);
+                        // Compress all photos in parallel
+                        const compressedList = await Promise.all(
+                            filesList.map(f => compressImageFile(f))
+                        );
                         const dt = new DataTransfer();
-                        for (let i = 0; i < input.files.length; i++) {
-                            const compressed = await compressImageFile(input.files[i]);
-                            dt.items.add(compressed);
-                        }
+                        compressedList.forEach(f => dt.items.add(f));
                         input.files = dt.files;
                     }
                 }
@@ -1003,6 +1012,7 @@
                 console.warn('File optimization warning:', err);
             }
 
+            updateStatus('Saving & Updating...');
             form.submit();
         }
 
