@@ -120,14 +120,12 @@
                             <!-- Circular Swatch (Matches Frontend Look Exactly) -->
                             <td style="padding: 0.85rem 1.25rem;">
                                 <div class="relative w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-sm shrink-0 group" style="width: 48px; height: 48px; border-radius: 9999px; overflow: hidden; border: 2px solid #cbd5e1; position: relative; background-color: {{ !empty($item->hex_color) ? $item->hex_color : '#334155' }};">
-                                    @if(!empty($item->image_url))
-                                        <img
-                                            src="{{ $item->image_url }}"
-                                            alt="{{ $item->name }}"
-                                            style="width: 100%; height: 100%; object-fit: cover;"
-                                            onerror="this.style.display='none'"
-                                        />
-                                    @endif
+                                    <img
+                                        src="{{ !empty($item->image_url) ? $item->image_url : '/colors/Liquid Gold.png' }}"
+                                        alt="{{ $item->name }}"
+                                        style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                                        onerror="this.onerror=null; this.src='/colors/Liquid Gold.png';"
+                                    />
                                     <!-- Inner glass specular gloss reflection -->
                                     <div style="position: absolute; inset: 0; pointer-events: none; border-radius: 9999px; background: linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, transparent 60%);"></div>
                                 </div>

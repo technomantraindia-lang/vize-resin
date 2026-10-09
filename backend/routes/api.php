@@ -735,14 +735,30 @@ Route::prefix('vize')->group(function () {
 
                 $result = [];
                 foreach ($categories as $cat) {
-                    $catShades = $shades->where('category_slug', $cat->slug)->map(function ($s) {
+                    $catShades = $shades->where('category_slug', $cat->slug)->map(function ($s) use ($cat) {
+                        $img = $s->image_url;
+                        $prev = $s->preview_url;
+
+                        if (!empty($img) && (str_starts_with($img, '/colors/uploads/') || str_starts_with($img, '/uploads/pigments/'))) {
+                            $baseName = basename($img);
+                            $diskExists = file_exists(public_path('colors/uploads/' . $baseName)) || file_exists(public_path('uploads/pigments/' . $baseName));
+                            if (!$diskExists) {
+                                $fallback = '/colors/Liquid Gold.png';
+                                if ($cat->slug === 'opaque') $fallback = '/colors/Petrol Teal.png';
+                                if ($cat->slug === 'pearl-powder') $fallback = '/colors/Moonstone.png';
+                                if ($cat->slug === 'granual-epoxy') $fallback = '/colors/granules/black-white-blend.png';
+                                $img = $fallback;
+                                $prev = $fallback;
+                            }
+                        }
+
                         return [
                             'id'          => $s->code ? Str::slug($s->code) : Str::slug($s->name),
                             'name'        => $s->name,
                             'code'        => $s->code,
                             'hex'         => $s->hex_color,
-                            'image'       => $s->image_url,
-                            'preview'     => $s->preview_url,
+                            'image'       => $img ?: '/colors/Liquid Gold.png',
+                            'preview'     => $prev ?: ($img ?: '/colors/Liquid Gold.png'),
                             'desc'        => $s->description,
                             'stock_status'=> $s->stock_status ?? 'In Stock',
                         ];

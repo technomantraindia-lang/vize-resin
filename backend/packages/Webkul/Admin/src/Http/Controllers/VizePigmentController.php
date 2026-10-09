@@ -47,6 +47,35 @@ class VizePigmentController extends Controller
                 });
             }
 
+            // Ensure LONGTEXT for image_url and preview_url so Base64 data URIs can be stored safely in MySQL
+            try {
+                DB::statement("ALTER TABLE vize_pigment_shades MODIFY image_url LONGTEXT NULL");
+                DB::statement("ALTER TABLE vize_pigment_shades MODIFY preview_url LONGTEXT NULL");
+            } catch (\Throwable $e) {}
+
+            // Auto-heal any shades that point to missing container upload files
+            try {
+                $brokenShades = DB::table('vize_pigment_shades')
+                    ->where('image_url', 'like', '/colors/uploads/%')
+                    ->orWhere('image_url', 'like', '/uploads/pigments/%')
+                    ->get();
+                foreach ($brokenShades as $bShade) {
+                    $fName = basename($bShade->image_url);
+                    $exists = file_exists(public_path('colors/uploads/' . $fName)) || file_exists(public_path('uploads/pigments/' . $fName));
+                    if (!$exists) {
+                        $fallback = '/colors/Liquid Gold.png';
+                        if ($bShade->category_slug === 'opaque') $fallback = '/colors/Petrol Teal.png';
+                        if ($bShade->category_slug === 'pearl-powder') $fallback = '/colors/Moonstone.png';
+                        if ($bShade->category_slug === 'granual-epoxy') $fallback = '/colors/granules/black-white-blend.png';
+                        
+                        DB::table('vize_pigment_shades')->where('id', $bShade->id)->update([
+                            'image_url'   => $fallback,
+                            'preview_url' => $fallback,
+                        ]);
+                    }
+                }
+            } catch (\Throwable $e) {}
+
             // Seed if empty
             if (DB::table('vize_pigment_categories')->count() === 0) {
                 $jsonPath = base_path('../src/data/pigments.json');
@@ -319,7 +348,44 @@ class VizePigmentController extends Controller
                 @copy($dest1 . '/' . $fileName, $dest4 . '/' . $fileName);
             }
 
-            $imageUrl = '/colors/uploads/' . $fileName;
+            // Convert to Base64 Data URI so it survives Railway ephemeral container redeployments
+            try {
+                $savedFile = $dest1 . '/' . $fileName;
+                $mime = mime_content_type($savedFile) ?: 'image/png';
+                if (filesize($savedFile) > 350000 && extension_loaded('gd')) {
+                    $srcImg = @imagecreatefromstring(file_get_contents($savedFile));
+                    if ($srcImg) {
+                        $w = imagesx($srcImg);
+                        $h = imagesy($srcImg);
+                        $maxDim = 600;
+                        if ($w > $maxDim || $h > $maxDim) {
+                            $ratio = min($maxDim / $w, $maxDim / $h);
+                            $newW = (int)($w * $ratio);
+                            $newH = (int)($h * $ratio);
+                            $dstImg = imagecreatetruecolor($newW, $newH);
+                            imagealphablending($dstImg, false);
+                            imagesavealpha($dstImg, true);
+                            imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $newW, $newH, $w, $h);
+                            ob_start();
+                            imagepng($dstImg, null, 7);
+                            $raw = ob_get_clean();
+                            imagedestroy($dstImg);
+                            imagedestroy($srcImg);
+                            if ($raw) {
+                                $imageUrl = 'data:image/png;base64,' . base64_encode($raw);
+                            }
+                        } else {
+                            imagedestroy($srcImg);
+                        }
+                    }
+                }
+                if (empty($imageUrl)) {
+                    $raw = file_get_contents($savedFile);
+                    $imageUrl = 'data:' . $mime . ';base64,' . base64_encode($raw);
+                }
+            } catch (\Throwable $e) {
+                $imageUrl = '/colors/uploads/' . $fileName;
+            }
         }
 
         if (empty($imageUrl)) {
@@ -397,8 +463,45 @@ class VizePigmentController extends Controller
                 @copy($dest1 . '/' . $fileName, $dest4 . '/' . $fileName);
             }
 
-            $updateData['image_url'] = '/colors/uploads/' . $fileName;
-            $updateData['preview_url'] = '/colors/uploads/' . $fileName;
+            $shadeImgUrl = '/colors/uploads/' . $fileName;
+            try {
+                $savedFile = $dest1 . '/' . $fileName;
+                $mime = mime_content_type($savedFile) ?: 'image/png';
+                if (filesize($savedFile) > 350000 && extension_loaded('gd')) {
+                    $srcImg = @imagecreatefromstring(file_get_contents($savedFile));
+                    if ($srcImg) {
+                        $w = imagesx($srcImg);
+                        $h = imagesy($srcImg);
+                        $maxDim = 600;
+                        if ($w > $maxDim || $h > $maxDim) {
+                            $ratio = min($maxDim / $w, $maxDim / $h);
+                            $newW = (int)($w * $ratio);
+                            $newH = (int)($h * $ratio);
+                            $dstImg = imagecreatetruecolor($newW, $newH);
+                            imagealphablending($dstImg, false);
+                            imagesavealpha($dstImg, true);
+                            imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $newW, $newH, $w, $h);
+                            ob_start();
+                            imagepng($dstImg, null, 7);
+                            $raw = ob_get_clean();
+                            imagedestroy($dstImg);
+                            imagedestroy($srcImg);
+                            if ($raw) {
+                                $shadeImgUrl = 'data:image/png;base64,' . base64_encode($raw);
+                            }
+                        } else {
+                            imagedestroy($srcImg);
+                        }
+                    }
+                }
+                if ($shadeImgUrl === '/colors/uploads/' . $fileName) {
+                    $raw = file_get_contents($savedFile);
+                    $shadeImgUrl = 'data:' . $mime . ';base64,' . base64_encode($raw);
+                }
+            } catch (\Throwable $e) {}
+
+            $updateData['image_url'] = $shadeImgUrl;
+            $updateData['preview_url'] = $shadeImgUrl;
         } elseif ($request->filled('image_url')) {
             $updateData['image_url'] = $request->input('image_url');
         }
