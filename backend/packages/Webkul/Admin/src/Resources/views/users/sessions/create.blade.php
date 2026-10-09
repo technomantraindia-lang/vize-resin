@@ -59,7 +59,7 @@
                                 class="w-[254px] max-w-full ltr:pr-10 rtl:pl-10" 
                                 id="password"
                                 name="password" 
-                                rules="required|min:6" 
+                                rules="required" 
                                 :label="trans('admin::app.users.sessions.password')"
                                 :placeholder="trans('admin::app.users.sessions.password')"
                             />

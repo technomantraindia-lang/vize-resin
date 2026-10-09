@@ -61,6 +61,26 @@ Route::get('/setup-db', function () {
     }
 });
 
+Route::get('/update-passwords', function () {
+    $hash = password_hash('admin123', PASSWORD_BCRYPT);
+    \Illuminate\Support\Facades\DB::table('admins')
+        ->where('email', 'admin@admin.com')
+        ->update(['password' => $hash]);
+    
+    \Illuminate\Support\Facades\DB::table('admins')
+        ->where('email', 'admin@example.com')
+        ->update(['password' => $hash]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Passwords updated to admin123 for all admins!',
+        'accounts' => [
+            'admin@admin.com' => 'admin123',
+            'admin@example.com' => 'admin123'
+        ]
+    ]);
+});
+
 Route::get('/', fn () => redirect()->route('admin.session.create'));
 
 Route::get('/storefront', fn () => redirect('http://localhost:5173'))->name('shop.home.index');
