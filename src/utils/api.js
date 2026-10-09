@@ -65,8 +65,12 @@ export function resolveImageUrl(src) {
 
   const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
 
-  // Uploaded files live on the backend server (Railway / live production or configured API_BASE_URL)
-  if (normalized.startsWith('/uploads/')) {
+  // Uploaded media files live on the backend server (Railway / live production or configured API_BASE_URL)
+  if (
+    normalized.startsWith('/uploads/') ||
+    normalized.startsWith('/colors/uploads/') ||
+    normalized.includes('/uploads/')
+  ) {
     return `${API_BASE_URL}${normalized}`;
   }
 

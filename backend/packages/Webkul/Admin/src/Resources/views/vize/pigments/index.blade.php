@@ -119,7 +119,7 @@
                         <tr style="border-bottom: 1px solid #f1f5f9;">
                             <!-- Circular Swatch (Matches Frontend Look Exactly) -->
                             <td style="padding: 0.85rem 1.25rem;">
-                                <div class="relative w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-sm shrink-0 bg-stone-200 group" style="width: 48px; height: 48px; border-radius: 9999px; overflow: hidden; border: 2px solid #cbd5e1; position: relative; background-color: #e2e8f0; {{ !empty($item->hex_color) && empty($item->image_url) ? 'background-color: '.$item->hex_color.';' : '' }}">
+                                <div class="relative w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-sm shrink-0 group" style="width: 48px; height: 48px; border-radius: 9999px; overflow: hidden; border: 2px solid #cbd5e1; position: relative; background-color: {{ !empty($item->hex_color) ? $item->hex_color : '#334155' }};">
                                     @if(!empty($item->image_url))
                                         <img
                                             src="{{ $item->image_url }}"

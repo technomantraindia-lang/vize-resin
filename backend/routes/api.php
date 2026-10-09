@@ -825,11 +825,27 @@ Route::prefix('vize')->group(function () {
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = time() . '_' . Str::slug($request->input('name')) . '.' . $file->getClientOriginalExtension();
-            $targetDir = base_path('../public/colors/uploads');
-            if (!File::exists($targetDir)) {
-                File::makeDirectory($targetDir, 0755, true);
+            
+            $dest1 = public_path('colors/uploads');
+            File::ensureDirectoryExists($dest1);
+            $dest2 = public_path('uploads/pigments');
+            File::ensureDirectoryExists($dest2);
+
+            $file->move($dest1, $fileName);
+            @copy($dest1 . '/' . $fileName, $dest2 . '/' . $fileName);
+
+            $dest3 = File::isDirectory(base_path('../public')) ? base_path('../public/colors/uploads') : null;
+            if ($dest3) {
+                File::ensureDirectoryExists($dest3);
+                @copy($dest1 . '/' . $fileName, $dest3 . '/' . $fileName);
             }
-            $file->move($targetDir, $fileName);
+
+            $dest4 = File::isDirectory(base_path('../public')) ? base_path('../public/uploads/pigments') : null;
+            if ($dest4) {
+                File::ensureDirectoryExists($dest4);
+                @copy($dest1 . '/' . $fileName, $dest4 . '/' . $fileName);
+            }
+
             $imageUrl = '/colors/uploads/' . $fileName;
         }
 

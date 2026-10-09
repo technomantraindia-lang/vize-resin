@@ -17,6 +17,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/colors/uploads': {
+        target: 'https://vize-resin-production.up.railway.app',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 })

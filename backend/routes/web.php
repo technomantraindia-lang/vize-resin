@@ -299,12 +299,102 @@ Route::get('/clean-resin-products', function () {
     }
 });
 
+// Serve uploaded color shade images with multi-path resolution and timestamp fallbacks
+Route::get('/colors/uploads/{filename}', function ($filename) {
+    $searchPaths = [
+        public_path('colors/uploads/' . $filename),
+        public_path('uploads/pigments/' . $filename),
+        base_path('../public/colors/uploads/' . $filename),
+        base_path('../public/uploads/pigments/' . $filename),
+        base_path('public/colors/uploads/' . $filename),
+        base_path('public/uploads/pigments/' . $filename),
+        '/app/public/colors/uploads/' . $filename,
+        '/app/backend/public/colors/uploads/' . $filename,
+        storage_path('app/public/colors/uploads/' . $filename),
+        storage_path('app/public/' . $filename),
+    ];
+
+    foreach ($searchPaths as $path) {
+        if (file_exists($path) && is_file($path)) {
+            $mime = mime_content_type($path) ?: 'image/png';
+            return response()->file($path, [
+                'Content-Type' => $mime,
+                'Access-Control-Allow-Origin' => '*',
+                'Cache-Control' => 'public, max-age=86400',
+            ]);
+        }
+    }
+
+    // Fuzzy timestamp search if filename was truncated or encoded
+    $parts = explode('_', $filename);
+    if (!empty($parts[0]) && is_numeric($parts[0])) {
+        $prefix = $parts[0];
+        $searchDirs = [
+            public_path('colors/uploads'),
+            public_path('uploads/pigments'),
+            base_path('../public/colors/uploads'),
+            base_path('../public/uploads/pigments'),
+            '/app/public/colors/uploads',
+        ];
+        foreach ($searchDirs as $dir) {
+            if (is_dir($dir)) {
+                $matches = glob($dir . '/' . $prefix . '*');
+                if (!empty($matches) && is_file($matches[0])) {
+                    $mime = mime_content_type($matches[0]) ?: 'image/png';
+                    return response()->file($matches[0], [
+                        'Content-Type' => $mime,
+                        'Access-Control-Allow-Origin' => '*',
+                        'Cache-Control' => 'public, max-age=86400',
+                    ]);
+                }
+            }
+        }
+    }
+
+    abort(404);
+})->where('filename', '.*');
+
+// Serve uploaded pigment swatches
+Route::get('/uploads/pigments/{filename}', function ($filename) {
+    $searchPaths = [
+        public_path('uploads/pigments/' . $filename),
+        public_path('colors/uploads/' . $filename),
+        base_path('../public/uploads/pigments/' . $filename),
+        base_path('../public/colors/uploads/' . $filename),
+        '/app/public/colors/uploads/' . $filename,
+        '/app/backend/public/uploads/pigments/' . $filename,
+    ];
+
+    foreach ($searchPaths as $path) {
+        if (file_exists($path) && is_file($path)) {
+            $mime = mime_content_type($path) ?: 'image/png';
+            return response()->file($path, [
+                'Content-Type' => $mime,
+                'Access-Control-Allow-Origin' => '*',
+                'Cache-Control' => 'public, max-age=86400',
+            ]);
+        }
+    }
+
+    abort(404);
+})->where('filename', '.*');
+
 // Serve shared public assets (images, swatches, resin buckets) from root public dir to Laravel admin
 Route::get('/{path}', function ($path) {
-    $rootPublicPath = base_path('../public/' . $path);
-    if (file_exists($rootPublicPath) && is_file($rootPublicPath)) {
-        $mime = mime_content_type($rootPublicPath) ?: 'application/octet-stream';
-        return response()->file($rootPublicPath, ['Content-Type' => $mime]);
+    $candidates = [
+        public_path($path),
+        base_path('../public/' . $path),
+        base_path('public/' . $path),
+        '/app/public/' . $path,
+    ];
+    foreach ($candidates as $cand) {
+        if (file_exists($cand) && is_file($cand)) {
+            $mime = mime_content_type($cand) ?: 'application/octet-stream';
+            return response()->file($cand, [
+                'Content-Type' => $mime,
+                'Access-Control-Allow-Origin' => '*',
+            ]);
+        }
     }
     abort(404);
 })->where('path', '.*\.(png|jpg|jpeg|gif|webp|svg|mp4|pdf|ico)$');

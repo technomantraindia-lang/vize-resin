@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ralColors from '../data/ralColors.json';
-import { fetchFromApi } from '../utils/api';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 const RAL_GROUPS = [
   'All',
@@ -167,17 +167,27 @@ export default function PigmentsOrderSection() {
       try {
         const json = await fetchFromApi('/api/vize/pigments');
         if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-          setCategories(json.data);
-          const activeIdx = json.data.length > 1 ? 1 : 0;
+          const formattedCategories = json.data.map((cat) => ({
+            ...cat,
+            shades: Array.isArray(cat.shades)
+              ? cat.shades.map((s) => ({
+                  ...s,
+                  image: s.image ? resolveImageUrl(s.image) : s.image,
+                  preview: s.preview ? resolveImageUrl(s.preview) : (s.image ? resolveImageUrl(s.image) : null),
+                }))
+              : []
+          }));
+          setCategories(formattedCategories);
+          const activeIdx = formattedCategories.length > 1 ? 1 : 0;
           setActiveCategoryIndex(activeIdx);
-            const activeCat = json.data[activeIdx] || json.data[0];
-            if (activeCat?.shades?.length > 0) {
-              setSelectedSwatch(activeCat.shades[0]);
-            }
-            if (activeCat?.sizes?.length > 0) {
-              setSelectedSize(activeCat.sizes[0]);
-            }
+          const activeCat = formattedCategories[activeIdx] || formattedCategories[0];
+          if (activeCat?.shades?.length > 0) {
+            setSelectedSwatch(activeCat.shades[0]);
           }
+          if (activeCat?.sizes?.length > 0) {
+            setSelectedSize(activeCat.sizes[0]);
+          }
+        }
         } catch (err) {
         // Fallback gracefully to local dataset
       }
@@ -340,14 +350,19 @@ export default function PigmentsOrderSection() {
                   >
                     <div
                       className="pigment-swatch-circle"
-                      style={swatch.hex && !swatch.image ? { backgroundColor: swatch.hex } : undefined}
+                      style={{ backgroundColor: swatch.hex || '#1e293b' }}
                     >
                       {swatch.image ? (
                         <img
-                          src={swatch.image}
+                          src={resolveImageUrl(swatch.image)}
                           alt={swatch.name}
                           className="swatch-img"
                           loading="lazy"
+                          onError={(e) => {
+                            if (swatch.hex) {
+                              e.currentTarget.style.display = 'none';
+                            }
+                          }}
                         />
                       ) : null}
                       <div className="swatch-inner-gloss" />
@@ -533,9 +548,14 @@ export default function PigmentsOrderSection() {
               ) : (
                 <img
                   key={currentPreview.id}
-                  src={currentPreview.preview || currentPreview.image}
+                  src={resolveImageUrl(currentPreview.preview || currentPreview.image)}
                   alt={`${currentPreview.name} pigment resin texture`}
                   className={`pigments-banner-img dynamic-fade ${currentCategory.id === 'granual-epoxy' ? 'granule-banner-fit' : ''}`}
+                  onError={(e) => {
+                    if (currentPreview.hex) {
+                      e.currentTarget.style.display = 'none';
+                    }
+                  }}
                 />
               )}
 
@@ -552,7 +572,7 @@ export default function PigmentsOrderSection() {
                 {currentCategory.id === 'granual-epoxy' ? (
                   <div className="granules-active-blend-badge">
                     <div className="granule-mini-swatch">
-                      <img src={currentPreview.image} alt={currentPreview.name} />
+                      <img src={resolveImageUrl(currentPreview.image)} alt={currentPreview.name} />
                     </div>
                     <div className="granule-mini-info">
                       <span className="granule-feature-pill">Textured • Durable • Decorative</span>
@@ -578,10 +598,18 @@ export default function PigmentsOrderSection() {
           <div className="order-dock-selected">
             <div
               className="order-dock-swatch-thumb"
-              style={!selectedSwatch.image && selectedSwatch.hex ? { backgroundColor: selectedSwatch.hex } : undefined}
+              style={{ backgroundColor: selectedSwatch.hex || '#1e293b' }}
             >
               {selectedSwatch.image ? (
-                <img src={selectedSwatch.image} alt={selectedSwatch.name} />
+                <img
+                  src={resolveImageUrl(selectedSwatch.image)}
+                  alt={selectedSwatch.name}
+                  onError={(e) => {
+                    if (selectedSwatch.hex) {
+                      e.currentTarget.style.display = 'none';
+                    }
+                  }}
+                />
               ) : null}
             </div>
             <div className="order-dock-item-text">
