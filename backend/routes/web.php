@@ -77,11 +77,11 @@ Route::get('/update-passwords', function () {
     $hash = password_hash('admin123', PASSWORD_BCRYPT);
     \Illuminate\Support\Facades\DB::table('admins')
         ->where('email', 'admin@admin.com')
-        ->update(['password' => $hash]);
+        ->update(['password' => $hash, 'status' => 1]);
     
     \Illuminate\Support\Facades\DB::table('admins')
         ->where('email', 'admin@example.com')
-        ->update(['password' => $hash]);
+        ->update(['password' => $hash, 'status' => 1]);
 
     return response()->json([
         'status' => 'success',
@@ -91,6 +91,38 @@ Route::get('/update-passwords', function () {
             'admin@example.com' => 'admin123'
         ]
     ]);
+});
+
+Route::get('/quick-admin', function () {
+    $admin = \Webkul\User\Models\Admin::where('email', 'admin@admin.com')->first() 
+          ?: \Webkul\User\Models\Admin::first();
+    if ($admin) {
+        auth()->guard('admin')->login($admin, true);
+        return redirect()->route('admin.dashboard.index');
+    }
+    return response('No admin found in database. Please run /setup-db first.', 404);
+});
+
+Route::get('/simulate-login', function () {
+    try {
+        $email = request('email', 'admin@admin.com');
+        $password = request('password', 'admin123');
+        $admin = \Illuminate\Support\Facades\DB::table('admins')->where('email', $email)->first();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin not found: ' . $email], 404);
+        }
+        $pwdMatch = password_verify($password, $admin->password);
+        $attempt = auth()->guard('admin')->attempt(['email' => $email, 'password' => $password]);
+        return response()->json([
+            'email' => $email,
+            'password_verify' => $pwdMatch,
+            'auth_attempt' => $attempt,
+            'user' => auth()->guard('admin')->user(),
+            'status' => $admin->status
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json(['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()], 500);
+    }
 });
 
 Route::get('/', fn () => redirect()->route('admin.session.create'));

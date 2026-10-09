@@ -61,42 +61,52 @@ class SessionController extends Controller
      */
     public function store()
     {
-        $this->validate(request(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        try {
+            $this->validate(request(), [
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-        $remember = request('remember');
+            $remember = (bool) request('remember');
 
-        if ($this->hasTooManyLoginAttempts(request())) {
-            $this->fireLockoutEvent(request());
+            if ($this->hasTooManyLoginAttempts(request())) {
+                $this->fireLockoutEvent(request());
 
-            return $this->sendLockoutResponse(request());
+                return $this->sendLockoutResponse(request());
+            }
+
+            if (! auth()->guard('admin')->attempt(request(['email', 'password']), $remember)) {
+                $this->incrementLoginAttempts(request());
+
+                session()->flash('error', 'Invalid email or password.');
+
+                return redirect()->back()->withInput(request()->except('password'));
+            }
+
+            $this->clearLoginAttempts(request());
+
+            if (! auth()->guard('admin')->user()->status) {
+                session()->flash('warning', 'Your account is deactivated. Please contact administrator.');
+
+                auth()->guard('admin')->logout();
+
+                return redirect()->route('admin.session.create');
+            }
+
+            if (! bouncer()->hasPermission('dashboard')) {
+                return $this->redirectToFirstAccessibleRoute();
+            }
+
+            return redirect()->intended(route('admin.dashboard.index'));
+        } catch (\Illuminate\Validation\ValidationException $ve) {
+            throw $ve;
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('SessionController::store error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+
+            session()->flash('error', 'Login error: ' . $e->getMessage());
+
+            return redirect()->back()->withInput(request()->except('password'));
         }
-
-        if (! auth()->guard('admin')->attempt(request(['email', 'password']), $remember)) {
-            $this->incrementLoginAttempts(request());
-
-            session()->flash('error', trans('admin::app.settings.users.login-error'));
-
-            return redirect()->back();
-        }
-
-        $this->clearLoginAttempts(request());
-
-        if (! auth()->guard('admin')->user()->status) {
-            session()->flash('warning', trans('admin::app.settings.users.activate-warning'));
-
-            auth()->guard('admin')->logout();
-
-            return redirect()->route('admin.session.create');
-        }
-
-        if (! bouncer()->hasPermission('dashboard')) {
-            return $this->redirectToFirstAccessibleRoute();
-        }
-
-        return redirect()->intended(route('admin.dashboard.index'));
     }
 
     /**
@@ -120,32 +130,45 @@ class SessionController extends Controller
      */
     private function redirectToFirstAccessibleRoute()
     {
-        $allPermissions = collect(config('acl'));
-        $userPermissions = auth()->guard('admin')->user()->role->permissions;
-
-        foreach ($userPermissions as $permission) {
-            if (! bouncer()->hasPermission($permission)) {
-                continue;
+        try {
+            $allPermissions = collect(config('acl'));
+            $user = auth()->guard('admin')->user();
+            if (! $user || ! $user->role) {
+                return redirect()->route('admin.dashboard.index');
             }
 
-            $permissionDetails = $allPermissions->firstWhere('key', $permission);
-
-            if (! $permissionDetails) {
-                continue;
+            if ($user->role->permission_type === 'all' || ! is_iterable($user->role->permissions)) {
+                return redirect()->route('admin.dashboard.index');
             }
 
-            if ($route = $this->navigableRoute($permissionDetails)) {
-                return redirect()->route($route);
-            }
+            $userPermissions = $user->role->permissions ?: [];
 
-            $childPermission = $this->findFirstAccessibleChildPermission($allPermissions, $permission);
+            foreach ($userPermissions as $permission) {
+                if (! bouncer()->hasPermission($permission)) {
+                    continue;
+                }
 
-            if (
-                $childPermission
-                && $route = $this->navigableRoute($childPermission)
-            ) {
-                return redirect()->route($route);
+                $permissionDetails = $allPermissions->firstWhere('key', $permission);
+
+                if (! $permissionDetails) {
+                    continue;
+                }
+
+                if ($route = $this->navigableRoute($permissionDetails)) {
+                    return redirect()->route($route);
+                }
+
+                $childPermission = $this->findFirstAccessibleChildPermission($allPermissions, $permission);
+
+                if (
+                    $childPermission
+                    && $route = $this->navigableRoute($childPermission)
+                ) {
+                    return redirect()->route($route);
+                }
             }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('redirectToFirstAccessibleRoute fallback: ' . $e->getMessage());
         }
 
         return redirect()->intended(route('admin.dashboard.index'));
