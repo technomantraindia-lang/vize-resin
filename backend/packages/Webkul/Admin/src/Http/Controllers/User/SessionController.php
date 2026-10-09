@@ -43,7 +43,7 @@ class SessionController extends Controller
             return redirect()->route('admin.dashboard.index');
         }
 
-        if (strpos(url()->previous(), 'admin') !== false) {
+        if (strpos(url()->previous(), 'admin') !== false && strpos(url()->previous(), 'login') === false) {
             $intendedUrl = url()->previous();
         } else {
             $intendedUrl = route('admin.dashboard.index');
@@ -93,11 +93,9 @@ class SessionController extends Controller
                 return redirect()->route('admin.session.create');
             }
 
-            if (! bouncer()->hasPermission('dashboard')) {
-                return $this->redirectToFirstAccessibleRoute();
-            }
+            session()->forget('url.intended');
 
-            return redirect()->intended(route('admin.dashboard.index'));
+            return redirect()->route('admin.dashboard.index');
         } catch (\Illuminate\Validation\ValidationException $ve) {
             throw $ve;
         } catch (\Throwable $e) {

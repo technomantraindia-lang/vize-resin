@@ -44,6 +44,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
+            'admin/login',
+            'admin/*',
         ]);
 
         $middleware->trustProxies(at: '*');
@@ -52,6 +54,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            session()->flash('warning', 'Your session expired. Please refresh and try again.');
+            return redirect()->back();
+        });
+
         $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
             session()->flash('error', 'The uploaded photos exceeded the server upload limit. Please try selecting slightly smaller files or fewer photos at once.');
             return redirect()->back();
