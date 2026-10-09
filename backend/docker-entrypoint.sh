@@ -26,5 +26,8 @@ touch storage/installed
 php artisan config:clear || true
 php artisan view:clear || true
 
+# Ensure raw code errors are shown in debug mode
+export APP_DEBUG=true
+
 echo "Starting Laravel server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
