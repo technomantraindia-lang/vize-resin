@@ -94,6 +94,8 @@ class Handler extends BaseHandler
     protected function handleServerException(): void
     {
         $this->renderable(function (Throwable $throwable, Request $request) {
+            \Illuminate\Support\Facades\Log::error('Webkul Server Exception: ' . $throwable->getMessage() . ' in ' . $throwable->getFile() . ':' . $throwable->getLine() . "\n" . $throwable->getTraceAsString());
+
             $namespace = $request->is(config('app.admin_url').'/*') ? 'admin' : 'shop';
 
             $errorCode = 500;
@@ -101,7 +103,8 @@ class Handler extends BaseHandler
             if ($request->wantsJson()) {
                 return response()->json([
                     'error' => trans("{$namespace}::app.errors.{$errorCode}.title"),
-                    'description' => trans("{$namespace}::app.shop.errors.{$errorCode}.description"),
+                    'description' => $throwable->getMessage(),
+                    'file' => $throwable->getFile() . ':' . $throwable->getLine(),
                 ], $errorCode);
             }
 
@@ -111,7 +114,10 @@ class Handler extends BaseHandler
                 $viewPath = "{$namespace}::errors.index";
             }
 
-            return response()->view($viewPath, compact('errorCode'), $errorCode);
+            $errorMessage = $throwable->getMessage();
+            $errorFile = $throwable->getFile() . ':' . $throwable->getLine();
+
+            return response()->view($viewPath, compact('errorCode', 'throwable', 'errorMessage', 'errorFile'), $errorCode);
         });
     }
 }

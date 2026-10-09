@@ -25,9 +25,19 @@
                     {{ $errorCode }}
                 </div>
 
-                <p class="mb-6 text-sm text-gray-800">
+                <p class="mb-4 text-sm text-gray-800">
                     @lang("admin::app.errors.{$errorCode}.description")
                 </p>
+
+                @if (!empty($errorMessage))
+                    <div class="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-900 text-left">
+                        <div class="text-xs font-semibold text-red-700 dark:text-red-400">Error Details:</div>
+                        <div class="mt-1 text-sm font-mono text-red-800 dark:text-red-200 break-all">{{ $errorMessage }}</div>
+                        @if(!empty($errorFile))
+                            <div class="mt-1 text-xs text-gray-500 dark:text-gray-400 font-mono">{{ $errorFile }}</div>
+                        @endif
+                    </div>
+                @endif
 
                 <div class="mb-6">
                     <div class="flex items-center gap-2.5">
