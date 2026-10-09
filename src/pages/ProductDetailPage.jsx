@@ -334,7 +334,7 @@ export default function ProductDetailPage() {
                 alt={activeDisplay.alt}
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/rasin-product/Vize PrimeX.png';
+                  e.currentTarget.src = '/rasin-product/Vize%20PrimeX.png';
                 }}
                 className={`vize-pdp-main-img ${activeDisplay.isCutout ? 'is-contain' : ''} ${activeDisplay.isColorFinish ? 'finish-preview dynamic-fade' : ''}`}
               />
@@ -359,7 +359,7 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Clickable Thumbnails */}
+            {/* Clickable & Hoverable Thumbnails */}
             <div className="vize-pdp-thumbnails-row" role="tablist" aria-label="Product thumbnails">
               {product.images.map((imgSrc, idx) => {
                 const isCutout = imgSrc.includes('bucket') || imgSrc.endsWith('.png');
@@ -375,6 +375,10 @@ export default function ProductDetailPage() {
                       setSelectedImageIndex(idx);
                       setHoveredColor(null);
                     }}
+                    onMouseEnter={() => {
+                      setSelectedImageIndex(idx);
+                      setHoveredColor(null);
+                    }}
                     aria-label={`View product image ${idx + 1}`}
                   >
                     <img
@@ -382,7 +386,7 @@ export default function ProductDetailPage() {
                       alt=""
                       onError={(e) => {
                         e.currentTarget.onerror = null;
-                        e.currentTarget.src = '/rasin-product/Vize PrimeX.png';
+                        e.currentTarget.src = '/rasin-product/Vize%20PrimeX.png';
                       }}
                       className={`vize-pdp-thumb-img ${isCutout ? 'is-contain' : ''}`}
                     />

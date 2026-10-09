@@ -57,17 +57,19 @@ export async function fetchFromApi(endpoint, options = {}) {
  * are loaded directly from the live Railway backend if not locally present.
  */
 export function resolveImageUrl(src) {
-  if (!src || typeof src !== 'string') return '/rasin-product/Vize PrimeX.png';
+  if (!src || typeof src !== 'string') return '/rasin-product/Vize%20PrimeX.png';
   const trimmed = src.trim();
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:') || trimmed.startsWith('blob:')) {
     return trimmed;
   }
-  // In local development, all static images and uploads are served directly by Vite from public/
-  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-    return trimmed;
+
+  const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+
+  // Uploaded files live on the backend server (Railway / live production or configured API_BASE_URL)
+  if (normalized.startsWith('/uploads/')) {
+    return `${API_BASE_URL}${normalized}`;
   }
-  if (trimmed.startsWith('/uploads/')) {
-    return `${API_BASE_URL}${trimmed}`;
-  }
-  return trimmed;
+
+  // Static bundled public assets (e.g. /rasin-product/, /table top/, /logos/)
+  return encodeURI(normalized);
 }

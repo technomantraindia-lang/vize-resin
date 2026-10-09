@@ -828,7 +828,7 @@
             document.body.style.overflow = 'hidden';
 
             document.getElementById('editModalTitle').innerText = 'Edit: ' + resin.name;
-            document.getElementById('editResinForm').action = '/admin/vize/resins/' + resin.id;
+            document.getElementById('editResinForm').action = '/admin/vize/resins/' + resin.id + '/update';
 
             document.getElementById('edit_name').value = resin.name || '';
             document.getElementById('edit_suffix').value = resin.suffix || '';
