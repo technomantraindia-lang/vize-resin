@@ -33,6 +33,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 # Install PHP dependencies without platform blockers
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
+RUN chmod +x docker-entrypoint.sh
+
 EXPOSE 8000
 
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+CMD ["./docker-entrypoint.sh"]
