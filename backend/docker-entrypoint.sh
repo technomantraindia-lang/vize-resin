@@ -17,9 +17,14 @@ if [ -n "$DB_HOST" ] && [ "$DB_CONNECTION" = "mysql" ]; then
     fi
 fi
 
-# Mark application as installed so installer wizard is skipped forever
-mkdir -p storage/app storage/framework/cache storage/framework/sessions storage/framework/views
+# Ensure storage and cache directories exist and are writable
+mkdir -p storage/app storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+chmod -R 777 storage bootstrap/cache
 touch storage/installed
 
-echo "Starting Laravel server..."
+# Clear any stale cached config/routes
+php artisan config:clear || true
+php artisan view:clear || true
+
+echo "Starting Laravel server on port ${PORT:-8000}..."
 exec php artisan serve --host=0.0.0.0 --port="${PORT:-8000}"
