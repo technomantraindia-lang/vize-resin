@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use Webkul\Core\Mail\Transport\DynamicMailTransport;
 use Webkul\MagicAI\AiProvider;
