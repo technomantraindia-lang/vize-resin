@@ -62,12 +62,14 @@ class SessionController extends Controller
     public function store()
     {
         try {
+            $email = request('email');
+            $password = request('password');
+            $remember = (bool) request('remember');
+
             $this->validate(request(), [
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
-
-            $remember = (bool) request('remember');
 
             if ($this->hasTooManyLoginAttempts(request())) {
                 $this->fireLockoutEvent(request());
@@ -75,7 +77,7 @@ class SessionController extends Controller
                 return $this->sendLockoutResponse(request());
             }
 
-            if (! auth()->guard('admin')->attempt(request(['email', 'password']), $remember)) {
+            if (! auth()->guard('admin')->attempt(['email' => $email, 'password' => $password], $remember)) {
                 $this->incrementLoginAttempts(request());
 
                 session()->flash('error', 'Invalid email or password.');
@@ -85,7 +87,8 @@ class SessionController extends Controller
 
             $this->clearLoginAttempts(request());
 
-            if (! auth()->guard('admin')->user()->status) {
+            $admin = auth()->guard('admin')->user();
+            if (! $admin->status) {
                 session()->flash('warning', 'Your account is deactivated. Please contact administrator.');
 
                 auth()->guard('admin')->logout();
@@ -93,6 +96,7 @@ class SessionController extends Controller
                 return redirect()->route('admin.session.create');
             }
 
+            session()->regenerate();
             session()->forget('url.intended');
 
             return redirect()->route('admin.dashboard.index');

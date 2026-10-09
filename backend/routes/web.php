@@ -133,6 +133,33 @@ Route::get('/simulate-login', function () {
     }
 });
 
+Route::get('/test-login-and-dashboard', function () {
+    $admin = \Webkul\User\Models\Admin::where('email', 'admin@admin.com')->first();
+    if (!$admin) {
+        return response()->json(['error' => 'No admin found'], 404);
+    }
+    
+    $roles = \Illuminate\Support\Facades\DB::table('roles')->get();
+    auth()->guard('admin')->login($admin, true);
+    
+    return response()->json([
+        'admin' => [
+            'id' => $admin->id,
+            'name' => $admin->name,
+            'email' => $admin->email,
+            'status' => $admin->status,
+            'role_id' => $admin->role_id,
+        ],
+        'admin_role' => $admin->role,
+        'all_roles' => $roles,
+        'auth_check' => auth()->guard('admin')->check(),
+        'session_id' => session()->getId(),
+        'cookie_name' => config('session.cookie'),
+        'cookie_secure' => config('session.secure'),
+        'cookie_same_site' => config('session.same_site'),
+    ]);
+});
+
 Route::get('/', fn () => redirect()->route('admin.session.create'));
 
 Route::get('/storefront', fn () => redirect('http://localhost:5173'))->name('shop.home.index');
