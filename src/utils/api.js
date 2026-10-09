@@ -57,9 +57,14 @@ export async function fetchFromApi(endpoint, options = {}) {
  * are loaded directly from the live Railway backend if not locally present.
  */
 export function resolveImageUrl(src) {
-  if (!src || typeof src !== 'string') return '/rasin-product/Vize%20PrimeX.png';
+  if (!src || typeof src !== 'string') return '';
   const trimmed = src.trim();
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:') || trimmed.startsWith('blob:')) {
+  if (
+    trimmed.startsWith('http://') ||
+    trimmed.startsWith('https://') ||
+    trimmed.startsWith('data:') ||
+    trimmed.startsWith('blob:')
+  ) {
     return trimmed;
   }
 
@@ -74,6 +79,11 @@ export function resolveImageUrl(src) {
     return `${API_BASE_URL}${normalized}`;
   }
 
-  // Static bundled public assets (e.g. /rasin-product/, /table top/, /logos/)
-  return encodeURI(normalized);
+  // Static bundled public assets (e.g. /colors/, /rasin-product/, /table top/, /logos/)
+  // Safely decode first so we NEVER double-encode (%20 becoming %2520)
+  try {
+    return encodeURI(decodeURI(normalized));
+  } catch {
+    return encodeURI(normalized);
+  }
 }

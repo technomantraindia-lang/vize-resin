@@ -351,24 +351,6 @@ Route::get('/colors/uploads/{filename}', function ($filename) {
         }
     }
 
-    // If the uploaded file was wiped by container redeployment, serve a signature pigment texture so it NEVER breaks or 404s
-    $fallbacks = [
-        public_path('colors/Liquid Gold.png'),
-        base_path('../public/colors/Liquid Gold.png'),
-        public_path('colors/Bronze Vein.png'),
-        base_path('../public/colors/Bronze Vein.png'),
-    ];
-    foreach ($fallbacks as $fb) {
-        if (file_exists($fb) && is_file($fb)) {
-            $mime = mime_content_type($fb) ?: 'image/png';
-            return response()->file($fb, [
-                'Content-Type' => $mime,
-                'Access-Control-Allow-Origin' => '*',
-                'Cache-Control' => 'no-cache',
-            ]);
-        }
-    }
-
     abort(404);
 })->where('filename', '.*');
 
@@ -390,23 +372,6 @@ Route::get('/uploads/pigments/{filename}', function ($filename) {
                 'Content-Type' => $mime,
                 'Access-Control-Allow-Origin' => '*',
                 'Cache-Control' => 'public, max-age=86400',
-            ]);
-        }
-    }
-
-    $fallbacks = [
-        public_path('colors/Liquid Gold.png'),
-        base_path('../public/colors/Liquid Gold.png'),
-        public_path('colors/Bronze Vein.png'),
-        base_path('../public/colors/Bronze Vein.png'),
-    ];
-    foreach ($fallbacks as $fb) {
-        if (file_exists($fb) && is_file($fb)) {
-            $mime = mime_content_type($fb) ?: 'image/png';
-            return response()->file($fb, [
-                'Content-Type' => $mime,
-                'Access-Control-Allow-Origin' => '*',
-                'Cache-Control' => 'no-cache',
             ]);
         }
     }

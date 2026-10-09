@@ -53,29 +53,6 @@ class VizePigmentController extends Controller
                 DB::statement("ALTER TABLE vize_pigment_shades MODIFY preview_url LONGTEXT NULL");
             } catch (\Throwable $e) {}
 
-            // Auto-heal any shades that point to missing container upload files
-            try {
-                $brokenShades = DB::table('vize_pigment_shades')
-                    ->where('image_url', 'like', '/colors/uploads/%')
-                    ->orWhere('image_url', 'like', '/uploads/pigments/%')
-                    ->get();
-                foreach ($brokenShades as $bShade) {
-                    $fName = basename($bShade->image_url);
-                    $exists = file_exists(public_path('colors/uploads/' . $fName)) || file_exists(public_path('uploads/pigments/' . $fName));
-                    if (!$exists) {
-                        $fallback = '/colors/Liquid Gold.png';
-                        if ($bShade->category_slug === 'opaque') $fallback = '/colors/Petrol Teal.png';
-                        if ($bShade->category_slug === 'pearl-powder') $fallback = '/colors/Moonstone.png';
-                        if ($bShade->category_slug === 'granual-epoxy') $fallback = '/colors/granules/black-white-blend.png';
-                        
-                        DB::table('vize_pigment_shades')->where('id', $bShade->id)->update([
-                            'image_url'   => $fallback,
-                            'preview_url' => $fallback,
-                        ]);
-                    }
-                }
-            } catch (\Throwable $e) {}
-
             // Seed if empty
             if (DB::table('vize_pigment_categories')->count() === 0) {
                 $jsonPath = base_path('../src/data/pigments.json');

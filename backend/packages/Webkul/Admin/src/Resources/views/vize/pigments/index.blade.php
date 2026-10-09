@@ -120,12 +120,14 @@
                             <!-- Circular Swatch (Matches Frontend Look Exactly) -->
                             <td style="padding: 0.85rem 1.25rem;">
                                 <div class="relative w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300 shadow-sm shrink-0 group" style="width: 48px; height: 48px; border-radius: 9999px; overflow: hidden; border: 2px solid #cbd5e1; position: relative; background-color: {{ !empty($item->hex_color) ? $item->hex_color : '#334155' }};">
-                                    <img
-                                        src="{{ !empty($item->image_url) ? $item->image_url : '/colors/Liquid Gold.png' }}"
-                                        alt="{{ $item->name }}"
-                                        style="width: 100%; height: 100%; object-fit: cover; display: block;"
-                                        onerror="this.onerror=null; this.src='/colors/Liquid Gold.png';"
-                                    />
+                                    @if(!empty($item->image_url))
+                                        <img
+                                            src="{{ $item->image_url }}"
+                                            alt="{{ $item->name }}"
+                                            style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                                            onerror="this.style.display='none'"
+                                        />
+                                    @endif
                                     <!-- Inner glass specular gloss reflection -->
                                     <div style="position: absolute; inset: 0; pointer-events: none; border-radius: 9999px; background: linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, transparent 60%);"></div>
                                 </div>
@@ -192,7 +194,14 @@
                             </td>
 
                             <!-- Actions -->
-                            <td style="padding: 0.85rem 1.25rem; text-align: right;">
+                            <td style="padding: 0.85rem 1.25rem; text-align: right; white-space: nowrap;">
+                                <button
+                                    type="button"
+                                    onclick="openEditShadeModal({{ json_encode($item) }})"
+                                    style="color: #2563eb; background: none; border: none; font-size: 0.75rem; font-weight: 600; cursor: pointer; padding: 0.25rem 0.5rem; margin-right: 0.5rem;"
+                                >
+                                    Edit
+                                </button>
                                 <form action="{{ route('admin.vize.pigments.shades.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Remove shade {{ $item->name }}?');" style="display: inline;">
                                     @csrf
                                     <button type="submit" style="color: #dc2626; background: none; border: none; font-size: 0.75rem; font-weight: 600; cursor: pointer; padding: 0.25rem 0.5rem;">
@@ -463,6 +472,83 @@
         </div>
     </div>
 
+    <!-- ==================================================== -->
+    <!-- MODAL 2B: Edit Color Shade Formulation               -->
+    <!-- ==================================================== -->
+    <div id="editShadeModal" style="display: none; position: fixed; inset: 0; z-index: 9999; align-items: center; justify-content: center; background-color: rgba(0,0,0,0.65); padding: 1rem; backdrop-filter: blur(4px);">
+        <div style="background: #ffffff; border-radius: 1rem; max-width: 520px; width: 100%; padding: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid #e2e8f0; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid #f1f5f9; margin-bottom: 1rem;">
+                <div>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 0;">Edit Shade Formulation</h3>
+                    <p style="font-size: 0.75rem; color: #64748b; margin: 0.2rem 0 0 0;">Update shade name, hex color, and texture image</p>
+                </div>
+                <button type="button" onclick="closeEditShadeModal()" style="color: #94a3b8; background: none; border: none; font-size: 1.5rem; font-weight: bold; cursor: pointer; line-height: 1;">&times;</button>
+            </div>
+
+            <form id="editShadeForm" action="" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1rem;">
+                @csrf
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 0.25rem;">Target Category</label>
+                    <select id="editShadeCategory" name="category_slug" required style="width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; font-size: 0.875rem; font-weight: 600; box-sizing: border-box;">
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->slug }}">{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 0.25rem;">Shade Name</label>
+                        <input type="text" id="editShadeName" name="name" required style="width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; font-size: 0.875rem; box-sizing: border-box;">
+                    </div>
+
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 0.25rem;">Code (Optional)</label>
+                        <input type="text" id="editShadeCode" name="code" style="width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; font-size: 0.875rem; box-sizing: border-box;">
+                    </div>
+                </div>
+
+                <!-- Hex Swatch Picker -->
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 0.25rem;">Hex Color Code (Fallback Color)</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="color" id="editShadeColorPicker" onchange="document.getElementById('editShadeHexInput').value = this.value" style="height: 38px; width: 44px; border: 1px solid #cbd5e1; border-radius: 0.375rem; cursor: pointer; padding: 2px;">
+                        <input type="text" id="editShadeHexInput" name="hex_color" onchange="document.getElementById('editShadeColorPicker').value = this.value" style="width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; font-size: 0.75rem; font-family: monospace; box-sizing: border-box;">
+                    </div>
+                </div>
+
+                <!-- Shade Image (Uploaded file OR file path) -->
+                <div style="border-top: 1px solid #f1f5f9; padding-top: 0.75rem;">
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 0.25rem;">Shade Texture Image (Saved Permanently)</label>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem; background-color: #f8fafc; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #e2e8f0;">
+                        <div>
+                            <span style="font-size: 0.7rem; color: #64748b; font-weight: 600; display: block; margin-bottom: 0.25rem;">Upload New Image File (PNG, JPG, WebP)</span>
+                            <input type="file" name="image" accept="image/*" style="font-size: 0.75rem; width: 100%;">
+                        </div>
+
+                        <div style="text-align: center; font-size: 0.7rem; color: #94a3b8; font-weight: 700;">— OR —</div>
+
+                        <div>
+                            <span style="font-size: 0.7rem; color: #64748b; font-weight: 600; display: block; margin-bottom: 0.25rem;">Existing Image Path / URL</span>
+                            <input type="text" id="editShadeImageUrl" name="image_url" placeholder="e.g. /colors/Liquid Gold.png or /colors/sample.jpg" style="width: 100%; padding: 0.4rem 0.6rem; border-radius: 0.375rem; border: 1px solid #cbd5e1; font-size: 0.75rem; font-family: monospace; box-sizing: border-box;">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; margin-bottom: 0.25rem;">Description / Notes</label>
+                    <input type="text" id="editShadeDescription" name="description" placeholder="e.g. High-density metallic swirl paste" style="width: 100%; padding: 0.5rem 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; font-size: 0.875rem; box-sizing: border-box;">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid #f1f5f9;">
+                    <button type="button" onclick="closeEditShadeModal()" style="padding: 0.5rem 1rem; font-size: 0.875rem; color: #475569; background: none; border: 1px solid #cbd5e1; border-radius: 0.5rem; cursor: pointer;">Cancel</button>
+                    <button type="submit" style="background-color: #2563eb; color: #ffffff; padding: 0.5rem 1.25rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ========================================== -->
     <!-- MODAL 3: Edit Category Prices             -->
     <!-- ========================================== -->
@@ -536,6 +622,28 @@
 
         function closeAddShadeModal() {
             var modal = document.getElementById('addShadeModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function openEditShadeModal(item) {
+            document.getElementById('editShadeCategory').value = item.category_slug || '';
+            document.getElementById('editShadeName').value = item.name || '';
+            document.getElementById('editShadeCode').value = item.code || '';
+            document.getElementById('editShadeHexInput').value = item.hex_color || '#ffd700';
+            document.getElementById('editShadeColorPicker').value = item.hex_color || '#ffd700';
+            document.getElementById('editShadeImageUrl').value = item.image_url || '';
+            document.getElementById('editShadeDescription').value = item.description || '';
+            document.getElementById('editShadeForm').action = '/admin/vize/pigments/shades/' + item.id;
+            var modal = document.getElementById('editShadeModal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeEditShadeModal() {
+            var modal = document.getElementById('editShadeModal');
             if (modal) {
                 modal.style.display = 'none';
             }

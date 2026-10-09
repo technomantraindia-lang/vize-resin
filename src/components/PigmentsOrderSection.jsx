@@ -167,30 +167,16 @@ export default function PigmentsOrderSection() {
       try {
         const json = await fetchFromApi('/api/vize/pigments');
         if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-          const formattedCategories = json.data.map((cat) => {
-            let catFallback = '/colors/Liquid Gold.png';
-            if (cat.id === 'opaque' || cat.slug === 'opaque') catFallback = '/colors/Petrol Teal.png';
-            else if (cat.id === 'pearl-powder' || cat.slug === 'pearl-powder') catFallback = '/colors/Moonstone.png';
-            else if (cat.id === 'granual-epoxy' || cat.slug === 'granual-epoxy') catFallback = '/colors/granules/black-white-blend.png';
-
-            return {
-              ...cat,
-              shades: Array.isArray(cat.shades)
-                ? cat.shades.map((s) => {
-                    const rawImg = (s.image && typeof s.image === 'string' && s.image.trim()) ? s.image.trim() : catFallback;
-                    const resolvedImg = resolveImageUrl(rawImg);
-                    const rawPrev = (s.preview && typeof s.preview === 'string' && s.preview.trim()) ? s.preview.trim() : rawImg;
-                    const resolvedPrev = resolveImageUrl(rawPrev);
-
-                    return {
-                      ...s,
-                      image: resolvedImg,
-                      preview: resolvedPrev,
-                    };
-                  })
-                : []
-            };
-          });
+          const formattedCategories = json.data.map((cat) => ({
+            ...cat,
+            shades: Array.isArray(cat.shades)
+              ? cat.shades.map((s) => ({
+                  ...s,
+                  image: (s.image && typeof s.image === 'string') ? s.image.trim() : '',
+                  preview: (s.preview && typeof s.preview === 'string') ? s.preview.trim() : (s.image || ''),
+                }))
+              : []
+          }));
           setCategories(formattedCategories);
           const activeIdx = formattedCategories.length > 1 ? 1 : 0;
           setActiveCategoryIndex(activeIdx);
@@ -366,18 +352,17 @@ export default function PigmentsOrderSection() {
                       className="pigment-swatch-circle"
                       style={{ backgroundColor: swatch.hex || '#1e293b' }}
                     >
-                      <img
-                        src={resolveImageUrl(swatch.image || '/colors/Liquid Gold.png')}
-                        alt={swatch.name}
-                        className="swatch-img"
-                        loading="lazy"
-                        onError={(e) => {
-                          if (!e.currentTarget.dataset.fellBack) {
-                            e.currentTarget.dataset.fellBack = 'true';
-                            e.currentTarget.src = '/colors/Liquid Gold.png';
-                          }
-                        }}
-                      />
+                      {swatch.image ? (
+                        <img
+                          src={resolveImageUrl(swatch.image)}
+                          alt={swatch.name}
+                          className="swatch-img"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      ) : null}
                       <div className="swatch-inner-gloss" />
                     </div>
                     <span className="pigment-swatch-label">
@@ -561,14 +546,11 @@ export default function PigmentsOrderSection() {
               ) : (
                 <img
                   key={currentPreview.id}
-                  src={resolveImageUrl(currentPreview.preview || currentPreview.image || '/colors/Liquid Gold.png')}
+                  src={resolveImageUrl(currentPreview.preview || currentPreview.image)}
                   alt={`${currentPreview.name} pigment resin texture`}
                   className={`pigments-banner-img dynamic-fade ${currentCategory.id === 'granual-epoxy' ? 'granule-banner-fit' : ''}`}
                   onError={(e) => {
-                    if (!e.currentTarget.dataset.fellBack) {
-                      e.currentTarget.dataset.fellBack = 'true';
-                      e.currentTarget.src = '/colors/Liquid Gold.png';
-                    }
+                    e.currentTarget.style.display = 'none';
                   }}
                 />
               )}
@@ -614,16 +596,15 @@ export default function PigmentsOrderSection() {
               className="order-dock-swatch-thumb"
               style={{ backgroundColor: selectedSwatch.hex || '#1e293b' }}
             >
-              <img
-                src={resolveImageUrl(selectedSwatch.image || '/colors/Liquid Gold.png')}
-                alt={selectedSwatch.name}
-                onError={(e) => {
-                  if (!e.currentTarget.dataset.fellBack) {
-                    e.currentTarget.dataset.fellBack = 'true';
-                    e.currentTarget.src = '/colors/Liquid Gold.png';
-                  }
-                }}
-              />
+              {selectedSwatch.image ? (
+                <img
+                  src={resolveImageUrl(selectedSwatch.image)}
+                  alt={selectedSwatch.name}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              ) : null}
             </div>
             <div className="order-dock-item-text">
               <span className="order-dock-sub">Selected Shade</span>
