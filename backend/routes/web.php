@@ -38,6 +38,18 @@ Route::get('/debug-status', function () {
     return response()->json($out, 200, [], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 });
 
+Route::get('/test-dash', function () {
+    try {
+        $admin = \Webkul\User\Models\Admin::first();
+        auth()->guard('admin')->login($admin);
+        $controller = app(\Webkul\Admin\Http\Controllers\DashboardController::class);
+        $v = $controller->index()->render();
+        return response('Dashboard render SUCCESS! Length: ' . strlen($v));
+    } catch (\Throwable $e) {
+        return response('Dashboard render ERROR: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    }
+});
+
 Route::get('/setup-db', function () {
     try {
         $sqlPath = base_path('database_backup.sql');
