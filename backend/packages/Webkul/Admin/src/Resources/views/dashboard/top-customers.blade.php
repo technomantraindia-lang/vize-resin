@@ -16,66 +16,68 @@
 
         <!-- Total Sales Section -->
         <template v-else>
-            <div class="border-b dark:border-gray-800">
-                <div class="flex items-center justify-between p-4">
-                    <p class="text-base font-semibold text-gray-600 dark:text-gray-300">
-                        @lang('admin::app.dashboard.index.customer-with-most-sales')
-                    </p>
+            <div>
+                <div class="flex items-center justify-between p-4 border-b dark:border-gray-800">
+                    <div>
+                        <p class="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <span>👥 Top Customers by Sales</span>
+                        </p>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Highest volume ordering clients</p>
+                    </div>
 
-                    <p class="text-xs font-semibold text-gray-400">
-                        @{{ report.date_range }}
-                    </p>
-                </div>
-
-                <div
-                    class="flex flex-col gap-8 border-b p-4 transition-all last:border-b-0 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-950"
-                    v-if="report.statistics.length"
-                    v-for="customer in report.statistics"
-                >
-                    <a :href="customer.id ? '{{ route('admin.customers.customers.view', ':id') }}'.replace(':id', customer.id) : '#'">
-                        <div class="flex justify-between gap-1.5">
-                            <div class="flex flex-col">
-                                <p class="font-semibold text-gray-600 dark:text-gray-300">
-                                    @{{ customer.full_name }}
-                                </p>
-
-                                <p class="text-gray-600 dark:text-gray-300">
-                                    @{{ customer.email }}
-                                </p>
-                            </div>
-
-                            <div class="flex flex-col">
-                                <p class="font-semibold text-gray-800 dark:text-white">
-                                    @{{ customer.formatted_total }}
-                                </p>
-
-                                <p class="text-gray-600 dark:text-gray-300" v-if="customer.orders">
-                                    @{{ "@lang('admin::app.dashboard.index.order-count')".replace(':count', customer.orders) }}
-                                </p>
-                            </div>
-                        </div>
+                    <a href="{{ route('admin.customers.customers.index') }}" class="text-xs font-bold text-blue-600 hover:text-blue-700">
+                        View All &rarr;
                     </a>
                 </div>
 
                 <div
-                    class="flex flex-col gap-8 p-4"
+                    class="flex flex-col divide-y divide-gray-100 dark:divide-gray-800"
+                    v-if="report.statistics.length"
+                >
+                    <div
+                        class="p-3.5 transition-all hover:bg-gray-50 dark:hover:bg-gray-800/40"
+                        v-for="customer in report.statistics"
+                    >
+                        <a :href="customer.id ? '{{ route('admin.customers.customers.view', ':id') }}'.replace(':id', customer.id) : '#'">
+                            <div class="flex justify-between items-center gap-2">
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white truncate">
+                                        @{{ customer.full_name }}
+                                    </p>
+
+                                    <p class="text-[11px] text-gray-400 truncate mt-0.5">
+                                        @{{ customer.email }}
+                                    </p>
+                                </div>
+
+                                <div class="text-right shrink-0">
+                                    <p class="text-xs font-black text-gray-900 dark:text-white">
+                                        @{{ customer.formatted_total }}
+                                    </p>
+
+                                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300 mt-0.5" v-if="customer.orders">
+                                        @{{ customer.orders }} @{{ customer.orders == 1 ? 'order' : 'orders' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="p-6 text-center"
                     v-else
                 >
-                    <div class="grid justify-center justify-items-center gap-3.5 py-2.5">
-                        <!-- Placeholder Image -->
-                        <img
-                            src="{{ bagisto_asset('images/empty-placeholders/customers.svg') }}"
-                            class="h-20 w-20 dark:mix-blend-exclusion dark:invert"
-                        />
+                    <div class="grid justify-center justify-items-center gap-2 py-2">
+                        <span class="text-3xl mb-1">👥</span>
 
-                        <!-- Add Variants Information -->
                         <div class="flex flex-col items-center">
-                            <p class="text-base font-semibold text-gray-400">
-                                @lang('admin::app.dashboard.index.add-customer')
+                            <p class="text-xs font-bold text-gray-700 dark:text-gray-300">
+                                No Customer Purchases Yet
                             </p>
 
-                            <p class="text-gray-400">
-                                @lang('admin::app.dashboard.index.customer-info')
+                            <p class="text-[11px] text-gray-400 mt-1 max-w-[260px]">
+                                Your most frequent buyers and their lifetime order spend will appear here.
                             </p>
                         </div>
                     </div>

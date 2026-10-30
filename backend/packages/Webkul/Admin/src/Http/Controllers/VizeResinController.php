@@ -259,7 +259,7 @@ class VizeResinController extends Controller
                 $images = ['/rasin-product/Vize PrimeX.png'];
             }
 
-            DB::table('vize_resins')->where('id', $id)->update([
+            $updateData = [
                 'name'                 => $request->input('name'),
                 'brand'                => $request->filled('brand') ? $request->input('brand') : $request->input('name'),
                 'suffix'               => $request->filled('suffix') ? $request->input('suffix') : null,
@@ -282,7 +282,17 @@ class VizeResinController extends Controller
                 'about_text'           => $request->input('about_text'),
                 'in_stock'             => $request->has('in_stock') ? 1 : 0,
                 'updated_at'           => now(),
-            ]);
+            ];
+
+            if ($existing && empty($existing->slug)) {
+                $updateData['slug'] = Str::slug($request->input('name'));
+            }
+
+            if ($request->filled('sqft_coverage')) {
+                $updateData['sqft_coverage'] = (int) $request->input('sqft_coverage');
+            }
+
+            DB::table('vize_resins')->where('id', $id)->update($updateData);
 
             session()->flash('success', 'Resin product photos and details updated successfully.');
         } catch (\Exception $e) {

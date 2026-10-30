@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import staticOffers from '../data/offers.json';
+import { fetchFromApi } from '../utils/api';
 
 const CartContext = createContext();
 
@@ -398,6 +399,63 @@ export function CartProvider({ children }) {
 
   const grandTotal = Math.max(0, subtotal - totalDiscount + shippingCost);
 
+  // Sync active cart to Laravel backend so Admin CRM displays real-time "Saved Cart Items"
+  const syncCartToBackend = useCallback(async () => {
+    try {
+      let authUser = null;
+      try {
+        const authStr = localStorage.getItem('vize_user_auth_v1');
+        if (authStr) authUser = JSON.parse(authStr);
+      } catch (e) {}
+
+      const payload = {
+        customer_id: authUser?.db_id || authUser?.id || null,
+        customer_email: authUser?.email || null,
+        customer_name: authUser?.name || null,
+        items: cartItems.map((item) => ({
+          name: item.name + (item.size?.label ? ` - ${item.size.label}` : '') + (item.color?.name ? ` (${item.color.name})` : ''),
+          quantity: item.quantity,
+          price: item.price,
+          total: item.price * item.quantity,
+          size: item.size,
+          color: item.color,
+        })),
+        grand_total: grandTotal,
+        sub_total: subtotal,
+      };
+
+      await fetchFromApi('/api/vize/cart/sync', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      // Non-blocking sync
+    }
+  }, [cartItems, grandTotal, subtotal]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      syncCartToBackend();
+    }, 350);
+
+    const handleAuthChange = () => {
+      syncCartToBackend();
+    };
+
+    window.addEventListener('vize_auth_changed', handleAuthChange);
+    window.addEventListener('storage', handleAuthChange);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('vize_auth_changed', handleAuthChange);
+      window.removeEventListener('storage', handleAuthChange);
+    };
+  }, [syncCartToBackend]);
+
   const activeOfferDiscount = activeOffer && offerDiscountAmount > 0
     ? {
         title: activeOffer.title,
@@ -441,6 +499,7 @@ export function CartProvider({ children }) {
         removeCoupon,
         orderNotes,
         setOrderNotes,
+        syncCartToBackend,
       }}
     >
       {children}

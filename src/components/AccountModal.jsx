@@ -22,10 +22,68 @@ import {
   Award,
   Headphones,
   Eye,
-  EyeOff
+  EyeOff,
+  Factory,
+  Store,
+  Home,
+  GraduationCap,
+  Palette,
+  MoreHorizontal,
+  Info
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+
+const ROLE_OPTIONS = [
+  {
+    id: 'contractor',
+    label: 'Epoxy Contractor',
+    icon: Building,
+    hint: 'Unlocks 15% trade tier pricing, priority dispatch & lab chemist hotline.'
+  },
+  {
+    id: 'designer',
+    label: 'Designer / Architect',
+    icon: Sparkles,
+    hint: 'Sample swatch boxes, custom RAL pigment matching & architectural CPD sheets.'
+  },
+  {
+    id: 'retail',
+    label: 'Artisan / Maker',
+    icon: Palette,
+    hint: 'River table formulations, casting resins & creative artist loyalty rewards.'
+  },
+  {
+    id: 'industrial',
+    label: 'Industrial / Factory',
+    icon: Factory,
+    hint: 'Heavy duty floor systems, chemical containment specs & bulk 200L drums.'
+  },
+  {
+    id: 'dealer',
+    label: 'Dealer / Distributor',
+    icon: Store,
+    hint: 'Wholesale tier discounts, showroom marketing POS & territory distribution support.'
+  },
+  {
+    id: 'homeowner',
+    label: 'Homeowner / DIYer',
+    icon: Home,
+    hint: 'DIY garage & countertop project kits with step-by-step application calculators.'
+  },
+  {
+    id: 'student',
+    label: 'Workshop Student',
+    icon: GraduationCap,
+    hint: 'Epoxy training course attendee discount & practical hands-on starter guides.'
+  },
+  {
+    id: 'other',
+    label: 'Other',
+    icon: MoreHorizontal,
+    hint: 'Specialized polymer applications, marine craft, or custom resin consultancy.'
+  }
+];
 
 export default function AccountModal() {
   const {
@@ -41,7 +99,8 @@ export default function AccountModal() {
     quickLogin,
     signup,
     logout,
-    updateProfile
+    updateProfile,
+    addSavedAddress
   } = useAuth();
 
   // Form states
@@ -56,13 +115,64 @@ export default function AccountModal() {
   const [signupPhone, setSignupPhone] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [signupRole, setSignupRole] = useState('contractor');
-  const [signupCompany, setSignupCompany] = useState('');
-  const [signupGstin, setSignupGstin] = useState('');
 
   // UI feedback
   const [actionSuccess, setActionSuccess] = useState('');
   const [actionError, setActionError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  // Add Address State
+  const [showAddAddressModal, setShowAddAddressModal] = useState(false);
+  const [newAddrTag, setNewAddrTag] = useState('Workshop & Studio');
+  const [newAddrFullName, setNewAddrFullName] = useState('');
+  const [newAddrLine1, setNewAddrLine1] = useState('');
+  const [newAddrCity, setNewAddrCity] = useState('');
+  const [newAddrState, setNewAddrState] = useState('Gujarat');
+  const [newAddrPincode, setNewAddrPincode] = useState('');
+  const [newAddrPhone, setNewAddrPhone] = useState('');
+  const [newAddrGstin, setNewAddrGstin] = useState('');
+
+  const handleSaveNewAddress = async (e) => {
+    e.preventDefault();
+    if (!newAddrLine1.trim() || !newAddrCity.trim() || !newAddrPincode.trim()) {
+      alert('Please fill in Street Address, City, and PIN code.');
+      return;
+    }
+    const newAddrObj = {
+      id: 'addr-' + Date.now(),
+      tag: newAddrTag,
+      isDefault: savedAddresses.length === 0,
+      fullName: newAddrFullName.trim() || user?.name || 'Customer',
+      phone: newAddrPhone.trim() || user?.phone || '',
+      addressLine1: newAddrLine1.trim(),
+      city: newAddrCity.trim(),
+      state: newAddrState,
+      pincode: newAddrPincode.trim(),
+      gstin: newAddrGstin.trim() || user?.gstin || '',
+      company: user?.company || '',
+    };
+
+    addSavedAddress(newAddrObj);
+
+    if (user) {
+      const custId = user.db_id || (typeof user.id === 'number' || !isNaN(Number(user.id)) ? Number(user.id) : null);
+      if (custId) {
+        try {
+          fetchFromApi(`/api/vize/customers/${custId}/addresses`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newAddrObj),
+          });
+        } catch (err) {}
+      }
+    }
+
+    setShowAddAddressModal(false);
+    setNewAddrLine1('');
+    setNewAddrCity('');
+    setNewAddrPincode('');
+  };
 
   // Close on Escape
   useEffect(() => {
@@ -77,38 +187,51 @@ export default function AccountModal() {
 
   if (!isAccountModalOpen) return null;
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setActionError('');
     if (!loginEmail) {
       setActionError('Please enter your email or mobile number.');
       return;
     }
-    const res = login({ emailOrPhone: loginEmail, password: loginPassword });
-    if (res.success) {
-      setActionSuccess('Successfully signed in to VIZE account.');
-      setTimeout(() => setActionSuccess(''), 3000);
+    setIsSubmitting(true);
+    try {
+      const res = await login({ emailOrPhone: loginEmail, password: loginPassword });
+      if (res && res.success) {
+        setActionSuccess('Successfully signed in to VIZE account.');
+        setTimeout(() => setActionSuccess(''), 3000);
+      } else {
+        setActionError(res?.message || 'Unable to sign in. Please verify your email/password.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleSignupSubmit = (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setActionError('');
     if (!signupName || !signupEmail) {
       setActionError('Please fill in your name and email address.');
       return;
     }
-    const res = signup({
-      name: signupName,
-      email: signupEmail,
-      phone: signupPhone,
-      role: signupRole,
-      company: signupCompany,
-      gstin: signupGstin
-    });
-    if (res.success) {
-      setActionSuccess('Account created successfully! Welcome to VIZE.');
-      setTimeout(() => setActionSuccess(''), 3000);
+    setIsSubmitting(true);
+    try {
+      const res = await signup({
+        name: signupName,
+        email: signupEmail,
+        phone: signupPhone,
+        password: signupPassword,
+        role: signupRole
+      });
+      if (res && res.success) {
+        setActionSuccess('Account created successfully! Welcome to VIZE.');
+        setTimeout(() => setActionSuccess(''), 3000);
+      } else {
+        setActionError(res?.message || 'Registration failed. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -265,8 +388,8 @@ export default function AccountModal() {
                           </label>
                         </div>
 
-                        <button type="submit" className="vize-account-primary-btn">
-                          <span>Sign In to Account</span>
+                        <button type="submit" className="vize-account-primary-btn" disabled={isSubmitting}>
+                          <span>{isSubmitting ? 'Signing In...' : 'Sign In to Account'}</span>
                           <ArrowRight size={17} />
                         </button>
                       </form>
@@ -314,25 +437,33 @@ export default function AccountModal() {
                         <div className="vize-account-field">
                           <label>I am registering as</label>
                           <div className="vize-account-role-selector">
-                            {[
-                              { id: 'contractor', label: 'Epoxy Contractor', icon: Building },
-                              { id: 'designer', label: 'Designer / Architect', icon: Sparkles },
-                              { id: 'retail', label: 'Artisan / Maker', icon: User }
-                            ].map((role) => {
+                            {ROLE_OPTIONS.map((role) => {
                               const Icon = role.icon;
+                              const isSelected = signupRole === role.id;
                               return (
                                 <button
                                   key={role.id}
                                   type="button"
-                                  className={`vize-account-role-chip ${signupRole === role.id ? 'selected' : ''}`}
+                                  className={`vize-account-role-chip ${isSelected ? 'selected' : ''}`}
                                   onClick={() => setSignupRole(role.id)}
                                 >
-                                  <Icon size={14} />
+                                  <Icon size={14} style={{ flexShrink: 0 }} />
                                   <span>{role.label}</span>
                                 </button>
                               );
                             })}
                           </div>
+                          {(() => {
+                            const active = ROLE_OPTIONS.find((r) => r.id === signupRole);
+                            return active?.hint ? (
+                              <div className="vize-account-role-benefit-hint">
+                                <Info size={13} style={{ flexShrink: 0, color: '#8C4830' }} />
+                                <span>
+                                  <strong>{active.label}:</strong> {active.hint}
+                                </span>
+                              </div>
+                            ) : null;
+                          })()}
                         </div>
 
                         <div className="vize-account-grid-2">
@@ -381,38 +512,6 @@ export default function AccountModal() {
                           </div>
                         </div>
 
-                        {(signupRole === 'contractor' || signupRole === 'designer') && (
-                          <div className="vize-account-grid-2">
-                            <div className="vize-account-field">
-                              <label htmlFor="signup-company">Company / Studio Name</label>
-                              <div className="vize-account-input-wrap">
-                                <Building size={16} className="vize-account-input-icon" />
-                                <input
-                                  id="signup-company"
-                                  type="text"
-                                  value={signupCompany}
-                                  onChange={(e) => setSignupCompany(e.target.value)}
-                                  placeholder="e.g. Apex Floors LLP"
-                                />
-                              </div>
-                            </div>
-
-                            <div className="vize-account-field">
-                              <label htmlFor="signup-gstin">GSTIN (for B2B Tax Credit)</label>
-                              <div className="vize-account-input-wrap">
-                                <FileText size={16} className="vize-account-input-icon" />
-                                <input
-                                  id="signup-gstin"
-                                  type="text"
-                                  value={signupGstin}
-                                  onChange={(e) => setSignupGstin(e.target.value)}
-                                  placeholder="22AAAAA0000A1Z5"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        )}
-
                         <div className="vize-account-field">
                           <label htmlFor="signup-password">Create Password</label>
                           <div className="vize-account-input-wrap">
@@ -427,8 +526,8 @@ export default function AccountModal() {
                           </div>
                         </div>
 
-                        <button type="submit" className="vize-account-primary-btn">
-                          <span>Create Account & Claim Pro Benefits</span>
+                        <button type="submit" className="vize-account-primary-btn" disabled={isSubmitting}>
+                          <span>{isSubmitting ? 'Creating Account...' : 'Create Account & Claim Pro Benefits'}</span>
                           <ArrowRight size={17} />
                         </button>
                       </form>
@@ -539,7 +638,11 @@ export default function AccountModal() {
                         <div className="vize-account-stat-card">
                           <span className="stat-label">TOTAL ORDERS</span>
                           <span className="stat-value">{orders.length}</span>
-                          <span className="stat-sub">Latest: #{orders[0]?.id} ({orders[0]?.status})</span>
+                          <span className="stat-sub">
+                            {orders.length > 0
+                              ? `Latest: #${orders[0]?.id} (${orders[0]?.status})`
+                              : 'No orders placed yet'}
+                          </span>
                         </div>
                       </div>
 
@@ -652,6 +755,24 @@ export default function AccountModal() {
                             </div>
                           </div>
                         </div>
+                      ) : orders.length === 0 ? (
+                        /* Empty Orders State */
+                        <div className="vize-account-empty-state">
+                          <Package size={44} className="vize-account-empty-icon" />
+                          <h4>No Orders Placed Yet</h4>
+                          <p>
+                            You haven't placed any orders with this account yet. When you order epoxy casting systems, primers, topcoats, or pigments, you can track live dispatch and download GST tax invoices here.
+                          </p>
+                          <Link
+                            to="/resins"
+                            className="vize-account-primary-btn"
+                            onClick={closeAccountModal}
+                            style={{ textDecoration: 'none', display: 'inline-flex', marginTop: '0.5rem', width: 'auto', padding: '0.75rem 1.4rem' }}
+                          >
+                            <span>Browse Resins &amp; Products</span>
+                            <ArrowRight size={16} />
+                          </Link>
+                        </div>
                       ) : (
                         /* Orders List */
                         <div className="vize-account-orders-list">
@@ -700,34 +821,183 @@ export default function AccountModal() {
                   {/* Tab 3: Saved Addresses */}
                   {activeTab === 'addresses' && (
                     <div className="vize-account-tab-content">
-                      <div className="vize-account-addresses-grid">
-                        {savedAddresses.map((addr) => (
-                          <div key={addr.id} className="vize-account-address-card">
-                            <div className="address-card-top">
-                              <span className="address-tag-pill">
-                                <MapPin size={13} /> {addr.tag}
-                              </span>
-                              {addr.isDefault && <span className="default-pill">DEFAULT</span>}
-                            </div>
-                            <h5 className="address-name">{addr.fullName}</h5>
-                            <p className="address-line">{addr.addressLine1}</p>
-                            <p className="address-line">{addr.addressLine2}</p>
-                            <p className="address-city">{addr.city}, {addr.state} - {addr.pincode}</p>
-                            <p className="address-phone"><Phone size={13} /> {addr.phone}</p>
-                            {addr.gstin && (
-                              <p className="address-gstin"><FileText size={13} /> GSTIN: {addr.gstin}</p>
-                            )}
+                      {showAddAddressModal ? (
+                        <form onSubmit={handleSaveNewAddress} className="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-3 mb-4">
+                          <div className="flex items-center justify-between border-b border-gray-200 pb-2">
+                            <h5 className="font-bold text-sm text-[#0D2C33] flex items-center gap-1.5">
+                              <MapPin size={16} className="text-[#8C4830]" /> Add New Delivery Site / Workshop
+                            </h5>
+                            <button
+                              type="button"
+                              onClick={() => setShowAddAddressModal(false)}
+                              className="text-xs text-gray-400 hover:text-gray-600 font-bold"
+                            >
+                              ✕ Cancel
+                            </button>
                           </div>
-                        ))}
-                      </div>
 
-                      <button
-                        type="button"
-                        className="vize-account-add-address-btn"
-                        onClick={() => alert('Add Address dialog: Enter site location and contractor delivery instructions.')}
-                      >
-                        + Add New Site / Workshop Delivery Address
-                      </button>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Address Tag</label>
+                              <input
+                                type="text"
+                                value={newAddrTag}
+                                onChange={(e) => setNewAddrTag(e.target.value)}
+                                placeholder="e.g. Workshop, Site Delivery"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Full Name</label>
+                              <input
+                                type="text"
+                                value={newAddrFullName}
+                                onChange={(e) => setNewAddrFullName(e.target.value)}
+                                placeholder={user?.name || "Vivek Patel"}
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Street Address / Shed / Plot No. *</label>
+                            <input
+                              type="text"
+                              required
+                              value={newAddrLine1}
+                              onChange={(e) => setNewAddrLine1(e.target.value)}
+                              placeholder="e.g. Shed 18, GIDC Industrial Estate Phase 3"
+                              className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-2">
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">City *</label>
+                              <input
+                                type="text"
+                                required
+                                value={newAddrCity}
+                                onChange={(e) => setNewAddrCity(e.target.value)}
+                                placeholder="Vadodara"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">State *</label>
+                              <input
+                                type="text"
+                                value={newAddrState}
+                                onChange={(e) => setNewAddrState(e.target.value)}
+                                placeholder="Gujarat"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">PIN Code *</label>
+                              <input
+                                type="text"
+                                required
+                                maxLength={6}
+                                value={newAddrPincode}
+                                onChange={(e) => setNewAddrPincode(e.target.value.replace(/\D/g, ''))}
+                                placeholder="390010"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white font-mono"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">Site Phone</label>
+                              <input
+                                type="text"
+                                value={newAddrPhone}
+                                onChange={(e) => setNewAddrPhone(e.target.value)}
+                                placeholder={user?.phone || "+91 96541 25784"}
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white font-mono"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-gray-500 mb-0.5">GSTIN (Optional)</label>
+                              <input
+                                type="text"
+                                value={newAddrGstin}
+                                onChange={(e) => setNewAddrGstin(e.target.value.toUpperCase())}
+                                placeholder="24AAACE1234F1Z8"
+                                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-gray-300 bg-white font-mono uppercase"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex justify-end gap-2 pt-1">
+                            <button
+                              type="button"
+                              onClick={() => setShowAddAddressModal(false)}
+                              className="px-3 py-1.5 text-xs font-semibold text-gray-600 bg-white border border-gray-300 rounded-lg"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              className="px-4 py-1.5 text-xs font-bold text-white bg-[#0D2C33] hover:bg-[#133F49] rounded-lg shadow-sm"
+                            >
+                              Save Address
+                            </button>
+                          </div>
+                        </form>
+                      ) : null}
+
+                      {savedAddresses.length === 0 && !showAddAddressModal ? (
+                        <div className="vize-account-empty-state">
+                          <MapPin size={44} className="vize-account-empty-icon" />
+                          <h4>No Saved Delivery Addresses</h4>
+                          <p>
+                            You haven't saved any workshop, studio, or project delivery locations yet. Add your address for rapid 1-click checkout.
+                          </p>
+                          <button
+                            type="button"
+                            className="vize-account-add-address-btn"
+                            style={{ marginTop: '0.5rem' }}
+                            onClick={() => setShowAddAddressModal(true)}
+                          >
+                            + Add New Delivery Site / Workshop Address
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="vize-account-addresses-grid">
+                            {savedAddresses.map((addr) => (
+                              <div key={addr.id} className="vize-account-address-card">
+                                <div className="address-card-top">
+                                  <span className="address-tag-pill">
+                                    <MapPin size={13} /> {addr.tag}
+                                  </span>
+                                  {addr.isDefault && <span className="default-pill">DEFAULT</span>}
+                                </div>
+                                <h5 className="address-name">{addr.fullName}</h5>
+                                <p className="address-line">{addr.addressLine1}</p>
+                                {addr.addressLine2 && <p className="address-line">{addr.addressLine2}</p>}
+                                <p className="address-city">{addr.city}, {addr.state} - {addr.pincode}</p>
+                                <p className="address-phone"><Phone size={13} /> {addr.phone}</p>
+                                {addr.gstin && (
+                                  <p className="address-gstin"><FileText size={13} /> GSTIN: {addr.gstin}</p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+
+                          {!showAddAddressModal && (
+                            <button
+                              type="button"
+                              className="vize-account-add-address-btn"
+                              onClick={() => setShowAddAddressModal(true)}
+                            >
+                              + Add New Site / Workshop Delivery Address
+                            </button>
+                          )}
+                        </>
+                      )}
                     </div>
                   )}
 

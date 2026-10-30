@@ -149,31 +149,54 @@
             <table class="w-full text-left text-sm text-gray-600 dark:text-gray-300" id="table-customers">
                 <thead class="bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-800 text-xs uppercase font-semibold text-gray-500">
                     <tr>
-                        <th class="px-5 py-3.5">Customer Name & Email</th>
-                        <th class="px-5 py-3.5">Phone & 1-Click WhatsApp</th>
-                        <th class="px-5 py-3.5">Trade Group</th>
-                        <th class="px-5 py-3.5">Orders & Spend</th>
-                        <th class="px-5 py-3.5">Account Status</th>
-                        <th class="px-5 py-3.5">Registered Date</th>
-                        <th class="px-5 py-3.5 text-right">Actions</th>
+                        <th class="px-6 py-4">Customer Name & Email</th>
+                        <th class="px-6 py-4">Phone & 1-Click WhatsApp</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                     @forelse ($customers as $cust)
                         <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-800/40 transition">
-                            <td class="px-5 py-4">
-                                <div class="font-bold text-gray-900 dark:text-white">
-                                    {{ $cust->first_name }} {{ $cust->last_name }}
+                            <td class="px-6 py-4">
+                                <div 
+                                    class="customer-row-trigger group/cust relative inline-flex items-center gap-3 cursor-pointer select-none"
+                                    data-customer-id="{{ $cust->id }}"
+                                    onmouseenter="handleCustomerHover(this, {{ $cust->id }})"
+                                    onmouseleave="handleCustomerLeave()"
+                                    onclick="toggleCustomerPinned(this, {{ $cust->id }})"
+                                >
+                                    <!-- Initial Avatar Badge -->
+                                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-extrabold text-sm flex items-center justify-center shadow-sm flex-shrink-0 group-hover/cust:scale-105 transition-transform">
+                                        {{ strtoupper(substr($cust->first_name ?: 'U', 0, 1)) }}
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="font-bold text-base text-gray-900 dark:text-white flex items-center gap-2 group-hover/cust:text-blue-600 transition">
+                                            <span>{{ $cust->first_name }} {{ $cust->last_name }}</span>
+                                            <!-- Dropdown Hover Badge Indicator -->
+                                            <button
+                                                type="button"
+                                                onclick="event.stopPropagation(); toggleCustomerPinned(this.closest('.customer-row-trigger'), {{ $cust->id }});"
+                                                class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-100 hover:bg-blue-200 dark:bg-blue-950/80 dark:text-blue-300 px-2.5 py-1 rounded-full border border-blue-300 dark:border-blue-800 transition shadow-2xs cursor-pointer"
+                                                title="Click to lock open / Hover to preview customer dossier"
+                                            >
+                                                <span>Details</span>
+                                                <svg class="w-3.5 h-3.5 text-blue-600 transition-transform group-hover/cust:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5 mt-0.5">
+                                            <span class="text-blue-600 hover:underline">✉️ {{ $cust->email }}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href="mailto:{{ $cust->email }}" class="text-xs text-blue-600 hover:underline">
-                                    ✉️ {{ $cust->email }}
-                                </a>
                             </td>
-                            <td class="px-5 py-4 text-xs font-mono">
+                            <td class="px-6 py-4 text-xs font-mono">
                                 @if ($cust->phone)
-                                    <div>📞 {{ $cust->phone }}</div>
+                                    <div class="text-sm font-semibold text-gray-800 dark:text-gray-200">📞 {{ $cust->phone }}</div>
                                     <div class="mt-1">
-                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $cust->phone) }}" target="_blank" class="inline-flex items-center gap-1 text-emerald-600 font-semibold hover:underline bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $cust->phone) }}" target="_blank" class="inline-flex items-center gap-1 text-emerald-600 font-semibold hover:underline bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
                                             💬 WhatsApp
                                         </a>
                                     </div>
@@ -181,40 +204,19 @@
                                     <span class="text-gray-400">No phone provided</span>
                                 @endif
                             </td>
-                            <td class="px-5 py-4">
-                                <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                                    {{ $cust->group_name ?? 'General (Retail)' }}
-                                </span>
-                            </td>
-                            <td class="px-5 py-4 text-xs">
-                                <div class="font-semibold text-gray-900 dark:text-white">
-                                    📦 {{ $cust->total_orders ?? 0 }} Orders
-                                </div>
-                                <div class="text-emerald-600 font-bold">
-                                    ₹{{ number_format($cust->total_spent ?? 0, 2) }}
-                                </div>
-                            </td>
-                            <td class="px-5 py-4">
-                                <span class="text-xs font-bold px-2 py-1 rounded-full {{ $cust->status ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600' }}">
-                                    {{ $cust->status ? 'Active' : 'Inactive' }}
-                                </span>
-                            </td>
-                            <td class="px-5 py-4 text-xs text-gray-500">
-                                {{ date('M d, Y', strtotime($cust->created_at)) }}
-                            </td>
-                            <td class="px-5 py-4 text-right">
+                            <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
                                     <button
                                         type="button"
-                                        onclick='openEditCustomerModal(@json($cust))'
-                                        class="px-2.5 py-1 text-xs font-semibold bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-md border border-blue-200 transition cursor-pointer"
+                                        onclick="openEditCustomerModal({{ $cust->id }})"
+                                        class="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg border border-blue-200 transition cursor-pointer"
                                     >
                                         ✏️ Edit
                                     </button>
                                     <form action="{{ route('admin.vize.customers.destroy', $cust->id) }}" method="POST" onsubmit="return confirm('Delete customer {{ $cust->first_name }} {{ $cust->last_name }}?');" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-rose-500 hover:text-rose-700 text-xs font-semibold cursor-pointer">
+                                        <button type="submit" class="p-1.5 text-rose-500 hover:text-rose-700 text-xs font-semibold cursor-pointer" title="Delete customer">
                                             🗑️
                                         </button>
                                     </form>
@@ -223,7 +225,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-5 py-10 text-center text-gray-400">
+                            <td colspan="3" class="px-6 py-10 text-center text-gray-400">
                                 No registered customer accounts yet. Click <strong>"+ Add Customer"</strong> to create the first profile.
                             </td>
                         </tr>
@@ -680,6 +682,22 @@
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Company / Studio Name</label>
+                            <input type="text" name="company_name" placeholder="e.g. Apex Floors LLP" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">GSTIN (For Tax Credit)</label>
+                            <input type="text" name="gstin" placeholder="e.g. 27AAAAA0000A1Z5" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm font-mono">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Registered Trade / Profession</label>
+                        <input type="text" name="registered_role" placeholder="e.g. Epoxy Contractor, Designer / Architect, Artisan / Maker" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
                             <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Account Status</label>
                             <select name="status" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold">
                                 <option value="1">Active</option>
@@ -765,6 +783,22 @@
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Company / Studio Name</label>
+                            <input type="text" id="edit_cust_company_name" name="company_name" placeholder="e.g. Apex Floors LLP" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">GSTIN (For Tax Credit)</label>
+                            <input type="text" id="edit_cust_gstin" name="gstin" placeholder="e.g. 27AAAAA0000A1Z5" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm font-mono">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Registered Trade / Profession</label>
+                        <input type="text" id="edit_cust_registered_role" name="registered_role" placeholder="e.g. Epoxy Contractor, Designer / Architect, Artisan / Maker" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
                             <label class="block text-xs font-semibold text-gray-700 uppercase mb-1">Account Status</label>
                             <select id="edit_cust_status" name="status" class="w-full px-3.5 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold">
                                 <option value="1">Active</option>
@@ -840,6 +874,23 @@
 
     <!-- JavaScript Controls -->
     <script>
+        const VIZE_CUSTOMERS = @json($customers->keyBy('id'));
+
+        function ensureCardInBody() {
+            let card = document.getElementById('vizeGlobalCustomerCard');
+            if (card && card.parentElement !== document.body) {
+                document.body.appendChild(card);
+            }
+            return card;
+        }
+
+        // Guarantee card is attached directly to body
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', ensureCardInBody);
+        } else {
+            ensureCardInBody();
+        }
+
         function showCrmTab(tabName) {
             const tabs = ['customers', 'workshops', 'tables', 'inquiries', 'reviews', 'groups'];
             tabs.forEach(t => {
@@ -883,7 +934,16 @@
             m.style.display = 'none';
         }
 
-        function openEditCustomerModal(cust) {
+        function openEditCustomerModal(custOrId) {
+            const cust = (typeof custOrId === 'object' && custOrId !== null)
+                ? custOrId
+                : ((typeof VIZE_CUSTOMERS !== 'undefined' && VIZE_CUSTOMERS[custOrId]) ? VIZE_CUSTOMERS[custOrId] : null);
+
+            if (!cust) {
+                console.error('Customer not found for edit:', custOrId);
+                return;
+            }
+
             const form = document.getElementById('editCustomerForm');
             form.action = "{{ url('admin/vize/customers') }}/" + cust.id;
 
@@ -891,8 +951,14 @@
             document.getElementById('edit_cust_last_name').value = cust.last_name || '';
             document.getElementById('edit_cust_email').value = cust.email || '';
             document.getElementById('edit_cust_phone').value = cust.phone || '';
+            if (document.getElementById('edit_cust_extra_phone')) {
+                document.getElementById('edit_cust_extra_phone').value = cust.extra_phone || '';
+            }
             document.getElementById('edit_cust_group_id').value = cust.customer_group_id || 1;
             document.getElementById('edit_cust_status').value = cust.status ? '1' : '0';
+            document.getElementById('edit_cust_company_name').value = cust.company_name || '';
+            document.getElementById('edit_cust_gstin').value = cust.gstin || '';
+            document.getElementById('edit_cust_registered_role').value = cust.registered_role || '';
             document.getElementById('edit_cust_notes').value = cust.notes || '';
 
             const m = document.getElementById('editCustomerModal');
@@ -918,13 +984,395 @@
             m.style.display = 'none';
         }
 
+        // =====================================================================
+        // CUSTOMER HOVER DROPDOWN CONTROLS
+        // =====================================================================
+        let customerCardTimer = null;
+        let currentCust = null;
+        let isCardPinned = false;
+
+        function handleCustomerHover(triggerEl, custOrId) {
+            if (customerCardTimer) clearTimeout(customerCardTimer);
+            if (isCardPinned) return;
+            showCustomerCard(triggerEl, custOrId);
+        }
+
+        function handleCustomerLeave() {
+            if (isCardPinned) return;
+            if (customerCardTimer) clearTimeout(customerCardTimer);
+            customerCardTimer = setTimeout(() => {
+                closeCustomerCard();
+            }, 350);
+        }
+
+        function keepCustomerCard() {
+            if (customerCardTimer) clearTimeout(customerCardTimer);
+        }
+
+        function closeCustomerCard() {
+            isCardPinned = false;
+            currentCust = null;
+            const card = document.getElementById('vizeGlobalCustomerCard');
+            if (card) {
+                card.style.display = 'none';
+            }
+        }
+
+        function toggleCustomerPinned(triggerEl, custOrId) {
+            if (customerCardTimer) clearTimeout(customerCardTimer);
+            const custId = (typeof custOrId === 'object' && custOrId !== null) ? custOrId.id : custOrId;
+            
+            if (isCardPinned && currentCust && currentCust.id == custId) {
+                closeCustomerCard();
+            } else {
+                isCardPinned = true;
+                showCustomerCard(triggerEl, custId);
+            }
+        }
+
+        function showCustomerCard(triggerEl, custOrId) {
+            const cust = (typeof custOrId === 'object' && custOrId !== null)
+                ? custOrId
+                : ((typeof VIZE_CUSTOMERS !== 'undefined' && VIZE_CUSTOMERS[custOrId]) ? VIZE_CUSTOMERS[custOrId] : null);
+
+            if (!cust) {
+                console.error("Vize Customer data not found:", custOrId);
+                return;
+            }
+            currentCust = cust;
+
+            const card = ensureCardInBody();
+            if (!card) return;
+
+            const rect = triggerEl.getBoundingClientRect();
+            const initials = (((cust.first_name || 'U')[0] || '') + ((cust.last_name || '')[0] || '')).toUpperCase() || 'U';
+            const fullName = ((cust.first_name || '') + ' ' + (cust.last_name || '')).trim() || 'Valued Customer';
+            const statusPill = cust.status 
+                ? '<span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; color:#047857; background:#d1fae5; padding:2px 8px; border-radius:9999px;"><span style="width:6px; height:6px; border-radius:9999px; background:#10b981;"></span>Active</span>'
+                : '<span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700; color:#6b7280; background:#f3f4f6; padding:2px 8px; border-radius:9999px;">Inactive</span>';
+
+            const roleBadge = cust.registered_role || cust.group_name || 'Speciality Polymer Partner';
+            const tradeGroup = cust.group_name || 'General (Retail)';
+            const company = cust.company_name || 'Individual / Studio';
+            const gstin = cust.gstin ? `<span style="font-family:monospace; font-weight:600; color:#1e293b; background:#f1f5f9; padding:2px 6px; border-radius:4px;">${cust.gstin}</span>` : '<span style="color:#94a3b8; font-style:italic;">B2C / Not Provided</span>';
+            const phone = cust.phone || null;
+            const extraPhone = cust.extra_phone || null;
+            const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
+            const regDate = cust.created_at ? new Date(cust.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently';
+
+            // Top Pin Header bar
+            const pinHeaderHtml = isCardPinned ? `
+                <div style="background: #eff6ff; padding: 7px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; color: #1d4ed8; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border: 1px solid #bfdbfe;">
+                    <span style="display: flex; align-items: center; gap: 5px;">📌 <span>Dossier Pinned Open &bull; Click anywhere outside to close</span></span>
+                    <button type="button" onclick="closeCustomerCard()" style="background: #dbeafe; border: none; font-weight: 800; color: #1e40af; border-radius: 6px; padding: 2px 7px; cursor: pointer; font-size: 11px;">✕ Close</button>
+                </div>
+            ` : `
+                <div style="background: #f8fafc; padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #64748b; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+                    <span style="display: flex; align-items: center; gap: 4px;">💡 <span>Click customer row to pin this dossier open</span></span>
+                    <button type="button" onclick="closeCustomerCard()" style="background: transparent; border: none; font-weight: 700; color: #94a3b8; cursor: pointer; font-size: 12px;">✕</button>
+                </div>
+            `;
+
+            // 1. Saved Addresses ("his addreses")
+            let addressesHtml = '';
+            const addrs = cust.saved_addresses || cust.addresses || [];
+            if (addrs && addrs.length > 0) {
+                const addrItems = addrs.map((a, i) => {
+                    const tag = a.default_address ? '⭐ Default / Primary Site' : `📍 Delivery Site #${i + 1}`;
+                    const parts = [a.address, a.city, a.state, a.postcode].filter(Boolean);
+                    const sitePhone = a.phone && a.phone !== phone ? `<div style="font-size: 11px; color: #475569; margin-top: 3px; font-family: monospace;">📞 Site Phone: ${a.phone}</div>` : '';
+                    return `
+                        <div style="padding: 9px 12px; background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                            <div style="font-size: 10px; font-weight: 700; color: #4f46e5; text-transform: uppercase; letter-spacing: 0.04em;">${tag}</div>
+                            <div style="font-size: 12px; font-weight: 600; color: #1e293b; margin-top: 2px; line-height: 1.35;">${parts.join(', ')}</div>
+                            ${sitePhone}
+                        </div>
+                    `;
+                }).join('');
+
+                addressesHtml = `
+                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
+                            🏡 Saved Addresses (${addrs.length})
+                        </div>
+                        <div style="background: #f8fafc; padding: 8px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                            ${addrItems}
+                        </div>
+                    </div>
+                `;
+            } else {
+                addressesHtml = `
+                    <div style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">🏡 Saved Addresses</div>
+                        <div style="font-size: 12px; color: #94a3b8; font-style: italic;">No saved addresses on file</div>
+                    </div>
+                `;
+            }
+
+            // 2. Orders History ("his orders")
+            let ordersHtml = '';
+            const ords = cust.customer_orders || [];
+            if (ords && ords.length > 0) {
+                const ordItems = ords.map(ord => {
+                    const statusColor = ord.status === 'completed' ? '#059669' : (ord.status === 'processing' ? '#2563eb' : '#d97706');
+                    const statusBg = ord.status === 'completed' ? '#ecfdf5' : (ord.status === 'processing' ? '#eff6ff' : '#fffbeb');
+                    const ordDate = ord.created_at ? new Date(ord.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+                    const items = (ord.items || []).map(it => `
+                        <div style="font-size: 11px; color: #334155; margin-top: 2px;">
+                            &bull; <strong>${it.qty_ordered || 1}x</strong> ${it.name} <span style="color:#64748b;">(₹${Number(it.total || 0).toLocaleString('en-IN')})</span>
+                        </div>
+                    `).join('');
+
+                    return `
+                        <div style="padding: 10px 12px; background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.02);">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="font-size: 12px; font-weight: 800; color: #0f172a; font-family: monospace;">Order #${ord.increment_id || ord.id}</div>
+                                <span style="font-size: 10px; font-weight: 700; color: ${statusColor}; background: ${statusBg}; padding: 2px 7px; border-radius: 6px; text-transform: capitalize;">${ord.status}</span>
+                            </div>
+                            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
+                                ${ordDate} &bull; <strong style="color: #047857;">₹${Number(ord.grand_total || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+                            </div>
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #e2e8f0;">
+                                ${items || '<div style="font-size:11px; color:#94a3b8;">No item details</div>'}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                ordersHtml = `
+                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>📦 Order History (${ords.length})</span>
+                            <span style="font-size: 11px; font-weight: 800; color: #059669;">Total: ₹${Number(cust.total_spent || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                        </div>
+                        <div style="background: #f8fafc; padding: 8px; border-radius: 12px; border: 1px solid #e2e8f0; max-height: 180px; overflow-y: auto;">
+                            ${ordItems}
+                        </div>
+                    </div>
+                `;
+            } else {
+                ordersHtml = `
+                    <div style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">📦 Orders History</div>
+                        <div style="font-size: 12px; color: #94a3b8; font-style: italic;">No orders placed yet &bull; Lifetime spend: ₹0.00</div>
+                    </div>
+                `;
+            }
+
+            // 3. Saved Cart Items ("his saved cards item etc")
+            let cartHtml = '';
+            const cartObj = cust.saved_cart;
+            if (cartObj && cartObj.items && cartObj.items.length > 0) {
+                const cartItemsList = cartObj.items.map(ci => `
+                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #fef3c7;">
+                        <div style="font-weight: 600; color: #1e293b; max-width: 260px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                            ${ci.quantity || 1}x ${ci.name}
+                        </div>
+                        <div style="font-weight: 700; color: #b45309; font-family: monospace;">
+                            ₹${Number(ci.total || ci.price || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                        </div>
+                    </div>
+                `).join('');
+
+                cartHtml = `
+                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 11px; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+                            <span>🛒 Saved Cart Items (${cartObj.items.length})</span>
+                            <span style="font-size: 11px; font-weight: 800; color: #b45309;">₹${Number(cartObj.grand_total || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                        </div>
+                        <div style="background: #fffbeb; padding: 8px 12px; border-radius: 12px; border: 1px solid #fef3c7;">
+                            ${cartItemsList}
+                        </div>
+                    </div>
+                `;
+            } else {
+                cartHtml = `
+                    <div style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                        <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">🛒 Saved Cart Items</div>
+                        <div style="font-size: 12px; color: #94a3b8; font-style: italic;">Cart is currently empty</div>
+                    </div>
+                `;
+            }
+
+            // 4. Extra numbers & Phone details ("his extra numbers")
+            let phoneSectionHtml = `
+                <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                    <span style="color: #64748b; font-weight: 500;">Primary Phone:</span>
+                    <span style="color: #1e293b; font-weight: 600; font-family: monospace;">
+                        ${phone ? '📞 ' + phone : '<span style="color:#94a3b8; font-style:italic;">No phone provided</span>'}
+                    </span>
+                </div>
+            `;
+
+            if (extraPhone) {
+                phoneSectionHtml += `
+                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px; margin-top: 4px;">
+                        <span style="color: #64748b; font-weight: 500;">Extra / Alternate Phone:</span>
+                        <span style="color: #4338ca; font-weight: 700; font-family: monospace; background: #e0e7ff; padding: 2px 6px; border-radius: 4px; font-size: 11px;">
+                            📱 ${extraPhone}
+                        </span>
+                    </div>
+                `;
+            }
+
+            let notesHtml = '';
+            if (cust.notes) {
+                notesHtml = `
+                    <div style="padding: 10px 14px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 10px;">
+                        <div style="font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">📝 Internal Notes</div>
+                        <div style="font-size: 12px; color: #334155; font-style: italic; line-height: 1.4;">"${cust.notes}"</div>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <div style="padding: 20px;">
+                    ${pinHeaderHtml}
+
+                    <!-- Top Bar with Avatar, Name, Status -->
+                    <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #f1f5f9;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #2563eb, #4f46e5); color: #ffffff; font-weight: 800; font-size: 17px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px -2px rgba(37,99,235,0.4); flex-shrink: 0;">
+                                ${initials}
+                            </div>
+                            <div>
+                                <div style="font-size: 16px; font-weight: 800; color: #0f172a; line-height: 1.2;">
+                                    ${fullName}
+                                </div>
+                                <div style="font-size: 11px; color: #64748b; margin-top: 3px; font-family: monospace;">
+                                    Customer ID: #${cust.id} &bull; Registered ${regDate}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                            ${statusPill}
+                            <span style="font-size: 10px; color: #2563eb; font-weight: 600;">✓ Verified Member</span>
+                        </div>
+                    </div>
+
+                    <!-- Trade & Company Profile -->
+                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Trade Tier & Discount:</span>
+                            <span style="font-weight: 700; color: #059669; font-size: 12px;">
+                                🏷️ ${tradeGroup}
+                            </span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Registered Role:</span>
+                            <span style="font-weight: 700; color: #4338ca; background: #e0e7ff; padding: 2px 8px; border-radius: 6px; font-size: 11px; max-width: 220px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                                ${roleBadge}
+                            </span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Company / Studio:</span>
+                            <span style="font-weight: 600; color: #1e293b; font-size: 12px; max-width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                                🏢 ${company}
+                            </span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">GSTIN (B2B Tax Credit):</span>
+                            <div>${gstin}</div>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Extra Phone Numbers -->
+                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                            <span style="color: #64748b; font-weight: 500;">Email Address:</span>
+                            <a href="mailto:${cust.email}" style="color: #2563eb; font-weight: 600; font-family: monospace; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                                ✉️ ${cust.email}
+                            </a>
+                        </div>
+                        ${phoneSectionHtml}
+                        ${phone ? `
+                        <a href="https://wa.me/${cleanPhone}?text=Hello%20${encodeURIComponent(cust.first_name)},%20this%20is%20VIZE%20Specialty%20Polymers." target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 12px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; margin-top: 4px; transition: background 0.15s;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">
+                            <span>💬 1-Click WhatsApp Direct</span>
+                        </a>` : ''}
+                    </div>
+
+                    <!-- Saved Addresses ("his addreses") -->
+                    ${addressesHtml}
+
+                    <!-- Orders History ("his orders") -->
+                    ${ordersHtml}
+
+                    <!-- Saved Cart Items ("his saved cards item etc") -->
+                    ${cartHtml}
+
+                    ${notesHtml}
+
+                    <!-- Bottom Actions -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
+                        <button type="button" onclick="closeCustomerCard(); openEditCustomerModal(${cust.id})" style="flex: 1; padding: 8px 12px; background: #2563eb; color: #ffffff; border: none; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
+                            <span>✏️</span> Edit Customer
+                        </button>
+                        <a href="mailto:${cust.email}" style="padding: 8px 14px; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; cursor: pointer;">
+                            ✉️ Email
+                        </a>
+                        <button type="button" onclick="closeCustomerCard()" style="padding: 8px 10px; background: transparent; color: #94a3b8; border: none; font-size: 13px; font-weight: 700; cursor: pointer;" title="Close dropdown">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Calculate position
+            card.style.position = 'fixed';
+            card.style.display = 'block';
+            card.style.visibility = 'visible';
+            card.style.opacity = '1';
+
+            const cardWidth = 440;
+            const cardHeight = card.offsetHeight || 500;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            let left = rect.left;
+            if (left + cardWidth > viewportWidth - 20) {
+                left = Math.max(16, viewportWidth - cardWidth - 20);
+            }
+            if (left < 16) left = 16;
+
+            let top = rect.bottom + 6;
+            if (top + cardHeight > viewportHeight - 16) {
+                if (rect.top - cardHeight - 6 > 16) {
+                    top = rect.top - cardHeight - 6;
+                } else {
+                    top = Math.max(16, viewportHeight - cardHeight - 16);
+                }
+            }
+            if (top < 10) top = 10;
+
+            card.style.top = top + 'px';
+            card.style.left = left + 'px';
+        }
+
+        // Close dropdown on outside click
+        document.addEventListener('click', function(e) {
+            const card = document.getElementById('vizeGlobalCustomerCard');
+            if (!card || card.style.display === 'none') return;
+            if (!card.contains(e.target) && !e.target.closest('.customer-row-trigger')) {
+                closeCustomerCard();
+            }
+        });
+
         // Close on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                closeCustomerCard();
                 closeAddCustomerModal();
                 closeEditCustomerModal();
                 closeAddGroupModal();
             }
         });
     </script>
+
+    <!-- Global Floating Customer Info Dropdown Card -->
+    <div
+        id="vizeGlobalCustomerCard"
+        style="display: none; position: fixed; z-index: 9999999; width: 440px; max-width: 94vw; max-height: 85vh; overflow-y: auto; background: #ffffff; border-radius: 18px; box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; pointer-events: auto; font-family: inherit;"
+        onmouseenter="keepCustomerCard()"
+        onmouseleave="handleCustomerLeave()"
+    ></div>
 </x-admin::layouts>

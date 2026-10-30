@@ -338,7 +338,15 @@ export default function ResinsPage() {
                         >
                           {Array.isArray(product.images) && product.images.length > 0 && (product.images[0].startsWith('/uploads') || product.images[0].includes('upload') || product.images[0].startsWith('http')) ? (
                             <div className="vize-logo-card-wrapper flex items-center justify-center p-3">
-                              <img src={resolveImageUrl(product.images[0])} alt={product.name} className="max-h-36 object-contain" />
+                              <img
+                                src={product.images[0]}
+                                alt={product.name}
+                                className="max-h-36 object-contain"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = '/rasin-product/primex-bucket.png';
+                                }}
+                              />
                             </div>
                           ) : (
                             <ProductBucketVisual id={product.id} name={product.name} />
@@ -348,7 +356,7 @@ export default function ResinsPage() {
                         <div className="vize-resins-card-info">
                           <div className="vize-resins-tag-box">
                             <span className="vize-resins-app-tag">
-                              {product.applicationTag}
+                              {product.applicationTag || product.application_tag || product.category}
                             </span>
                             <span className="vize-resins-cat-tag">
                               {product.category}
@@ -362,7 +370,7 @@ export default function ResinsPage() {
                           </h3>
                           
                           <p className="vize-resins-card-desc">
-                            {product.tagline}
+                            {product.tagline || product.chemistry || 'Epoxy Polymer Formulation'}
                           </p>
 
                           <div className="vize-resins-card-footer">

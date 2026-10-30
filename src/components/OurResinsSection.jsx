@@ -6,32 +6,35 @@ import productsData from '../data/products.json';
 import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 const CATEGORIES = [
-  'All Products',
-  'Flooring Systems',
+  'All Materials',
+  'Flooring Resins',
   'Casting & Art',
-  'Primers & Screeds',
   'Protective Coatings',
+  'Finishing Compounds'
 ];
-
-const mapCategory = (cat, appCat) => {
-  if (appCat?.toLowerCase().includes('primer') || appCat?.toLowerCase().includes('screed')) return 'Primers & Screeds';
-  if (cat?.toLowerCase().includes('flooring')) return 'Flooring Systems';
-  if (cat?.toLowerCase().includes('casting')) return 'Casting & Art';
-  if (cat?.toLowerCase().includes('protective') || cat?.toLowerCase().includes('finishing')) return 'Protective Coatings';
-  return 'Flooring Systems';
-};
 
 const formatProductsList = (list) => {
   return (list || []).map((p) => {
-    const rawImg = p.images?.find((img) => typeof img === 'string' && img.includes('bucket')) || p.images?.[0] || '/rasin-product/primex-bucket.png';
-    const bucketImg = resolveImageUrl(rawImg);
+    const rawImgs = Array.isArray(p.images)
+      ? p.images
+      : (typeof p.images === 'string' ? JSON.parse(p.images || '[]') : []);
+
+    const primaryImg = rawImgs.find((img) => typeof img === 'string' && img.includes('bucket'))
+      || rawImgs[0]
+      || '/rasin-product/primex-bucket.png';
+
     return {
       id: p.slug || p.id,
+      slug: p.slug || p.id,
       name: p.name,
-      category: mapCategory(p.category, p.applicationCategory),
-      subtitle: p.tagline || p.chemistry,
-      image: bucketImg,
-      link: `/product/${p.id || p.slug}`
+      category: p.category || 'Flooring Resins',
+      applicationTag: p.applicationTag || p.application_tag || p.category,
+      subtitle: p.tagline || p.chemistry || 'Epoxy Polymer Formulation',
+      image: resolveImageUrl(primaryImg),
+      images: rawImgs.map(resolveImageUrl),
+      packQty: p.packQty || p.pack_qty || (p.coverage ? `${p.coverage}` : 'Standard Kit'),
+      basePrice: p.basePrice || p.base_price,
+      link: `/product/${p.slug || p.id}`
     };
   });
 };
@@ -39,7 +42,7 @@ const formatProductsList = (list) => {
 const DEFAULT_PRODUCTS = formatProductsList(productsData);
 
 export default function OurResinsSection() {
-  const [activeCategory, setActiveCategory] = useState('All Products');
+  const [activeCategory, setActiveCategory] = useState('All Materials');
   const [productsList, setProductsList] = useState(DEFAULT_PRODUCTS);
   const sliderRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -62,7 +65,7 @@ export default function OurResinsSection() {
   }, []);
 
   const filteredProducts =
-    activeCategory === 'All Products'
+    activeCategory === 'All Materials' || activeCategory === 'All Products'
       ? productsList
       : productsList.filter((p) => p.category === activeCategory);
 
@@ -85,7 +88,7 @@ export default function OurResinsSection() {
         window.removeEventListener('resize', updateScrollState);
       };
     }
-  }, [activeCategory]);
+  }, [activeCategory, filteredProducts]);
 
   const handleScroll = (direction) => {
     if (!sliderRef.current) return;
@@ -100,14 +103,17 @@ export default function OurResinsSection() {
     <section className="our-resins-section" id="explore" aria-label="Our Resins Collection">
       {/* Section Header */}
       <div className="resins-header">
-        <div className="resins-header-top">
-          <div className="resins-eyebrow">
-            <span className="resins-eyebrow-text">OUR RESINS</span>
-            <span className="resins-eyebrow-line"></span>
+        <div className="resins-header-top" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+          <div>
+            <div className="resins-eyebrow" style={{ marginBottom: '0.5rem' }}>
+              <span className="resins-eyebrow-text">OUR RESINS</span>
+              <span className="resins-eyebrow-line"></span>
+            </div>
+            <h2 className="resins-title" style={{ margin: 0 }}>The resin behind the result.</h2>
           </div>
 
-          {/* Slider Arrow Controls */}
-          <div className="resins-slider-nav">
+          {/* Slider Arrow Controls (Horizontal side-by-side) */}
+          <div className="resins-slider-nav resins-nav-controls">
             <button
               type="button"
               className={`resins-nav-btn ${!canScrollLeft ? 'disabled' : ''}`}
@@ -129,13 +135,11 @@ export default function OurResinsSection() {
           </div>
         </div>
 
-        <h2 className="resins-title">The resin behind the result.</h2>
-        
-        {/* Category Tabs */}
+        {/* Category Tabs (Exactly synced with Backend & Resins Page) */}
         <div className="resins-tabs">
           {CATEGORIES.map((cat) => {
             const count =
-              cat === 'All Products'
+              cat === 'All Materials'
                 ? productsList.length
                 : productsList.filter((p) => p.category === cat).length;
             return (
@@ -157,36 +161,65 @@ export default function OurResinsSection() {
           className="resins-slider-track"
           ref={sliderRef}
         >
-          {filteredProducts.map((product) => (
-            <div key={product.id} className="sub-product-card horizontal-slide-card">
-              {/* Free-floating Bucket Visual on the Left */}
-              <div className="sub-product-img-wrap">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="sub-product-img"
-                  loading="lazy"
-                />
-                <div className="sub-product-pedestal" />
-              </div>
+          {filteredProducts.map((product) => {
+            const hasUploadedImg = Array.isArray(product.images) && product.images.length > 0 &&
+              (product.images[0].startsWith('/uploads') || product.images[0].includes('upload') || product.images[0].startsWith('http'));
 
-              {/* Information Aside on the Right */}
-              <div className="sub-product-info">
-                <span className="sub-product-coverage-badge">50 Sq.Ft Kit</span>
-                <h3 className="sub-product-name">{product.name}</h3>
-                <p className="sub-product-subtitle">{product.subtitle}</p>
+            const displayImage = hasUploadedImg
+              ? product.images[0]
+              : (product.image || '/rasin-product/primex-bucket.png');
 
-                <Link to={product.link} className="btn-shop-product">
-                  <span>Shop Product</span>
-                  <ArrowRight size={15} strokeWidth={1.8} />
-                </Link>
+            return (
+              <div key={product.id} className="sub-product-card horizontal-slide-card">
+                {/* Visual on the Left */}
+                <div className="sub-product-img-wrap">
+                  <img
+                    src={displayImage}
+                    alt={product.name}
+                    className="sub-product-img"
+                    loading="lazy"
+                    style={hasUploadedImg ? { objectFit: 'contain', padding: '6px' } : {}}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/rasin-product/primex-bucket.png';
+                    }}
+                  />
+                  <div className="sub-product-pedestal" />
+                </div>
+
+                {/* Information Aside on the Right */}
+                <div className="sub-product-info">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+                    <span className="sub-product-coverage-badge">{product.packQty || 'Standard Kit'}</span>
+                    <span style={{ fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', color: '#8C4830', letterSpacing: '0.04em' }}>
+                      {product.category}
+                    </span>
+                  </div>
+
+                  <h3 className="sub-product-name">{product.name}</h3>
+                  <p className="sub-product-subtitle">{product.subtitle}</p>
+
+                  {product.basePrice && (
+                    <div style={{ marginTop: 'auto', marginBottom: '10px' }}>
+                      <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#718096', textTransform: 'uppercase', display: 'block' }}>
+                        Starting Price
+                      </span>
+                      <strong style={{ fontSize: '1rem', fontWeight: 800, color: '#0D2C33', fontFamily: 'monospace' }}>
+                        ₹{Number(product.basePrice).toLocaleString('en-IN')}
+                      </strong>
+                    </div>
+                  )}
+
+                  <Link to={product.link} className="btn-shop-product">
+                    <span>View Product</span>
+                    <ArrowRight size={15} strokeWidth={1.8} />
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
-
-

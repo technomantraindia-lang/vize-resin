@@ -6,10 +6,7 @@ import {
   Plus,
   Minus,
   ArrowRight,
-  ShieldCheck,
-  Truck,
-  Sparkles,
-  Lock
+  Truck
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -25,8 +22,6 @@ export default function CartDrawer() {
     activeOfferDiscount,
     offerDiscountAmount,
     getItemDiscountInfo,
-    estimatedTax,
-    taxRateLabel,
     isDrawerOpen,
     closeDrawer,
     updateQuantity,
@@ -49,6 +44,8 @@ export default function CartDrawer() {
 
   if (!isDrawerOpen) return null;
 
+  const finalTotal = Math.max(0, subtotal - offerDiscountAmount);
+
   return (
     <div className="vize-cart-drawer-overlay" onClick={closeDrawer} role="dialog" aria-modal="true">
       <div
@@ -65,7 +62,7 @@ export default function CartDrawer() {
             <div>
               <h3 className="vize-cart-title">Your Cart</h3>
               <span className="vize-cart-items-count">
-                {totalItemCount} {totalItemCount === 1 ? 'item' : 'items'} selected
+                {totalItemCount} {totalItemCount === 1 ? 'item' : 'items'}
               </span>
             </div>
           </div>
@@ -79,17 +76,17 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* Free Shipping Progress Bar */}
+        {/* Free Shipping Notice */}
         <div className="vize-shipping-progress-banner">
           <div className="vize-shipping-progress-info">
-            <Truck size={16} className="vize-shipping-icon" />
+            <Truck size={15} className="vize-shipping-icon" style={{ color: isFreeShipping ? '#34d399' : 'rgba(243,241,234,0.7)' }} />
             {isFreeShipping ? (
-              <span className="vize-shipping-qualified">
-                🎉 Congratulations! You unlocked <strong>FREE Express Shipping</strong>
+              <span style={{ color: '#34d399', fontWeight: 600 }}>
+                Free Express Delivery Unlocked
               </span>
             ) : (
-              <span className="vize-shipping-needed">
-                Add <strong>₹{amountNeededForFreeShipping.toLocaleString('en-IN')}</strong> more for <strong>FREE Delivery</strong>
+              <span>
+                Add ₹{amountNeededForFreeShipping.toLocaleString('en-IN')} more for Free Delivery
               </span>
             )}
           </div>
@@ -110,7 +107,7 @@ export default function CartDrawer() {
               </div>
               <h4 className="vize-empty-title">Your Cart is Empty</h4>
               <p className="vize-empty-desc">
-                Looks like you haven't added any speciality resins, coatings or pigments to your project kit yet.
+                Looks like you haven't added any speciality resins or tooling to your project kit yet.
               </p>
               <button
                 type="button"
@@ -120,53 +117,25 @@ export default function CartDrawer() {
                   navigate('/resins');
                 }}
               >
-                <span>Explore Resins & Pigments</span>
+                <span>Explore Products</span>
                 <ArrowRight size={16} />
               </button>
             </div>
           ) : (
-            <div>
-              {/* Active Offer Discount Banner */}
-              {offerDiscountAmount > 0 && (
-                <div style={{ margin: '10px 14px 12px', padding: '8px 12px', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '14px' }}>⚡</span>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#065f46' }}>
-                      {activeOfferDiscount?.badge || 'OFFER'}: {activeOfferDiscount?.discountPercent}% OFF Applied
-                    </span>
-                  </div>
-                  <span style={{ fontSize: '11px', fontWeight: 800, color: '#047857' }}>
-                    -₹{offerDiscountAmount.toLocaleString('en-IN')}
-                  </span>
-                </div>
-              )}
+            <div className="vize-cart-items-list">
+              {cartItems.map((item) => {
+                const discount = getItemDiscountInfo(item);
+                return (
+                  <div key={item.cartItemId} className="vize-cart-item-card">
+                    {/* Item Image */}
+                    <div className="vize-cart-item-thumb">
+                      <img src={item.image} alt={item.name} />
+                    </div>
 
-              <div className="vize-cart-items-list">
-                {cartItems.map((item) => {
-                  const discount = getItemDiscountInfo(item);
-                  return (
-                    <div key={item.cartItemId} className="vize-cart-item-card">
-                      {/* Item Image */}
-                      <div className="vize-cart-item-thumb">
-                        <img src={item.image} alt={item.name} />
-                      </div>
-
-                      {/* Item Details */}
-                      <div className="vize-cart-item-info">
-                        <div className="vize-cart-item-top">
-                          <span className="vize-cart-item-cat">{item.category}</span>
-                          <button
-                            type="button"
-                            className="vize-cart-item-remove"
-                            onClick={() => removeFromCart(item.cartItemId)}
-                            aria-label="Remove item"
-                            title="Remove from cart"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-
-                        <h4 className="vize-cart-item-name">
+                    {/* Item Details */}
+                    <div className="vize-cart-item-info">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                        <h4 className="vize-cart-item-name" style={{ margin: 0 }}>
                           <Link
                             to={`/product/${item.productId}`}
                             onClick={closeDrawer}
@@ -175,9 +144,20 @@ export default function CartDrawer() {
                             {item.name}
                           </Link>
                         </h4>
+                        <button
+                          type="button"
+                          className="vize-cart-item-remove"
+                          onClick={() => removeFromCart(item.cartItemId)}
+                          aria-label="Remove item"
+                          title="Remove item"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
 
-                        {/* Variant & Color details */}
-                        <div className="vize-cart-item-specs">
+                      {/* Variant & Color details */}
+                      {(item.size || item.color) && (
+                        <div className="vize-cart-item-specs" style={{ margin: '6px 0 8px' }}>
                           {item.size && (
                             <span className="vize-item-spec-pill">{item.size.label}</span>
                           )}
@@ -193,65 +173,52 @@ export default function CartDrawer() {
                               <span>{item.color.name}</span>
                             </span>
                           )}
-                          {item.taxRate !== undefined && item.taxRate !== null && (
-                            <span className="vize-item-spec-pill" style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', fontWeight: 700 }}>
-                              {item.taxRate}% GST
+                        </div>
+                      )}
+
+                      {/* Price and Quantity Controls */}
+                      <div className="vize-cart-item-bottom" style={{ marginTop: 'auto', paddingTop: '4px' }}>
+                        <div className="vize-cart-item-price">
+                          {discount.hasDiscount ? (
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                              <span style={{ color: '#34d399', fontWeight: 700, fontSize: '0.98rem' }}>
+                                {item.currency} {(discount.discountedPrice * item.quantity).toLocaleString('en-IN')}
+                              </span>
+                              <span style={{ textDecoration: 'line-through', color: 'rgba(243, 241, 234, 0.4)', fontSize: '0.8rem' }}>
+                                {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
+                              </span>
+                            </div>
+                          ) : (
+                            <span style={{ color: '#F3F1EA', fontWeight: 700, fontSize: '0.98rem' }}>
+                              {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
                             </span>
                           )}
                         </div>
 
-                        {/* Price and Quantity Controls */}
-                        <div className="vize-cart-item-bottom">
-                          <div className="vize-cart-item-price">
-                            {discount.hasDiscount ? (
-                              <div>
-                                <span style={{ color: '#16a34a', fontWeight: 800 }}>
-                                  {item.currency} {(discount.discountedPrice * item.quantity).toLocaleString('en-IN')}
-                                </span>
-                                <span style={{ textDecoration: 'line-through', color: '#94a3b8', fontSize: '11px', marginLeft: '6px' }}>
-                                  {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
-                                </span>
-                                <span style={{ background: '#dcfce7', color: '#15803d', fontSize: '10px', fontWeight: 800, padding: '1px 5px', borderRadius: '4px', marginLeft: '6px' }}>
-                                  {discount.discountPercent}% OFF
-                                </span>
-                              </div>
-                            ) : (
-                              <>
-                                {item.currency} {(item.price * item.quantity).toLocaleString('en-IN')}
-                                {item.quantity > 1 && (
-                                  <span className="vize-unit-price">
-                                    ({item.currency} {item.price.toLocaleString('en-IN')} each)
-                                  </span>
-                                )}
-                              </>
-                            )}
-                          </div>
-
-                          <div className="vize-cart-stepper">
-                            <button
-                              type="button"
-                              className="vize-drawer-step-btn"
-                              onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                              aria-label="Decrease quantity"
-                            >
-                              <Minus size={13} />
-                            </button>
-                            <span className="vize-drawer-step-qty">{item.quantity}</span>
-                            <button
-                              type="button"
-                              className="vize-drawer-step-btn"
-                              onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                              aria-label="Increase quantity"
-                            >
-                              <Plus size={13} />
-                            </button>
-                          </div>
+                        <div className="vize-cart-stepper">
+                          <button
+                            type="button"
+                            className="vize-drawer-step-btn"
+                            onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus size={13} />
+                          </button>
+                          <span className="vize-drawer-step-qty">{item.quantity}</span>
+                          <button
+                            type="button"
+                            className="vize-drawer-step-btn"
+                            onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                            aria-label="Increase quantity"
+                          >
+                            <Plus size={13} />
+                          </button>
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
@@ -259,39 +226,38 @@ export default function CartDrawer() {
         {/* Drawer Footer */}
         {cartItems.length > 0 && (
           <div className="vize-cart-drawer-footer">
-            {/* Subtotal summary */}
+            {/* Subtotal */}
             <div className="vize-drawer-subtotal-row">
               <span className="vize-drawer-subtotal-label">Subtotal</span>
-              <span className="vize-drawer-subtotal-val">
+              <span className="vize-drawer-subtotal-val" style={{ fontSize: '1.05rem', fontWeight: 600, color: '#F3F1EA' }}>
                 ₹{subtotal.toLocaleString('en-IN')}
               </span>
             </div>
 
-            {/* Offer Discount Cut */}
+            {/* Discount row if active */}
             {offerDiscountAmount > 0 && (
-              <div className="vize-drawer-subtotal-row" style={{ color: '#16a34a', fontWeight: 700 }}>
-                <span className="vize-drawer-subtotal-label" style={{ color: '#15803d' }}>
-                  ⚡ {activeOfferDiscount?.badge || 'Offer Discount'} ({activeOfferDiscount?.discountPercent}% OFF)
+              <div className="vize-drawer-subtotal-row" style={{ color: '#34d399' }}>
+                <span className="vize-drawer-subtotal-label" style={{ color: '#34d399' }}>
+                  Discount ({activeOfferDiscount?.discountPercent || 15}%)
                 </span>
-                <span className="vize-drawer-subtotal-val" style={{ color: '#15803d' }}>
+                <span className="vize-drawer-subtotal-val" style={{ color: '#34d399', fontSize: '1.05rem', fontWeight: 600 }}>
                   -₹{offerDiscountAmount.toLocaleString('en-IN')}
                 </span>
               </div>
             )}
 
-            <div className="vize-drawer-subtotal-row" style={{ fontWeight: 800, fontSize: '1.05rem', borderTop: '1px dashed #e2e8f0', paddingTop: '8px', marginTop: '6px' }}>
-              <span className="vize-drawer-subtotal-label" style={{ color: '#0f172a' }}>Estimated Total</span>
-              <span className="vize-drawer-subtotal-val" style={{ color: '#0f172a' }}>
-                ₹{(subtotal - offerDiscountAmount).toLocaleString('en-IN')}
+            {/* Total */}
+            <div className="vize-drawer-subtotal-row" style={{ borderTop: '1px solid rgba(243, 241, 234, 0.12)', paddingTop: '10px', marginTop: '6px', marginBottom: '14px' }}>
+              <span className="vize-drawer-subtotal-label" style={{ color: '#F3F1EA', fontSize: '1.05rem', fontWeight: 600 }}>
+                Total
+              </span>
+              <span className="vize-drawer-subtotal-val" style={{ color: '#F3F1EA', fontSize: '1.35rem', fontWeight: 700 }}>
+                ₹{finalTotal.toLocaleString('en-IN')}
               </span>
             </div>
 
-            <p className="vize-drawer-tax-note">
-              Includes {taxRateLabel || '18% GST'} (₹{estimatedTax.toLocaleString('en-IN')}) · Free shipping on qualifying orders
-            </p>
-
-            {/* CTAs */}
-            <div className="vize-drawer-cta-group">
+            {/* Action Buttons */}
+            <div className="vize-drawer-cta-group" style={{ marginBottom: 0 }}>
               <button
                 type="button"
                 className="vize-drawer-view-cart-btn"
@@ -300,32 +266,19 @@ export default function CartDrawer() {
                   navigate('/cart');
                 }}
               >
-                <span>View Full Cart</span>
+                View Cart
               </button>
               <button
                 type="button"
                 className="vize-drawer-checkout-btn"
                 onClick={() => {
                   closeDrawer();
-                  navigate('/cart');
+                  navigate('/checkout');
                 }}
               >
-                <Lock size={15} />
-                <span>Checkout Now</span>
+                <span>Checkout</span>
                 <ArrowRight size={15} />
               </button>
-            </div>
-
-            {/* Trust Assurance */}
-            <div className="vize-drawer-trust-badges">
-              <div className="vize-drawer-trust-item">
-                <ShieldCheck size={14} className="vize-trust-icon" />
-                <span>100% Genuine Polymer Formulations</span>
-              </div>
-              <div className="vize-drawer-trust-item">
-                <Sparkles size={14} className="vize-trust-icon" />
-                <span>Laboratory Verified Batch Specs</span>
-              </div>
             </div>
           </div>
         )}

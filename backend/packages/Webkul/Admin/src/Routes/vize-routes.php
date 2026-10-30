@@ -82,6 +82,8 @@ Route::prefix('vize')->name('admin.vize.')->group(function () {
     // 5. Bento Showcase / Our Work Gallery
     Route::get('showcase', [VizeShowcaseController::class, 'index'])->name('showcase.index');
     Route::post('showcase', [VizeShowcaseController::class, 'store'])->name('showcase.store');
+    Route::match(['post', 'put'], 'showcase/{id}/update', [VizeShowcaseController::class, 'update'])->name('showcase.update');
+    Route::match(['post', 'put'], 'showcase/{id}', [VizeShowcaseController::class, 'update']);
     Route::match(['post', 'delete'], 'showcase/{id}/delete', [VizeShowcaseController::class, 'destroy'])->name('showcase.delete');
     Route::delete('showcase/{id}', [VizeShowcaseController::class, 'destroy'])->name('showcase.destroy');
     Route::post('showcase/inquiries/{id}/status', [VizeShowcaseController::class, 'updateInquiryStatus'])->name('showcase.inquiries.update_status');

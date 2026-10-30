@@ -17,6 +17,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TransformationSection from '../components/TransformationSection';
 import INITIAL_SHOWCASE from '../data/showcase.json';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 const FILTER_TABS = [
   { id: 'all', label: 'All Works' },
@@ -67,15 +68,37 @@ export default function OurWorkPage() {
     let isMounted = true;
     const fetchShowcaseData = async () => {
       try {
-        const response = await fetch('/api/showcase');
-        if (response.ok) {
-          const liveData = await response.json();
-          if (isMounted && Array.isArray(liveData) && liveData.length > 0) {
-            setShowcaseProjects(liveData);
-          }
+        const json = await fetchFromApi('/api/vize/showcase');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          const liveFormatted = json.data.map((p) => {
+            const rawImg = p.image || p.image_url || '/commercial.png';
+            return {
+              ...p,
+              id: 'showcase-db-' + p.id,
+              title: p.title,
+              image: resolveImageUrl(rawImg),
+              category: p.category || (p.category_pill?.toLowerCase().includes('floor') ? 'Resin Flooring' : 'Custom Tables'),
+              subcategory: p.subcategory || p.client_type || 'Custom Commission',
+              tagline: p.tagline || p.description || 'Custom handcrafted architectural resin installation.',
+              description: p.description || p.tagline || '',
+              location: p.location || p.client_type || 'Custom Studio',
+              area: p.area || (p.pour_depth ? `${p.pour_depth}` : 'Bespoke Scale'),
+              productsUsed: p.productsUsed || [
+                { name: p.formulation || 'VIZE Specialty Resin', role: 'System', link: '/resins' }
+              ],
+              stats: p.stats || {
+                'Hardness': p.hardness || '85 Shore D',
+                'Pour Depth': p.pour_depth || '75 mm',
+                'UV Stability': p.uv_stability || 'Class 1 UV Shield'
+              }
+            };
+          });
+
+          // Prepend newly added live database projects at the top of the showcase
+          setShowcaseProjects([...liveFormatted, ...INITIAL_SHOWCASE]);
         }
       } catch (err) {
-        // Fallback to bundled JSON
+        console.warn('Fallback to bundled showcase data', err);
       }
     };
 

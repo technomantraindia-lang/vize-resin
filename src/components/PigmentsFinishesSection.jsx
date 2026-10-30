@@ -1,44 +1,46 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Download, FileText, ExternalLink, Sparkles, Check, ChevronRight, X } from 'lucide-react';
 import ralColors from '../data/ralColors.json';
+import pigmentsData from '../data/pigments.json';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
-const PIGMENT_TABS = ['Opaque', 'Metallic', 'Pearl Powder', 'Granual Epoxy', 'RAL Classic Chart (200+)'];
+const DEFAULT_PIGMENT_TABS = ['Opaque', 'Metallic', 'Pearl Powder', 'Granual Epoxy', 'RAL Classic Chart (200+)'];
 
-const SWATCHES = {
+const DEFAULT_SWATCHES = {
   Opaque: [
-    { id: 'petrol-teal', name: 'Petrol Teal', image: '/colors/Petrol Teal.png' },
-    { id: 'copper', name: 'Copper', image: '/colors/Copper.png' },
-    { id: 'deep-blue', name: 'Deep Blue', image: '/colors/Deep Blue.png' },
-    { id: 'silver', name: 'Silver', image: '/colors/Silver.png' },
-    { id: 'pearl', name: 'Pearl', image: '/colors/Pearl.png' },
-    { id: 'charcoal', name: 'Charcoal', image: '/colors/Charcoal.png' },
+    { id: 'petrol-teal', name: 'Petrol Teal', hex: '#005f73', image: '/colors/Petrol Teal.png' },
+    { id: 'copper', name: 'Copper', hex: '#b87333', image: '/colors/Copper.png' },
+    { id: 'deep-blue', name: 'Deep Blue', hex: '#002855', image: '/colors/Deep Blue.png' },
+    { id: 'silver', name: 'Silver', hex: '#c0c0c0', image: '/colors/Silver.png' },
+    { id: 'pearl', name: 'Pearl', hex: '#f5f5f0', image: '/colors/Pearl.png' },
+    { id: 'charcoal', name: 'Charcoal', hex: '#1a1a1a', image: '/colors/Charcoal.png' },
   ],
   Metallic: [
-    { id: 'liquid-gold', name: 'Liquid Gold', image: '/colors/Liquid Gold.png' },
-    { id: 'bronze-vein', name: 'Bronze Vein', image: '/colors/Bronze Vein.png' },
-    { id: 'titanium', name: 'Titanium', image: '/colors/Titanium.png' },
-    { id: 'emerald-spark', name: 'Emerald Spark', image: '/colors/Emerald Spark.png' },
-    { id: 'ruby-smoke', name: 'Ruby Smoke', image: '/colors/Ruby Smoke.png' },
-    { id: 'obsidian', name: 'Obsidian', image: '/colors/Obsidian.png' },
+    { id: 'liquid-gold', name: 'Liquid Gold', hex: '#ffd700', image: '/colors/Liquid Gold.png' },
+    { id: 'bronze-vein', name: 'Bronze Vein', hex: '#cd7f32', image: '/colors/Bronze Vein.png' },
+    { id: 'titanium', name: 'Titanium', hex: '#878681', image: '/colors/Titanium.png' },
+    { id: 'emerald-spark', name: 'Emerald Spark', hex: '#2ecc71', image: '/colors/Emerald Spark.png' },
+    { id: 'ruby-smoke', name: 'Ruby Smoke', hex: '#8b0000', image: '/colors/Ruby Smoke.png' },
+    { id: 'obsidian', name: 'Obsidian', hex: '#1c1c1c', image: '/colors/Obsidian.png' },
   ],
   'Pearl Powder': [
-    { id: 'moonstone', name: 'Moonstone', image: '/colors/Moonstone.png' },
-    { id: 'sunburst', name: 'Sunburst', image: '/colors/Sunburst.png' },
-    { id: 'rose-quartz', name: 'Rose Quartz', image: '/colors/Rose Quartz.png' },
-    { id: 'sapphire-mist', name: 'Sapphire Mist', image: '/colors/Sapphire Mist.png' },
-    { id: 'champagne', name: 'Champagne', image: '/colors/Champagne.png' },
-    { id: 'graphite', name: 'Graphite', image: '/colors/Graphite.png' },
+    { id: 'moonstone', name: 'Moonstone', hex: '#e0e6ed', image: '/colors/Moonstone.png' },
+    { id: 'sunburst', name: 'Sunburst', hex: '#f39c12', image: '/colors/Sunburst.png' },
+    { id: 'rose-quartz', name: 'Rose Quartz', hex: '#f4a6b8', image: '/colors/Rose Quartz.png' },
+    { id: 'sapphire-mist', name: 'Sapphire Mist', hex: '#2980b9', image: '/colors/Sapphire Mist.png' },
+    { id: 'champagne', name: 'Champagne', hex: '#f7e7ce', image: '/colors/Champagne.png' },
+    { id: 'graphite', name: 'Graphite', hex: '#3d3d3d', image: '/colors/Graphite.png' },
   ],
   'Granual Epoxy': [
-    { id: 'black-white', name: 'Black & White', image: '/colors/granules/black-white-blend.png', preview: '/colors/granules/black-white-blend-preview.jpg', desc: 'High-contrast monochrome flake broadcast' },
-    { id: 'gray-blend', name: 'Gray Blend', image: '/colors/granules/gray-blend.png', preview: '/colors/granules/gray-blend-preview.jpg', desc: 'Neutral slate & ash multi-tone composite' },
-    { id: 'tan-blend', name: 'Tan Blend', image: '/colors/granules/tan-blend.png', preview: '/colors/granules/tan-blend-preview.jpg', desc: 'Warm earth & desert sand mineral blend' },
-    { id: 'beige-blend', name: 'Beige Blend', image: '/colors/granules/beige-blend.png', preview: '/colors/granules/beige-blend-preview.jpg', desc: 'Cream & almond architectural flake matrix' },
-    { id: 'blue-blend', name: 'Blue Blend', image: '/colors/granules/blue-blend.png', preview: '/colors/granules/blue-blend-preview.jpg', desc: 'Cobalt & sapphire showroom polymer flakes' },
-    { id: 'red-blend', name: 'Red Blend', image: '/colors/granules/red-blend.png', preview: '/colors/granules/red-blend-preview.jpg', desc: 'Crimson & terracotta accent granules' },
-    { id: 'green-blend', name: 'Green Blend', image: '/colors/granules/green-blend.png', preview: '/colors/granules/green-blend-preview.jpg', desc: 'Forest & olive botanical quartz flake blend' },
-    { id: 'blue-gray-blend', name: 'Blue Gray Blend', image: '/colors/granules/blue-gray-blend.png', preview: '/colors/granules/blue-gray-blend-preview.jpg', desc: 'Steel gray & arctic blue heavy-duty coating' },
+    { id: 'black-white', name: 'Black & White', hex: '#222222', image: '/colors/granules/black-white-blend.png', preview: '/colors/granules/black-white-blend-preview.jpg', desc: 'High-contrast monochrome flake broadcast' },
+    { id: 'gray-blend', name: 'Gray Blend', hex: '#7f8c8d', image: '/colors/granules/gray-blend.png', preview: '/colors/granules/gray-blend-preview.jpg', desc: 'Neutral slate & ash multi-tone composite' },
+    { id: 'tan-blend', name: 'Tan Blend', hex: '#d2b48c', image: '/colors/granules/tan-blend.png', preview: '/colors/granules/tan-blend-preview.jpg', desc: 'Warm earth & desert sand mineral blend' },
+    { id: 'beige-blend', name: 'Beige Blend', hex: '#f5f5dc', image: '/colors/granules/beige-blend.png', preview: '/colors/granules/beige-blend-preview.jpg', desc: 'Cream & almond architectural flake matrix' },
+    { id: 'blue-blend', name: 'Blue Blend', hex: '#1f4e79', image: '/colors/granules/blue-blend.png', preview: '/colors/granules/blue-blend-preview.jpg', desc: 'Cobalt & sapphire showroom polymer flakes' },
+    { id: 'red-blend', name: 'Red Blend', hex: '#a93226', image: '/colors/granules/red-blend.png', preview: '/colors/granules/red-blend-preview.jpg', desc: 'Crimson & terracotta accent granules' },
+    { id: 'green-blend', name: 'Green Blend', hex: '#27ae60', image: '/colors/granules/green-blend.png', preview: '/colors/granules/green-blend-preview.jpg', desc: 'Forest & olive botanical quartz flake blend' },
+    { id: 'blue-gray-blend', name: 'Blue Gray Blend', hex: '#4a607a', image: '/colors/granules/blue-gray-blend.png', preview: '/colors/granules/blue-gray-blend-preview.jpg', desc: 'Steel gray & arctic blue heavy-duty coating' },
   ],
 };
 
@@ -55,9 +57,47 @@ const RAL_GROUPS = [
   'Whites & Blacks'
 ];
 
+function buildSwatchesFromData(categories) {
+  const map = { ...DEFAULT_SWATCHES };
+  if (!Array.isArray(categories)) return map;
+
+  categories.forEach((cat) => {
+    let tabName = cat.name;
+    const norm = (cat.name || '').toLowerCase();
+    if (norm.includes('opaque')) tabName = 'Opaque';
+    else if (norm.includes('metallic')) tabName = 'Metallic';
+    else if (norm.includes('pearl')) tabName = 'Pearl Powder';
+    else if (norm.includes('granual') || norm.includes('granule')) tabName = 'Granual Epoxy';
+
+    if (Array.isArray(cat.shades) && cat.shades.length > 0) {
+      map[tabName] = cat.shades.map((s) => {
+        const rawImg = s.image || s.image_url || `/colors/${s.name}.png`;
+        const rawPreview = s.preview || s.preview_url || rawImg;
+        return {
+          id: s.id || (s.code ? String(s.code).toLowerCase() : String(s.name).toLowerCase().replace(/\s+/g, '-')),
+          name: s.name,
+          code: s.code || '',
+          hex: s.hex || s.hex_color || '#ffd700',
+          image: resolveImageUrl(rawImg),
+          preview: resolveImageUrl(rawPreview),
+          desc: s.desc || s.description || '',
+          stockStatus: s.stock_status || 'In Stock',
+        };
+      });
+    }
+  });
+
+  return map;
+}
+
 export default function PigmentsFinishesSection() {
-  const [activeTab, setActiveTab] = useState('Opaque');
-  const [selectedSwatch, setSelectedSwatch] = useState(SWATCHES['Opaque'][0]);
+  const [swatchesMap, setSwatchesMap] = useState(() => buildSwatchesFromData(pigmentsData));
+  const [tabsList, setTabsList] = useState(DEFAULT_PIGMENT_TABS);
+  const [activeTab, setActiveTab] = useState('Metallic');
+  const [selectedSwatch, setSelectedSwatch] = useState(() => {
+    const initialMetallic = buildSwatchesFromData(pigmentsData)['Metallic'] || DEFAULT_SWATCHES['Metallic'];
+    return initialMetallic[0];
+  });
   const [hoveredSwatch, setHoveredSwatch] = useState(null);
 
   // RAL Chart specific state
@@ -65,6 +105,59 @@ export default function PigmentsFinishesSection() {
   const [ralSearchQuery, setRalSearchQuery] = useState('');
   const [selectedRalColor, setSelectedRalColor] = useState(ralColors[45] || ralColors[0]); // Default to RAL 3003 Ruby red
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+
+  // Fetch live categories and shades from backend API
+  useEffect(() => {
+    let isMounted = true;
+    async function loadLivePigments() {
+      try {
+        const json = await fetchFromApi('/api/vize/pigments');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          const newMap = buildSwatchesFromData(json.data);
+          const dynamicTabs = [];
+
+          json.data.forEach((cat) => {
+            const isRal = cat.id === 'ral' || cat.slug === 'ral' || (cat.name && cat.name.includes('RAL'));
+            if (isRal) return;
+
+            let tabName = cat.name;
+            const norm = (cat.name || '').toLowerCase();
+            if (norm.includes('opaque')) tabName = 'Opaque';
+            else if (norm.includes('metallic')) tabName = 'Metallic';
+            else if (norm.includes('pearl')) tabName = 'Pearl Powder';
+            else if (norm.includes('granual') || norm.includes('granule')) tabName = 'Granual Epoxy';
+
+            if (!dynamicTabs.includes(tabName)) {
+              dynamicTabs.push(tabName);
+            }
+          });
+
+          if (!dynamicTabs.includes('RAL Classic Chart (200+)')) {
+            dynamicTabs.push('RAL Classic Chart (200+)');
+          }
+
+          setTabsList(dynamicTabs);
+          setSwatchesMap(newMap);
+
+          setActiveTab((curTab) => {
+            const currentList = newMap[curTab] || [];
+            if (currentList.length > 0) {
+              setSelectedSwatch((curSelected) => {
+                const found = currentList.find((s) => s.id === curSelected?.id || s.name === curSelected?.name);
+                return found || currentList[0];
+              });
+            }
+            return curTab;
+          });
+        }
+      } catch (err) {
+        // Fallback gracefully
+      }
+    }
+
+    loadLivePigments();
+    return () => { isMounted = false; };
+  }, []);
 
   const isRalMode = activeTab === 'RAL Classic Chart (200+)';
 
@@ -82,13 +175,16 @@ export default function PigmentsFinishesSection() {
     });
   }, [selectedRalGroup, ralSearchQuery]);
 
-  const swatches = SWATCHES[activeTab] || SWATCHES['Opaque'];
-  const currentPreview = hoveredSwatch || selectedSwatch || swatches[0];
+  const swatches = swatchesMap[activeTab] || swatchesMap['Metallic'] || swatchesMap['Opaque'] || [];
+  const currentPreview = hoveredSwatch || selectedSwatch || swatches[0] || {};
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     if (tab !== 'RAL Classic Chart (200+)') {
-      setSelectedSwatch(SWATCHES[tab][0]);
+      const list = swatchesMap[tab] || [];
+      if (list.length > 0) {
+        setSelectedSwatch(list[0]);
+      }
     }
     setHoveredSwatch(null);
   };
@@ -135,7 +231,7 @@ export default function PigmentsFinishesSection() {
 
         {/* Category Sub-tabs */}
         <div className="pigments-tabs">
-          {PIGMENT_TABS.map((tab) => (
+          {tabsList.map((tab) => (
             <button
               key={tab}
               type="button"
@@ -159,7 +255,7 @@ export default function PigmentsFinishesSection() {
             <div className="pigments-info-col">
               <div className="pigments-swatches-row">
                 {swatches.map((swatch) => {
-                  const isSelected = selectedSwatch.id === swatch.id;
+                  const isSelected = selectedSwatch?.id === swatch.id;
                   const isHovered = hoveredSwatch?.id === swatch.id;
                   return (
                     <button
@@ -174,12 +270,18 @@ export default function PigmentsFinishesSection() {
                       title={swatch.name}
                       aria-label={`Select ${swatch.name} finish`}
                     >
-                      <div className="pigment-swatch-circle">
+                      <div
+                        className="pigment-swatch-circle"
+                        style={{ backgroundColor: swatch.hex || '#cbd5e1' }}
+                      >
                         <img
                           src={swatch.image}
                           alt={swatch.name}
                           className="swatch-img"
                           loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.opacity = '0';
+                          }}
                         />
                         <div className="swatch-inner-gloss" />
                       </div>
@@ -201,12 +303,23 @@ export default function PigmentsFinishesSection() {
 
             {/* Right Column: Dynamic Live Preview Texture Banner */}
             <div className="pigments-banner-col">
-              <div className="pigments-banner-card">
+              <div
+                className="pigments-banner-card"
+                style={{
+                  backgroundColor: currentPreview?.hex || '#0b1519',
+                  background: currentPreview?.hex
+                    ? `radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.45) 0%, transparent 45%), radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.4) 0%, transparent 50%), linear-gradient(135deg, ${currentPreview.hex} 0%, #0b1519 100%)`
+                    : '#0b1519'
+                }}
+              >
                 <img
-                  key={currentPreview.id}
+                  key={currentPreview.id || currentPreview.name}
                   src={currentPreview.preview || currentPreview.image}
                   alt={`${currentPreview.name} pigment resin texture`}
                   className={`pigments-banner-img dynamic-fade ${activeTab === 'Granual Epoxy' ? 'granule-banner-fit' : ''}`}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
                 />
                 <div className="pigments-banner-overlay">
                   <div className="pigments-active-name-badge">
@@ -218,8 +331,12 @@ export default function PigmentsFinishesSection() {
 
                   {activeTab === 'Granual Epoxy' ? (
                     <div className="granules-active-blend-badge">
-                      <div className="granule-mini-swatch">
-                        <img src={currentPreview.image} alt={currentPreview.name} />
+                      <div className="granule-mini-swatch" style={{ backgroundColor: currentPreview.hex || '#222' }}>
+                        <img
+                          src={currentPreview.image}
+                          alt={currentPreview.name}
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
                       </div>
                       <div className="granule-mini-info">
                         <span className="granule-feature-pill">Textured • Durable • Decorative</span>

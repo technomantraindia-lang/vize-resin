@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ralColors from '../data/ralColors.json';
+import pigmentsData from '../data/pigments.json';
 import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
 const RAL_GROUPS = [
@@ -130,7 +131,12 @@ export default function PigmentsOrderSection() {
   const { addToCart } = useCart();
 
   // Dynamic Categories State (Initializes with default categories, synced from backend API)
-  const [categories, setCategories] = useState(PIGMENT_CATEGORIES);
+  const [categories, setCategories] = useState(() => {
+    if (Array.isArray(pigmentsData) && pigmentsData.length > 0) {
+      return pigmentsData;
+    }
+    return PIGMENT_CATEGORIES;
+  });
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(1);
   const currentCategory = categories[activeCategoryIndex] || categories[0] || PIGMENT_CATEGORIES[0];
 

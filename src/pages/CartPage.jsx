@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ShoppingBag,
   Trash2,
@@ -51,6 +51,7 @@ const RECOMMENDED_ADDONS = [
 ];
 
 export default function CartPage() {
+  const navigate = useNavigate();
   const {
     cartItems,
     totalItemCount,
@@ -79,11 +80,7 @@ export default function CartPage() {
 
   // Handle Checkout click
   const handleProceedCheckout = () => {
-    setIsCheckingOut(true);
-    setTimeout(() => {
-      setIsCheckingOut(false);
-      setCheckoutSuccess(true);
-    }, 1200);
+    navigate('/checkout');
   };
 
   return (

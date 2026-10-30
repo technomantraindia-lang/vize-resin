@@ -32,15 +32,47 @@ class VizeCustomerController extends Controller
 
             // 2. Ensure default customer groups exist if table exists
             if (Schema::hasTable('customer_groups')) {
-                $groupsCount = DB::table('customer_groups')->count();
-                if ($groupsCount === 0) {
-                    DB::table('customer_groups')->insert([
-                        ['name' => 'General (Retail)', 'code' => 'general', 'created_at' => now(), 'updated_at' => now()],
-                        ['name' => 'Contractor & Applicator (15% Trade)', 'code' => 'contractor', 'created_at' => now(), 'updated_at' => now()],
-                        ['name' => 'Resin Artist & Woodworker (10% Trade)', 'code' => 'artist', 'created_at' => now(), 'updated_at' => now()],
-                        ['name' => 'Architect & Interior Designer (15% Trade)', 'code' => 'architect', 'created_at' => now(), 'updated_at' => now()],
-                        ['name' => 'Wholesale Distributor (25% Bulk)', 'code' => 'wholesale', 'created_at' => now(), 'updated_at' => now()],
-                    ]);
+                $defaultGroups = [
+                    ['name' => 'General (Retail)', 'code' => 'general'],
+                    ['name' => 'Contractor & Applicator (15% Trade)', 'code' => 'contractor'],
+                    ['name' => 'Resin Artist & Woodworker (10% Trade)', 'code' => 'artist'],
+                    ['name' => 'Architect & Interior Designer (15% Trade)', 'code' => 'architect'],
+                    ['name' => 'Wholesale Distributor (25% Bulk)', 'code' => 'wholesale'],
+                ];
+                foreach ($defaultGroups as $group) {
+                    if (!DB::table('customer_groups')->where('code', $group['code'])->exists()) {
+                        DB::table('customer_groups')->insert([
+                            'name'            => $group['name'],
+                            'code'            => $group['code'],
+                            'is_user_defined' => 1,
+                            'created_at'      => now(),
+                            'updated_at'      => now(),
+                        ]);
+                    }
+                }
+            }
+
+            // 3. Ensure customers table helper columns exist
+            if (Schema::hasTable('customers')) {
+                if (!Schema::hasColumn('customers', 'company_name')) {
+                    Schema::table('customers', function ($table) {
+                        $table->string('company_name')->nullable()->after('last_name');
+                    });
+                }
+                if (!Schema::hasColumn('customers', 'gstin')) {
+                    Schema::table('customers', function ($table) {
+                        $table->string('gstin', 50)->nullable()->after('company_name');
+                    });
+                }
+                if (!Schema::hasColumn('customers', 'registered_role')) {
+                    Schema::table('customers', function ($table) {
+                        $table->string('registered_role', 100)->nullable()->after('gstin');
+                    });
+                }
+                if (!Schema::hasColumn('customers', 'notes')) {
+                    Schema::table('customers', function ($table) {
+                        $table->text('notes')->nullable()->after('password');
+                    });
                 }
             }
         } catch (\Exception $e) {
@@ -92,6 +124,73 @@ class VizeCustomerController extends Controller
                         $stat = $orderStats->get($c->id);
                         $c->total_orders = $stat ? (int) $stat->total_orders : 0;
                         $c->total_spent = $stat ? (float) $stat->total_spent : 0.0;
+                        return $c;
+                    });
+                }
+
+                // Attach customer addresses if addresses table exists
+                if (Schema::hasTable('addresses') && $customers->isNotEmpty()) {
+                    $addresses = DB::table('addresses')
+                        ->whereIn('customer_id', $customers->pluck('id'))
+                        ->orderBy('default_address', 'desc')
+                        ->get()
+                        ->groupBy('customer_id');
+
+                    $customers->transform(function ($c) use ($addresses) {
+                        $custAddrs = $addresses->get($c->id, collect());
+                        $c->addresses = $custAddrs;
+                        $c->saved_addresses = $custAddrs;
+                        $c->primary_address = $custAddrs->first();
+                        return $c;
+                    });
+                }
+
+                // Attach customer order history with items if orders table exists
+                if (Schema::hasTable('orders') && $customers->isNotEmpty()) {
+                    $customerOrders = DB::table('orders')
+                        ->whereIn('customer_id', $customers->pluck('id'))
+                        ->orderBy('id', 'desc')
+                        ->get();
+
+                    $orderIds = $customerOrders->pluck('id');
+                    $orderItems = (Schema::hasTable('order_items') && $orderIds->isNotEmpty())
+                        ? DB::table('order_items')->whereIn('order_id', $orderIds)->get()->groupBy('order_id')
+                        : collect();
+
+                    $customerOrders->transform(function ($ord) use ($orderItems) {
+                        $ord->items = $orderItems->get($ord->id, collect());
+                        return $ord;
+                    });
+
+                    $groupedOrders = $customerOrders->groupBy('customer_id');
+
+                    $customers->transform(function ($c) use ($groupedOrders) {
+                        $c->customer_orders = $groupedOrders->get($c->id, collect());
+                        return $c;
+                    });
+                }
+
+                // Attach active saved cart items if cart table exists
+                if (Schema::hasTable('cart') && $customers->isNotEmpty()) {
+                    $activeCarts = DB::table('cart')
+                        ->whereIn('customer_id', $customers->pluck('id'))
+                        ->where('is_active', 1)
+                        ->get();
+
+                    $cartIds = $activeCarts->pluck('id');
+                    $cartItems = (Schema::hasTable('cart_items') && $cartIds->isNotEmpty())
+                        ? DB::table('cart_items')->whereIn('cart_id', $cartIds)->get()->groupBy('cart_id')
+                        : collect();
+
+                    $activeCarts->transform(function ($crt) use ($cartItems) {
+                        $crt->items = $cartItems->get($crt->id, collect());
+                        return $crt;
+                    });
+
+                    $groupedCarts = $activeCarts->keyBy('customer_id');
+
+                    $customers->transform(function ($c) use ($groupedCarts) {
+                        $c->saved_cart = $groupedCarts->get($c->id, null);
                         return $c;
                     });
                 }
@@ -178,8 +277,12 @@ class VizeCustomerController extends Controller
             DB::table('customers')->insert([
                 'first_name'        => $request->input('first_name'),
                 'last_name'         => $request->input('last_name') ?: '',
+                'company_name'      => $request->input('company_name') ?: null,
+                'gstin'             => $request->input('gstin') ?: null,
+                'registered_role'   => $request->input('registered_role') ?: null,
                 'email'             => $request->input('email'),
                 'phone'             => $request->input('phone') ?: null,
+                'extra_phone'       => $request->input('extra_phone') ?: null,
                 'customer_group_id' => $groupId,
                 'status'            => (int) $request->input('status', 1),
                 'is_verified'       => 1,
@@ -211,8 +314,12 @@ class VizeCustomerController extends Controller
             $data = [
                 'first_name'        => $request->input('first_name'),
                 'last_name'         => $request->input('last_name') ?: '',
+                'company_name'      => $request->input('company_name') ?: null,
+                'gstin'             => $request->input('gstin') ?: null,
+                'registered_role'   => $request->input('registered_role') ?: null,
                 'email'             => $request->input('email'),
                 'phone'             => $request->input('phone') ?: null,
+                'extra_phone'       => $request->input('extra_phone') ?: null,
                 'customer_group_id' => $request->input('customer_group_id'),
                 'status'            => (int) $request->input('status', 1),
                 'updated_at'        => now(),

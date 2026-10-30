@@ -13,14 +13,35 @@ export default defineConfig({
         secure: false,
       },
       '/uploads': {
-        target: 'https://vize-resin-production.up.railway.app',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
         secure: false,
       },
       '/colors/uploads': {
-        target: 'https://vize-resin-production.up.railway.app',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
         secure: false,
+      },
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'vendor-react';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+            return 'vendor-libs';
+          }
+          if (id.includes('src/data/pigments.json')) {
+            return 'data-pigments';
+          }
+        },
       },
     },
   },

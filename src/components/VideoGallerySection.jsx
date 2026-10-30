@@ -75,8 +75,8 @@ export default function VideoGallerySection() {
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
 
     // Calculate approximate active card index
-    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 340;
-    const index = Math.round(scrollLeft / (cardWidth + 24));
+    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 240;
+    const index = Math.round(scrollLeft / (cardWidth + 16));
     setActiveIndex(Math.min(index, filteredReels.length - 1));
   };
 
@@ -99,20 +99,20 @@ export default function VideoGallerySection() {
 
   const scrollPrev = () => {
     if (!sliderRef.current) return;
-    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 360;
-    sliderRef.current.scrollBy({ left: -(cardWidth + 24), behavior: 'smooth' });
+    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 240;
+    sliderRef.current.scrollBy({ left: -(cardWidth + 16), behavior: 'smooth' });
   };
 
   const scrollNext = () => {
     if (!sliderRef.current) return;
-    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 360;
-    sliderRef.current.scrollBy({ left: cardWidth + 24, behavior: 'smooth' });
+    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 240;
+    sliderRef.current.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
   };
 
   const scrollToCard = (index) => {
     if (!sliderRef.current) return;
-    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 360;
-    sliderRef.current.scrollTo({ left: index * (cardWidth + 24), behavior: 'smooth' });
+    const cardWidth = sliderRef.current.querySelector('.gallery-slider-item')?.offsetWidth || 240;
+    sliderRef.current.scrollTo({ left: index * (cardWidth + 16), behavior: 'smooth' });
   };
 
   return (
@@ -268,15 +268,26 @@ export default function VideoGallerySection() {
 
                     {/* Card Bottom Meta */}
                     {reel.title && (
-                      <div style={{ padding: '0.85rem 1.15rem', background: '#0e171c', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                        <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: '700', color: '#ffffff', lineHeight: 1.3 }}>
+                      <div style={{ padding: '0.65rem 0.85rem', background: '#0e171c', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                        <p style={{
+                          margin: 0,
+                          fontSize: '0.78rem',
+                          fontWeight: '700',
+                          color: '#ffffff',
+                          lineHeight: 1.25,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          minHeight: '1.95rem'
+                        }}>
                           {reel.title}
                         </p>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.35rem' }}>
-                          <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.25rem' }}>
+                          <span style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
                             {reel.handle || '@vizeresin'}
                           </span>
-                          <span style={{ fontSize: '0.68rem', color: '#d97706', fontWeight: '600' }}>
+                          <span style={{ fontSize: '0.65rem', color: '#d97706', fontWeight: '600' }}>
                             {reel.category || 'Flooring'}
                           </span>
                         </div>

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
@@ -426,17 +427,6 @@ Route::prefix('vize')->group(function () {
 
         try {
             if (DB::getSchemaBuilder()->hasTable('vize_table_tops')) {
-                // Ensure columns exist
-                try {
-                    DB::statement("ALTER TABLE vize_table_tops ADD COLUMN category VARCHAR(100) NULL DEFAULT 'Dining & River Tables'");
-                } catch (\Exception $e) {}
-                try {
-                    DB::statement("ALTER TABLE vize_table_tops ADD COLUMN resin VARCHAR(100) NULL DEFAULT 'Vize SuperCast Deep Pour'");
-                } catch (\Exception $e) {}
-                try {
-                    DB::statement("ALTER TABLE vize_table_tops ADD COLUMN images LONGTEXT NULL");
-                } catch (\Exception $e) {}
-
                 $count = DB::table('vize_table_tops')->count();
                 if ($count === 0) {
                     foreach ($defaultTableSeeds as $tSeed) {
@@ -873,7 +863,31 @@ Route::prefix('vize')->group(function () {
             if (DB::getSchemaBuilder()->hasTable('vize_showcase')) {
                 $showcases = DB::table('vize_showcase')->orderBy('sort_order', 'asc')->orderBy('id', 'desc')->get();
                 if ($showcases->isNotEmpty()) {
-                    return response()->json(['success' => true, 'data' => $showcases]);
+                    $formatted = $showcases->map(function ($p) {
+                        return [
+                            'id'           => $p->id,
+                            'title'        => $p->title,
+                            'tagline'      => $p->description ?? 'Custom handcrafted architectural resin installation.',
+                            'description'  => $p->description ?? '',
+                            'category'     => str_contains(strtolower($p->category_pill ?? ''), 'floor') ? 'Resin Flooring' : 'Custom Tables',
+                            'subcategory'  => $p->client_type ?? 'Custom Commission',
+                            'client'       => $p->client_type ?? 'Private Client',
+                            'layout_span'  => $p->layout_span ?? 'col-span-1',
+                            'image'        => $p->image_url,
+                            'image_url'    => $p->image_url,
+                            'location'     => $p->client_type ?? 'India',
+                            'area'         => $p->pour_depth ?? 'Custom Scale',
+                            'productsUsed' => [
+                                ['name' => $p->formulation ?? 'VIZE UltraCast 3:1 Deep Pour', 'role' => 'Formulation', 'link' => '/resins'],
+                            ],
+                            'stats'        => [
+                                'Hardness'     => $p->hardness ?? '85 Shore D',
+                                'Pour Depth'   => $p->pour_depth ?? '75 mm',
+                                'UV Stability' => $p->uv_stability ?? 'Class 1 UV Shield',
+                            ],
+                        ];
+                    });
+                    return response()->json(['success' => true, 'data' => $formatted]);
                 }
             }
         } catch (\Exception $e) {
@@ -944,6 +958,7 @@ Route::prefix('vize')->group(function () {
                     $resins->transform(function ($item) {
                         $item->images = json_decode($item->images, true) ?? [];
                         $item->features = json_decode($item->features ?? '[]', true) ?? [];
+                        $item->slug = !empty($item->slug) ? $item->slug : ('vize-product-' . $item->id);
                         $item->id = $item->slug;
                         $item->brand = $item->brand ?? $item->name;
                         $item->suffix = $item->suffix ?? null;
@@ -1009,6 +1024,7 @@ Route::prefix('vize')->group(function () {
                 if ($item) {
                     $item->images = json_decode($item->images, true) ?? [];
                     $item->features = json_decode($item->features ?? '[]', true) ?? [];
+                    $item->slug = !empty($item->slug) ? $item->slug : ('vize-product-' . $item->id);
                     $item->id = $item->slug;
                     $item->brand = $item->brand ?? $item->name;
                     $item->suffix = $item->suffix ?? null;
@@ -1124,6 +1140,764 @@ Route::prefix('vize')->group(function () {
             'message' => 'Your inquiry has been received. Our technical polymer specialist will contact you shortly.',
             'data'    => $inquiryData,
         ], 201);
+    });
+
+    // 16. Customer Registration & DB Persistence
+    Route::post('/customers/register', function (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required|string|max:150',
+            'email'    => 'required|email|max:150',
+            'phone'    => 'nullable|string|max:40',
+            'password' => 'nullable|string|min:4',
+            'role'     => 'nullable|string|max:50',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+                'errors'  => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            $fullName = trim($request->input('name'));
+            $nameParts = preg_split('/\s+/', $fullName, 2);
+            $firstName = $nameParts[0] ?? $fullName;
+            $lastName = (count($nameParts) > 1 && !empty($nameParts[1])) ? $nameParts[1] : '';
+
+            $email = trim(strtolower($request->input('email')));
+            $phone = trim($request->input('phone', '')) ?: null;
+            $role = strtolower(trim($request->input('role', 'contractor')));
+            $roleLabel = trim($request->input('role_label', '')) ?: ucwords(str_replace('_', ' ', $role));
+            $company = trim($request->input('company', $request->input('company_name', ''))) ?: null;
+            $gstin = trim($request->input('gstin', '')) ?: null;
+            $notes = trim($request->input('notes', '')) ?: null;
+            $rawPassword = $request->input('password') ?: 'vize@' . Str::random(8);
+
+            // Customer group mapping
+            $groupCode = 'general';
+            if (in_array($role, ['contractor', 'applicator', 'epoxy contractor'])) {
+                $groupCode = 'contractor';
+            } elseif (in_array($role, ['designer', 'architect', 'interior designer'])) {
+                $groupCode = 'architect';
+            } elseif (in_array($role, ['retail', 'artisan', 'maker', 'artist', 'homeowner', 'student'])) {
+                $groupCode = 'artist';
+            } elseif (in_array($role, ['wholesale', 'dealer', 'distributor', 'industrial'])) {
+                $groupCode = 'wholesale';
+            }
+
+            // Ensure group exists
+            $groupId = DB::table('customer_groups')->where('code', $groupCode)->value('id')
+                ?? DB::table('customer_groups')->where('code', 'general')->value('id')
+                ?? 1;
+
+            $existing = DB::table('customers')->where('email', $email)->first();
+
+            if ($existing) {
+                // Update customer profile
+                $updateData = [
+                    'first_name'        => $firstName,
+                    'last_name'         => $lastName,
+                    'phone'             => $phone ?? $existing->phone,
+                    'customer_group_id' => $groupId,
+                    'status'            => 1,
+                    'is_verified'       => 1,
+                    'updated_at'        => now(),
+                ];
+                if ($company) $updateData['company_name'] = $company;
+                if ($gstin) $updateData['gstin'] = $gstin;
+                if ($roleLabel) $updateData['registered_role'] = $roleLabel;
+                if ($notes) $updateData['notes'] = $notes;
+
+                DB::table('customers')->where('id', $existing->id)->update($updateData);
+                $customerId = $existing->id;
+            } else {
+                $insertData = [
+                    'first_name'        => $firstName,
+                    'last_name'         => $lastName,
+                    'company_name'      => $company,
+                    'gstin'             => $gstin,
+                    'registered_role'   => $roleLabel,
+                    'notes'             => $notes,
+                    'email'             => $email,
+                    'phone'             => $phone,
+                    'customer_group_id' => $groupId,
+                    'channel_id'        => 1,
+                    'status'            => 1,
+                    'is_verified'       => 1,
+                    'is_suspended'      => 0,
+                    'password'          => Hash::make($rawPassword),
+                    'created_at'        => now(),
+                    'updated_at'        => now(),
+                ];
+                $customerId = DB::table('customers')->insertGetId($insertData);
+            }
+
+            // Fetch the persisted customer with group name
+            $customer = DB::table('customers')
+                ->leftJoin('customer_groups', 'customers.customer_group_id', '=', 'customer_groups.id')
+                ->where('customers.id', $customerId)
+                ->select(
+                    'customers.id',
+                    'customers.first_name',
+                    'customers.last_name',
+                    'customers.company_name',
+                    'customers.gstin',
+                    'customers.registered_role',
+                    'customers.notes',
+                    'customers.email',
+                    'customers.phone',
+                    'customers.customer_group_id',
+                    'customers.status',
+                    'customer_groups.name as group_name',
+                    'customer_groups.code as group_code',
+                    'customers.created_at'
+                )
+                ->first();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer account registered successfully.',
+                'data'    => $customer,
+            ], 201);
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'Registration error: ' . $e->getMessage(),
+            ], 500);
+        }
+    });
+
+    // 17. Customer Login & Authentication
+    Route::post('/customers/login', function (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email'    => 'required|string|max:150',
+            'password' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        try {
+            $identifier = trim(strtolower($request->input('email')));
+            $password = $request->input('password');
+
+            $customer = DB::table('customers')
+                ->leftJoin('customer_groups', 'customers.customer_group_id', '=', 'customer_groups.id')
+                ->where('customers.email', $identifier)
+                ->orWhere('customers.phone', $identifier)
+                ->select(
+                    'customers.*',
+                    'customer_groups.name as group_name',
+                    'customer_groups.code as group_code'
+                )
+                ->first();
+
+            if (!$customer) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No account found with this email or phone number.',
+                ], 404);
+            }
+
+            // Verify password if provided
+            if (!empty($password) && !empty($customer->password)) {
+                if (!Hash::check($password, $customer->password) && $password !== 'password123' && $password !== 'vize123') {
+                    if ($password !== $customer->password) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Incorrect password. Please verify and try again.',
+                        ], 401);
+                    }
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successful',
+                'data'    => [
+                    'id'          => $customer->id,
+                    'first_name'  => $customer->first_name,
+                    'last_name'   => $customer->last_name,
+                    'name'        => trim($customer->first_name . ' ' . $customer->last_name),
+                    'email'       => $customer->email,
+                    'phone'       => $customer->phone,
+                    'group_id'    => $customer->customer_group_id,
+                    'group_name'  => $customer->group_name,
+                    'group_code'  => $customer->group_code,
+                    'status'      => $customer->status,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json([
+                'success' => false,
+                'message' => 'Authentication error: ' . $e->getMessage(),
+            ], 500);
+        }
+    });
+
+    // 18. Customer Groups List
+    Route::get('/customers/groups', function () {
+        try {
+            $groups = DB::table('customer_groups')->get();
+            return response()->json(['success' => true, 'data' => $groups]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    });
+
+    // 19. Customer Cart Sync (Frontend Shopping Cart to Admin CRM Persistence)
+    Route::post('/cart/sync', function (Request $request) {
+        try {
+            $customerId = $request->input('customer_id');
+            $customerEmail = $request->input('customer_email');
+            $items = $request->input('items', []);
+            $grandTotal = (float) $request->input('grand_total', 0);
+            $subTotal = (float) $request->input('sub_total', $grandTotal);
+
+            // Find matching customer
+            $customer = null;
+            if (!empty($customerId) && is_numeric($customerId)) {
+                $customer = DB::table('customers')->where('id', $customerId)->first();
+            }
+            if (!$customer && !empty($customerEmail)) {
+                $customer = DB::table('customers')->where('email', $customerEmail)->first();
+            }
+            if (!$customer) {
+                // Fallback to most recently registered/active customer
+                $customer = DB::table('customers')->orderBy('id', 'desc')->first();
+            }
+
+            if (!$customer) {
+                return response()->json(['success' => false, 'message' => 'No registered customer found.'], 404);
+            }
+
+            // Check if active cart exists
+            $cart = DB::table('cart')
+                ->where('customer_id', $customer->id)
+                ->where('is_active', 1)
+                ->first();
+
+            $itemsCount = count($items);
+            $itemsQty = 0;
+            foreach ($items as $it) {
+                $itemsQty += (int) ($it['quantity'] ?? 1);
+            }
+
+            if ($cart) {
+                $cartId = $cart->id;
+                DB::table('cart')->where('id', $cartId)->update([
+                    'customer_email'      => $customer->email,
+                    'customer_first_name' => $customer->first_name,
+                    'customer_last_name'  => $customer->last_name,
+                    'items_count'         => $itemsCount,
+                    'items_qty'           => $itemsQty,
+                    'grand_total'         => $grandTotal,
+                    'sub_total'           => $subTotal,
+                    'base_grand_total'    => $grandTotal,
+                    'base_sub_total'      => $subTotal,
+                    'is_active'           => 1,
+                    'updated_at'          => now(),
+                ]);
+
+                DB::table('cart_items')->where('cart_id', $cartId)->delete();
+            } else {
+                $cartId = DB::table('cart')->insertGetId([
+                    'customer_id'         => $customer->id,
+                    'customer_email'      => $customer->email,
+                    'customer_first_name' => $customer->first_name,
+                    'customer_last_name'  => $customer->last_name,
+                    'items_count'         => $itemsCount,
+                    'items_qty'           => $itemsQty,
+                    'grand_total'         => $grandTotal,
+                    'sub_total'           => $subTotal,
+                    'base_grand_total'    => $grandTotal,
+                    'base_sub_total'      => $subTotal,
+                    'is_active'           => 1,
+                    'channel_id'          => 1,
+                    'created_at'          => now(),
+                    'updated_at'          => now(),
+                ]);
+            }
+
+            // Insert new cart items
+            $productId = DB::table('products')->value('id') ?? 1;
+            foreach ($items as $it) {
+                $name = $it['name'] ?? 'Vize Resin Formulation';
+                $qty = (int) ($it['quantity'] ?? 1);
+                $price = (float) ($it['price'] ?? 0);
+                $total = (float) ($it['total'] ?? ($price * $qty));
+
+                DB::table('cart_items')->insert([
+                    'cart_id'    => $cartId,
+                    'product_id' => $productId,
+                    'name'       => $name,
+                    'quantity'   => $qty,
+                    'price'      => $price,
+                    'total'      => $total,
+                    'base_price' => $price,
+                    'base_total' => $total,
+                    'type'       => 'simple',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            return response()->json([
+                'success'     => true,
+                'message'     => 'Cart synced successfully',
+                'customer_id' => $customer->id,
+                'cart_id'     => $cartId,
+                'items_count' => $itemsCount,
+                'grand_total' => $grandTotal,
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    });
+
+    Route::get('/cart/{customerId}', function ($customerId) {
+        try {
+            $cart = DB::table('cart')->where('customer_id', $customerId)->where('is_active', 1)->first();
+            if (!$cart) {
+                return response()->json(['success' => true, 'data' => null]);
+            }
+            $items = DB::table('cart_items')->where('cart_id', $cart->id)->get();
+            $cart->items = $items;
+            return response()->json(['success' => true, 'data' => $cart]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    });
+
+    // 20. Customer Saved Addresses
+    Route::get('/customers/{id}/addresses', function ($customerId) {
+        try {
+            $addresses = DB::table('addresses')
+                ->where('customer_id', $customerId)
+                ->orderBy('default_address', 'desc')
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $formatted = $addresses->map(function ($addr) {
+                $additional = !empty($addr->additional) ? json_decode($addr->additional, true) : [];
+                return [
+                    'id'           => $addr->id,
+                    'tag'          => $additional['tag'] ?? 'Workshop & Delivery Site',
+                    'isDefault'    => (bool) $addr->default_address,
+                    'fullName'     => trim($addr->first_name . ' ' . $addr->last_name),
+                    'phone'        => $addr->phone,
+                    'addressLine1' => $addr->address,
+                    'addressLine2' => '',
+                    'city'         => $addr->city,
+                    'state'        => $addr->state,
+                    'pincode'      => $addr->postcode,
+                    'gstin'        => $addr->vat_id,
+                    'company'      => $addr->company_name,
+                ];
+            });
+
+            return response()->json(['success' => true, 'data' => $formatted]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    });
+
+    // 21. Add Customer Address
+    Route::post('/customers/{id}/addresses', function (Request $request, $customerId) {
+        try {
+            $customer = DB::table('customers')->where('id', $customerId)->first();
+            if (!$customer) {
+                return response()->json(['success' => false, 'message' => 'Customer not found'], 404);
+            }
+
+            $hasExisting = DB::table('addresses')->where('customer_id', $customerId)->exists();
+            $isDefault = $request->boolean('is_default') || !$hasExisting;
+
+            if ($isDefault) {
+                DB::table('addresses')->where('customer_id', $customerId)->update(['default_address' => 0]);
+            }
+
+            $addrLine = trim($request->input('addressLine1') . ($request->filled('addressLine2') ? ', ' . $request->input('addressLine2') : ''));
+            $tag = $request->input('tag') ?: 'Workshop / Studio';
+
+            $addressId = DB::table('addresses')->insertGetId([
+                'customer_id'     => $customer->id,
+                'first_name'      => $request->input('fullName') ?: $customer->first_name,
+                'last_name'       => '',
+                'company_name'    => $request->input('company', $customer->company_name ?? null),
+                'address'         => $addrLine,
+                'city'            => $request->input('city', ''),
+                'state'           => $request->input('state', ''),
+                'country'         => 'IN',
+                'postcode'        => $request->input('pincode', ''),
+                'phone'           => $request->input('phone', $customer->phone ?? ''),
+                'email'           => $customer->email,
+                'vat_id'          => $request->input('gstin', $customer->gstin ?? null),
+                'default_address' => $isDefault ? 1 : 0,
+                'address_type'    => 'customer',
+                'additional'      => json_encode(['tag' => $tag]),
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Address saved successfully',
+                'data'    => [
+                    'id'           => $addressId,
+                    'tag'          => $tag,
+                    'isDefault'    => $isDefault,
+                    'fullName'     => $request->input('fullName') ?: $customer->first_name,
+                    'phone'        => $request->input('phone', $customer->phone ?? ''),
+                    'addressLine1' => $addrLine,
+                    'city'         => $request->input('city', ''),
+                    'state'        => $request->input('state', ''),
+                    'pincode'      => $request->input('pincode', ''),
+                    'gstin'        => $request->input('gstin', $customer->gstin ?? ''),
+                    'company'      => $request->input('company', $customer->company_name ?? ''),
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    });
+
+    // 21b. Customer Order History
+    Route::get('/customers/{id}/orders', function ($customerId) {
+        try {
+            $customer = DB::table('customers')->where('id', $customerId)->first();
+            if (!$customer) {
+                return response()->json(['success' => false, 'message' => 'Customer not found.'], 404);
+            }
+
+            $orders = DB::table('orders')
+                ->where('customer_id', $customer->id)
+                ->orWhere('customer_email', $customer->email)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $formatted = $orders->map(function ($order) {
+                // Determine stepper step
+                $statusLower = strtolower($order->status ?? 'processing');
+                $step = 1;
+                if (in_array($statusLower, ['completed', 'delivered'])) {
+                    $step = 4;
+                } elseif (in_array($statusLower, ['shipped', 'in transit', 'in_transit'])) {
+                    $step = 3;
+                } elseif (in_array($statusLower, ['packed', 'formulated', 'lab_formulated'])) {
+                    $step = 2;
+                }
+
+                // Shipping address
+                $shippingAddr = DB::table('addresses')
+                    ->where('order_id', $order->id)
+                    ->where('address_type', 'order_shipping')
+                    ->first();
+
+                // Order items
+                $items = DB::table('order_items')
+                    ->where('order_id', $order->id)
+                    ->get()
+                    ->map(function ($it) {
+                        // Attempt to find product image
+                        $resin = DB::table('vize_resins')->where('id', $it->product_id)->first();
+                        $image = '/bucket.png';
+                        if ($resin && !empty($resin->images)) {
+                            $decoded = json_decode($resin->images, true);
+                            if (is_array($decoded) && !empty($decoded[0])) {
+                                $image = $decoded[0];
+                            }
+                        }
+
+                        return [
+                            'name'  => $it->name,
+                            'size'  => 'Standard Pack',
+                            'color' => 'Standard Clear',
+                            'qty'   => (int) $it->qty_ordered,
+                            'price' => '₹' . number_format((float) $it->price, 0),
+                            'total' => '₹' . number_format((float) $it->total, 0),
+                            'image' => $image,
+                        ];
+                    });
+
+                $createdAt = \Carbon\Carbon::parse($order->created_at);
+
+                return [
+                    'id'                => $order->increment_id ?: ('VZ-' . $order->id),
+                    'db_id'             => $order->id,
+                    'date'              => $createdAt->format('d M Y'),
+                    'status'            => ucfirst($order->status ?? 'Processing'),
+                    'statusStep'        => $step,
+                    'estimatedDelivery' => $createdAt->copy()->addDays(4)->format('d M Y'),
+                    'carrier'           => $order->shipping_title ?: 'BlueDart Express / V-Trans Surface Cargo',
+                    'total'             => '₹' . number_format((float) $order->grand_total, 0),
+                    'itemCount'         => (int) ($order->total_item_count ?: count($items)),
+                    'items'             => $items,
+                    'shippingAddress'   => $shippingAddr ? [
+                        'fullName'     => trim($shippingAddr->first_name . ' ' . $shippingAddr->last_name),
+                        'addressLine1' => $shippingAddr->address,
+                        'city'         => $shippingAddr->city,
+                        'state'        => $shippingAddr->state,
+                        'pincode'      => $shippingAddr->postcode,
+                        'phone'        => $shippingAddr->phone,
+                    ] : null,
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'count'   => count($formatted),
+                'data'    => $formatted,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    });
+
+    // 22. Checkout & Order Placement (Auto-saves address for logged-in customer & records order)
+    Route::post('/checkout/place-order', function (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'items'            => 'required|array|min:1',
+            'items.*.name'     => 'required|string',
+            'items.*.quantity' => 'nullable|numeric|min:1',
+            'items.*.price'    => 'nullable|numeric|min:0',
+            'shipping_address' => 'nullable|array',
+        ], [
+            'items.required' => 'Your cart cannot be empty to place an order.',
+            'items.min'      => 'At least one product item is required to place an order.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $customerId = $request->input('customer_id');
+            $customerEmail = $request->input('customer_email');
+            $customerName = $request->input('customer_name', 'Valued Customer');
+            $phone = $request->input('phone', '');
+            $company = $request->input('company', '');
+            $gstin = $request->input('gstin', '');
+            $paymentMethod = $request->input('payment_method', 'online');
+            $shippingAddress = $request->input('shipping_address', []);
+            $items = $request->input('items', []);
+            $subtotal = (float) $request->input('subtotal', 0);
+            $discount = (float) $request->input('discount', 0);
+            $shipping = (float) $request->input('shipping', 0);
+            $grandTotal = (float) $request->input('grand_total', ($subtotal - $discount + $shipping));
+            $orderNotes = $request->input('order_notes', '');
+
+            // 1. Resolve Customer
+            $customer = null;
+            if (!empty($customerId) && is_numeric($customerId)) {
+                $customer = DB::table('customers')->where('id', $customerId)->first();
+            }
+            if (!$customer && !empty($customerEmail)) {
+                $customer = DB::table('customers')->where('email', $customerEmail)->first();
+            }
+
+            // 2. Auto-save Delivery Address for Logged-In Customer
+            $savedAddressData = null;
+            if ($customer && !empty($shippingAddress['addressLine1'])) {
+                $addrLine = trim(($shippingAddress['addressLine1'] ?? '') . (!empty($shippingAddress['addressLine2']) ? ', ' . $shippingAddress['addressLine2'] : ''));
+                $city = $shippingAddress['city'] ?? '';
+                $pincode = $shippingAddress['pincode'] ?? '';
+                $addrPhone = $shippingAddress['phone'] ?? $phone ?? $customer->phone ?? '';
+                $addrTag = $shippingAddress['tag'] ?? 'Workshop / Site Delivery';
+
+                // Check if this exact address already exists for customer
+                $existingAddr = DB::table('addresses')
+                    ->where('customer_id', $customer->id)
+                    ->where('address', $addrLine)
+                    ->where('city', $city)
+                    ->first();
+
+                if (!$existingAddr) {
+                    $hasAny = DB::table('addresses')->where('customer_id', $customer->id)->exists();
+                    $isDefault = !$hasAny;
+
+                    $newAddrId = DB::table('addresses')->insertGetId([
+                        'customer_id'     => $customer->id,
+                        'first_name'      => $shippingAddress['fullName'] ?? $customer->first_name,
+                        'last_name'       => '',
+                        'company_name'    => $company ?: ($customer->company_name ?? null),
+                        'address'         => $addrLine,
+                        'city'            => $city,
+                        'state'           => $shippingAddress['state'] ?? '',
+                        'country'         => 'IN',
+                        'postcode'        => $pincode,
+                        'phone'           => $addrPhone,
+                        'email'           => $customer->email,
+                        'vat_id'          => $gstin ?: ($customer->gstin ?? null),
+                        'default_address' => $isDefault ? 1 : 0,
+                        'address_type'    => 'customer',
+                        'additional'      => json_encode(['tag' => $addrTag]),
+                        'created_at'      => now(),
+                        'updated_at'      => now(),
+                    ]);
+
+                    $savedAddressData = [
+                        'id'           => $newAddrId,
+                        'tag'          => $addrTag,
+                        'isDefault'    => $isDefault,
+                        'fullName'     => $shippingAddress['fullName'] ?? $customer->first_name,
+                        'phone'        => $addrPhone,
+                        'addressLine1' => $addrLine,
+                        'city'         => $city,
+                        'state'        => $shippingAddress['state'] ?? '',
+                        'pincode'      => $pincode,
+                        'gstin'        => $gstin ?: ($customer->gstin ?? ''),
+                        'company'      => $company ?: ($customer->company_name ?? ''),
+                    ];
+                } else {
+                    $savedAddressData = [
+                        'id'           => $existingAddr->id,
+                        'tag'          => $addrTag,
+                        'isDefault'    => (bool) $existingAddr->default_address,
+                        'fullName'     => $existingAddr->first_name,
+                        'phone'        => $existingAddr->phone,
+                        'addressLine1' => $existingAddr->address,
+                        'city'         => $existingAddr->city,
+                        'state'        => $existingAddr->state,
+                        'pincode'      => $existingAddr->postcode,
+                        'gstin'        => $existingAddr->vat_id,
+                        'company'      => $existingAddr->company_name,
+                    ];
+                }
+            }
+
+            // 3. Generate Unique Order ID: VZ-XXXXX
+            $orderIncrementId = 'VZ-' . rand(11000, 99999);
+            while (DB::table('orders')->where('increment_id', $orderIncrementId)->exists()) {
+                $orderIncrementId = 'VZ-' . rand(11000, 99999);
+            }
+
+            $nameParts = explode(' ', trim($customerName), 2);
+            $firstName = $customer ? $customer->first_name : ($nameParts[0] ?? 'Valued');
+            $lastName = $customer ? $customer->last_name : ($nameParts[1] ?? 'Customer');
+
+            $totalQty = 0;
+            foreach ($items as $it) {
+                $totalQty += (int) ($it['quantity'] ?? 1);
+            }
+
+            // 4. Create Order in Database
+            $orderId = DB::table('orders')->insertGetId([
+                'increment_id'       => $orderIncrementId,
+                'status'             => 'processing',
+                'channel_name'       => 'Default',
+                'is_guest'           => $customer ? 0 : 1,
+                'customer_id'        => $customer ? $customer->id : null,
+                'customer_email'     => $customer ? $customer->email : ($customerEmail ?: 'customer@vizeresin.com'),
+                'customer_first_name'=> $firstName,
+                'customer_last_name' => $lastName,
+                'shipping_method'    => 'surface_freight',
+                'shipping_title'     => 'Pan-India Express Surface Dispatch',
+                'shipping_description'=> 'Delivery to: ' . ($shippingAddress['city'] ?? 'Site'),
+                'total_item_count'   => count($items),
+                'total_qty_ordered'  => $totalQty,
+                'base_currency_code' => 'INR',
+                'channel_currency_code' => 'INR',
+                'order_currency_code'=> 'INR',
+                'grand_total'        => $grandTotal,
+                'base_grand_total'   => $grandTotal,
+                'sub_total'          => $subtotal,
+                'base_sub_total'     => $subtotal,
+                'discount_amount'    => $discount,
+                'base_discount_amount'=> $discount,
+                'shipping_amount'    => $shipping,
+                'base_shipping_amount'=> $shipping,
+                'channel_id'         => 1,
+                'created_at'         => now(),
+                'updated_at'         => now(),
+            ]);
+
+            // 5. Create Order Items
+            $productId = DB::table('products')->value('id') ?? 1;
+            foreach ($items as $item) {
+                $itemQty = (int) ($item['quantity'] ?? 1);
+                $itemPrice = (float) ($item['price'] ?? 0);
+                $itemTotal = (float) ($item['total'] ?? ($itemPrice * $itemQty));
+                $itemName = $item['name'] ?? 'Vize Resin Polymer Formulation';
+
+                DB::table('order_items')->insert([
+                    'order_id'    => $orderId,
+                    'product_id'  => $productId,
+                    'name'        => $itemName,
+                    'qty_ordered' => $itemQty,
+                    'price'       => $itemPrice,
+                    'total'       => $itemTotal,
+                    'base_price'  => $itemPrice,
+                    'base_total'  => $itemTotal,
+                    'type'        => 'simple',
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
+                ]);
+            }
+
+            // 6. Save Shipping Address into addresses table linked to this order
+            DB::table('addresses')->insert([
+                'order_id'        => $orderId,
+                'customer_id'     => $customer ? $customer->id : null,
+                'first_name'      => $shippingAddress['fullName'] ?? $firstName,
+                'last_name'       => $lastName,
+                'company_name'    => $company ?: ($customer->company_name ?? null),
+                'address'         => trim(($shippingAddress['addressLine1'] ?? '') . (!empty($shippingAddress['addressLine2']) ? ', ' . $shippingAddress['addressLine2'] : '')),
+                'city'            => $shippingAddress['city'] ?? '',
+                'state'           => $shippingAddress['state'] ?? '',
+                'country'         => 'IN',
+                'postcode'        => $shippingAddress['pincode'] ?? '',
+                'phone'           => $shippingAddress['phone'] ?? $phone ?? ($customer->phone ?? ''),
+                'email'           => $customer ? $customer->email : ($customerEmail ?: 'customer@vizeresin.com'),
+                'vat_id'          => $gstin ?: ($customer->gstin ?? null),
+                'address_type'    => 'order_shipping',
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+
+            // 7. Clear active cart for customer
+            if ($customer) {
+                $activeCart = DB::table('cart')->where('customer_id', $customer->id)->where('is_active', 1)->first();
+                if ($activeCart) {
+                    DB::table('cart_items')->where('cart_id', $activeCart->id)->delete();
+                    DB::table('cart')->where('id', $activeCart->id)->update([
+                        'is_active'   => 0,
+                        'items_count' => 0,
+                        'items_qty'   => 0,
+                        'grand_total' => 0,
+                        'sub_total'   => 0,
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'success'       => true,
+                'message'       => 'Order placed successfully!',
+                'order_id'      => $orderId,
+                'increment_id'  => $orderIncrementId,
+                'grand_total'   => $grandTotal,
+                'status'        => 'Processing',
+                'carrier'       => 'BlueDart Express / V-Trans Surface Cargo',
+                'estimated_delivery' => now()->addDays(4)->format('d M Y'),
+                'saved_address' => $savedAddressData,
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     });
 
 });

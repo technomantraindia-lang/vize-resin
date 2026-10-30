@@ -1,30 +1,59 @@
+import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { fetchFromApi, resolveImageUrl } from '../utils/api';
 
-const PROJECTS = [
+const DEFAULT_PROJECTS = [
   {
     id: 'residential',
     title: 'Residential',
     subtitle: 'Live beautifully.',
     image: '/residential.png',
-    link: '#residential',
+    link: '/our-work',
   },
   {
     id: 'custom',
     title: 'Custom Creations',
     subtitle: 'Make it one of a kind.',
     image: '/cat-casting.jpg',
-    link: '#custom-creations',
+    link: '/our-work',
   },
   {
     id: 'commercial',
     title: 'Commercial',
     subtitle: 'Make a lasting impression.',
     image: '/commercial.png',
-    link: '#commercial',
+    link: '/our-work',
   },
 ];
 
 export default function ProjectGallerySection() {
+  const [projects, setProjects] = useState(DEFAULT_PROJECTS);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadLiveShowcase() {
+      try {
+        const json = await fetchFromApi('/api/vize/showcase');
+        if (json && json.success && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
+          const mapped = json.data.slice(0, 6).map((item) => ({
+            id: 'proj-' + item.id,
+            title: item.title,
+            subtitle: item.description || item.tagline || item.client_type || 'Architectural resin installation.',
+            image: resolveImageUrl(item.image || item.image_url || '/commercial.png'),
+            link: '/our-work',
+          }));
+          setProjects(mapped);
+        }
+      } catch (e) {
+        // Fallback to default
+      }
+    }
+    loadLiveShowcase();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="project-gallery-section" id="gallery" aria-label="Project Gallery">
       <div className="project-gallery-container">
@@ -42,9 +71,9 @@ export default function ProjectGallerySection() {
           </div>
         </div>
 
-        {/* 3 Projects Grid */}
+        {/* Dynamic Bento Projects Grid */}
         <div className="project-gallery-grid">
-          {PROJECTS.map((proj) => (
+          {projects.map((proj) => (
             <a key={proj.id} href={proj.link} className="project-showcase-card">
               <div className="project-image-wrap">
                 <img src={proj.image} alt={proj.title} className="project-img" />

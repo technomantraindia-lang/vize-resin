@@ -28,6 +28,7 @@ import {
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useCart } from '../context/CartContext';
+import { fetchFromApi } from '../utils/api';
 import INITIAL_COURSES from '../data/courses.json';
 
 // 2. Workshop Gallery Steps Data
@@ -222,13 +223,32 @@ export default function WorkshopPage() {
   };
 
   // Handle Enquiry Form Submission
-  const handleEnquirySubmit = (e) => {
+  const handleEnquirySubmit = async (e) => {
     e.preventDefault();
     if (!enquiryForm.name || !enquiryForm.phone) return;
 
-    const generatedId = `VIZE-WS-${Math.floor(100000 + Math.random() * 900000)}`;
-    setEnquiryId(generatedId);
-    setEnquirySubmitted(true);
+    try {
+      await fetchFromApi('/api/vize/workshops/admit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          student_name: enquiryForm.name,
+          email: enquiryForm.email || `${enquiryForm.phone.replace(/[^0-9]/g, '')}@vizeresin.com`,
+          phone: enquiryForm.phone,
+          whatsapp: enquiryForm.phone,
+          notes: `Course: ${enquiryForm.courseInterest} | Location: ${enquiryForm.preferredLocation}${enquiryForm.message ? ' | Notes: ' + enquiryForm.message : ''}`
+        })
+      });
+    } catch (err) {
+      console.warn('Workshop admission submit notice:', err);
+    } finally {
+      const generatedId = `VIZE-WS-${Math.floor(100000 + Math.random() * 900000)}`;
+      setEnquiryId(generatedId);
+      setEnquirySubmitted(true);
+    }
   };
 
   return (

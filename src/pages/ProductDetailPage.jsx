@@ -85,14 +85,33 @@ export default function ProductDetailPage() {
       const packQtyStr = dbProduct.packQty || dbProduct.pack_qty || presetMatch?.packQty || '15 KG';
       const coverageStr = dbProduct.coverage || presetMatch?.coverage || (dbProduct.sqftCoverage ? `~${dbProduct.sqftCoverage} sq.ft` : '~100 sq.ft');
 
-      const customSizes = (presetMatch?.sizes && presetMatch.sizes.length > 0) ? presetMatch.sizes : [
-        {
-          id: 'standard-pack',
-          label: `Standard Pack (${packQtyStr})`,
-          price: basePriceNum,
-          coverageDesc: coverageStr
-        }
-      ];
+      let customSizes;
+      if (presetMatch?.sizes && presetMatch.sizes.length > 0) {
+        customSizes = presetMatch.sizes.map((s, idx) => {
+          if (idx === 0) {
+            return {
+              ...s,
+              price: basePriceNum,
+              label: packQtyStr ? `Standard Pack (${packQtyStr})` : s.label,
+              coverageDesc: coverageStr || s.coverageDesc,
+            };
+          }
+          return s;
+        });
+      } else {
+        customSizes = [
+          {
+            id: 'standard-pack',
+            label: `Standard Pack (${packQtyStr})`,
+            price: basePriceNum,
+            coverageDesc: coverageStr
+          }
+        ];
+      }
+
+      const effectivePricePerKg = Number(
+        dbProduct.pricePerKg ?? dbProduct.price_per_kg ?? (parseInt(packQtyStr) > 0 ? Math.round(basePriceNum / parseInt(packQtyStr)) : (presetMatch?.pricePerKg ?? 0))
+      );
 
       return {
         id: dbProduct.slug || dbProduct.id || id || 'resin-product',
@@ -112,7 +131,7 @@ export default function ProductDetailPage() {
         potLife: dbProduct.potLife || dbProduct.pot_life || presetMatch?.potLife || '30–45 mins',
         coverage: coverageStr,
         sqftCoverage: Number(dbProduct.sqftCoverage || dbProduct.sqft_coverage || presetMatch?.sqftCoverage || 100),
-        pricePerKg: dbProduct.pricePerKg || (parseInt(packQtyStr) > 0 ? Math.round(basePriceNum / parseInt(packQtyStr)) : null),
+        pricePerKg: effectivePricePerKg > 0 ? effectivePricePerKg : null,
         taxRate: Number(dbProduct.taxRate ?? dbProduct.tax_rate ?? presetMatch?.taxRate ?? presetMatch?.tax_rate ?? 18),
         tax_rate: Number(dbProduct.tax_rate ?? dbProduct.taxRate ?? presetMatch?.tax_rate ?? presetMatch?.taxRate ?? 18),
         inStock: dbProduct.inStock !== undefined ? Boolean(dbProduct.inStock) : true,
@@ -131,6 +150,32 @@ export default function ProductDetailPage() {
         reviews: presetMatch?.reviews || [],
         tds: presetMatch?.tds || { title: `${dbProduct.name || 'VIZE'} Technical Data Sheet`, url: '#' },
         sds: presetMatch?.sds || { title: `${dbProduct.name || 'VIZE'} Safety Data Sheet`, url: '#' }
+      };
+    }
+
+    if (!presetMatch) {
+      return {
+        id: id || 'resin-product',
+        name: 'Loading Specification...',
+        brand: 'VIZE',
+        category: 'Flooring Resins',
+        grade: 'Professional Grade',
+        chemistry: 'Specialty Polymer Formulation',
+        tagline: '',
+        basePrice: 0,
+        currency: '₹',
+        packQty: '—',
+        coverage: '—',
+        inStock: true,
+        images: ['/rasin-product/Vize PrimeX.png'],
+        sizes: [{ id: 'standard-pack', label: 'Standard Pack', price: 0 }],
+        samples: productsData[0]?.samples || [],
+        howToUseSteps: productsData[0]?.howToUseSteps || [],
+        reviews: [],
+        features: [],
+        aboutText: 'Retrieving live product specifications from database...',
+        tds: { title: 'Technical Data Sheet', url: '#' },
+        sds: { title: 'Safety Data Sheet', url: '#' },
       };
     }
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import staticOffers from '../data/offers.json';
+import { useCart } from '../context/CartContext';
 
 export default function OfferPopup() {
   const [offers, setOffers] = useState([]);
@@ -11,6 +12,9 @@ export default function OfferPopup() {
   const [isPaused, setIsPaused] = useState(false);
   const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { isDrawerOpen } = useCart();
+  const isCheckout = location.pathname === '/checkout';
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -131,8 +135,8 @@ export default function OfferPopup() {
 
   const modalMarkup = (
     <>
-      {/* Floating Re-open Button (shown when dismissed) */}
-      {!isVisible && isDismissed && (
+      {/* Floating Re-open Button (shown when dismissed, hidden when drawer is open or on checkout) */}
+      {!isVisible && isDismissed && !isDrawerOpen && !isCheckout && (
         <button
           type="button"
           onClick={handleReopen}

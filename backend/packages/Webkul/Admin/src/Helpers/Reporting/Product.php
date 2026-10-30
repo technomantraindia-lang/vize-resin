@@ -193,12 +193,20 @@ class Product extends AbstractReporting
             ->resetModel()
             ->with(['product', 'product.attribute_family', 'product.attribute_values', 'product.images'])
             ->leftJoin('orders', 'order_items.order_id', '=', 'orders.id')
-            ->addSelect('*', DB::raw('SUM(base_total_invoiced - base_amount_refunded) as revenue'))
-            ->whereNull('parent_id')
-            ->whereIn('channel_id', $this->channelIds)
+            ->addSelect(
+                'order_items.product_id',
+                'order_items.name',
+                'order_items.price',
+                DB::raw('COALESCE(NULLIF(SUM(order_items.base_total_invoiced - order_items.base_amount_refunded), 0), SUM(order_items.base_total)) as revenue'),
+                DB::raw('SUM(order_items.qty_ordered) as total_qty_ordered'),
+                DB::raw('COUNT(DISTINCT orders.id) as total_orders'),
+                DB::raw('COUNT(DISTINCT orders.customer_id) as total_customers')
+            )
+            ->whereNull('order_items.parent_id')
+            ->whereIn('orders.channel_id', $this->channelIds)
             ->whereBetween('order_items.created_at', [$this->startDate, $this->endDate])
-            ->having(DB::raw('SUM(base_total_invoiced - base_amount_refunded)'), '>', 0)
-            ->groupBy('product_id')
+            ->having(DB::raw('COALESCE(NULLIF(SUM(order_items.base_total_invoiced - order_items.base_amount_refunded), 0), SUM(order_items.base_total))'), '>', 0)
+            ->groupBy('order_items.product_id', 'order_items.name', 'order_items.price')
             ->orderBy('revenue', 'DESC')
             ->limit($limit)
             ->get();
@@ -207,10 +215,13 @@ class Product extends AbstractReporting
             return [
                 'id' => $item->product_id,
                 'name' => $item->name,
-                'price' => $item->product?->price,
+                'price' => $item->product?->price ?? $item->price,
                 'formatted_price' => core()->formatBasePrice($item->price),
                 'revenue' => $item->revenue,
                 'formatted_revenue' => core()->formatBasePrice($item->revenue),
+                'total_qty_ordered' => (int) ($item->total_qty_ordered ?? 0),
+                'total_orders' => (int) ($item->total_orders ?? 0),
+                'total_customers' => (int) ($item->total_customers ?? 0),
                 'images' => $item->product?->images,
             ];
         });

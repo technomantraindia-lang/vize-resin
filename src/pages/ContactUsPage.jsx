@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { fetchFromApi } from '../utils/api';
 
 const INQUIRY_TYPES = [
   { id: 'tables', label: '🪵 Table & Live Edge Pour', desc: 'Deep pour, casting resins & live-edge calculations' },
@@ -86,12 +87,14 @@ export default function ContactUsPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [ticketId, setTicketId] = useState('');
   const [attachedFileName, setAttachedFileName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
     city: '',
-    estimatedQty: ''
+    estimatedQty: '',
+    message: ''
   });
 
   useEffect(() => {
@@ -109,11 +112,47 @@ export default function ContactUsPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const randomTicket = 'VZ-' + Math.floor(100000 + Math.random() * 900000);
-    setTicketId(randomTicket);
-    setFormSubmitted(true);
+    setIsSubmitting(true);
+
+    const matchedType = INQUIRY_TYPES.find((t) => t.id === selectedInquiry);
+    // Strip leading emojis to keep database records clean and readable
+    const serviceLabel = matchedType 
+      ? matchedType.label.replace(/^[\p{Emoji}\p{Extended_Pictographic}\s]+/u, '').trim() 
+      : 'General Inquiry';
+
+    const detailsList = [];
+    if (formData.city) detailsList.push(`City: ${formData.city}`);
+    if (formData.estimatedQty) detailsList.push(`Est: ${formData.estimatedQty}`);
+    if (formData.message) detailsList.push(formData.message);
+    if (attachedFileName) detailsList.push(`File: ${attachedFileName}`);
+
+    const compiledMessage = detailsList.join(' · ') || 'General project consultation requested via website.';
+
+    try {
+      await fetchFromApi('/api/vize/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service_type: serviceLabel,
+          message: compiledMessage
+        })
+      });
+    } catch (err) {
+      console.warn('Inquiry submission notice:', err);
+    } finally {
+      const randomTicket = 'VZ-' + Math.floor(100000 + Math.random() * 900000);
+      setTicketId(randomTicket);
+      setFormSubmitted(true);
+      setIsSubmitting(false);
+    }
   };
 
   const toggleFaq = (idx) => {
@@ -214,6 +253,14 @@ export default function ContactUsPage() {
                           onClick={() => {
                             setFormSubmitted(false);
                             setAttachedFileName('');
+                            setFormData({
+                              name: '',
+                              phone: '',
+                              email: '',
+                              city: '',
+                              estimatedQty: '',
+                              message: ''
+                            });
                           }}
                         >
                           Submit Another Request
@@ -306,6 +353,21 @@ export default function ContactUsPage() {
                         />
                       </div>
 
+                      <div className="contact-field">
+                        <label htmlFor="contact-message">
+                          Project Details &amp; Requirements (Optional)
+                        </label>
+                        <textarea
+                          id="contact-message"
+                          name="message"
+                          rows={3}
+                          placeholder="Tell us about slab dimensions, desired finish (matte/mirror), floor thickness, or timeline..."
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          className="contact-textarea"
+                        />
+                      </div>
+
                       {/* Optional File Attachment Mockup */}
                       <div className="contact-upload-box">
                         <input
@@ -327,8 +389,8 @@ export default function ContactUsPage() {
                         </label>
                       </div>
 
-                      <button type="submit" className="contact-submit-btn">
-                        <span>Send Project Consultation Request</span>
+                      <button type="submit" className="contact-submit-btn" disabled={isSubmitting}>
+                        <span>{isSubmitting ? 'Transmitting Request...' : 'Send Project Consultation Request'}</span>
                         <Send size={17} />
                       </button>
                     </form>
