@@ -721,6 +721,16 @@ export default function AccountModal() {
                             <div className="order-carrier-info">
                               <Truck size={16} />
                               <span>{selectedOrder.carrier} &bull; Expected Delivery: <strong>{selectedOrder.estimatedDelivery}</strong></span>
+                              {selectedOrder.delhiveryAwb && (
+                                <a
+                                  href={`https://www.delhivery.com/track/package/${selectedOrder.delhiveryAwb}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', color: '#166534', background: '#F0FDF4', padding: '3px 8px', borderRadius: '6px', border: '1px solid #BBF7D0', fontWeight: 600, textDecoration: 'none' }}
+                                >
+                                  <span>Track on Delhivery ↗</span>
+                                </a>
+                              )}
                             </div>
 
                             {/* Items List */}

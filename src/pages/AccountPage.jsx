@@ -468,7 +468,19 @@ export default function AccountPage() {
                             <span className="order-total-label">Total Billed:</span>
                             <span className="order-total-val">{ord.total}</span>
                           </div>
-                          <div style={{ display: 'flex', gap: '0.75rem' }}>
+                          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                            {ord.delhiveryAwb && (
+                              <a
+                                href={`https://www.delhivery.com/track/package/${ord.delhiveryAwb}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="vize-account-download-btn"
+                                style={{ textDecoration: 'none', background: '#F0FDF4', color: '#166534', border: '1px solid #BBF7D0', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+                              >
+                                <Truck size={14} style={{ color: '#16A34A' }} />
+                                <span>Track ({ord.delhiveryAwb}) ↗</span>
+                              </a>
+                            )}
                             <button
                               type="button"
                               className="vize-account-download-btn"
