@@ -15,12 +15,14 @@ import {
   Briefcase,
   PhoneCall,
   User,
-  ShieldCheck
+  ShieldCheck,
+  Truck
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import SearchModal from './SearchModal';
+import TrackingModal from './TrackingModal';
 
 export default function Header() {
   const { totalItemCount, openDrawer } = useCart();
@@ -28,6 +30,7 @@ export default function Header() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [trackingModalOpen, setTrackingModalOpen] = useState(false);
 
   // Keyboard shortcut (Ctrl+K or Cmd+K) to open global search
   useEffect(() => {
@@ -175,6 +178,17 @@ export default function Header() {
             <Search size={19} strokeWidth={1.75} />
           </button>
 
+          {/* Delhivery Live Shipment Tracking Button */}
+          <button
+            type="button"
+            className="icon-action-btn vize-header-track-btn"
+            aria-label="Track Shipment"
+            onClick={() => setTrackingModalOpen(true)}
+            title="Track Delhivery Cargo Shipment"
+          >
+            <Truck size={19} strokeWidth={1.75} />
+          </button>
+
           {/* Account / User Portal Button */}
           <button
             type="button"
@@ -226,6 +240,12 @@ export default function Header() {
       <SearchModal
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
+      />
+
+      {/* Delhivery Live Shipment Tracking Modal */}
+      <TrackingModal
+        isOpen={trackingModalOpen}
+        onClose={() => setTrackingModalOpen(false)}
       />
 
       {/* =========================================================================
@@ -401,6 +421,22 @@ export default function Header() {
                     </div>
                     <ChevronRight size={16} className="vize-mobile-chevron" />
                   </Link>
+
+                  <button
+                    type="button"
+                    className="vize-mobile-nav-item"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setTrackingModalOpen(true);
+                    }}
+                    style={{ background: 'transparent', border: 'none', width: '100%', textAlign: 'left', font: 'inherit', cursor: 'pointer' }}
+                  >
+                    <div className="vize-mobile-item-left">
+                      <Truck size={18} className="vize-mobile-icon" style={{ color: '#E11D48' }} />
+                      <span>Track Shipment (Delhivery)</span>
+                    </div>
+                    <span className="vize-mobile-pill-badge" style={{ background: '#DCFCE7', color: '#166534', border: '1px solid #BBF7D0' }}>Live</span>
+                  </button>
                 </nav>
 
                 {/* Quick Swatch Preview in Mobile Menu */}

@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import TrackingModal from '../components/TrackingModal';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { fetchFromApi } from '../utils/api';
@@ -70,6 +71,7 @@ export default function CheckoutPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [sandboxPendingTx, setSandboxPendingTx] = useState(null);
   const [activeSandboxModal, setActiveSandboxModal] = useState(null);
+  const [trackingModalQuery, setTrackingModalQuery] = useState(null);
 
   // Delhivery Logistics Live Pincode State
   const [delhiveryCheck, setDelhiveryCheck] = useState(null);
@@ -529,14 +531,13 @@ export default function CheckoutPage() {
                 <div style={{ padding: '0.6rem 1rem', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#166534' }}>
                   <Truck size={16} style={{ color: '#16A34A' }} />
                   <span>Delhivery AWB: <strong style={{ fontFamily: 'monospace', letterSpacing: '0.5px' }}>{orderSuccessData.delhiveryAwb}</strong></span>
-                  <a
-                    href={orderSuccessData.delhiveryTrackUrl || `https://www.delhivery.com/track/package/${orderSuccessData.delhiveryAwb}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ marginLeft: '6px', color: '#15803D', fontWeight: 700, textDecoration: 'underline' }}
+                  <button
+                    type="button"
+                    onClick={() => setTrackingModalQuery(orderSuccessData.delhiveryAwb || orderSuccessData.orderId)}
+                    style={{ marginLeft: '6px', color: '#15803D', fontWeight: 700, textDecoration: 'underline', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}
                   >
-                    Track ↗
-                  </a>
+                    Track Live ↗
+                  </button>
                 </div>
               )}
             </div>
@@ -1329,6 +1330,13 @@ export default function CheckoutPage() {
           </div>
         )}
       </main>
+
+      {/* Live Delhivery Tracking Modal */}
+      <TrackingModal
+        isOpen={!!trackingModalQuery}
+        initialQuery={trackingModalQuery || ''}
+        onClose={() => setTrackingModalQuery(null)}
+      />
 
       <Footer />
     </div>
