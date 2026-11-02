@@ -1956,6 +1956,7 @@ Route::prefix('vize')->group(function () {
                         'requires_redirect' => true,
                         'is_sandbox'        => ($phonepeEnv !== 'production'),
                         'payment_gateway'   => 'phonepe',
+                        'merchant_id'       => $merchantId,
                         'redirect_url'      => $decodedPg['data']['instrumentResponse']['redirectInfo']['url'],
                         'transaction_id'    => $txId,
                         'order_id'          => $orderId,

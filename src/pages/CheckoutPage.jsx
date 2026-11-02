@@ -397,6 +397,7 @@ export default function CheckoutPage() {
             setActiveSandboxModal({
               txId: res.transaction_id,
               orderId: res.increment_id,
+              merchantId: res.merchant_id || 'PGTESTPAYUAT86',
               amount: grandTotal,
               redirectUrl: res.redirect_url,
             });
@@ -1241,7 +1242,7 @@ export default function CheckoutPage() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px', fontSize: '0.82rem', color: '#64748B' }}>
                     <span>Merchant MID</span>
-                    <span style={{ color: '#0F172A', fontFamily: 'monospace', fontSize: '0.78rem' }}>PGTESTPAYUAT86</span>
+                    <span style={{ color: '#0F172A', fontFamily: 'monospace', fontSize: '0.78rem' }}>{activeSandboxModal.merchantId}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px dashed #CBD5E1', fontSize: '0.95rem', fontWeight: 700 }}>
                     <span style={{ color: '#334155' }}>Total Amount</span>
