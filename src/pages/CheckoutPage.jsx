@@ -65,8 +65,160 @@ export default function CheckoutPage() {
 
   // Processing & Success State
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isVerifyingPayment, setIsVerifyingPayment] = useState(false);
   const [orderSuccessData, setOrderSuccessData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [sandboxPendingTx, setSandboxPendingTx] = useState(null);
+  const [activeSandboxModal, setActiveSandboxModal] = useState(null);
+
+  // Delhivery Logistics Live Pincode State
+  const [delhiveryCheck, setDelhiveryCheck] = useState(null);
+  const [isCheckingPincode, setIsCheckingPincode] = useState(false);
+
+  // Helper: Complete Sandbox Simulation in Test Mode
+  const simulateSandboxSuccess = async (txnId) => {
+    setIsVerifyingPayment(true);
+    setErrorMessage('');
+    try {
+      const res = await fetchFromApi(`/api/vize/payment/phonepe/status/${txnId}?simulate=1`);
+      if (res && res.success && res.payment_status === 'PAID') {
+        clearCart();
+        const pendingStr = sessionStorage.getItem('vize_pending_order');
+        const pending = pendingStr ? JSON.parse(pendingStr) : {};
+        sessionStorage.removeItem('vize_pending_order');
+
+        const confirmedOrder = {
+          orderId: res.increment_id,
+          grandTotal: res.grand_total,
+          carrier: res.carrier || 'Delhivery Surface Express',
+          delhiveryAwb: res.delhivery_awb,
+          delhiveryTrackUrl: res.delhivery_track_url,
+          estimatedDelivery: res.estimated_delivery,
+          shippingAddress: res.shipping_address || pending.shippingAddress || {},
+          customerName: pending.customerName || 'Valued Customer',
+          customerEmail: pending.customerEmail || '',
+          customerPhone: pending.customerPhone || '',
+          itemCount: pending.itemCount || 1,
+          paymentMethod: 'PhonePe UPI & Cards (Sandbox Verified)',
+          phonepeTxnId: res.phonepe_txn_id,
+        };
+
+        addOrder({
+          id: res.increment_id,
+          date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+          status: 'Processing',
+          statusStep: 1,
+          estimatedDelivery: res.estimated_delivery || '3-4 Business Days',
+          carrier: res.carrier || 'Delhivery Surface Express',
+          delhiveryAwb: res.delhivery_awb,
+          total: `₹${Number(res.grand_total).toLocaleString('en-IN')}`,
+          itemCount: pending.itemCount || 1,
+          items: pending.items || [],
+          shippingAddress: res.shipping_address || pending.shippingAddress || {},
+        });
+
+        setOrderSuccessData(confirmedOrder);
+        setSandboxPendingTx(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setErrorMessage(res?.message || 'Payment simulation failed.');
+      }
+    } catch (e) {
+      console.error(e);
+      setErrorMessage('Payment simulation error.');
+    } finally {
+      setIsVerifyingPayment(false);
+    }
+  };
+
+  // Handle Return from PhonePe Gateway (phonepe_status=check&txId=...)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const statusParam = params.get('phonepe_status');
+    const txId = params.get('txId');
+
+    if (statusParam === 'check' && txId) {
+      setIsVerifyingPayment(true);
+      const verifyPayment = async () => {
+        try {
+          const res = await fetchFromApi(`/api/vize/payment/phonepe/status/${txId}`);
+          if (res && res.success && res.payment_status === 'PAID') {
+            clearCart();
+            const pendingStr = sessionStorage.getItem('vize_pending_order');
+            const pending = pendingStr ? JSON.parse(pendingStr) : {};
+            sessionStorage.removeItem('vize_pending_order');
+
+            const confirmedOrder = {
+              orderId: res.increment_id,
+              grandTotal: res.grand_total,
+              carrier: res.carrier || 'Delhivery Surface Express',
+              delhiveryAwb: res.delhivery_awb,
+              delhiveryTrackUrl: res.delhivery_track_url,
+              estimatedDelivery: res.estimated_delivery,
+              shippingAddress: res.shipping_address || pending.shippingAddress || {},
+              customerName: pending.customerName || 'Valued Customer',
+              customerEmail: pending.customerEmail || '',
+              customerPhone: pending.customerPhone || '',
+              itemCount: pending.itemCount || 1,
+              paymentMethod: 'PhonePe UPI & Cards (Verified)',
+              phonepeTxnId: res.phonepe_txn_id,
+            };
+
+            addOrder({
+              id: res.increment_id,
+              date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+              status: 'Processing',
+              statusStep: 1,
+              estimatedDelivery: res.estimated_delivery || '3-4 Business Days',
+              carrier: res.carrier || 'Delhivery Surface Express',
+              delhiveryAwb: res.delhivery_awb,
+              total: `₹${Number(res.grand_total).toLocaleString('en-IN')}`,
+              itemCount: pending.itemCount || 1,
+              items: pending.items || [],
+              shippingAddress: res.shipping_address || pending.shippingAddress || {},
+            });
+
+            setOrderSuccessData(confirmedOrder);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else if (res && res.payment_status === 'PENDING' && res.is_sandbox) {
+            setSandboxPendingTx(txId);
+          } else {
+            setErrorMessage(res?.message || 'PhonePe payment was cancelled or could not be completed. Please try again.');
+          }
+        } catch (e) {
+          console.error('Payment verification error:', e);
+          setErrorMessage('Could not verify PhonePe payment. If amount was debited, our priority dispatch desk will confirm your order.');
+        } finally {
+          setIsVerifyingPayment(false);
+        }
+      };
+
+      verifyPayment();
+    }
+  }, [location.search]);
+
+  // Live Delhivery Serviceability Check for Pincode
+  useEffect(() => {
+    const cleanPin = pincode.replace(/\D/g, '');
+    if (cleanPin.length === 6) {
+      setIsCheckingPincode(true);
+      fetchFromApi(`/api/vize/shipping/delhivery/check-pincode?pincode=${cleanPin}`)
+        .then((res) => {
+          if (res && res.success && res.serviceable) {
+            setDelhiveryCheck(res);
+            if (res.state && !state) {
+              setState(res.state);
+            }
+          } else {
+            setDelhiveryCheck(null);
+          }
+        })
+        .catch(() => setDelhiveryCheck(null))
+        .finally(() => setIsCheckingPincode(false));
+    } else {
+      setDelhiveryCheck(null);
+    }
+  }, [pincode]);
 
   // Auto-fill user details when user is logged in
   useEffect(() => {
@@ -216,6 +368,44 @@ export default function CheckoutPage() {
           });
         }
 
+        // If PhonePe payment gateway redirect is required
+        if (res.requires_redirect && res.redirect_url) {
+          sessionStorage.setItem('vize_pending_order', JSON.stringify({
+            orderId: res.increment_id,
+            grandTotal: grandTotal,
+            carrier: res.carrier || 'Delhivery Surface Express',
+            shippingAddress: activeShippingAddress,
+            customerName: fullName,
+            customerEmail: email,
+            customerPhone: phone,
+            itemCount: cartItems.length,
+            items: cartItems.map((item) => ({
+              name: item.name,
+              size: item.size?.label || 'Standard Pack',
+              color: item.color?.name || 'Standard Clear',
+              qty: item.quantity,
+              price: `₹${Number(item.price).toLocaleString('en-IN')}`,
+              image: item.image || '/bucket.png',
+            })),
+          }));
+
+          // In developer sandbox test mode, open Interactive Simulator Modal directly
+          if (res.is_sandbox) {
+            setIsSubmitting(false);
+            setActiveSandboxModal({
+              txId: res.transaction_id,
+              orderId: res.increment_id,
+              amount: grandTotal,
+              redirectUrl: res.redirect_url,
+            });
+            return;
+          }
+
+          // In live production, redirect directly to PhonePe hosted checkout
+          window.location.href = res.redirect_url;
+          return;
+        }
+
         // Add newly created order to user's order history
         const newOrderRecord = {
           id: res.increment_id || ('VZ-' + Math.floor(10000 + Math.random() * 90000)),
@@ -223,7 +413,7 @@ export default function CheckoutPage() {
           status: 'Processing',
           statusStep: 1,
           estimatedDelivery: res.estimated_delivery || '4-5 Business Days',
-          carrier: res.carrier || 'BlueDart Express / V-Trans Surface Cargo',
+          carrier: res.carrier || 'Delhivery Surface Express / V-Trans Cargo',
           total: `₹${Number(grandTotal).toLocaleString('en-IN')}`,
           itemCount: cartItems.length,
           items: cartItems.map((item) => ({
@@ -245,14 +435,14 @@ export default function CheckoutPage() {
         setOrderSuccessData({
           orderId: res.increment_id || newOrderRecord.id,
           grandTotal: grandTotal,
-          carrier: res.carrier,
+          carrier: res.carrier || 'Delhivery Surface Express / V-Trans Cargo',
           estimatedDelivery: res.estimated_delivery,
           shippingAddress: activeShippingAddress,
           customerName: fullName,
           customerEmail: email,
           customerPhone: phone,
           itemCount: cartItems.length,
-          paymentMethod: paymentMethod,
+          paymentMethod: paymentMethod === 'online' ? 'PhonePe UPI & Cards' : paymentMethod,
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -266,6 +456,42 @@ export default function CheckoutPage() {
       setIsSubmitting(false);
     }
   };
+
+  // =========================================================================
+  // VIEW: PHONEPE VERIFYING PAYMENT LOADER
+  // =========================================================================
+  if (isVerifyingPayment) {
+    return (
+      <div className="vize-page-wrapper vize-checkout-page">
+        <Header />
+        <main className="vize-checkout-success-container">
+          <div className="vize-checkout-success-card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+            <div
+              style={{
+                width: 50,
+                height: 50,
+                border: '4px solid #E2E8F0',
+                borderTopColor: '#5F259F',
+                borderRadius: '50%',
+                margin: '0 auto 1.5rem',
+                animation: 'vize-spin 0.8s linear infinite'
+              }}
+            />
+            <h2 style={{ color: '#0D2C33', fontSize: '1.45rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+              Verifying PhonePe Payment...
+            </h2>
+            <p style={{ color: '#64748B', fontSize: '0.95rem', maxWidth: 460, margin: '0 auto 1.25rem', lineHeight: 1.5 }}>
+              Please do not reload, refresh, or hit the back button. We are securely validating your transaction with the PhonePe banking network.
+            </p>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', color: '#5F259F', fontWeight: 600, background: '#F5F3FF', padding: '0.4rem 0.9rem', borderRadius: '20px' }}>
+              🔒 256-Bit Bank-Grade Encrypted Session
+            </span>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   // =========================================================================
   // VIEW: ORDER COMPLETED SUCCESS VIEW
@@ -289,8 +515,31 @@ export default function CheckoutPage() {
               Thank You! Your Order is Confirmed
             </h1>
             <p className="vize-checkout-success-desc">
-              Order <strong style={{ color: '#0D2C33', fontFamily: 'monospace' }}>#{orderSuccessData.orderId}</strong> has been assigned to our central Pune chemical warehouse for tamper-proof packaging and dispatch.
+              Order <strong style={{ color: '#0D2C33', fontFamily: 'monospace' }}>#{orderSuccessData.orderId}</strong> has been assigned to our central chemical warehouse for tamper-proof packaging and dispatch.
             </p>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', margin: '0.75rem auto 1.5rem' }}>
+              {orderSuccessData.phonepeTxnId && (
+                <div style={{ padding: '0.6rem 1rem', background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#5B21B6' }}>
+                  <CheckCircle2 size={16} />
+                  <span>PhonePe Ref: <strong style={{ fontFamily: 'monospace', letterSpacing: '0.5px' }}>{orderSuccessData.phonepeTxnId}</strong></span>
+                </div>
+              )}
+              {orderSuccessData.delhiveryAwb && (
+                <div style={{ padding: '0.6rem 1rem', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '10px', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#166534' }}>
+                  <Truck size={16} style={{ color: '#16A34A' }} />
+                  <span>Delhivery AWB: <strong style={{ fontFamily: 'monospace', letterSpacing: '0.5px' }}>{orderSuccessData.delhiveryAwb}</strong></span>
+                  <a
+                    href={orderSuccessData.delhiveryTrackUrl || `https://www.delhivery.com/track/package/${orderSuccessData.delhiveryAwb}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ marginLeft: '6px', color: '#15803D', fontWeight: 700, textDecoration: 'underline' }}
+                  >
+                    Track ↗
+                  </a>
+                </div>
+              )}
+            </div>
 
             {/* Quick Status Cards */}
             <div className="vize-checkout-stats-grid">
@@ -405,6 +654,40 @@ export default function CheckoutPage() {
           <div className="vize-checkout-error-banner">
             <span>⚠️</span>
             <span>{errorMessage}</span>
+          </div>
+        )}
+
+        {/* PhonePe Sandbox Simulation Card */}
+        {sandboxPendingTx && (
+          <div style={{ margin: '0 0 1.5rem', padding: '1.25rem 1.5rem', background: '#FFFBEB', border: '1px solid #FCD34D', borderRadius: '14px', textAlign: 'left', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.08)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#92400E', fontWeight: 700, fontSize: '0.98rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🧪</span> PhonePe Sandbox Test Mode Active
+              </div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, background: '#FEF3C7', color: '#B45309', padding: '3px 8px', borderRadius: '6px', border: '1px solid #FDE68A' }}>
+                DEVELOPER SIMULATOR
+              </span>
+            </div>
+            <p style={{ fontSize: '0.85rem', color: '#78350F', margin: '0 0 14px', lineHeight: 1.5 }}>
+              Your order transaction <code style={{ background: '#FDE68A', padding: '2px 6px', borderRadius: '4px', fontFamily: 'monospace', fontWeight: 700 }}>{sandboxPendingTx}</code> is pending bank simulation. Because real UPI banking apps do not link to sandbox test merchants, click below to complete the test payment instantly:
+            </p>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <button
+                type="button"
+                onClick={() => simulateSandboxSuccess(sandboxPendingTx)}
+                disabled={isVerifyingPayment}
+                style={{ padding: '9px 20px', background: '#16A34A', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '0.88rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px', boxShadow: '0 2px 6px rgba(22, 163, 74, 0.3)' }}
+              >
+                {isVerifyingPayment ? 'Verifying...' : '✓ Complete Test Payment & Confirm Order (₹0 Charged)'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setSandboxPendingTx(null); setErrorMessage(''); }}
+                style={{ padding: '8px 14px', background: '#fff', color: '#6B7280', border: '1px solid #D1D5DB', borderRadius: '8px', fontSize: '0.82rem', cursor: 'pointer' }}
+              >
+                Dismiss
+              </button>
+            </div>
           </div>
         )}
 
@@ -623,6 +906,20 @@ export default function CheckoutPage() {
                           className="vize-checkout-input"
                           style={{ fontFamily: 'monospace' }}
                         />
+                        {isCheckingPincode && (
+                          <div style={{ marginTop: '6px', fontSize: '0.75rem', color: '#64748B', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', background: '#CBD5E1' }}></span>
+                            <span>Checking Delhivery Surface Express coverage...</span>
+                          </div>
+                        )}
+                        {delhiveryCheck && (
+                          <div style={{ marginTop: '6px', padding: '6px 10px', background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '6px', fontSize: '0.78rem', color: '#166534', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Truck size={14} style={{ color: '#16A34A', flexShrink: 0 }} />
+                            <span>
+                              <strong>Delhivery Express:</strong> {delhiveryCheck.distribution_hub}, {delhiveryCheck.state} ({delhiveryCheck.estimated_days})
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -905,6 +1202,132 @@ export default function CheckoutPage() {
 
           </div>
         </form>
+
+        {/* Interactive PhonePe Sandbox Simulator Modal */}
+        {activeSandboxModal && (
+          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+            <div style={{ background: '#fff', borderRadius: '16px', maxWidth: '520px', width: '100%', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
+              {/* Modal Header */}
+              <div style={{ background: 'linear-gradient(135deg, #5F259F 0%, #3B1266 100%)', color: '#fff', padding: '1.25rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.15rem' }}>
+                    पे
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '1.02rem', letterSpacing: '0.3px' }}>PhonePe Payment Gateway</div>
+                    <div style={{ fontSize: '0.72rem', color: '#E9D5FF', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#4ADE80' }}></span>
+                      Developer Sandbox Simulator Active
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveSandboxModal(null)}
+                  style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.8)', fontSize: '1.3rem', cursor: 'pointer', padding: '4px' }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div style={{ padding: '1.5rem' }}>
+                {/* Order Info Card */}
+                <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '10px', padding: '1rem 1.25rem', marginBottom: '1.25rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px', fontSize: '0.82rem', color: '#64748B' }}>
+                    <span>Order Reference</span>
+                    <strong style={{ color: '#0F172A', fontFamily: 'monospace' }}>#{activeSandboxModal.orderId}</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px', fontSize: '0.82rem', color: '#64748B' }}>
+                    <span>Merchant MID</span>
+                    <span style={{ color: '#0F172A', fontFamily: 'monospace', fontSize: '0.78rem' }}>PGTESTPAYUAT86</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px dashed #CBD5E1', fontSize: '0.95rem', fontWeight: 700 }}>
+                    <span style={{ color: '#334155' }}>Total Amount</span>
+                    <span style={{ color: '#5F259F', fontSize: '1.15rem' }}>₹{Number(activeSandboxModal.amount).toLocaleString('en-IN')}</span>
+                  </div>
+                </div>
+
+                <div style={{ fontSize: '0.82rem', color: '#475569', marginBottom: '1.25rem', lineHeight: 1.5 }}>
+                  Select a test simulation option below to verify checkout, automated Delhivery logistics manifest, and customer tax receipt:
+                </div>
+
+                {/* Action Buttons */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tx = activeSandboxModal.txId;
+                      setActiveSandboxModal(null);
+                      simulateSandboxSuccess(tx);
+                    }}
+                    disabled={isVerifyingPayment}
+                    style={{
+                      padding: '12px 18px',
+                      background: 'linear-gradient(135deg, #16A34A 0%, #15803D 100%)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '10px',
+                      fontWeight: 700,
+                      fontSize: '0.92rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      boxShadow: '0 4px 12px rgba(22, 163, 74, 0.25)'
+                    }}
+                  >
+                    <CheckCircle2 size={18} />
+                    <span>✓ Simulate Payment SUCCESS (Instant ₹0 Test)</span>
+                  </button>
+
+                  <a
+                    href={activeSandboxModal.redirectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: '10px 18px',
+                      background: '#F1F5F9',
+                      color: '#334155',
+                      border: '1px solid #CBD5E1',
+                      borderRadius: '10px',
+                      fontWeight: 600,
+                      fontSize: '0.85rem',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                  >
+                    <span>Open Official Mercury UAT Page ↗</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveSandboxModal(null);
+                      setErrorMessage('Simulated payment was cancelled.');
+                    }}
+                    style={{
+                      padding: '8px 18px',
+                      background: 'transparent',
+                      color: '#DC2626',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Simulate Payment Cancel / Decline
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       <Footer />
