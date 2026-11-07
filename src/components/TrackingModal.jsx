@@ -432,3 +432,4 @@ export default function TrackingModal({ isOpen, onClose, initialQuery = '' }) {
     </div>
   );
 }
+
