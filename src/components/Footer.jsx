@@ -98,9 +98,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Social & Divider Col */}
+          {/* Social Links Col */}
           <div className="footer-social-col">
-            <div className="footer-copper-divider" />
             <div className="footer-social-links">
               <a href="https://youtube.com" target="_blank" rel="noreferrer" className="footer-social-icon" aria-label="YouTube">
                 <YoutubeIcon size={19} />
