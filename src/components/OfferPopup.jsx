@@ -11,6 +11,14 @@ export default function OfferPopup() {
   const [isDismissed, setIsDismissed] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isBadgeDismissed, setIsBadgeDismissed] = useState(() => {
+    try {
+      return sessionStorage.getItem('vize_offer_badge_hidden') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const navigate = useNavigate();
   const location = useLocation();
   const { isDrawerOpen } = useCart();
@@ -20,6 +28,39 @@ export default function OfferPopup() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Detect when footer enters viewport to avoid any overlap with legal/policy links
+  useEffect(() => {
+    let observer;
+    const observeFooter = () => {
+      const footer = document.querySelector('.vize-footer');
+      if (!footer) return false;
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          setIsFooterVisible(entry ? entry.isIntersecting : false);
+        },
+        { rootMargin: '0px 0px 40px 0px', threshold: 0.05 }
+      );
+      observer.observe(footer);
+      return true;
+    };
+
+    const isAttached = observeFooter();
+    if (!isAttached) {
+      const timer = setTimeout(() => {
+        observeFooter();
+      }, 500);
+      return () => {
+        clearTimeout(timer);
+        if (observer) observer.disconnect();
+      };
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+    };
+  }, [location.pathname]);
 
   // Load offers from JSON / API
   useEffect(() => {
@@ -104,6 +145,16 @@ export default function OfferPopup() {
     setIsVisible(true);
   };
 
+  const handleDismissBadge = (e) => {
+    e.stopPropagation();
+    setIsBadgeDismissed(true);
+    try {
+      sessionStorage.setItem('vize_offer_badge_hidden', 'true');
+    } catch {
+      // ignore
+    }
+  };
+
   const handleAction = () => {
     handleClose();
     const link =
@@ -135,28 +186,43 @@ export default function OfferPopup() {
 
   const modalMarkup = (
     <>
-      {/* Floating Re-open Button (shown when dismissed, hidden when drawer is open or on checkout) */}
-      {!isVisible && isDismissed && !isDrawerOpen && !isCheckout && (
-        <button
-          type="button"
-          onClick={handleReopen}
-          className="vize-offer-reopen-btn"
-          title="View Special Offers"
+      {/* Floating Re-open Button (shown when dismissed, hidden when drawer is open, checkout, footer in view, or dismissed) */}
+      {!isVisible && isDismissed && !isDrawerOpen && !isCheckout && !isBadgeDismissed && (
+        <div
+          className={`vize-offer-reopen-container ${
+            isFooterVisible ? 'hidden-by-footer' : ''
+          }`}
         >
-          <span style={{ fontSize: '16px' }}>🎁</span>
-          <span
-            style={{
-              fontSize: '12px',
-              fontWeight: 800,
-              color: '#fbbf24',
-              letterSpacing: '0.02em',
-            }}
+          <button
+            type="button"
+            onClick={handleReopen}
+            className="vize-offer-reopen-btn"
+            title="View Special Offers"
           >
-            {offers.length > 1
-              ? `${offers.length} Special Offers`
-              : offerBadge}
-          </span>
-        </button>
+            <span style={{ fontSize: '16px' }}>🎁</span>
+            <span
+              style={{
+                fontSize: '12px',
+                fontWeight: 800,
+                color: '#fbbf24',
+                letterSpacing: '0.02em',
+              }}
+            >
+              {offers.length > 1
+                ? `${offers.length} Special Offers`
+                : offerBadge}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={handleDismissBadge}
+            className="vize-offer-badge-close"
+            title="Hide offer badge"
+            aria-label="Hide offer badge"
+          >
+            &times;
+          </button>
+        </div>
       )}
 
       {/* Main Luxury Offer Modal */}

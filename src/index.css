@@ -21307,7 +21307,7 @@ button {
   color: #cbd5e1 !important;
 }
 
-.vize-offer-reopen-btn {
+.vize-offer-reopen-container {
   position: fixed !important;
   bottom: 24px !important;
   left: 24px !important;
@@ -21315,23 +21315,62 @@ button {
   z-index: 99999 !important;
   display: flex !important;
   align-items: center !important;
+  gap: 6px !important;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease !important;
+}
+
+.vize-offer-reopen-container.hidden-by-footer {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(28px) scale(0.92) !important;
+}
+
+.vize-offer-reopen-btn {
+  display: flex !important;
+  align-items: center !important;
   gap: 8px !important;
-  padding: 10px 18px !important;
+  padding: 9px 16px !important;
   border-radius: 9999px !important;
-  background: rgba(13, 26, 32, 0.92) !important;
+  background: rgba(13, 26, 32, 0.94) !important;
   border: 1px solid rgba(245, 158, 11, 0.4) !important;
   color: #ffffff !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(245, 158, 11, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 12px rgba(245, 158, 11, 0.2) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   cursor: pointer !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   animation: vizeOfferFloat 3s ease-in-out infinite !important;
 }
 
 .vize-offer-reopen-btn:hover {
-  transform: scale(1.06) !important;
+  transform: scale(1.05) !important;
   background: #0d1a20 !important;
+  border-color: rgba(245, 158, 11, 0.7) !important;
+}
+
+.vize-offer-badge-close {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  background: rgba(13, 26, 32, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #94a3b8 !important;
+  font-size: 15px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.vize-offer-badge-close:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  transform: scale(1.15) !important;
 }
 
 @keyframes vizeOfferFadeIn {
