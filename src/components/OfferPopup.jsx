@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { X } from 'lucide-react';
 import staticOffers from '../data/offers.json';
 import { useCart } from '../context/CartContext';
 
@@ -220,7 +221,7 @@ export default function OfferPopup() {
             title="Hide offer badge"
             aria-label="Hide offer badge"
           >
-            &times;
+            <X size={12} strokeWidth={2.5} />
           </button>
         </div>
       )}

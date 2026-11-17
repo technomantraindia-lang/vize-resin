@@ -21355,22 +21355,33 @@ button {
   justify-content: center !important;
   width: 22px !important;
   height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
   border-radius: 50% !important;
-  background: rgba(13, 26, 32, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(13, 26, 32, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
   color: #94a3b8 !important;
-  font-size: 15px !important;
-  line-height: 1 !important;
   cursor: pointer !important;
   padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  line-height: 0 !important;
   transition: all 0.2s ease !important;
+}
+
+.vize-offer-badge-close svg {
+  display: block !important;
+  width: 12px !important;
+  height: 12px !important;
+  stroke-width: 2.5 !important;
+  margin: auto !important;
 }
 
 .vize-offer-badge-close:hover {
   background: #ef4444 !important;
   color: #ffffff !important;
   border-color: #ef4444 !important;
-  transform: scale(1.15) !important;
+  transform: scale(1.12) !important;
 }
 
 @keyframes vizeOfferFadeIn {
