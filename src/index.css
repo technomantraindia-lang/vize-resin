@@ -4722,17 +4722,45 @@ button {
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-credit-label {
+  color: #8fa3a9;
+  font-size: 0.8rem;
+}
+
+.technomantra-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 10px 4px 6px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.technomantra-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.technomantra-logo-img {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .technomantra-tag {
   color: #ffffff;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
 }
 
 /* ==========================================================================

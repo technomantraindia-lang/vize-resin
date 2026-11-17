@@ -133,9 +133,23 @@ export default function Footer() {
           </div>
 
           <div className="footer-bottom-right">
-            <p className="footer-developer-credit">
-              Design and Developed by <span className="technomantra-tag">Technomantra</span>
-            </p>
+            <div className="footer-developer-credit">
+              <span className="footer-credit-label">Design and Developed by</span>
+              <a
+                href="https://technomantra.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="technomantra-link"
+                title="Technomantra - Official Website"
+              >
+                <img
+                  src="/technomantra-logo.png"
+                  alt="Technomantra Logo"
+                  className="technomantra-logo-img"
+                />
+                <span className="technomantra-tag">Technomantra</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
