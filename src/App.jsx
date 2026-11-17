@@ -11,6 +11,10 @@ import ContactUsPage from './pages/ContactUsPage';
 import ColorsPigmentsPage from './pages/ColorsPigmentsPage';
 import AccountPage from './pages/AccountPage';
 import WorkshopPage from './pages/WorkshopPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import RefundPolicyPage from './pages/RefundPolicyPage';
+import ShippingPolicyPage from './pages/ShippingPolicyPage';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import CartDrawer from './components/CartDrawer';
@@ -59,6 +63,17 @@ function App() {
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
           <Route path="/support" element={<ContactUsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-conditions" element={<TermsPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/terms-of-service" element={<TermsPage />} />
+          <Route path="/refund-policy" element={<RefundPolicyPage />} />
+          <Route path="/refunds" element={<RefundPolicyPage />} />
+          <Route path="/cancellation-policy" element={<RefundPolicyPage />} />
+          <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
+          <Route path="/shipping" element={<ShippingPolicyPage />} />
+          <Route path="/delivery-policy" element={<ShippingPolicyPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </CartProvider>

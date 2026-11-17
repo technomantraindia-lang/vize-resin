@@ -46,6 +46,12 @@ export default function Footer() {
               />
             </Link>
             <p className="footer-brand-tagline">Floors. Art. A Brighter Tomorrow.</p>
+            <div className="footer-brand-company-info">
+              <span className="footer-company-name">VIZE Specialty Polymers</span>
+              <p className="footer-company-desc">
+                Manufacturer &amp; formulator of industrial epoxy resins, polyurethanes &amp; casting systems.
+              </p>
+            </div>
           </div>
 
           {/* CTA Center Col */}
@@ -62,19 +68,33 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Nav Links Col */}
+          {/* Nav & Policy Links Col */}
           <div className="footer-links-col">
+            {/* Group 1: Products */}
             <div className="footer-nav-group">
-              <Link to="/resins" className="footer-nav-link">Resins</Link>
+              <span className="footer-group-heading">Products</span>
+              <Link to="/resins" className="footer-nav-link">Epoxy Resins</Link>
               <Link to="/flooring-systems" className="footer-nav-link">Flooring Systems</Link>
-              <Link to="/table-tops" className="footer-nav-link">Table Tops</Link>
-              <Link to="/colors" className="footer-nav-link">Colors & RAL Chart</Link>
+              <Link to="/table-tops" className="footer-nav-link">Table Top Resins</Link>
+              <Link to="/colors" className="footer-nav-link">Colors &amp; RAL Chart</Link>
             </div>
+
+            {/* Group 2: Navigation */}
             <div className="footer-nav-group">
+              <span className="footer-group-heading">Navigation</span>
               <Link to="/our-work" className="footer-nav-link">Our Work</Link>
-              <Link to="/workshop" className="footer-nav-link">Workshop</Link>
-              <Link to="/account" className="footer-nav-link">My Account & Orders</Link>
+              <Link to="/workshop" className="footer-nav-link">Workshops</Link>
+              <Link to="/account" className="footer-nav-link">My Account &amp; Orders</Link>
               <Link to="/contact" className="footer-nav-link">Contact Us</Link>
+            </div>
+
+            {/* Group 3: Policies & Compliance (PhonePe Mandatory) */}
+            <div className="footer-nav-group">
+              <span className="footer-group-heading">Policies &amp; Legal</span>
+              <Link to="/privacy-policy" className="footer-nav-link footer-policy-highlight">Privacy Policy</Link>
+              <Link to="/terms-conditions" className="footer-nav-link footer-policy-highlight">Terms &amp; Conditions</Link>
+              <Link to="/refund-policy" className="footer-nav-link footer-policy-highlight">Refund &amp; Cancellation</Link>
+              <Link to="/shipping-policy" className="footer-nav-link footer-policy-highlight">Shipping &amp; Delivery</Link>
             </div>
           </div>
 
@@ -95,11 +115,28 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Copyright */}
+        {/* Bottom Copyright & Technomantra Credit */}
         <div className="footer-bottom-bar">
-          <p className="footer-copyright">
-            © {new Date().getFullYear()} Vize Specialty Polymers. All rights reserved.
-          </p>
+          <div className="footer-bottom-left">
+            <p className="footer-copyright">
+              © {new Date().getFullYear()} <strong>VIZE Specialty Polymers</strong>. All rights reserved.
+            </p>
+            <div className="footer-legal-inline">
+              <Link to="/privacy-policy" className="footer-legal-inline-link">Privacy Policy</Link>
+              <span className="footer-legal-inline-sep">•</span>
+              <Link to="/terms-conditions" className="footer-legal-inline-link">Terms &amp; Conditions</Link>
+              <span className="footer-legal-inline-sep">•</span>
+              <Link to="/refund-policy" className="footer-legal-inline-link">Refund Policy</Link>
+              <span className="footer-legal-inline-sep">•</span>
+              <Link to="/shipping-policy" className="footer-legal-inline-link">Shipping Policy</Link>
+            </div>
+          </div>
+
+          <div className="footer-bottom-right">
+            <p className="footer-developer-credit">
+              Design and Developed by <span className="technomantra-tag">Technomantra</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

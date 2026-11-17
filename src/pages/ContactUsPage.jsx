@@ -18,7 +18,8 @@ import {
   UploadCloud,
   HelpCircle,
   Building,
-  Headphones
+  Headphones,
+  Truck
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -31,30 +32,30 @@ const INQUIRY_TYPES = [
   { id: 'wholesale', label: '🤝 Contractor / Wholesale', desc: 'Bulk drums, contractor pricing & certification' }
 ];
 
-const REGIONAL_HUBS = [
+const CORPORATE_CENTERS = [
   {
-    city: 'Mumbai & Pune (HQ)',
-    region: 'Western Region & Technical Lab',
-    address: 'Plot 42, Polymer Innovation Tech Park, Chakan MIDC, Pune - 410501',
-    phone: '+91 22 8765 4321',
-    email: 'mumbai@vizeresin.com',
-    services: 'Live Pour Workshops • Technical Batch Formulations • Same-Day Dispatch'
+    city: 'Central Chemical Hub',
+    region: 'Official Operational Facility',
+    company: 'VIZE Specialty Polymers',
+    address: 'Central Chemical Hub, Ahmedabad, Gujarat, India - 382445',
+    email: 'support@vizeresin.com',
+    services: 'Formulation Quality Labs • Automated Batch Packaging • Direct Factory Dispatch'
   },
   {
-    city: 'Delhi NCR Hub',
-    region: 'Northern Experience Center',
-    address: 'Sector 18, Commercial Polymer Bay, Gurugram, Haryana - 122015',
-    phone: '+91 124 456 7890',
-    email: 'delhi@vizeresin.com',
-    services: 'Flooring Mockup Gallery • Color Matching Studio • Contractor Training'
+    city: 'Pan-India Fulfillment',
+    region: 'Nationwide Logistics Network',
+    company: 'Delhivery Surface Express',
+    address: '19,000+ PIN Codes Covered Across All States & Union Territories',
+    email: 'tracking@vizeresin.com',
+    services: '1-2 Days (Gujarat/West) • 2-3 Days (Metros) • 3-4 Days (Pan-India)'
   },
   {
-    city: 'Bengaluru Hub',
-    region: 'Southern Logistics & Support',
-    address: 'Phase 2, Electronic City, Industrial Zone, Bengaluru - 560100',
-    phone: '+91 80 9876 5432',
-    email: 'bengaluru@vizeresin.com',
-    services: 'Architectural Spec Consultations • Fast Dispatch across South India'
+    city: 'Corporate Desk',
+    region: 'Commercial & Statutory Desk',
+    company: 'VIZE Specialty Polymers',
+    address: 'GST Registered • B2B Input Tax Credit Available • 256-Bit SSL Secured',
+    email: 'contact@vizeresin.com',
+    services: '18% GST Invoicing • Chemical TDS/MSDS Support • PhonePe Verified Merchant'
   }
 ];
 
@@ -170,11 +171,15 @@ export default function ContactUsPage() {
         <section className="contact-hero-section" aria-label="Contact Us Header">
           <div className="contact-hero-overlay" />
           <div className="contact-hero-container">
-            <span className="contact-eyebrow">GET IN TOUCH</span>
+            <div className="contact-company-badge">
+              <ShieldCheck size={16} />
+              <span>VIZE Specialty Polymers • Official Desk</span>
+            </div>
             <h1 className="contact-hero-title">
               Let’s discuss your <span className="contact-title-italic">vision.</span>
             </h1>
             <p className="contact-hero-subtitle">
+              Official technical and commercial support from <strong>VIZE Specialty Polymers</strong>.
               Whether you need casting resin calculations, custom contractor formulations,
               architectural specifications, or sample swatches — our polymer specialists are ready to guide you.
             </p>
@@ -426,44 +431,51 @@ export default function ContactUsPage() {
                   </a>
                 </div>
 
-                {/* Channel 2: Phone & Email Direct */}
+                {/* Channel 2: Official Corporate Entity & Contact */}
                 <div className="contact-sidebar-card">
                   <div className="contact-card-head">
                     <div className="contact-icon-bubble">
-                      <Phone size={22} />
+                      <Building size={22} />
                     </div>
                     <div>
-                      <span className="contact-card-tag">DIRECT LINES</span>
-                      <h3 className="contact-card-title">Call & Email Specialists</h3>
+                      <span className="contact-card-tag">CORPORATE ENTITY</span>
+                      <h3 className="contact-card-title">VIZE Specialty Polymers</h3>
                     </div>
                   </div>
                   <div className="contact-direct-links">
                     <div className="contact-link-row">
-                      <Phone size={16} className="contact-mini-icon" />
+                      <Building size={16} className="contact-mini-icon" />
                       <div>
-                        <span className="contact-sub-label">Technical Lab Line:</span>
-                        <a href="tel:+912287654321" className="contact-link-val">+91 22 8765 4321</a>
+                        <span className="contact-sub-label">Operating Company:</span>
+                        <span className="contact-link-val" style={{ fontWeight: 600, color: '#091A20' }}>VIZE Specialty Polymers</span>
                       </div>
                     </div>
                     <div className="contact-link-row">
-                      <Headphones size={16} className="contact-mini-icon" />
+                      <MapPin size={16} className="contact-mini-icon" />
                       <div>
-                        <span className="contact-sub-label">Contractor Support:</span>
-                        <a href="tel:+919876543210" className="contact-link-val">+91 98765 43210</a>
+                        <span className="contact-sub-label">Operational Hub:</span>
+                        <span className="contact-link-val">Ahmedabad, Gujarat, India - 382445</span>
                       </div>
                     </div>
                     <div className="contact-link-row">
                       <Mail size={16} className="contact-mini-icon" />
                       <div>
-                        <span className="contact-sub-label">General & Order Support:</span>
+                        <span className="contact-sub-label">General &amp; Order Support:</span>
                         <a href="mailto:support@vizeresin.com" className="contact-link-val">support@vizeresin.com</a>
                       </div>
                     </div>
                     <div className="contact-link-row">
-                      <FileText size={16} className="contact-mini-icon" />
+                      <Mail size={16} className="contact-mini-icon" />
                       <div>
-                        <span className="contact-sub-label">Architectural Specs:</span>
-                        <a href="mailto:projects@vizeresin.com" className="contact-link-val">projects@vizeresin.com</a>
+                        <span className="contact-sub-label">Formulations &amp; Commercial:</span>
+                        <a href="mailto:contact@vizeresin.com" className="contact-link-val">contact@vizeresin.com</a>
+                      </div>
+                    </div>
+                    <div className="contact-link-row">
+                      <Clock size={16} className="contact-mini-icon" />
+                      <div>
+                        <span className="contact-sub-label">Working Hours:</span>
+                        <span className="contact-link-val">Mon – Sat, 9:30 AM – 6:30 PM IST</span>
                       </div>
                     </div>
                   </div>
@@ -494,23 +506,23 @@ export default function ContactUsPage() {
         </section>
 
         {/* =================================================================
-            3. REGIONAL DISTRIBUTION HUBS
+            3. CORPORATE HEADQUARTERS & NATIONWIDE FULFILLMENT
            ================================================================= */}
         <section className="contact-hubs-section">
           <div className="contact-container">
             <div className="contact-section-header">
               <div>
-                <span className="contact-eyebrow">NATIONWIDE NETWORK</span>
-                <h2 className="contact-section-title">Regional Centers & Labs</h2>
+                <span className="contact-eyebrow">CORPORATE HEADQUARTERS &amp; LOGISTICS</span>
+                <h2 className="contact-section-title">Operations &amp; Fulfillment</h2>
               </div>
               <p className="contact-section-desc">
-                Strategic warehousing and testing facilities ensuring rapid dispatch,
-                on-demand sample deliveries, and localized contractor training.
+                Official operational facility and certified surface express fulfillment network
+                for <strong>VIZE Specialty Polymers</strong> across India.
               </p>
             </div>
 
             <div className="contact-hubs-grid">
-              {REGIONAL_HUBS.map((hub) => (
+              {CORPORATE_CENTERS.map((hub) => (
                 <div key={hub.city} className="contact-hub-card">
                   <div className="contact-hub-top">
                     <span className="contact-hub-badge">{hub.region}</span>
@@ -518,12 +530,12 @@ export default function ContactUsPage() {
                   </div>
                   <div className="contact-hub-body">
                     <div className="contact-hub-item">
-                      <MapPin size={17} className="contact-hub-icon" />
-                      <p className="contact-hub-text">{hub.address}</p>
+                      <Building size={17} className="contact-hub-icon" />
+                      <p className="contact-hub-text"><strong>{hub.company}</strong></p>
                     </div>
                     <div className="contact-hub-item">
-                      <Phone size={17} className="contact-hub-icon" />
-                      <a href={`tel:${hub.phone}`} className="contact-hub-link">{hub.phone}</a>
+                      <MapPin size={17} className="contact-hub-icon" />
+                      <p className="contact-hub-text">{hub.address}</p>
                     </div>
                     <div className="contact-hub-item">
                       <Mail size={17} className="contact-hub-icon" />
