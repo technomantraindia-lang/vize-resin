@@ -133,8 +133,8 @@ export default function Footer() {
           </div>
 
           <div className="footer-bottom-right">
-            <div className="footer-developer-credit">
-              <span className="footer-credit-label">Design and Developed by</span>
+            <p className="footer-developer-credit">
+              <span>Design and Developed by</span>{' '}
               <a
                 href="https://technomantra.in/"
                 target="_blank"
@@ -147,9 +147,9 @@ export default function Footer() {
                   alt="Technomantra Logo"
                   className="technomantra-logo-img"
                 />
-                <span className="technomantra-tag">Technomantra</span>
+                <span className="technomantra-name">Technomantra</span>
               </a>
-            </div>
+            </p>
           </div>
         </div>
       </div>

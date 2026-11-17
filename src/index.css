@@ -4450,15 +4450,19 @@ button {
    SITE FOOTER (DARK ARCHITECTURAL)
    ========================================================================== */
 .vize-footer {
+  width: 100%;
   background-color: #0b1215;
   color: #ffffff;
   padding: 4.5rem 3.5rem 2.5rem;
   margin-top: 1rem;
+  box-sizing: border-box;
 }
 
 .footer-main-container {
-  max-width: 1480px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .footer-top-grid {
@@ -4717,50 +4721,61 @@ button {
 }
 
 .footer-developer-credit {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #8fa3a9;
   margin: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.footer-credit-label {
-  color: #8fa3a9;
-  font-size: 0.8rem;
+  gap: 0.35rem;
 }
 
 .technomantra-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  color: #f1f5f9;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 4px 10px 4px 6px;
-  border-radius: 6px;
-  transition: all 0.25s ease;
+  font-weight: 600;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: color 0.2s ease;
 }
 
 .technomantra-link:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: transparent !important;
+  border: none !important;
+  transform: none !important;
 }
 
 .technomantra-logo-img {
-  height: 22px;
+  height: 18px;
   width: auto;
   object-fit: contain;
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
 }
 
+.technomantra-link:hover .technomantra-logo-img {
+  transform: scale(1.1);
+}
+
+.technomantra-name,
 .technomantra-tag {
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
+  color: inherit;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 /* ==========================================================================
